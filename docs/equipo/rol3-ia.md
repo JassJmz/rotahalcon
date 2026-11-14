@@ -9,7 +9,7 @@ Estás ayudando a **la persona del Rol 3** del equipo Halcones Dorados en el pro
 
 **Repo (público, open source):** https://github.com/JassJmz/rotahalcon
 
-1. **Configuración inicial (una vez):** si no está clonado, guía para hacer `git clone https://github.com/JassJmz/rotahalcon.git`. La persona tiene que haber aceptado la invitación de colaborador; si `git push` dice *permission denied*, que se lo pida al Rol 1 (dueño del repo).
+1. **Configuración inicial (una vez):** si no está clonado, guía para hacer `git clone https://github.com/JassJmz/rotahalcon.git`. La persona tiene que haber aceptado la invitación de colaborador; si `git push` dice *permission denied*, que se lo pida al Rol 3 (dueño del repo).
 2. **Ciclo de trabajo:** `git pull` antes de empezar → trabajar **solo dentro de `ia/`** → probar que funcione → `git add ia` → `git commit -m "[ia] what was done"` (en inglés) → `git push`. Si el push falla porque hay cambios nuevos: `git pull --rebase` y vuelve a hacer push.
 3. **Prohibido:** `git push --force`, borrar o reescribir archivos de otras carpetas, y cambiar `docs/CONTRACT.md` o `README.md` sin que la persona confirme que ya le avisó al equipo.
 4. **Secretos:** antes de cada commit revisa `git status` y `git diff --staged`. API keys, config de Firebase y contraseñas WiFi van en `.env` o `secrets.h`, que están en `.gitignore`. Si una clave se sube por error, dilo de inmediato: hay que cambiar la clave, no basta con borrarla.
@@ -31,22 +31,24 @@ Que la IA **haga algo real y medible**, no de adorno. El reto pide literalmente 
 | 2 | **Incertidumbre:** bootstrap sobre los años → `resiliencia.rango` ("37 de 42 años, rango 33–39") | Alta | H12 |
 | 3 | **Calibración satélite ↔ sensor:** regresión lineal vs. random forest, con su error | Media | H16 |
 | 4 | **NDVI:** meses de suelo desnudo y caídas anómalas de la parcela | Si sobra tiempo | H16 |
-| 5 | **Declaración de uso de IA** (texto en inglés para la entrega) | Alta | H18 |
-| 6 | **Textos del glosario** en inglés sencillo (evapotranspiración, NDVI, anomalía de humedad, helada, balance hídrico), para que el Rol 4 los ponga como tooltips | Media | H14 |
+| 5 | **Dueño del repo:** invitar a los 3 compañeros como colaboradores (`JassJmz/rotahalcon`, ya creado, ver Parte D) y confirmar que todos pueden hacer `git push` | Alta | **H0–1** |
+| 6 | **Declaración de uso de IA** (texto en inglés para la entrega) | Alta | H18 |
+| 7 | **Textos del glosario** en inglés sencillo (evapotranspiración, NDVI, anomalía de humedad, helada, balance hídrico), para que el Rol 4 los ponga como tooltips | Media | H14 |
 
 ## Paso a paso
-1. **H0–2:** `/preguntar` con respuesta fija (mock) para que Web arme el chat.
-2. **H2–6 — Asistente:** conectar un LLM por API. El *prompt del sistema* le dice:
+1. **H0–1:** como dueño del repo, invitar a los compañeros (Settings → Collaborators, o pedírselo a tu IA con `gh`) y confirmar que todos hacen `git push`.
+2. **H1–2:** `/preguntar` con respuesta fija (mock) para que Web arme el chat.
+3. **H2–6 — Asistente:** conectar un LLM por API. El *prompt del sistema* le dice:
    - Responde **solo** con los datos del JSON de la recomendación que recibes (puntajes, años de falla, peor año, lectura del sensor, fuentes).
    - Español sencillo para el agricultor (la UI final va en inglés: que se pueda elegir el idioma).
    - Si no está en los datos: *"No tengo ese dato; confírmalo con un agrónomo"*.
    - Siempre cita de dónde sale (NASA / SENSOR / FAO-INIFAP).
    - Nunca da cifras agronómicas que no vengan en el JSON.
    - **La API key va en una variable de entorno, nunca en el repo.**
-3. **H6–10 — Incertidumbre:** con la simulación de Backend, re-muestrear los años con reemplazo (por ejemplo 1000 veces) y reportar el rango (percentiles 5–95) de años OK. Esto es estadística, y está bien: es justo lo que pide el reto comparar.
-4. **H10–16 — Calibración:** juntar pares (humedad NASA POWER `GWETTOP` del día, humedad del sensor) con el historial que te pasa Hardware. Ajustar 1) una regresión lineal y 2) un random forest; mostrar el error (MAE) de cada uno y llenar `calibracion` en la respuesta. **Decir con honestidad:** con pocas horas de datos es una demostración del método.
-5. **H14–16 — NDVI (opcional):** serie de NDVI MODIS de la parcela → meses con NDVI bajo = suelo desnudo. Con reglas simples alcanza.
-6. **H16–18:** escribir la declaración de IA: el modelo del asistente, la calibración, el bootstrap y las herramientas de IA usadas para programar.
+4. **H6–10 — Incertidumbre:** con la simulación de Backend, re-muestrear los años con reemplazo (por ejemplo 1000 veces) y reportar el rango (percentiles 5–95) de años OK. Esto es estadística, y está bien: es justo lo que pide el reto comparar.
+5. **H10–16 — Calibración:** juntar pares (humedad NASA POWER `GWETTOP` del día, humedad del sensor) con el historial que te pasa Hardware. Ajustar 1) una regresión lineal y 2) un random forest; mostrar el error (MAE) de cada uno y llenar `calibracion` en la respuesta. **Decir con honestidad:** con pocas horas de datos es una demostración del método.
+6. **H14–16 — NDVI (opcional):** serie de NDVI MODIS de la parcela → meses con NDVI bajo = suelo desnudo. Con reglas simples alcanza.
+7. **H16–18:** escribir la declaración de IA: el modelo del asistente, la calibración, el bootstrap y las herramientas de IA usadas para programar.
 
 ## Plan B
 - **Si el LLM falla o no hay internet:** respuestas por plantilla con los mismos datos (el asistente sigue sin inventar).
@@ -221,7 +223,7 @@ Impacto · Creatividad · Validez (científicamente válido) · Pertinencia (res
 > Idea del asesor: RotaHalcón es **open source**. Todo va en un repo **público** de GitHub para que cualquiera conozca el proyecto, lo use en su región y aporte. Además suma en Impacto (escalable) y cumple la regla de links públicos.
 
 ## D1. El repo
-- **Dueño:** cuenta de GitHub del Rol 1. Repo público: https://github.com/JassJmz/rotahalcon. Los otros 3 entran como **colaboradores** (pueden subir directo).
+- **Dueño:** cuenta de GitHub del Rol 3. Repo público: https://github.com/JassJmz/rotahalcon. Los otros 3 entran como **colaboradores** (pueden subir directo).
 - **Ya preparado:**
   - `README.md` en inglés (problema, solución, diagrama, fuentes, créditos AGRISENSE, roadmap abierto).
   - `LICENSE`: MIT para el código; docs, imágenes y animación en CC BY 4.0.
@@ -240,7 +242,7 @@ Impacto · Creatividad · Validez (científicamente válido) · Pertinencia (res
 | `docs/` | Todos |
 
 ## D2. Cómo suben cosas (modo rápido para el hackathon)
-1. Crear tu cuenta de GitHub (si no tienes) y pasarle tu **usuario** al Rol 1.
+1. Crear tu cuenta de GitHub (si no tienes) y pasarle tu **usuario** al Rol 3.
 2. Aceptar la invitación que te llega por correo.
 3. Clonar una vez: `git clone https://github.com/JassJmz/rotahalcon.git`
 4. Antes de empezar: `git pull`

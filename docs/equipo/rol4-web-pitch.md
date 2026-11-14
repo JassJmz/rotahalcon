@@ -9,7 +9,7 @@ Estás ayudando a **la persona del Rol 4** del equipo Halcones Dorados en el pro
 
 **Repo (público, open source):** https://github.com/JassJmz/rotahalcon
 
-1. **Configuración inicial (una vez):** si no está clonado, guía para hacer `git clone https://github.com/JassJmz/rotahalcon.git`. La persona tiene que haber aceptado la invitación de colaborador; si `git push` dice *permission denied*, que se lo pida al Rol 1 (dueño del repo).
+1. **Configuración inicial (una vez):** si no está clonado, guía para hacer `git clone https://github.com/JassJmz/rotahalcon.git`. La persona tiene que haber aceptado la invitación de colaborador; si `git push` dice *permission denied*, que se lo pida al Rol 3 (dueño del repo).
 2. **Ciclo de trabajo:** `git pull` antes de empezar → trabajar **solo dentro de `web/ y docs/`** → probar que funcione → `git add web docs` → `git commit -m "[web] what was done"` (en inglés) → `git push`. Si el push falla porque hay cambios nuevos: `git pull --rebase` y vuelve a hacer push.
 3. **Prohibido:** `git push --force`, borrar o reescribir archivos de otras carpetas, y cambiar `docs/CONTRACT.md` o `README.md` sin que la persona confirme que ya le avisó al equipo.
 4. **Secretos:** antes de cada commit revisa `git status` y `git diff --staged`. API keys, config de Firebase y contraseñas WiFi van en `.env` o `secrets.h`, que están en `.gitignore`. Si una clave se sube por error, dilo de inmediato: hay que cambiar la clave, no basta con borrarla.
@@ -246,7 +246,7 @@ Impacto · Creatividad · Validez (científicamente válido) · Pertinencia (res
 > Idea del asesor: RotaHalcón es **open source**. Todo va en un repo **público** de GitHub para que cualquiera conozca el proyecto, lo use en su región y aporte. Además suma en Impacto (escalable) y cumple la regla de links públicos.
 
 ## D1. El repo
-- **Dueño:** cuenta de GitHub del Rol 1. Repo público: https://github.com/JassJmz/rotahalcon. Los otros 3 entran como **colaboradores** (pueden subir directo).
+- **Dueño:** cuenta de GitHub del Rol 3. Repo público: https://github.com/JassJmz/rotahalcon. Los otros 3 entran como **colaboradores** (pueden subir directo).
 - **Ya preparado:**
   - `README.md` en inglés (problema, solución, diagrama, fuentes, créditos AGRISENSE, roadmap abierto).
   - `LICENSE`: MIT para el código; docs, imágenes y animación en CC BY 4.0.
@@ -265,7 +265,7 @@ Impacto · Creatividad · Validez (científicamente válido) · Pertinencia (res
 | `docs/` | Todos |
 
 ## D2. Cómo suben cosas (modo rápido para el hackathon)
-1. Crear tu cuenta de GitHub (si no tienes) y pasarle tu **usuario** al Rol 1.
+1. Crear tu cuenta de GitHub (si no tienes) y pasarle tu **usuario** al Rol 3.
 2. Aceptar la invitación que te llega por correo.
 3. Clonar una vez: `git clone https://github.com/JassJmz/rotahalcon.git`
 4. Antes de empezar: `git pull`
