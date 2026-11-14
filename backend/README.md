@@ -93,7 +93,19 @@ python backend/nasa_power.py --offline  # rebuild from saved CSV (Plan B)
 python backend/crops.py                 # validate crop table + rebuild crops.json
 ```
 
+## Deploy (Render, free plan)
+| Setting | Value |
+|---|---|
+| Source | Public Git repository `https://github.com/JassJmz/rotahalcon` (branch `main`) |
+| Root Directory | `backend` |
+| Runtime | Python 3 (version from `backend/.python-version`) |
+| Build Command | `pip install -r requirements.txt` |
+| Start Command | `uvicorn main:app --host 0.0.0.0 --port $PORT` |
+| Health Check Path | `/` |
+
+The engine reads `../data/` at startup, so no internet is needed at runtime and no secrets are required.
+⚠️ Free instances sleep after ~15 min idle; the first request then takes ~1 min. **Open the URL a few minutes before the demo.**
+
 ## Next
 - Read the latest SENSOR reading from Firebase (`nodos/agrisense-01/ultima`) → `sensor`
 - Plug Role 3 calibration into the soil-moisture term
-- Deploy with a public link (H16)
