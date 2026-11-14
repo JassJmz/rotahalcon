@@ -104,7 +104,8 @@ def resumen_para_llm(recomendacion: dict) -> str:
         lineas.append("")
     c = recomendacion.get("calibracion") or {}
     if c:
-        lineas.append("== SATELLITE vs SENSOR CALIBRATION ==")
+        etiqueta = " (EXAMPLE DATA — moisture probe is the next module; say so if you mention it)" if c.get("datos") == "ejemplo" else ""
+        lineas.append(f"== SATELLITE vs SENSOR CALIBRATION{etiqueta} ==")
         lineas.append(f"Satellite estimate: {c.get('satelite_pct')}% | Sensor: {c.get('sensor_pct')}% | "
                       f"Adjustment: {c.get('ajuste')} points (error ±{c.get('error')}, model: {c.get('modelo')})")
     return "\n".join(lineas)
@@ -219,12 +220,16 @@ def responder(pregunta: str, recomendacion: dict, idioma: str | None = None) -> 
         fuentes = ["SENSOR"]
 
     elif intencion == "calibra" and cal:
-        r = (f"El satélite estima {cal.get('satelite_pct')}% de humedad y tu sensor mide {cal.get('sensor_pct')}%. "
+        ej = cal.get("datos") == "ejemplo"
+        r = (f"El satélite estima {cal.get('satelite_pct')}% de humedad y {'una lectura de ejemplo' if ej else 'tu sensor'} marca {cal.get('sensor_pct')}%. "
              f"Ajustamos la simulación {cal.get('ajuste'):+} puntos (error ±{cal.get('error')}, modelo {cal.get('modelo')})."
              if es else
-             f"The satellite estimates {cal.get('satelite_pct')}% moisture and your sensor reads {cal.get('sensor_pct')}%. "
+             f"The satellite estimates {cal.get('satelite_pct')}% moisture and {'an example field reading' if ej else 'your sensor'} shows {cal.get('sensor_pct')}%. "
              f"We adjust the simulation by {cal.get('ajuste'):+} points (error ±{cal.get('error')}, {cal.get('modelo')} model).")
-        fuentes = ["NASA POWER", "SENSOR"]
+        if cal.get("datos") == "ejemplo":
+            r += (" (Datos de ejemplo: el sensor de humedad es el siguiente módulo del nodo.)" if es
+                  else " (Example data: the moisture probe is the node's next module.)")
+        fuentes = ["NASA POWER", "SENSOR"] if cal.get("datos") != "ejemplo" else ["NASA POWER", "EXAMPLE"]
 
     else:
         r = SIN_DATO[idioma]

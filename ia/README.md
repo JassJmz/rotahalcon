@@ -9,7 +9,7 @@ Owner: Role 3. API keys go in `.env` (git-ignored).
 | **Hybrid routing** (`ROTAHALCON_HIBRIDO=true`): recognized questions → exact template answer; free-form → LLM | ✅ default |
 | Claude API mode (`asistente_llm.py`) — optional, paid | ✅ code ready, off by default |
 | Uncertainty (bootstrap → `resiliencia.rango`), `incertidumbre.py` + `POST /incertidumbre` | ✅ working — needs per-year results from backend (below) |
-| Satellite ↔ sensor calibration (linear vs. random forest) | ⏳ |
+| Satellite ↔ sensor calibration — `calibracion.py`, `GET /calibracion`, `POST /calibrar`: NASA GWETTOP vs field moisture, **linear vs random forest** (leave-one-out MAE); difference mode with < 5 days | ✅ method working — **EXAMPLE data** until the moisture probe is added |
 | NDVI bare-soil detection | ⏳ optional |
 | Glossary EN/ES (10 terms) — `glosario.json` + `GET /glosario?idioma=en\|es` for the web tooltips | ✅ |
 | AI-use declaration | ⏳ |
@@ -46,3 +46,17 @@ Add an optional per-year list to each strategy in `/recomendar`:
 ```
 Then either `from incertidumbre import agregar_incertidumbre` (same repo, Python) or `POST /incertidumbre` with the whole recommendation. It fills
 `resiliencia = { "anios_ok", "anios_total", "rango": [lo, hi], "metodo" }` (bootstrap, 2000 resamples, 5th–95th percentile, fixed seed).
+
+## Calibration — how to plug in the real moisture probe
+The current node measures N, P, K only. When a capacitive moisture probe is added, calibrate it in two points
+(**dry air = 0 %**, **in water = 100 %**) so `humedad_pct` is relative wetness 0–100, comparable with NASA `GWETTOP` (0–1).
+Then send the readings:
+```json
+POST /calibrar  { "lecturas": [ { "ts": 1794700000, "humedad_pct": 44.2 }, { "fecha": "2026-11-12", "humedad_pct": 47.0 } ] }
+```
+- **≥ 5 distinct days** that overlap NASA (NASA lags ~3 days) → `"modo": "regresion"`, both models compared, best one used.
+- Fewer days → `"modo": "diferencia"` (sensor − latest NASA day).
+- No readings → EXAMPLE data, always labeled `"datos": "ejemplo"` + `"aviso"`.
+
+Backend can fill `/recomendar`'s `calibracion` with `from calibracion import calibrar` (same pattern as `agregar_incertidumbre`).
+With the synthetic example (hypothetical field = 0.85 × satellite + 12), the linear model recovers slope 0.84 / intercept 12.0, MAE 1.45 vs random forest 1.49 — the method works.
