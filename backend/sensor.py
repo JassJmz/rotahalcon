@@ -89,8 +89,17 @@ def _validate(raw) -> dict:
     return out
 
 
+def read_failure(reading: dict) -> str | None:
+    """Data-quality check (not an agronomic rule): a probe that does not answer over RS485 is
+    usually written as zeros. If every measured value except EC is exactly 0, it is not a measurement."""
+    vals = [reading.get(f) for f in MEASURE_FIELDS if f != "ce_uScm" and reading.get(f) is not None]
+    if vals and all(v == 0 for v in vals):
+        return "sensor returned all zeros (probe not in soil or RS485 not responding)"
+    return None
+
+
 def is_real(reading: dict) -> bool:
-    return reading.get("fuente") == REAL_SOURCE
+    return reading.get("fuente") == REAL_SOURCE and read_failure(reading) is None
 
 
 def _get_json(path: str, params: dict | None = None):
@@ -145,8 +154,12 @@ def latest_reading(force: bool = False) -> dict:
             value = _validate(_get_json(_latest_path()))
             value["edad_s"] = max(0, int(now) - value["ts"])
             value["nodo"] = node()
+            failure = read_failure(value)
             if is_real(value):
                 value["mock"] = False
+            elif failure:                        # shown as written so Hardware can debug, never used as field truth
+                value["mock"] = True
+                value["motivo_mock"] = failure
             else:                                # e.g. "fuente": "TEST" — shown with its own label, never used as field truth
                 value["mock"] = True
                 value["motivo_mock"] = f"fuente is '{value['fuente']}', not '{REAL_SOURCE}' (test data)"

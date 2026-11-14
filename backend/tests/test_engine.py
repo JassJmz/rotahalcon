@@ -192,6 +192,19 @@ class TestSensorAndApi(unittest.TestCase):
         self.assertFalse(r["mock"])
         self.assertEqual(main._real_n(r), 14.0)
 
+    def test_all_zero_reading_is_a_sensor_failure(self):
+        r = self._reading_from_firebase({"ts": 1794695841, "n_mgkg": 0, "p_mgkg": 0, "k_mgkg": 0,
+                                         "humedad_pct": 0.0, "temp_c": 0.0, "ph": 0.0, "ce_uScm": 1000,
+                                         "fuente": "SENSOR"})
+        self.assertTrue(r["mock"])
+        self.assertIn("all zeros", r["motivo_mock"])
+        self.assertIsNone(main._real_n(r))
+
+    def test_a_single_zero_is_still_a_measurement(self):
+        r = self._reading_from_firebase({"ts": 1794695841, "n_mgkg": 0, "p_mgkg": 12, "k_mgkg": 140,
+                                         "fuente": "SENSOR"})
+        self.assertFalse(r["mock"])
+
     def test_unlabeled_reading_is_not_real(self):
         r = self._reading_from_firebase({"ts": 1794695592, "n_mgkg": 14})
         self.assertTrue(r["mock"])
