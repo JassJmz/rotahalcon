@@ -1,0 +1,28 @@
+# Secrets — never commit
+.env
+.env.*
+*secrets*
+firebase-config.js
+serviceAccount*.json
+hardware/**/secrets.h
+hardware/**/config_local.h
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Node / web
+node_modules/
+dist/
+.cache/
+
+# Arduino / PlatformIO
+.pio/
+build/
+
+# OS / editors
+.DS_Store
+.vscode/
+.idea/
