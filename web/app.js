@@ -159,8 +159,12 @@ function renderCalib(c, example) {
   $('calib').innerHTML = `${ex ? '<span class="tag tag-GAP mr-2">EXAMPLE DATA · NEXT MODULE</span>' : ''}<b class="text-gold">Satellite corrected by the ground:</b> ${tag('NASA')} satellite says ${c.satelite_pct}% moisture · ${tag('SENSOR')} your field measures ${c.sensor_pct}% → adjustment ${c.ajuste > 0 ? '+' : ''}${c.ajuste} pts (${err}${esc(c.modelo)} model).`
     + (ex ? '<div class="text-xs text-slate-400 mt-1">Illustrative until the AGRISENSE moisture probe is connected.</div>' : '');
 }
+async function loadSensor() {     // GET /sensor: latest reading from Firebase, or an example reading with mock: true
+  if (!API_URL || USING_MOCK) return;
+  try { const r = await fetch(API_URL + '/sensor'); if (r.ok) renderSoil(await r.json()); } catch (e) { /* keep the sensor block from /recomendar */ }
+}
 async function loadCalib() {
-  const base = IA_URL || API_URL;
+  const base = IA_URL;          // /calibracion lives in Role 3's service; the public backend returns 404
   if (!base || USING_MOCK) return;
   try { const r = await fetch(base + '/calibracion'); if (r.ok) renderCalib(await r.json(), false); } catch (e) { /* keep the card from /recomendar */ }
 }
@@ -185,7 +189,7 @@ async function initBadYear() {
 
 /* ---------- 5. what if ---------- */
 function initWhatIf() {
-  $('prioBox').innerHTML = PRIOS.map(([k, label]) => `<label class="text-sm text-slate-300 block">${label} <b id="p_${k}v" class="float-right text-white">${Math.round(state.prio[k] * 100)}%</b><input id="p_${k}" type="range" min="0" max="100" value="${Math.round(state.prio[k] * 100)}"></label>`).join('');
+  $('prioBox').innerHTML = PRIOS.map(([k, label]) => `<label class="text-sm text-slate-300 block">${label} <b id="p_${k}v" class="float-right text-white">${Math.round(state.prio[k] * 100)}%</b><input id="p_${k}" type="range" min="0" max="100" value="${Math.round(state.prio[k] * 100)}">${k === 'ingreso' ? '<span class="tag tag-GAP mt-1">INFORMATION GAP</span> <span class="text-xs text-slate-400">We don\'t know seed cost or crop price in your area yet, so this slider has no sourced data behind it.</span>' : ''}</label>`).join('');
   const sync = () => {
     PRIOS.forEach(([k]) => $('p_' + k + 'v').textContent = $('p_' + k).value + '%');
     const sum = PRIOS.reduce((a, [k]) => a + +$('p_' + k).value, 0) || 1;
@@ -252,6 +256,7 @@ async function refresh() {
     $('demoBanner').style.display = USING_MOCK ? '' : 'none';
     renderCompare(DATA); renderRank(DATA);
     renderSoil(DATA.sensor || {});
+    loadSensor();
     loadCalib();
   } catch (e) { $('cards').innerHTML = `<div class="card p-5 text-red-300">Could not load recommendations (${esc(e.message)}). Showing nothing instead of guessing.</div>`; }
 }

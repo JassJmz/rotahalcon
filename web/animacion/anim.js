@@ -353,7 +353,7 @@ SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: 'The worst year, not the average
 // The engine can propose different alternatives for different priorities, so rows are matched by their crops:
 // rotations in both rankings slide to their new place, the ones that drop out fade away, new ones fade in.
 SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: 'Your priorities, your ranking', note: 'Engine output for both sets of priorities', build(g) {
-  const keys = ['agua', 'suelo', 'ingreso', 'riesgo'], names = ['Water', 'Soil', 'Income', 'Risk'], pa = D.request.prioridades, pb = D.prioridades_b, kx = v => 230 + v * 300;
+  const keys = ['agua', 'suelo', 'ingreso', 'riesgo'], names = ['Water', 'Soil', 'Income*', 'Risk'], pa = D.request.prioridades, pb = D.prioridades_b, kx = v => 230 + v * 300;
   const knobs = names.map((n, i) => { const y = 210 + i * 80; txt(g, 70, y + 8, n, 28, C.white, 'start', 700); el('rect', { x: 230, y: y - 2, width: 300, height: 8, rx: 4, fill: '#ffffff2e' }, g);
     return el('circle', { cx: kx(pa[keys[i]]), cy: y + 2, r: 16, fill: C.gold, filter: 'url(#glow)' }, g); });
   const key = e => e.ciclos.join('-'), byScore = (x, y) => y.puntaje - x.puntaje, yAt = k => 140 + k * 106;
@@ -368,6 +368,7 @@ SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: 'Your priorities, your ranking',
     const bar = el('rect', { x: 140, y: 48, width: first.puntaje * 3, height: 14, rx: 7, fill: SEM[first.semaforo] }, r), v = txt(r, 536, 60, String(first.puntaje), 34, C.white, 'end', 800);
     return { r, box, bar, v, a, b, ib };
   });
+  txt(g, 70, 560, '* Income: no sourced seed cost or crop price yet (information gap)', 16, C.mute, 'start', 500);
   const tl = gsap.timeline(), o = { w: 0 }, T = 2.3;
   tl.from(rows.filter(x => x.a).map(x => x.r), { opacity: 0, x: '+=40', duration: .5, stagger: .08, ease: E.out3 }, 0);
   knobs.forEach((k, i) => tl.to(k, { attr: { cx: kx(pb[keys[i]]) }, duration: 1, ease: E.io }, 1 + i * .06));
