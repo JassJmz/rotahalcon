@@ -302,6 +302,10 @@ def _semaforo(share):
 
 
 def _texts(ciclos, sim, previos, site_far, n_info=None):
+    # ⚠️ Role 3 translates these English sentences to Spanish BY PATTERN (ia/traduccion.py),
+    # and also the gap texts in data/crops/gaps.csv and the _motivo() texts.
+    # If you change any wording here, tell Role 3. tests/test_engine.py
+    # (test_spanish_answers_have_no_english_engine_text) fails if a sentence stops being translated.
     total, fails = sim["n"], sim["n"] - sim["ok"]
     porque = (f"Would have failed {fails} of {total} seasons ({YEARS[0]}–{YEARS[-1]}): "
               f"{sim['fails_by']['drought']} by drought, {sim['fails_by']['frost']} by frost.")

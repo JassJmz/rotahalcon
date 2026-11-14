@@ -189,5 +189,39 @@ class TestSensorAndApi(unittest.TestCase):
             rec(["papa"])
 
 
+# English fragments produced by engine.py / gaps.csv that Role 3 must translate in Spanish answers.
+ENGLISH_ENGINE_FRAGMENTS = [
+    "Would have failed", "by drought", "by frost", "lacked water", "Frost hit", "Repeats the",
+    "Assumes rainfed", "is a legume", "Alternates plant families", "Enough water in every",
+    "Your soil N reads", "Soil N comes from", "No live soil N reading", "Climate data is from",
+    "of the water it needs", "expected yield loss", "vs normal", "review with an agronomist",
+    "were not found online", "No sourced seed cost",
+]
+
+
+class TestSpanishTranslation(unittest.TestCase):
+    """Role 3 translates engine sentences by pattern: a reworded sentence would leak English."""
+
+    def test_spanish_answers_have_no_english_engine_text(self):
+        try:
+            import rutas
+        except Exception:
+            self.skipTest("ia/rutas.py not available")
+        cases = [
+            rec(PITCH_FARMER),
+            rec(["frijol", "frijol"]),
+            rec(PITCH_FARMER, sensor_n=12),            # low real N texts
+            rec(PITCH_FARMER, temp_c=-4),              # frost texts
+        ]
+        questions = ["¿Qué me conviene sembrar?", "¿Por qué mi rotación actual está en rojo?",
+                     "¿Qué falta saber?", "¿Cuál falla menos?", "¿Cuál fue el peor año?"]
+        for estrategias in cases:
+            recomendacion = main._envelope(estrategias, sensor.latest_reading())
+            for q in questions:
+                ans = rutas.preguntar(rutas.Pregunta(pregunta=q, recomendacion=recomendacion))["respuesta"]
+                leaked = [f for f in ENGLISH_ENGINE_FRAGMENTS if f in ans]
+                self.assertEqual(leaked, [], f"{q!r} leaked English: {leaked}\n{ans}")
+
+
 if __name__ == "__main__":
     unittest.main()
