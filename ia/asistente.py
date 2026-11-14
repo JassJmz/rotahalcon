@@ -29,6 +29,15 @@ INTENCIONES = {
 # ───────────────────────────────────────────────────────────────────────
 
 
+def compactar(recomendacion: dict) -> dict:
+    """Copy of the recommendation without the per-year lists (anios), which are
+    long and only needed for the bootstrap. Keeps the LLM prompt small."""
+    rec = {k: v for k, v in recomendacion.items() if not k.startswith("_")}
+    rec["estrategias"] = [{k: v for k, v in e.items() if k != "anios"}
+                          for e in recomendacion.get("estrategias", [])]
+    return rec
+
+
 def _normaliza(texto: str) -> str:
     tabla = str.maketrans("áéíóúñü", "aeiounu")
     return texto.lower().translate(tabla)

@@ -11,7 +11,7 @@ import os
 import anthropic
 from dotenv import load_dotenv
 
-from asistente import responder as responder_plantilla, AVISO
+from asistente import responder as responder_plantilla, AVISO, compactar
 
 # ── DATOS ──────────────────────────────────────────────────────────────
 load_dotenv()                                   # reads ia/.env (git-ignored): ANTHROPIC_API_KEY=...
@@ -71,7 +71,7 @@ def responder(pregunta: str, recomendacion: dict, idioma: str | None = None) -> 
 
     nombre_idioma = "English" if idioma == "en" else "Spanish (Mexico)"
     contenido = (
-        f"RECOMMENDATION JSON:\n{json.dumps(recomendacion, ensure_ascii=False, sort_keys=True)}\n\n"
+        f"RECOMMENDATION JSON:\n{json.dumps(compactar(recomendacion), ensure_ascii=False, sort_keys=True)}\n\n"
         f"Reply in: {nombre_idioma}\n\nFarmer's question: {pregunta}"
     )
     try:

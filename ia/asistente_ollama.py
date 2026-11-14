@@ -11,7 +11,7 @@ import os
 import httpx
 from dotenv import load_dotenv
 
-from asistente import responder as responder_plantilla, AVISO
+from asistente import responder as responder_plantilla, AVISO, compactar
 from asistente_llm import SISTEMA, ESQUEMA   # same grounding rules as the Claude mode
 
 # ── DATOS ──────────────────────────────────────────────────────────────
@@ -41,7 +41,7 @@ def responder(pregunta: str, recomendacion: dict, idioma: str | None = None) -> 
     idioma = idioma if idioma in ("en", "es") else "en"
     nombre_idioma = "English" if idioma == "en" else "Spanish (Mexico)"
     contenido = (
-        f"RECOMMENDATION JSON:\n{json.dumps(recomendacion, ensure_ascii=False, sort_keys=True)}\n\n"
+        f"RECOMMENDATION JSON:\n{json.dumps(compactar(recomendacion), ensure_ascii=False, sort_keys=True)}\n\n"
         f"Reply in: {nombre_idioma}\n\nFarmer's question: {pregunta}"
     )
     cuerpo = {
@@ -50,7 +50,7 @@ def responder(pregunta: str, recomendacion: dict, idioma: str | None = None) -> 
                      {"role": "user", "content": contenido}],
         "format": ESQUEMA,                       # Ollama structured output (JSON schema)
         "stream": False,
-        "options": {"temperature": TEMPERATURA},
+        "options": {"temperature": TEMPERATURA, "num_ctx": 8192},
     }
     try:
         r = httpx.post(f"{OLLAMA_URL}/api/chat", json=cuerpo, timeout=TIMEOUT_S)
