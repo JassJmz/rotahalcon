@@ -27,4 +27,4 @@ The free Render server sleeps: the first request can take up to a minute.
 - Assistant: `/preguntar` on the backend is a stub; set `IA_URL` in `app.js` to Role 3's service when it is public.
 - Glossary texts are provisional (`GLOSSARY` in `app.js`); Role 3 publishes the final ones at `GET /glosario`.
 - Report PDF / `web/boleta/` from Role 1.
-- Fully offline animation: put `gsap.min.js` in `animacion/vendor/` (the page falls back to it when the CDN is unreachable).
+- Offline animation: `animacion/vendor/gsap.min.js` (GSAP 3.12.5) is included; the page falls back to it when the CDN is unreachable. The deck and the web still load Tailwind, Leaflet and map tiles from the internet.
