@@ -50,7 +50,15 @@ out = {
     "estrategias": [],
     "sensor": rec.get("sensor"),
     "calibracion": rec.get("calibracion"),
+    "calibracion_datos": None,     # "sensor" when GET /calibracion reports live readings, "ejemplo" for example data
 }
+try:                                # /calibracion is optional: it may not be deployed yet
+    with urllib.request.urlopen(API_URL + "/calibracion", timeout=60) as r:
+        c = json.load(r)
+    out["calibracion"] = {k: c.get(k) for k in ("satelite_pct", "sensor_pct", "ajuste", "error", "modelo")}
+    out["calibracion_datos"] = c.get("datos")
+except Exception as e:
+    print("note: /calibracion not available (", e, ") - scene 5 keeps the sensor mock flag")
 for e in rec["estrategias"]:
     bad = [a for a in e["anios"] if not a["ok"]]
     out["estrategias"].append({

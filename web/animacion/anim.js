@@ -19,6 +19,7 @@ const ROW_CROPS = ROWS.map(e => e.ciclos.map(c => ICON[c] || '🌱').join(''));
 const rainPct = (m => { const x = /rain ([+-]?\d+)% vs normal/.exec(m || ''); return x ? +x[1] : null; })(ROWS[0].peor_anio.motivo);
 const WORST_YEAR = { year: ROWS[0].peor_anio.anio, why: rainPct === null ? 'the hardest season on record' : `rainfall ${Math.abs(rainPct)}% ${rainPct < 0 ? 'below' : 'above'} normal` };
 const SENSOR_MOCK = !D.sensor || !!D.sensor.mock;
+const CALIB_LIVE = !SENSOR_MOCK && D.calibracion_datos === 'sensor';
 const SAT_PCT = D.calibracion.satelite_pct, SENSOR_PCT = D.sensor.humedad_pct, ADJUST = D.calibracion.ajuste;
 const RAIN = D.rain_mm;                                                         // mm per year, NASA POWER PRECTOTCORR
 const DURATIONS = [3, 6, 4, 4, 8, 6, 10, 6, 5, 6, 3];   // seconds per scene (storyboard C2), used by ?autoplay=1
@@ -230,7 +231,7 @@ SCENES.push({ act: 'ACT 1 · FROM SOIL TO CLOUD', cap: 'Live, from this field', 
 } });
 
 // 5 ── Satellite sees km; we see your field (8 s)
-SCENES.push({ act: 'ACT 1 · FROM SOIL TO CLOUD', cap: 'Satellite sees km. We see your field.', note: SENSOR_MOCK ? 'Demo sensor and calibration values' : '', build(g, from) {
+SCENES.push({ act: 'ACT 1 · FROM SOIL TO CLOUD', cap: 'Satellite sees km. We see your field.', note: CALIB_LIVE ? 'Live sensor readings' : 'Demo sensor and calibration values', build(g, from) {
   const px = el('rect', { x: 340, y: 240, width: 600, height: 340, fill: '#3b82f61f', stroke: C.blue, 'stroke-width': 3, 'stroke-dasharray': '14 10', opacity: 0 }, g);
   const gridL = [1, 2].flatMap(i => [el('line', { x1: 340 + i * 200, x2: 340 + i * 200, y1: 240, y2: 580, stroke: C.blue, 'stroke-width': 1, opacity: 0 }, g), el('line', { x1: 340, x2: 940, y1: 240 + i * 113, y2: 240 + i * 113, stroke: C.blue, 'stroke-width': 1, opacity: 0 }, g)]);
   const pxl = txt(g, 640, 224, 'ONE SATELLITE PIXEL ≈ SEVERAL KM', 20, C.blueL, 'middle', 700, { 'letter-spacing': '2', opacity: 0 });
@@ -250,7 +251,8 @@ SCENES.push({ act: 'ACT 1 · FROM SOIL TO CLOUD', cap: 'Satellite sees km. We se
   const chk = el('path', { d: 'M-150 2 l18 18 l34 -38', stroke: '#05290f', 'stroke-width': 8, fill: 'none', 'stroke-linecap': 'round', 'stroke-linejoin': 'round', pathLength: 1, 'stroke-dasharray': 1, 'stroke-dashoffset': 1 }, ok);
   txt(ok, 24, 14, 'Calibrated', 44, '#05290f', 'middle', 800);
   const adj = txt(g, 640, 598, '+' + ADJUST + ' pts adjustment', 22, C.green, 'middle', 700, { opacity: 0 });
-  if (SENSOR_MOCK) chip(g, 1090, 62, 'EXAMPLE · NEXT MODULE', C.gold, C.navy, 21);   // calibration is not live yet: say so on screen
+  // Label follows the data: LIVE once /calibracion reports real sensor readings, EXAMPLE otherwise (regenerate data.js to switch).
+  if (CALIB_LIVE) chip(g, 1140, 62, 'LIVE', C.green, '#05290f', 21); else chip(g, 1090, 62, 'EXAMPLE · NEXT MODULE', C.gold, C.navy, 21);
   const tl = gsap.timeline();
   tl.to(sat, { y: 110, duration: 1.3, ease: E.out }, 0).to(beam, { opacity: 1, duration: .5 }, 1)
     .to(px, { opacity: 1, duration: .5 }, 1.2).to(gridL, { opacity: .25, duration: .5, stagger: .05 }, 1.4).to(pxl, { opacity: 1, duration: .5 }, 1.5)
