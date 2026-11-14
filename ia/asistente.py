@@ -100,7 +100,7 @@ def resumen_para_llm(recomendacion: dict) -> str:
         for k, nombre, u in unidades:
             if s.get(k) is not None:
                 lineas.append(f"{nombre}: {s[k]}{u}")
-        lineas.append("There are no reference thresholds in this data: do not judge these values as good or bad.")
+        lineas.append("Judge a sensor value as low/medium/high ONLY if a strategy's Benefits or Risks line classifies it (e.g. NOM-021 soil N class); otherwise do not judge it.")
         lineas.append("")
     c = recomendacion.get("calibracion") or {}
     if c:
