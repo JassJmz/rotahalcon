@@ -60,7 +60,10 @@ def _validate(raw) -> dict:
         raise ValueError("no reading at " + NODE_PATH)
     if raw.get("ts") is None:
         raise ValueError("missing field: ts")
-    out = {"ts": int(float(raw["ts"]))}
+    ts = float(raw["ts"])
+    if ts > 1e11:                    # Firebase/JS timestamps often come in milliseconds
+        ts /= 1000
+    out = {"ts": int(ts)}
     for f in MEASURE_FIELDS:
         v = raw.get(f)
         out[f] = None if v is None or v == "" else float(v)
