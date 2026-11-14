@@ -126,6 +126,13 @@ python backend/nasa_power.py --offline  # rebuild from saved CSV (Plan B)
 python backend/crops.py                 # validate crop table + rebuild crops.json
 ```
 
+## Tests
+```bash
+python -m unittest discover -s backend/tests -v     # from the repo root, ~1 s, no internet
+```
+20 regression tests (`tests/test_engine.py`) lock the results the team presents: crop failures (bean 9, maize 23, sorghum 9 of 45), the pitch case (maize 23 → bean·bean·sorghum 9), 2011 as driest year, every crop value sourced, do-no-harm alternatives, semáforo independent of priorities, mock N never used, partial NPK readings and ms timestamps accepted, contract fields present.
+**Run them before every push and before every Render deploy.** If a number changes on purpose, update the pitch, `docs/VALIDITY.md` and the test together.
+
 ## Deploy (Render, free plan)
 | Setting | Value |
 |---|---|
