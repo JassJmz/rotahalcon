@@ -178,6 +178,9 @@ def responder(pregunta: str, recomendacion: dict, idioma: str | None = None) -> 
     """Return {"respuesta": str, "fuentes": [str], "modo": "plantilla"}."""
     idioma = idioma if idioma in ("en", "es") else detectar_idioma(pregunta, IDIOMA_POR_DEFECTO)
     es = idioma == "es"
+    if es:
+        from traduccion import recomendacion_es   # engine texts come in English
+        recomendacion = recomendacion_es(recomendacion)
     estrategias = recomendacion.get("estrategias") or []
     if not estrategias:
         return {"respuesta": SIN_DATO[idioma], "fuentes": [], "modo": "plantilla"}
