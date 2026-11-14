@@ -120,6 +120,9 @@ def calibrar(lecturas: list[dict] | None = None) -> dict:
     if len(pares) < MIN_DIAS:
         # Compare against the latest NASA day available (NASA lags ~3 days)
         ajuste = round(sensor_ultimo - satelite_hoy, 1)
+        base["nota"] = ("Indicative: field sensors usually report volumetric water content, while NASA GWETTOP is "
+                        "relative wetness (0-1). The regression learns that conversion once there are "
+                        f"{MIN_DIAS}+ days overlapping NASA (NASA lags ~3 days).")
         return {**base, "modo": "diferencia", "ajuste": ajuste, "error": None,
                 "modelo": "difference (needs ≥ %d days for regression)" % MIN_DIAS,
                 "comparacion": []}
