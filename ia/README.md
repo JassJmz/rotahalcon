@@ -5,17 +5,21 @@ Owner: Role 3. API keys go in `.env` (git-ignored).
 | Piece | Status |
 |---|---|
 | `POST /preguntar` — grounded assistant, **template mode** (EN/ES, no invented numbers, cites sources). Also the LLM fallback (plan B) | ✅ working with mock data |
-| LLM mode (Claude API, `asistente_llm.py`): free-form questions, grounded in the JSON, structured output, auto-fallback to templates | ✅ code ready — needs `ia/.env` with the key |
+| **Local LLM mode (Ollama, `asistente_ollama.py`)** — free, offline, no key. Default. Same grounding rules, JSON-schema output, auto-fallback to templates | ✅ code ready |
+| Claude API mode (`asistente_llm.py`) — optional, paid | ✅ code ready, off by default |
 | Uncertainty (bootstrap → `resiliencia.rango`) | ⏳ |
 | Satellite ↔ sensor calibration (linear vs. random forest) | ⏳ |
 | NDVI bare-soil detection | ⏳ optional |
 | Glossary texts · AI-use declaration | ⏳ |
 
-## API key (LLM mode)
+## Local AI (Ollama) — free
 ```bash
-cp .env.example .env   # then paste your key after ANTHROPIC_API_KEY=
+brew install ollama && brew services start ollama
+ollama pull qwen2.5:3b        # ~2 GB, once
+cp .env.example .env          # ROTAHALCON_PROVEEDOR=ollama (default)
 ```
-`.env` is git-ignored. Without a key the assistant still works in template mode (`"modo": "plantilla"`). `GET /salud` shows `"llm": true` when the key is loaded.
+`GET /salud` shows `"ollama": true` when it's running. If Ollama is off, answers fall back to templates (`"modo": "plantilla"`).
+To use Claude instead (paid): set `ROTAHALCON_PROVEEDOR=claude` and `ANTHROPIC_API_KEY` in `.env` (git-ignored).
 
 ## Run
 ```bash
@@ -31,4 +35,4 @@ curl -s -X POST localhost:8001/preguntar -H "Content-Type: application/json" \
   -d '{"pregunta":"What should I plant?","idioma":"en"}'
 ```
 Request: `{ "pregunta": str, "recomendacion": {…backend /recomendar output…}, "idioma": "en"|"es" }` — if `recomendacion` is missing, `mock_recomendacion.json` is used (illustrative numbers only).
-Response: `{ "respuesta": str, "fuentes": [str], "modo": "llm" | "plantilla" }` (+ `motivo_plantilla` when it fell back).
+Response: `{ "respuesta": str, "fuentes": [str], "modo": "ollama" | "llm" | "plantilla" }` (+ `motivo_plantilla` when it fell back).
