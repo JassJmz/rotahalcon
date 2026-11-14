@@ -21,6 +21,9 @@ import incertidumbre
 # ── DATOS ──────────────────────────────────────────────────────────────
 load_dotenv()
 PROVEEDOR = os.getenv("ROTAHALCON_PROVEEDOR", "ollama")   # "ollama" (free, local) | "claude" | "plantilla"
+# Hybrid: questions the templates recognize get the exact template answer (always correct);
+# only free-form questions go to the LLM. Recommended with the small local model.
+HIBRIDO = os.getenv("ROTAHALCON_HIBRIDO", "true").lower() == "true"
 ORIGENES_PERMITIDOS = ["*"]                               # hackathon: open CORS so the web can call us
 MOCK_PATH = Path(__file__).with_name("mock_recomendacion.json")
 GLOSARIO_PATH = Path(__file__).with_name("glosario.json")
@@ -49,6 +52,7 @@ def salud():
         "ok": True,
         "servicio": "ia",
         "proveedor": PROVEEDOR,
+        "hibrido": HIBRIDO,
         "ollama": asistente_ollama.disponible(),
         "ollama_modelo": asistente_ollama.OLLAMA_MODELO,
         "claude_key": bool(os.getenv("ANTHROPIC_API_KEY")),
@@ -58,6 +62,8 @@ def salud():
 @app.post("/preguntar")
 def preguntar(p: Pregunta):
     rec = p.recomendacion or json.loads(MOCK_PATH.read_text())
+    if HIBRIDO and PROVEEDOR != "plantilla" and asistente._intencion(p.pregunta) != "desconocida":
+        return asistente.responder(p.pregunta, rec, p.idioma)
     responder = RESPONDEDORES.get(PROVEEDOR, asistente.responder)
     return responder(p.pregunta, rec, p.idioma)
 

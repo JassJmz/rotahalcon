@@ -38,6 +38,78 @@ def compactar(recomendacion: dict) -> dict:
     return rec
 
 
+def resumen_para_llm(recomendacion: dict) -> str:
+    """Plain, labeled text version of the recommendation. Small local models
+    read explicit labels ("FARMER'S CURRENT ROTATION") far better than JSON flags."""
+    lineas = []
+    estrategias = recomendacion.get("estrategias", [])
+    alt = 0
+    for e in estrategias:
+        if e.get("es_actual"):
+            titulo = "FARMER'S CURRENT ROTATION (what they plant today)"
+        else:
+            alt += 1
+            titulo = f"ALTERNATIVE {alt} (suggested by RotaHalcón)"
+        r = e.get("resiliencia") or {}
+        pa = e.get("peor_anio") or {}
+        lineas.append(f"== {titulo} ==")
+        lineas.append(f"Cycles: {' -> '.join(e.get('ciclos', []))}")
+        lineas.append(f"Traffic light: {e.get('semaforo')} | Score: {e.get('puntaje')}/100")
+        if r:
+            lineas.append(f"Resilience (NASA climate replay): OK in {r.get('anios_ok')} of {r.get('anios_total')} seasons, "
+                          f"uncertainty range {r.get('rango')}")
+        if pa:
+            lineas.append(f"Worst year: {pa.get('anio')} — {pa.get('motivo')}")
+        for etiqueta, clave in (("Why", "porque"),):
+            if e.get(clave):
+                lineas.append(f"{etiqueta}: {e[clave]}")
+        for etiqueta, clave in (("Benefits", "beneficios"), ("Unknowns (data gaps)", "huecos"),
+                                ("Risks to review with an agronomist", "riesgos"), ("Sources", "fuentes")):
+            if e.get(clave):
+                lineas.append(f"{etiqueta}: " + "; ".join(map(str, e[clave])))
+        lineas.append("")
+    actual = next((e for e in estrategias if e.get("es_actual")), None)
+    if actual and (actual.get("resiliencia") or {}).get("anios_total"):
+        ra = actual["resiliencia"]
+        fallas_a = ra["anios_total"] - ra["anios_ok"]
+        lineas.append("== COMPARISON vs FARMER'S CURRENT ROTATION (pre-computed, use these words) ==")
+        alt = 0
+        for e in estrategias:
+            if e is actual or not (e.get("resiliencia") or {}).get("anios_total"):
+                continue
+            alt += 1
+            r = e["resiliencia"]
+            f = r["anios_total"] - r["anios_ok"]
+            if f < fallas_a:
+                veredicto = f"MORE resilient than current: fails {f} seasons vs {fallas_a}"
+            elif f > fallas_a:
+                veredicto = f"LESS resilient than current: fails {f} seasons vs {fallas_a}"
+            else:
+                veredicto = f"SAME resilience as current: both fail {f} seasons (differences are in score/benefits, not drought survival)"
+            lineas.append(f"Alternative {alt} ({' -> '.join(e.get('ciclos', []))}): {veredicto}")
+        lineas.append("")
+
+    s = recomendacion.get("sensor") or {}
+    if s:
+        aviso = " (DEMO VALUES — sensor not connected yet)" if s.get("mock") else ""
+        lineas.append(f"== SOIL SENSOR READING in the farmer's field (SENSOR, indicative, not a lab test){aviso} ==")
+        unidades = [("humedad_pct", "Soil moisture", "%"), ("temp_c", "Soil temperature", " °C"),
+                    ("ph", "pH", ""), ("ce_uScm", "Electrical conductivity (salinity)", " µS/cm"),
+                    ("n_mgkg", "Nitrogen N", " mg/kg"), ("p_mgkg", "Phosphorus P", " mg/kg"),
+                    ("k_mgkg", "Potassium K", " mg/kg")]
+        for k, nombre, u in unidades:
+            if k in s:
+                lineas.append(f"{nombre}: {s[k]}{u}")
+        lineas.append("There are no reference thresholds in this data: do not judge these values as good or bad.")
+        lineas.append("")
+    c = recomendacion.get("calibracion") or {}
+    if c:
+        lineas.append("== SATELLITE vs SENSOR CALIBRATION ==")
+        lineas.append(f"Satellite estimate: {c.get('satelite_pct')}% | Sensor: {c.get('sensor_pct')}% | "
+                      f"Adjustment: {c.get('ajuste')} points (error ±{c.get('error')}, model: {c.get('modelo')})")
+    return "\n".join(lineas)
+
+
 def _normaliza(texto: str) -> str:
     tabla = str.maketrans("áéíóúñü", "aeiounu")
     return texto.lower().translate(tabla)
@@ -121,7 +193,7 @@ def responder(pregunta: str, recomendacion: dict, idioma: str | None = None) -> 
              if es else f"We recommend {_ciclos(mejor)} because: {mejor.get('porque', '')}")
         ben = mejor.get("beneficios") or []
         if ben:
-            r += (" Beneficios: " if es else " Benefits: ") + "; ".join(ben) + "."
+            r += (" Beneficios: " if es else " Benefits: ") + "; ".join(b.rstrip(".") for b in ben) + "."
         fuentes = mejor.get("fuentes", [])
 
     elif intencion == "riesgo":
@@ -129,9 +201,9 @@ def responder(pregunta: str, recomendacion: dict, idioma: str | None = None) -> 
         huecos = mejor.get("huecos") or []
         if riesgos or huecos:
             r = (f"Para {_ciclos(mejor)}, revisa con un agrónomo: " if es
-                 else f"For {_ciclos(mejor)}, check with an agronomist: ") + "; ".join(riesgos) + "."
+                 else f"For {_ciclos(mejor)}, check with an agronomist: ") + "; ".join(x.rstrip(".") for x in riesgos) + "."
             if huecos:
-                r += (" Lo que no sabemos: " if es else " What we don't know: ") + "; ".join(huecos) + "."
+                r += (" Lo que no sabemos: " if es else " What we don't know: ") + "; ".join(x.rstrip(".") for x in huecos) + "."
             fuentes = mejor.get("fuentes", [])
         else:
             r = SIN_DATO[idioma]

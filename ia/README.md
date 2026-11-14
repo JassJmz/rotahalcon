@@ -5,7 +5,8 @@ Owner: Role 3. API keys go in `.env` (git-ignored).
 | Piece | Status |
 |---|---|
 | `POST /preguntar` — grounded assistant, **template mode** (EN/ES, no invented numbers, cites sources). Also the LLM fallback (plan B) | ✅ working with mock data |
-| **Local LLM mode (Ollama, `asistente_ollama.py`)** — free, offline, no key. Default. Same grounding rules, JSON-schema output, auto-fallback to templates | ✅ code ready |
+| **Local LLM mode (Ollama `qwen2.5:3b`, `asistente_ollama.py`)** — free, offline, no key. Default. Labeled data summary + pre-computed comparisons, JSON-schema output, auto-fallback to templates | ✅ tested (3–15 s per answer) |
+| **Hybrid routing** (`ROTAHALCON_HIBRIDO=true`): recognized questions → exact template answer; free-form → LLM | ✅ default |
 | Claude API mode (`asistente_llm.py`) — optional, paid | ✅ code ready, off by default |
 | Uncertainty (bootstrap → `resiliencia.rango`), `incertidumbre.py` + `POST /incertidumbre` | ✅ working — needs per-year results from backend (below) |
 | Satellite ↔ sensor calibration (linear vs. random forest) | ⏳ |
