@@ -17,7 +17,7 @@ from asistente_llm import SISTEMA, ESQUEMA   # same grounding rules as the Claud
 # ── DATOS ──────────────────────────────────────────────────────────────
 load_dotenv()
 OLLAMA_URL = os.getenv("OLLAMA_URL", "http://localhost:11434")
-OLLAMA_MODELO = os.getenv("OLLAMA_MODELO", "qwen2.5:3b")
+OLLAMA_MODELO = os.getenv("OLLAMA_MODELO", "qwen2.5:7b")
 TIMEOUT_S = float(os.getenv("OLLAMA_TIMEOUT", "60"))
 TEMPERATURA = 0.2            # low = sticks to the data
 # ───────────────────────────────────────────────────────────────────────
