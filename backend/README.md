@@ -27,7 +27,17 @@ Interactive docs: http://localhost:8000/docs
 curl -X POST http://localhost:8000/recomendar -H "Content-Type: application/json" -d "{\"cultivos_previos\":[\"frijol\",\"frijol\"]}"
 ```
 
+## Modules
+| File | What it does |
+|---|---|
+| `main.py` | FastAPI app (endpoints above) |
+| `nasa_power.py` | Downloads NASA POWER daily climate → `data/nasa_power/` (CSV + metadata + chart). `load_daily()` reads it offline for the engine. Standard library only. See [`data/README.md`](../data/README.md) |
+
+```bash
+python backend/nasa_power.py            # download (needs internet)
+python backend/nasa_power.py --offline  # rebuild from saved CSV
+```
+
 ## Next
-- NASA POWER daily climate 1981→today (Durango) → `data/` CSV
 - Crop table with FAO / INIFAP source per value
-- Rules engine + 40-year simulation
+- Rules engine + 45-year simulation (1981–2025)

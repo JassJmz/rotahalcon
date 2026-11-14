@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 440" font-family="Inter, Segoe UI, system-ui, sans-serif" role="img" aria-label="Annual rainfall 1981–2025, NASA POWER">
+<rect width="960" height="440" rx="16" fill="#0B1F3A"/>
+<text x="64" y="40" fill="#F4F1E8" font-size="22" font-weight="700">Annual rainfall · Durango, Mexico</text>
+<text x="64" y="64" fill="#9AA8BD" font-size="13">1981–2025 · 24.02°N, 104.65°W · PRECTOTCORR (mm/year)</text>
+<rect x="866" y="24" width="70" height="26" rx="13" fill="none" stroke="#D4AF37"/>
+<text x="901" y="42" fill="#D4AF37" font-size="12" font-weight="700" text-anchor="middle" letter-spacing="1.5">NASA</text>
+<line x1="64" x2="936" y1="384.0" y2="384.0" stroke="#1F3657"/>
+<text x="54" y="388.0" fill="#9AA8BD" font-size="11" text-anchor="end">0</text>
+<line x1="64" x2="936" y1="325.6" y2="325.6" stroke="#1F3657"/>
+<text x="54" y="329.6" fill="#9AA8BD" font-size="11" text-anchor="end">200</text>
+<line x1="64" x2="936" y1="267.2" y2="267.2" stroke="#1F3657"/>
+<text x="54" y="271.2" fill="#9AA8BD" font-size="11" text-anchor="end">400</text>
+<line x1="64" x2="936" y1="208.8" y2="208.8" stroke="#1F3657"/>
+<text x="54" y="212.8" fill="#9AA8BD" font-size="11" text-anchor="end">600</text>
+<line x1="64" x2="936" y1="150.4" y2="150.4" stroke="#1F3657"/>
+<text x="54" y="154.4" fill="#9AA8BD" font-size="11" text-anchor="end">800</text>
+<line x1="64" x2="936" y1="92.0" y2="92.0" stroke="#1F3657"/>
+<text x="54" y="96.0" fill="#9AA8BD" font-size="11" text-anchor="end">1000</text>
+<rect x="66.9" y="151.5" width="13.6" height="232.5" rx="2" fill="#D4AF37"><title>1981: 796 mm</title></rect>
+<rect x="86.3" y="213.9" width="13.6" height="170.1" rx="2" fill="#D4AF37"><title>1982: 583 mm</title></rect>
+<rect x="105.7" y="162.9" width="13.6" height="221.1" rx="2" fill="#D4AF37"><title>1983: 757 mm</title></rect>
+<rect x="125.0" y="156.8" width="13.6" height="227.2" rx="2" fill="#D4AF37"><title>1984: 778 mm</title></rect>
+<rect x="144.4" y="165.8" width="13.6" height="218.2" rx="2" fill="#D4AF37"><title>1985: 747 mm</title></rect>
+<text x="151.2" y="404" fill="#9AA8BD" font-size="11" text-anchor="middle">1985</text>
+<rect x="163.8" y="161.6" width="13.6" height="222.4" rx="2" fill="#D4AF37"><title>1986: 762 mm</title></rect>
+<rect x="183.2" y="185.2" width="13.6" height="198.8" rx="2" fill="#D4AF37"><title>1987: 681 mm</title></rect>
+<rect x="202.6" y="196.8" width="13.6" height="187.2" rx="2" fill="#D4AF37"><title>1988: 641 mm</title></rect>
+<rect x="221.9" y="216.8" width="13.6" height="167.2" rx="2" fill="#D4AF37"><title>1989: 573 mm</title></rect>
+<rect x="241.3" y="151.8" width="13.6" height="232.2" rx="2" fill="#D4AF37"><title>1990: 795 mm</title></rect>
+<text x="248.1" y="404" fill="#9AA8BD" font-size="11" text-anchor="middle">1990</text>
+<rect x="260.7" y="140.8" width="13.6" height="243.2" rx="2" fill="#D4AF37"><title>1991: 833 mm</title></rect>
+<rect x="280.1" y="237.6" width="13.6" height="146.4" rx="2" fill="#D4AF37"><title>1992: 501 mm</title></rect>
+<rect x="299.4" y="190.0" width="13.6" height="194.0" rx="2" fill="#D4AF37"><title>1993: 664 mm</title></rect>
+<rect x="318.8" y="288.1" width="13.6" height="95.9" rx="2" fill="#E5533D"><title>1994: 328 mm</title></rect>
+<text x="325.6" y="280.1" fill="#E5533D" font-size="11" font-weight="700" text-anchor="middle">1994</text>
+<rect x="338.2" y="271.8" width="13.6" height="112.2" rx="2" fill="#D4AF37"><title>1995: 384 mm</title></rect>
+<text x="345.0" y="404" fill="#9AA8BD" font-size="11" text-anchor="middle">1995</text>
+<rect x="357.6" y="262.6" width="13.6" height="121.4" rx="2" fill="#D4AF37"><title>1996: 416 mm</title></rect>
+<rect x="377.0" y="277.3" width="13.6" height="106.7" rx="2" fill="#D4AF37"><title>1997: 366 mm</title></rect>
+<rect x="396.3" y="284.8" width="13.6" height="99.2" rx="2" fill="#D4AF37"><title>1998: 340 mm</title></rect>
+<rect x="415.7" y="285.8" width="13.6" height="98.2" rx="2" fill="#E5533D"><title>1999: 336 mm</title></rect>
+<text x="422.5" y="277.8" fill="#E5533D" font-size="11" font-weight="700" text-anchor="middle">1999</text>
+<rect x="435.1" y="264.8" width="13.6" height="119.2" rx="2" fill="#D4AF37"><title>2000: 408 mm</title></rect>
+<text x="441.9" y="404" fill="#9AA8BD" font-size="11" text-anchor="middle">2000</text>
+<rect x="454.5" y="244.6" width="13.6" height="139.4" rx="2" fill="#D4AF37"><title>2001: 478 mm</title></rect>
+<rect x="473.8" y="212.2" width="13.6" height="171.8" rx="2" fill="#D4AF37"><title>2002: 588 mm</title></rect>
+<rect x="493.2" y="192.5" width="13.6" height="191.5" rx="2" fill="#D4AF37"><title>2003: 656 mm</title></rect>
+<rect x="512.6" y="169.2" width="13.6" height="214.8" rx="2" fill="#D4AF37"><title>2004: 736 mm</title></rect>
+<rect x="532.0" y="250.1" width="13.6" height="133.9" rx="2" fill="#D4AF37"><title>2005: 459 mm</title></rect>
+<text x="538.8" y="404" fill="#9AA8BD" font-size="11" text-anchor="middle">2005</text>
+<rect x="551.4" y="208.0" width="13.6" height="176.0" rx="2" fill="#D4AF37"><title>2006: 603 mm</title></rect>
+<rect x="570.7" y="236.9" width="13.6" height="147.1" rx="2" fill="#D4AF37"><title>2007: 504 mm</title></rect>
+<rect x="590.1" y="200.6" width="13.6" height="183.4" rx="2" fill="#D4AF37"><title>2008: 628 mm</title></rect>
+<rect x="609.5" y="213.2" width="13.6" height="170.8" rx="2" fill="#D4AF37"><title>2009: 585 mm</title></rect>
+<rect x="628.9" y="197.2" width="13.6" height="186.8" rx="2" fill="#D4AF37"><title>2010: 640 mm</title></rect>
+<text x="635.6" y="404" fill="#9AA8BD" font-size="11" text-anchor="middle">2010</text>
+<rect x="648.2" y="308.1" width="13.6" height="75.9" rx="2" fill="#E5533D"><title>2011: 260 mm</title></rect>
+<text x="655.0" y="300.1" fill="#E5533D" font-size="11" font-weight="700" text-anchor="middle">2011</text>
+<rect x="667.6" y="259.1" width="13.6" height="124.9" rx="2" fill="#D4AF37"><title>2012: 428 mm</title></rect>
+<rect x="687.0" y="200.7" width="13.6" height="183.3" rx="2" fill="#D4AF37"><title>2013: 628 mm</title></rect>
+<rect x="706.4" y="220.4" width="13.6" height="163.6" rx="2" fill="#D4AF37"><title>2014: 560 mm</title></rect>
+<rect x="725.8" y="198.0" width="13.6" height="186.0" rx="2" fill="#D4AF37"><title>2015: 637 mm</title></rect>
+<text x="732.5" y="404" fill="#9AA8BD" font-size="11" text-anchor="middle">2015</text>
+<rect x="745.1" y="215.7" width="13.6" height="168.3" rx="2" fill="#D4AF37"><title>2016: 576 mm</title></rect>
+<rect x="764.5" y="224.9" width="13.6" height="159.1" rx="2" fill="#D4AF37"><title>2017: 545 mm</title></rect>
+<rect x="783.9" y="211.9" width="13.6" height="172.1" rx="2" fill="#D4AF37"><title>2018: 589 mm</title></rect>
+<rect x="803.3" y="267.4" width="13.6" height="116.6" rx="2" fill="#D4AF37"><title>2019: 399 mm</title></rect>
+<rect x="822.6" y="235.3" width="13.6" height="148.7" rx="2" fill="#D4AF37"><title>2020: 509 mm</title></rect>
+<text x="829.4" y="404" fill="#9AA8BD" font-size="11" text-anchor="middle">2020</text>
+<rect x="842.0" y="206.9" width="13.6" height="177.1" rx="2" fill="#D4AF37"><title>2021: 607 mm</title></rect>
+<rect x="861.4" y="220.2" width="13.6" height="163.8" rx="2" fill="#D4AF37"><title>2022: 561 mm</title></rect>
+<rect x="880.8" y="268.0" width="13.6" height="116.0" rx="2" fill="#D4AF37"><title>2023: 397 mm</title></rect>
+<rect x="900.2" y="242.6" width="13.6" height="141.4" rx="2" fill="#D4AF37"><title>2024: 484 mm</title></rect>
+<rect x="919.5" y="215.5" width="13.6" height="168.5" rx="2" fill="#D4AF37"><title>2025: 577 mm</title></rect>
+<text x="926.3" y="404" fill="#9AA8BD" font-size="11" text-anchor="middle">2025</text>
+<line x1="64" x2="936" y1="232.3" y2="232.3" stroke="#F4F1E8" stroke-dasharray="6 5" stroke-width="1.5" opacity="0.8"/>
+<line x1="646" x2="674" y1="60" y2="60" stroke="#F4F1E8" stroke-dasharray="6 5" stroke-width="1.5"/>
+<text x="682" y="64" fill="#F4F1E8" font-size="12">1991–2020 normal · 520 mm</text>
+<rect x="846" y="53" width="12" height="12" rx="2" fill="#E5533D"/>
+<text x="864" y="64" fill="#F4F1E8" font-size="12">Driest 3</text>
+<text x="64" y="424" fill="#9AA8BD" font-size="11">Data: NASA LaRC POWER Project · daily, community AG · bias-corrected precipitation.</text>
+</svg>

@@ -1,0 +1,103 @@
+{
+  "site": {
+    "id": "durango",
+    "name": "Durango, Mexico (example field)",
+    "lat": 24.02,
+    "lon": -104.65,
+    "elevation_m": 2065.18
+  },
+  "source": "NASA POWER (Prediction Of Worldwide Energy Resources), NASA LaRC",
+  "label": "NASA",
+  "temporal": "daily",
+  "community": "AG",
+  "request_url": "https://power.larc.nasa.gov/api/temporal/daily/point?parameters=PRECTOTCORR,T2M,T2M_MAX,T2M_MIN,RH2M,ALLSKY_SFC_SW_DWN,GWETTOP,GWETROOT,GWETPROF&community=AG&longitude=-104.65&latitude=24.02&start=19810101&end=20261114&format=JSON",
+  "downloaded_at_utc": "2026-11-14T19:49:53Z",
+  "period": {
+    "first_day": "1981-01-01",
+    "last_day": "2026-11-11",
+    "complete_years": [
+      1981,
+      2025
+    ],
+    "n_complete_years": 45
+  },
+  "parameters": {
+    "PRECTOTCORR": {
+      "unit": "mm/day",
+      "description": "Precipitation (bias corrected)"
+    },
+    "T2M": {
+      "unit": "°C",
+      "description": "Air temperature at 2 m, daily mean"
+    },
+    "T2M_MAX": {
+      "unit": "°C",
+      "description": "Air temperature at 2 m, daily max"
+    },
+    "T2M_MIN": {
+      "unit": "°C",
+      "description": "Air temperature at 2 m, daily min"
+    },
+    "RH2M": {
+      "unit": "%",
+      "description": "Relative humidity at 2 m"
+    },
+    "ALLSKY_SFC_SW_DWN": {
+      "unit": "MJ/m²/day",
+      "description": "All-sky surface shortwave radiation (from 1984)"
+    },
+    "GWETTOP": {
+      "unit": "0–1",
+      "description": "Surface soil wetness (0–5 cm), fraction of saturation"
+    },
+    "GWETROOT": {
+      "unit": "0–1",
+      "description": "Root-zone soil wetness (0–100 cm), fraction of saturation"
+    },
+    "GWETPROF": {
+      "unit": "0–1",
+      "description": "Profile soil wetness (surface to bedrock), fraction of saturation"
+    }
+  },
+  "missing_values": {
+    "PRECTOTCORR": 0,
+    "T2M": 0,
+    "T2M_MAX": 0,
+    "T2M_MIN": 0,
+    "RH2M": 0,
+    "ALLSKY_SFC_SW_DWN": 1098,
+    "GWETTOP": 0,
+    "GWETROOT": 0,
+    "GWETPROF": 0
+  },
+  "rain_normal_1991_2020_mm": 519.5,
+  "fill_value_in_api": -999.0,
+  "notes": [
+    "Missing values are empty cells in the CSVs (API fill value -999 removed).",
+    "ALLSKY_SFC_SW_DWN (radiation) is only available from 1984-01-01.",
+    "GWETTOP/GWETROOT/GWETPROF are soil WETNESS as a fraction of saturation (0–1), not volumetric moisture %. Convert before comparing with the SENSOR reading.",
+    "Satellite/model grid cell (~0.5° × 0.625°, MERRA-2): it represents the region, not the plot.",
+    "Last days may be missing because of POWER data latency; they are trimmed.",
+    "frost_days = days with T2M_MIN <= 0.0 °C."
+  ],
+  "api_header": {
+    "title": "NASA/POWER Source Native Resolution Daily Data",
+    "api": {
+      "version": "v2.10.3",
+      "name": "POWER Daily API"
+    },
+    "sources": [
+      "MERRA2",
+      "GEOSIT",
+      "SRB",
+      "SYN1DEG",
+      "FLASHFLUX",
+      "POWER"
+    ],
+    "fill_value": -999.0,
+    "time_standard": "LST",
+    "start": "19810101",
+    "end": "20261114"
+  },
+  "citation": "These data were obtained from the NASA Langley Research Center (LaRC) POWER Project funded through the NASA Earth Science/Applied Science Program."
+}
