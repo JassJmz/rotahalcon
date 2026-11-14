@@ -33,6 +33,10 @@ EXACTOS = {
         "La avena no aparece en la Tabla 24 de FAO-56 (Ky estacional)",
     "Alfalfa is not listed in FAO frost Table 4.5":
         "La alfalfa no aparece en la Tabla 4.5 de heladas de la FAO",
+    "FAO gives one value for barley/oats/wheat":
+        "La FAO da un solo valor para cebada/avena/trigo",
+    "FAO gives one value for sorghum/millet":
+        "La FAO da un solo valor para sorgo/mijo",
 }
 # ───────────────────────────────────────────────────────────────────────
 
