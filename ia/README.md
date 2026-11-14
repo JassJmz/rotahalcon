@@ -59,4 +59,4 @@ POST /calibrar  { "lecturas": [ { "ts": 1794700000, "humedad_pct": 44.2 }, { "fe
 - No readings → EXAMPLE data, always labeled `"datos": "ejemplo"` + `"aviso"`.
 
 Backend can fill `/recomendar`'s `calibracion` with `from calibracion import calibrar` (same pattern as `agregar_incertidumbre`).
-With the synthetic example (hypothetical field = 0.85 × satellite + 12), the linear model recovers slope 0.84 / intercept 12.0, MAE 1.45 vs random forest 1.49 — the method works.
+With the synthetic example (hypothetical field = 0.85 × satellite + 12), the linear model recovers slope 0.84 / intercept 12.0, MAE 1.45 vs random forest 1.51 (50 trees; set `CALIBRACION_ARBOLES` to change) — the method works. Timestamps in seconds or milliseconds are accepted.

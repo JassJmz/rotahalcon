@@ -17,6 +17,7 @@ STATUS: the node's moisture probe is the next hardware module. Until it is
 connected, outputs come from EXAMPLE readings and say so ("datos": "ejemplo").
 """
 import csv
+import os
 import random
 import statistics
 from datetime import date, datetime, timedelta, timezone
@@ -25,7 +26,7 @@ from pathlib import Path
 # ── DATOS ──────────────────────────────────────────────────────────────
 NASA_CSV = Path(__file__).resolve().parent.parent / "data" / "nasa_power" / "durango_daily.csv"
 MIN_DIAS = 5                 # distinct days needed to fit models
-N_ARBOLES = 200              # random forest size
+N_ARBOLES = int(os.getenv("CALIBRACION_ARBOLES", "50"))   # random forest size (50 = fast on small servers)
 SEMILLA = 42
 # Example generator (synthetic, ONLY for demonstrating the method):
 EJEMPLO_DIAS = 30
@@ -49,7 +50,10 @@ def cargar_nasa(path: Path = NASA_CSV) -> dict[date, float]:
 def _dia(lectura: dict) -> date:
     if "fecha" in lectura:
         return date.fromisoformat(str(lectura["fecha"])[:10])
-    return datetime.fromtimestamp(float(lectura["ts"]), tz=timezone.utc).date()
+    ts = float(lectura["ts"])
+    if ts > 1e11:            # Firebase/JS timestamps often come in milliseconds
+        ts /= 1000
+    return datetime.fromtimestamp(ts, tz=timezone.utc).date()
 
 
 def lecturas_ejemplo(nasa: dict[date, float], dias: int = EJEMPLO_DIAS) -> list[dict]:
@@ -128,7 +132,7 @@ def calibrar(lecturas: list[dict] | None = None) -> dict:
     y = [f for _, _, f in pares]
     candidatos = {
         "lineal": lambda: LinearRegression(),
-        "random_forest": lambda: RandomForestRegressor(n_estimators=N_ARBOLES, random_state=SEMILLA, min_samples_leaf=2),
+        "random_forest": lambda: RandomForestRegressor(n_estimators=N_ARBOLES, random_state=SEMILLA, min_samples_leaf=2, n_jobs=-1),
     }
     comparacion = [{"modelo": n, "mae": round(_loo_mae(f, X, y), 2)} for n, f in candidatos.items()]
     mejor = min(comparacion, key=lambda c: c["mae"])
