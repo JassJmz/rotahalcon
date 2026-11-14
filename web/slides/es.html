@@ -5,36 +5,49 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>RotaHalcón · Presentación</title>
 <style>
-  :root{--navy:#0B1F3A;--navy2:#102a4c;--gold:#D4AF37;--ink:#e8eef7;--mute:#94a3b8;--green:#22c55e;--yellow:#eab308;--red:#ef4444;--blue:#3b82f6}
+  :root{--navy:#0B1F3A;--navy2:#102a4c;--navy3:#16345e;--gold:#D4AF37;--goldL:#f1d27a;--ink:#eef3fb;--mute:#9fb0c8;--green:#22c55e;--yellow:#eab308;--red:#ef4444;--blue:#3b82f6;--line:rgba(255,255,255,.09)}
   *{box-sizing:border-box}
-  html,body{margin:0;height:100%;background:#050d1a;color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;overflow:hidden}
+  html,body{margin:0;height:100%;background:#040a14;color:var(--ink);font-family:"Segoe UI",system-ui,-apple-system,Roboto,sans-serif;overflow:hidden}
   #stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
-  .slide{position:absolute;width:1280px;height:720px;background:var(--navy);display:none;padding:56px 72px;transform-origin:center}
+  .slide{position:absolute;width:1280px;height:720px;display:none;overflow:hidden;
+    background:radial-gradient(900px 500px at 85% -10%,rgba(212,175,55,.12),transparent 60%),radial-gradient(700px 500px at -10% 110%,rgba(59,130,246,.10),transparent 60%),linear-gradient(160deg,#0d2547,#081528)}
   .slide.on{display:block}
-  h1{font-size:76px;margin:0;line-height:1.05}h2{font-size:46px;margin:0 0 26px;color:var(--gold)}
-  .gold{color:var(--gold)}.mute{color:var(--mute)}
-  p,li{font-size:28px;line-height:1.4;margin:0 0 14px}
-  ul{margin:0;padding-left:30px}
-  .tag{display:inline-block;font-size:15px;font-weight:800;padding:3px 10px;border-radius:7px;vertical-align:middle;margin-left:8px;letter-spacing:.5px}
+  .pad{position:absolute;inset:0;padding:64px 80px}
+  .eyebrow{font-size:15px;font-weight:800;letter-spacing:3.5px;color:var(--gold);margin:0 0 14px}
+  h1{font-size:96px;line-height:1;margin:0;font-weight:800;letter-spacing:-1px}
+  h2{font-size:46px;line-height:1.1;margin:0 0 24px;font-weight:800;letter-spacing:-.5px}
+  p{font-size:26px;line-height:1.45;margin:0 0 16px;color:#d6e0ee}
+  .gold{color:var(--gold)}.mute{color:var(--mute)}.red{color:var(--red)}.green{color:var(--green)}
+  .card{background:linear-gradient(180deg,rgba(255,255,255,.045),rgba(255,255,255,.015));border:1px solid var(--line);border-radius:22px;padding:26px 30px;box-shadow:0 18px 40px rgba(0,0,0,.28)}
+  .tag{display:inline-block;font-size:13px;font-weight:800;padding:3px 9px;border-radius:7px;vertical-align:middle;margin-left:8px;letter-spacing:.6px}
   .NASA{background:var(--blue);color:#fff}.SENSOR{background:var(--gold);color:var(--navy)}.FAO{background:#15803d;color:#fff}
-  .grid{display:grid;grid-template-columns:1fr 1fr;gap:28px}
-  .card{background:var(--navy2);border:1px solid #1d3d6b;border-radius:18px;padding:24px 28px}
-  .big{font-size:84px;font-weight:800;line-height:1}
-  .red{color:var(--red)}.green{color:var(--green)}
-  .foot{position:absolute;left:72px;right:72px;bottom:26px;font-size:16px;color:var(--mute);display:flex;justify-content:space-between}
-  iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:var(--navy)}
-  .n{position:absolute;right:30px;top:22px;font-size:16px;color:var(--mute)}
-  .btn{display:inline-block;background:var(--gold);color:var(--navy);font-weight:800;font-size:26px;border-radius:14px;padding:14px 30px;text-decoration:none}
-  #hint{position:fixed;left:12px;bottom:8px;font-size:12px;color:#5b6b85}
-  .slide[data-n="6"] li{font-size:21px;margin-bottom:8px}
-  .slide[data-n="6"] h2{margin-bottom:18px}
-  @media print{
-    @page{size:1280px 720px;margin:0}
-    html,body{overflow:visible;height:auto;background:#fff}
-    #stage{position:static;display:block}
-    .slide{display:block!important;position:relative;page-break-after:always;transform:none!important}
-    #hint{display:none}
-  }
+  .foot{position:absolute;left:80px;right:80px;bottom:26px;font-size:15px;color:#7f93b0;display:flex;justify-content:space-between;align-items:center}
+  .foot .brand{display:flex;align-items:center;gap:8px;font-weight:700;color:#9fb0c8}
+  .light{width:16px;height:16px;border-radius:50%;display:inline-block;box-shadow:0 0 12px currentColor}
+  .chip{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.07);border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-size:20px;color:#dbe6f5}
+  iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#0B1F3A}
+  .btn{display:inline-block;background:var(--gold);color:var(--navy);font-weight:800;font-size:24px;border-radius:14px;padding:14px 28px;text-decoration:none;box-shadow:0 10px 24px rgba(212,175,55,.25)}
+  #hint{position:fixed;left:12px;bottom:8px;font-size:12px;color:#5b6b85;transition:opacity 1s}
+  .pillar{position:relative}
+  .ico{width:54px;height:54px;border-radius:16px;background:rgba(212,175,55,.14);display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+  .big{font-size:96px;font-weight:800;line-height:.95;letter-spacing:-2px}
+  .steps{display:flex;gap:0;align-items:flex-start;margin:0 0 30px}
+  .step{flex:1;text-align:center;position:relative}
+  .step .c{width:76px;height:76px;border-radius:50%;margin:0 auto 12px;background:var(--navy3);border:2px solid rgba(212,175,55,.55);display:flex;align-items:center;justify-content:center;position:relative;z-index:1}
+  .step span{font-size:20px;font-weight:600;color:#dbe6f5}
+  .step:not(:last-child)::after{content:"";position:absolute;top:37px;left:calc(50% + 44px);right:calc(-50% + 44px);height:2px;background:linear-gradient(90deg,var(--gold),rgba(212,175,55,.2))}
+  .printgrid{display:none}
+  body.print{overflow:visible;height:auto;background:#fff}
+  body.print #stage{position:static;display:block}
+  body.print .slide{display:block;position:relative;transform:none!important;page-break-after:always;break-after:page}
+  body.print #hint{display:none}
+  body.print .anim{display:none}
+  body.print .printgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;position:absolute;inset:0;padding:40px;align-content:center;gap:24px 22px}
+  .pg{background:#0B1F3A;border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .pg .fr{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden}
+  .pg iframe{position:absolute;left:0;top:0;width:1280px;height:720px;transform-origin:0 0;transform:scale(.3)}
+  .pg b{display:block;padding:12px 16px;font-size:22px;color:#dbe6f5}
+  @page{size:1280px 720px;margin:0}
 </style>
 </head>
 <body>
@@ -42,102 +55,158 @@
 
 <!-- 1 · Cover -->
 <section class="slide" data-n="1">
-  <div style="margin-top:150px">
-    <p class="gold" style="font-size:26px;letter-spacing:3px;font-weight:700">NASA SPACE APPS CHALLENGE 2026 · FIELD SHIFT</p>
+  <svg viewBox="0 0 1280 720" width="1280" height="720" style="position:absolute;inset:0" aria-hidden="true">
+    <defs>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#050d1c"/><stop offset=".55" stop-color="#1b3a66"/><stop offset=".82" stop-color="#d79a52"/><stop offset="1" stop-color="#f2c777"/></linearGradient>
+      <linearGradient id="soil" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#6e4629"/><stop offset="1" stop-color="#22140a"/></linearGradient>
+      <linearGradient id="fade" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#081528" stop-opacity=".96"/><stop offset=".55" stop-color="#081528" stop-opacity=".78"/><stop offset="1" stop-color="#081528" stop-opacity="0"/></linearGradient>
+      <filter id="gl" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="9" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    </defs>
+    <rect width="1280" height="720" fill="url(#sky)"/>
+    <g fill="#fff"><circle cx="120" cy="60" r="1.6"/><circle cx="260" cy="130" r="1.2"/><circle cx="420" cy="50" r="1.8"/><circle cx="580" cy="110" r="1.2"/><circle cx="700" cy="40" r="1.6"/><circle cx="820" cy="150" r="1.2"/><circle cx="930" cy="70" r="1.8"/><circle cx="1050" cy="120" r="1.2"/><circle cx="1180" cy="40" r="1.6"/><circle cx="340" cy="210" r="1"/><circle cx="1230" cy="200" r="1.2"/></g>
+    <circle cx="1010" cy="470" r="150" fill="#ffd36b" opacity=".16"/><circle cx="1010" cy="470" r="66" fill="#ffe09a" filter="url(#gl)"/>
+    <path d="M0 470 Q220 380 470 450 T930 430 T1280 460 V520 H0Z" fill="#183a63"/>
+    <path d="M0 490 Q300 430 620 482 T1280 470 V540 H0Z" fill="#1e5a4c"/>
+    <rect x="0" y="515" width="1280" height="14" fill="#4c9a43"/>
+    <g stroke="#7ccf64" stroke-width="3" stroke-linecap="round" fill="none"><path d="M610 515l-4-20M610 515l4-20M610 515v-24"/><path d="M660 515l-4-20M660 515l4-20M660 515v-24"/><path d="M1130 515l-4-20M1130 515l4-20M1130 515v-24"/><path d="M1180 515l-4-20M1180 515l4-20M1180 515v-24"/><path d="M1230 515l-4-20M1230 515l4-20M1230 515v-24"/><path d="M730 515l-4-20M730 515l4-20M730 515v-24"/></g>
+    <rect x="0" y="529" width="1280" height="191" fill="url(#soil)"/>
+    <g stroke="#00000033" stroke-width="2"><path d="M0 590H1280"/><path d="M0 650H1280"/></g>
+    <g fill="#8a5d3a" opacity=".6"><circle cx="640" cy="560" r="9"/><circle cx="700" cy="620" r="12"/><circle cx="780" cy="570" r="8"/><circle cx="1100" cy="600" r="11"/><circle cx="1190" cy="670" r="9"/><circle cx="1000" cy="680" r="7"/><circle cx="660" cy="690" r="8"/></g>
+    <g fill="#38bdf8" opacity=".85"><ellipse cx="760" cy="600" rx="4" ry="6"/><ellipse cx="1060" cy="570" rx="4" ry="6"/><ellipse cx="860" cy="680" rx="4" ry="6"/></g>
+    <!-- sensor node -->
+    <g>
+      <rect x="880" y="425" width="86" height="76" rx="12" fill="#102a4c" stroke="#D4AF37" stroke-width="4"/>
+      <rect x="892" y="437" width="62" height="22" rx="5" fill="#081528"/><text x="923" y="453" font-size="12" font-weight="800" fill="#D4AF37" text-anchor="middle">AGRISENSE</text>
+      <circle cx="948" cy="478" r="5" fill="#22c55e"/>
+      <rect x="899" y="501" width="9" height="112" rx="3" fill="#f1d27a"/><rect x="938" y="501" width="9" height="112" rx="3" fill="#f1d27a"/>
+      <path d="M923 405q-22-14-44-6M923 405q22-14 44-6M923 385q-36-22-70-8M923 385q36-22 70-8" stroke="#f1d27a" stroke-width="3" fill="none" stroke-linecap="round" opacity=".9"/>
+    </g>
+    <!-- satellite and its km-wide pixel -->
+    <path d="M1090 168L860 520H1230Z" fill="#3b82f6" opacity=".12"/>
+    <rect x="860" y="505" width="370" height="24" fill="none" stroke="#93c5fd" stroke-width="2" stroke-dasharray="8 6" opacity=".8"/>
+    <g transform="translate(1090 150)"><rect x="-22" y="-16" width="44" height="32" rx="6" fill="#cbd5e1"/><rect x="-96" y="-9" width="66" height="18" fill="#2563eb"/><rect x="30" y="-9" width="66" height="18" fill="#2563eb"/><circle cy="25" r="7" fill="#94a3b8"/></g>
+    <rect width="800" height="720" fill="url(#fade)"/>
+  </svg>
+  <div class="pad" style="padding-top:150px">
+    <p class="eyebrow">NASA SPACE APPS CHALLENGE 2026 · FIELD SHIFT</p>
     <h1>Rota<span class="gold">Halcón</span></h1>
-    <p style="font-size:40px;margin-top:14px">La rotación como seguro contra el clima</p>
-    <p class="mute" style="margin-top:60px">Equipo <b style="color:var(--ink)">Halcones Dorados</b> · Mecatrónica, ITSRLL · Durango</p>
+    <p style="font-size:38px;margin:14px 0 22px;color:#fff;font-weight:600">La rotación como seguro contra el clima</p>
+    <p style="font-size:24px;max-width:640px;color:#c5d3e6">Probamos cada rotación de cultivos con <b>45 años de clima real de la NASA</b>, para que el agricultor vea cuál aguanta un año malo.</p>
+    <p class="mute" style="font-size:20px;margin-top:34px">Equipo <b>Halcones Dorados</b> · Mecatrónica, ITSRLL · Durango</p>
   </div>
 </section>
 
 <!-- 2 · Problem -->
 <section class="slide" data-n="2">
-  <h2>El problema</h2>
-  <div class="grid">
-    <div>
-      <p><b class="gold">Don José</b> <span class="mute">(un agricultor de ejemplo)</span> siembra maíz en Durango. Cada ciclo decide qué sembrar <b>sin saber cómo le iría con esa decisión en un año malo.</b></p>
-      <p>Un solo año malo le puede costar la cosecha, el agua y la salud de su suelo.</p>
-      <p class="mute" style="font-size:22px">Los datos del clima de la NASA son gratuitos, pero cubren kilómetros, no su parcela, y son difíciles de interpretar.</p>
-    </div>
-    <div class="card">
-      <p class="mute" style="font-size:22px;margin:0">Maíz en cada ciclo, Durango, <span class="yrs">1981–2025</span> <span class="tag NASA">NASA</span></p>
-      <div class="big red" style="margin:10px 0 0"><span class="cf">23</span> <span style="font-size:40px;color:var(--ink)">de <span class="yn">45</span> temporadas</span></div>
-      <p style="margin-top:8px">habrían fallado.</p>
-      <p class="mute" style="font-size:22px">Peor año <b class="gold wy">1997</b>: <span class="wm">rainfall 56% below normal</span></p>
+  <div class="pad">
+    <div style="display:grid;grid-template-columns:5fr 6fr;gap:46px;align-items:center;height:100%;padding-bottom:30px">
+      <div>
+        <p class="eyebrow">EL PROBLEMA</p>
+        <h2>Cada temporada es una apuesta al clima</h2>
+        <p><b class="gold">Don José</b> <span class="mute">(un agricultor de ejemplo)</span> siembra maíz en Durango. Cada ciclo elige qué sembrar <b>sin saber cómo le iría en un año malo.</b></p>
+        <p style="font-size:22px">Un solo año malo le puede costar la cosecha, el agua y la salud de su suelo.</p>
+        <p class="mute" style="font-size:20px">Los datos del clima de la NASA son gratuitos, pero cubren kilómetros, no su parcela, y son difíciles de interpretar.</p>
+      </div>
+      <div class="card">
+        <p class="mute" style="font-size:18px;margin:0 0 6px">Lluvia por año · Durango · <span class="yrs">1981–2025</span> <span class="tag NASA">NASA</span></p>
+        <svg id="bars" viewBox="0 0 560 150" width="100%" style="display:block"></svg>
+        <p class="mute" style="font-size:15px;margin:4px 0 14px"><span class="red">▲</span> rojo = año en que su maíz habría fallado</p>
+        <div style="display:flex;align-items:baseline;gap:14px"><span class="big red cf">23</span><span style="font-size:30px;color:#fff;font-weight:600">de <span class="yn">45</span> temporadas</span></div>
+        <p style="margin:6px 0 10px;font-size:24px">su maíz habría fallado</p>
+        <p class="mute" style="font-size:19px;margin:0">Peor año <b class="gold wy">1997</b>: <span class="wm">lluvia 56% por debajo de lo normal</span></p>
+      </div>
     </div>
   </div>
-  <div class="foot"><span>Fuente: motor de RotaHalcón sobre NASA POWER (PRECTOTCORR) y reglas de agua de cultivos de la FAO.</span><span>2 / 7</span></div>
+  <div class="foot"><span>Fuente: motor de RotaHalcón sobre NASA POWER (PRECTOTCORR) y reglas de agua de cultivos de la FAO.</span><span class="brand">RotaHalcón · 2 / 7</span></div>
 </section>
 
-<!-- 3 · Animation act 1 -->
-<section class="slide" data-n="3" data-src="../animacion/index.html?short=1&start=0&end=2&lang=es"></section>
+<!-- 3 · Animation part 1 -->
+<section class="slide" data-n="3" data-src="../animacion/index.html?short=1&start=0&end=2&lang=es">
+  <div class="printgrid">
+    <p class="eyebrow" style="grid-column:1/-1;margin:0">CÓMO FUNCIONA · DEL SUELO A LA NUBE</p>
+    <div class="pg"><div class="fr"><iframe tabindex="-1" src="../animacion/index.html?scene=1&t=3&lang=es"></iframe></div><b>Suelo y sensor</b></div>
+    <div class="pg"><div class="fr"><iframe tabindex="-1" src="../animacion/index.html?scene=3&t=3.5&lang=es"></iframe></div><b>Nube y calibración</b></div>
+    <div class="pg"><div class="fr"><iframe tabindex="-1" src="../animacion/index.html?scene=4&t=7&lang=es"></iframe></div><b>Satélite contra sensor</b></div>
+  </div>
+</section>
 
-<!-- 4 · Animation act 2 -->
-<section class="slide" data-n="4" data-src="../animacion/index.html?short=1&start=3&end=5&lang=es"></section>
+<!-- 4 · Animation part 2 -->
+<section class="slide" data-n="4" data-src="../animacion/index.html?short=1&start=3&end=5&lang=es">
+  <div class="printgrid">
+    <p class="eyebrow" style="grid-column:1/-1;margin:0">CÓMO FUNCIONA · EL SISTEMA</p>
+    <div class="pg"><div class="fr"><iframe tabindex="-1" src="../animacion/index.html?scene=6&from=5&t=9&lang=es"></iframe></div><b>Cada rotación, cada año</b></div>
+    <div class="pg"><div class="fr"><iframe tabindex="-1" src="../animacion/index.html?scene=7&from=6&t=5.5&lang=es"></iframe></div><b>El peor año</b></div>
+    <div class="pg"><div class="fr"><iframe tabindex="-1" src="../animacion/index.html?scene=8&t=5&lang=es"></iframe></div><b>Tus prioridades</b></div>
+  </div>
+</section>
 
 <!-- 5 · Live demo -->
 <section class="slide" data-n="5">
-  <h2>Demostración en vivo</h2>
-  <div class="grid">
-    <div>
-      <ul>
-        <li>Marcamos la parcela en el mapa</li>
-        <li>Leemos el suelo con el nodo <span class="tag SENSOR">SENSOR</span></li>
-        <li>Comparamos a nuestro agricultor de maíz: <b class="red"><span class="cf">23</span> / <span class="yn">45</span></b> contra <b class="green"><span class="bf">9</span> / <span class="yn">45</span></b> <span class="tag NASA">NASA</span></li>
-        <li>Elegimos un año malo: <b class="gold wy">1997</b></li>
-        <li>Movemos los sliders y le preguntamos al asistente</li>
-      </ul>
+  <div class="pad">
+    <p class="eyebrow">DEMOSTRACIÓN EN VIVO</p>
+    <h2 style="margin-bottom:30px">De un punto en el mapa a una decisión</h2>
+    <div class="steps">
+      <div class="step"><div class="c"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.8"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.6"/></svg></div><span>Marcar la parcela</span></div>
+      <div class="step"><div class="c"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.8" stroke-linecap="round"><rect x="7" y="3" width="10" height="8" rx="2"/><path d="M10 11v10M14 11v10"/></svg></div><span>Leer el suelo</span></div>
+      <div class="step"><div class="c"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.8" stroke-linecap="round"><path d="M5 20V9M12 20V4M19 20v-7"/></svg></div><span>Comparar rotaciones</span></div>
+      <div class="step"><div class="c"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></div><span>Elegir un año malo</span></div>
+      <div class="step"><div class="c"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.8" stroke-linejoin="round"><path d="M4 5h16v10H9l-5 4z"/></svg></div><span>Preguntar y ajustar</span></div>
     </div>
-    <div class="card" style="text-align:center">
-      <p class="mute" style="font-size:22px">El nodo, sobre la mesa</p>
-      <p style="font-size:60px;margin:6px 0">🌱 AGRISENSE</p>
-      <p class="mute" style="font-size:20px">ESP32 · sensor NPK por RS485 · Firebase</p>
-      <p style="margin-top:34px"><a class="btn" href="../index.html" target="_blank" rel="noopener">Abrir la web →</a></p>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1.05fr;gap:24px">
+      <div class="card" style="border-color:rgba(239,68,68,.45)">
+        <p class="mute" style="font-size:18px;margin:0 0 4px"><span class="light" style="background:var(--red);color:var(--red)"></span>&nbsp; Rotación actual</p>
+        <div style="font-size:44px;margin:4px 0">🌽 🌽 🌽</div>
+        <div class="big red cf" style="font-size:72px">23</div>
+        <p style="font-size:20px;margin:4px 0 0"><span class="mute">de</span> <span class="yn">45</span> temporadas fallan</p>
+      </div>
+      <div class="card" style="border-color:rgba(34,197,94,.5)">
+        <p class="mute" style="font-size:18px;margin:0 0 4px"><span class="light" style="background:var(--green);color:var(--green)"></span>&nbsp; Mejor alternativa</p>
+        <div style="font-size:44px;margin:4px 0">🫘 🫘 🌱</div>
+        <div class="big green bf" style="font-size:72px">9</div>
+        <p style="font-size:20px;margin:4px 0 0"><span class="mute">de</span> <span class="yn">45</span> temporadas fallan</p>
+      </div>
+      <div class="card" style="text-align:center">
+        <p class="mute" style="font-size:18px;margin:0">El nodo, sobre la mesa</p>
+        <p style="font-size:30px;margin:8px 0 2px;font-weight:800;color:#fff">AGRISENSE</p>
+        <p class="mute" style="font-size:16px;margin:0 0 18px">ESP32 · sensor NPK por RS485 · Firebase</p>
+        <a class="btn" href="../index.html" target="_blank" rel="noopener">Abrir la web →</a>
+      </div>
     </div>
   </div>
-  <div class="foot"><span>Respaldo: si falla la red, la web usa una respuesta real guardada y se reproduce el video de la animación.</span><span>5 / 7</span></div>
+  <div class="foot"><span>Respaldo: si falla la red, la web usa una respuesta real guardada y se reproduce el video de la animación.</span><span class="brand">RotaHalcón · 5 / 7</span></div>
 </section>
 
-<!-- 6 · Impact + validity -->
+<!-- 6 · Impact and validity -->
 <section class="slide" data-n="6">
-  <h2>Impacto y validez</h2>
-  <div class="grid">
-    <div class="card">
-      <p class="gold" style="font-weight:700;margin-bottom:8px">Por qué se puede confiar</p>
-      <ul style="font-size:21px">
-        <li><span class="yn">45</span> temporadas reales de NASA POWER <span class="tag NASA">NASA</span></li>
-        <li>Reglas de agua y helada de cultivos de la FAO <span class="tag FAO">FAO</span></li>
-        <li>Un rango, no un solo número: <b><span class="rg">31–40</span> temporadas buenas</b> con la mejor opción</li>
-        <li>Cada respuesta cita su fuente y dice qué falta</li>
-      </ul>
+  <div class="pad">
+    <p class="eyebrow">IMPACTO Y VALIDEZ</p>
+    <h2>Una herramienta que dice qué tan segura está</h2>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
+      <div class="card pillar"><div class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></div><p class="gold" style="font-size:30px;font-weight:800;margin:0 0 8px">Datos reales</p><p style="font-size:21px;margin:0"><span class="yn">45</span> temporadas de NASA POWER, con reglas de agua y helada de cultivos de la FAO. <span class="tag NASA">NASA</span><span class="tag FAO">FAO</span></p></div>
+      <div class="card pillar"><div class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5" opacity="0"/><path d="M4 12h16M4 12l3-3M4 12l3 3M20 12l-3-3M20 12l-3 3"/></svg></div><p class="gold" style="font-size:30px;font-weight:800;margin:0 0 8px">Honesta</p><p style="font-size:21px;margin:0">Un rango, no un solo número: <b class="gold"><span class="rg">31–40</span> temporadas buenas</b> con la mejor opción. Cada respuesta cita su fuente.</p></div>
+      <div class="card pillar"><div class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg></div><p class="gold" style="font-size:30px;font-weight:800;margin:0 0 8px">Abierta</p><p style="font-size:21px;margin:0">Código abierto: cualquier región puede conectar sus propios cultivos y su clima.</p></div>
     </div>
-    <div class="card">
-      <p class="gold" style="font-weight:700;margin-bottom:8px">Lo que decimos que no sabemos</p>
-      <ul style="font-size:21px">
-        <li>Costo de semilla y precio del cultivo en Durango: aún sin datos con fuente</li>
-        <li>Fechas locales de siembra (INIFAP): no las encontramos en línea</li>
-        <li>Calibración con el sensor de suelo: próximo módulo, mostrada como datos de ejemplo</li>
-      </ul>
-    </div>
+    <p class="mute" style="font-size:18px;margin:30px 0 10px;letter-spacing:1px;font-weight:700">Lo que decimos que no sabemos</p>
+    <div style="display:flex;flex-wrap:wrap;gap:12px"><span class="chip">Costo de semilla y precio del cultivo en Durango</span><span class="chip">Fechas locales de siembra (INIFAP)</span><span class="chip">Calibración con el sensor de suelo: próximo módulo, mostrada como datos de ejemplo</span></div>
   </div>
-  <p style="margin-top:14px;font-size:23px"><b class="gold">Código abierto:</b> cualquier región puede conectar sus propios cultivos y su clima.</p>
-  <div class="foot"><span>Herramienta de apoyo a la decisión: no sustituye a un agrónomo.</span><span>6 / 7</span></div>
+  <div class="foot"><span>Herramienta de apoyo a la decisión: no sustituye a un agrónomo.</span><span class="brand">RotaHalcón · 6 / 7</span></div>
 </section>
 
 <!-- 7 · Close -->
 <section class="slide" data-n="7">
-  <h2>La rotación como seguro contra el clima</h2>
-  <div class="grid">
+  <div class="pad" style="display:grid;grid-template-columns:1.15fr 1fr;gap:50px;align-items:center">
     <div>
-      <p><b>Halcones Dorados</b> · ITSRLL</p>
-      <p class="mute" style="font-size:22px">Código: github.com/JassJmz/rotahalcon<br>MIT (código) · CC BY 4.0 (documentos, imágenes y animación)</p>
-      <p class="mute" style="font-size:22px;margin-top:22px">Sitio en vivo: <span id="liveUrl">enlace en la página del proyecto</span></p>
+      <svg width="96" height="96" viewBox="-60 -60 120 120" style="margin-bottom:16px"><circle r="52" fill="none" stroke="#D4AF37" stroke-width="5"/><path d="M-34 12L0 -38L34 12L16 5L0 32L-16 5Z" fill="#D4AF37"/></svg>
+      <h2 style="font-size:60px;margin-bottom:20px">La rotación como seguro contra el clima</h2>
+      <p style="font-size:30px;color:#fff;font-weight:700;margin:0 0 4px">Halcones Dorados · ITSRLL</p>
+      <p class="mute" style="font-size:20px;margin:0">Código: github.com/JassJmz/rotahalcon<br>MIT (código) · CC BY 4.0 (documentos, imágenes y animación)</p>
+      <p class="mute" style="font-size:20px;margin-top:14px">Sitio en vivo: <span id="liveUrl">enlace en la página del proyecto</span></p>
     </div>
     <div class="card">
-      <p class="gold" style="font-weight:700;margin-bottom:6px;font-size:24px">Créditos</p>
-      <p style="font-size:20px">Nodo sensor AGRISENSE, hardware preexistente compartido con permiso: Alberto Ortega, Gabriel Jahir Landa, Lizzeth Avalos, Cecilia Reyes, Angel Moreno.</p>
-      <p class="gold" style="font-weight:700;margin:14px 0 6px;font-size:24px">Uso de IA</p>
-      <p style="font-size:20px">Usamos herramientas de IA en el código, el asistente y la animación. Detalles en <b>docs/AI_USE.md</b>. Sin afiliación ni respaldo de la NASA.</p>
+      <p class="gold" style="font-weight:800;font-size:22px;margin:0 0 6px">Créditos</p>
+      <p style="font-size:18px;margin:0 0 18px">Nodo sensor AGRISENSE, hardware preexistente compartido con permiso: Alberto Ortega, Gabriel Jahir Landa, Lizzeth Avalos, Cecilia Reyes, Angel Moreno.</p>
+      <p class="gold" style="font-weight:800;font-size:22px;margin:0 0 6px">Uso de IA</p>
+      <p style="font-size:18px;margin:0">Usamos herramientas de IA en el código, el asistente y la animación. Detalles en <b>docs/AI_USE.md</b>. Sin afiliación ni respaldo de la NASA.</p>
     </div>
   </div>
 </section>
@@ -148,6 +217,8 @@
 <script src="../animacion/data.js"></script>
 <script>
 (function () {
+  const PRINT = /[?&]print=1/.test(location.search);
+  if (PRINT) document.body.classList.add('print');
   // numbers come from the same engine output as the animation (animacion/data.js): never typed by hand
   const D = window.ROTA_DATA;
   if (D) {
@@ -159,6 +230,12 @@
     set('yrs', D.years[0] + '–' + D.years[yn - 1]); set('wy', cur.peor_anio.anio);
     if (rain) set('wm', 'lluvia ' + Math.abs(+rain[1]) + '% ' + (+rain[1] < 0 ? 'por debajo' : 'por encima') + ' de lo normal');
     set('rg', best.resiliencia.rango[0] + '–' + best.resiliencia.rango[1]);
+    // slide 2 chart: rainfall per year, years the current rotation fails marked in red
+    const svg = document.getElementById('bars'), w = 560 / yn, mx = Math.max(...D.rain_mm), fails = new Set(cur.fails);
+    svg.innerHTML = D.years.map((y, i) => { const h = D.rain_mm[i] / mx * 120, bad = fails.has(y);
+      return '<rect x="' + (i * w + 1.5) + '" y="' + (128 - h) + '" width="' + (w - 3) + '" height="' + h + '" rx="2" fill="' + (bad ? '#ef4444' : '#3b82f6') + '" opacity="' + (bad ? 1 : .55) + '"/>'
+        + (bad ? '<path d="M' + (i * w + w / 2) + ' 136l-4.5 8h9z" fill="#ef4444"/>' : ''); }).join('')
+      + '<line x1="0" x2="560" y1="130" y2="130" stroke="#ffffff30"/>';
   }
   const slides = [...document.querySelectorAll('.slide')];
   let i = Math.max(0, Math.min(slides.length - 1, (+location.hash.slice(1) || 1) - 1));
@@ -168,19 +245,24 @@
     slides.forEach((s, k) => {
       s.classList.toggle('on', k === i);
       const src = s.dataset.src;
-      if (src && k === i) { s.innerHTML = '<iframe title="animación" src="' + src + '" allow="fullscreen"></iframe>'; setTimeout(() => s.querySelector('iframe').focus(), 50); }
-      else if (src) s.innerHTML = '';
+      if (src && !PRINT) {
+        let fr = s.querySelector('iframe.anim');
+        if (k === i) { if (!fr) { fr = document.createElement('iframe'); fr.className = 'anim'; fr.title = 'animación'; fr.allow = 'fullscreen'; s.appendChild(fr); } fr.src = src; setTimeout(() => fr.focus(), 50); }
+        else if (fr) fr.remove();
+      }
     });
     history.replaceState(null, '', '#' + (i + 1));
   }
-  addEventListener('resize', fit); fit(); show(i);
+  document.querySelectorAll('.pg iframe').forEach(f => { const k = f.parentElement.clientWidth / 1280; if (k) f.style.transform = 'scale(' + k + ')'; });
+  setTimeout(() => { const h = document.getElementById('hint'); if (h) h.style.opacity = 0; }, 5000);
+  addEventListener('resize', fit); if (!PRINT) { fit(); show(i); } else { slides.forEach(s => s.classList.add('on')); }
   addEventListener('message', e => { if (e.data && e.data.rota === 'next') show(i + 1); if (e.data && e.data.rota === 'prev') show(i - 1); });
   addEventListener('keydown', e => {
     if (['ArrowRight', 'PageDown', ' ', 'Enter'].includes(e.key)) { e.preventDefault(); show(i + 1); }
     else if (['ArrowLeft', 'PageUp', 'Backspace'].includes(e.key)) { e.preventDefault(); show(i - 1); }
     else if (e.key === 'f' || e.key === 'F') (document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen()).catch(() => {});
   });
-  addEventListener('click', e => { if (e.target.closest('a,iframe')) return; show(i + 1); });
+  addEventListener('click', e => { if (PRINT || e.target.closest('a,iframe')) return; show(i + 1); });
 })();
 </script>
 </body>
