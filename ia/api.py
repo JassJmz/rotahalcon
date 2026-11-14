@@ -16,6 +16,7 @@ from pydantic import BaseModel
 import asistente
 import asistente_llm
 import asistente_ollama
+import incertidumbre
 
 # ── DATOS ──────────────────────────────────────────────────────────────
 load_dotenv()
@@ -30,7 +31,7 @@ RESPONDEDORES = {
     "plantilla": asistente.responder,
 }
 
-app = FastAPI(title="RotaHalcón AI", version="0.3.0")
+app = FastAPI(title="RotaHalcón AI", version="0.4.0")
 app.add_middleware(CORSMiddleware, allow_origins=ORIGENES_PERMITIDOS,
                    allow_methods=["*"], allow_headers=["*"])
 
@@ -58,3 +59,10 @@ def preguntar(p: Pregunta):
     rec = p.recomendacion or json.loads(MOCK_PATH.read_text())
     responder = RESPONDEDORES.get(PROVEEDOR, asistente.responder)
     return responder(p.pregunta, rec, p.idioma)
+
+
+@app.post("/incertidumbre")
+def calcular_incertidumbre(recomendacion: dict):
+    """Backend sends its /recomendar output with per-year results in each strategy
+    (estrategia["anios"] = [{"anio": 1981, "ok": true}, ...]); we fill resiliencia.rango."""
+    return incertidumbre.agregar_incertidumbre(recomendacion)
