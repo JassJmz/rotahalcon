@@ -1,7 +1,8 @@
 // RotaHalcón web – reads docs/CONTRACT.md formats. Uses mock.json until the API is ready.
 
 // ── DATOS ──
-const API_URL = '';            // e.g. 'http://localhost:8000'. Empty = use mock.json (DEMO DATA banner)
+const API_URL = 'https://rotahalcon.onrender.com';   // backend (Role 2). '' = always use mock.json. Local: 'http://localhost:8000'
+const IA_URL = '';             // assistant service (Role 3), e.g. 'http://localhost:8001'. '' = use API_URL + /preguntar
 const DEFAULT_POINT = { lat: 24.02, lon: -104.65 };   // Durango
 const CROPS = {                // contract ids -> English display
   frijol:  { en: 'Beans',   icon: '🫘' },
@@ -29,7 +30,7 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;',
 const cname = id => (CROPS[id] ? CROPS[id].en : id);
 const state = { lat: DEFAULT_POINT.lat, lon: DEFAULT_POINT.lon, suelo: 'franco', prev: ['frijol', 'frijol'],
   prio: { agua: .4, suelo: .3, ingreso: .2, riesgo: .1 }, esc: { lluvia_pct: 0, temp_c: 0 } };
-let MOCK = null, DATA = null;
+let MOCK = null, DATA = null, USING_MOCK = false;   // USING_MOCK: API unreachable, showing the offline snapshot
 
 function srcTag(s) {
   const u = s.toUpperCase();
@@ -44,16 +45,20 @@ const tag = t => `<span class="tag tag-${t}">${t === 'FAO' ? 'FAO/INIFAP' : t}</
 async function recomendar() {
   const body = { lat: state.lat, lon: state.lon, suelo: state.suelo, cultivos_previos: state.prev, prioridades: state.prio, escenario: state.esc };
   if (API_URL) {
-    const r = await fetch(API_URL + '/recomendar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-    if (!r.ok) throw new Error('API ' + r.status);
-    return r.json();
+    try {
+      const r = await fetch(API_URL + '/recomendar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+      if (!r.ok) throw new Error('API ' + r.status);
+      const j = await r.json(); USING_MOCK = false; return j;
+    } catch (e) { console.warn('API unavailable, using the offline snapshot:', e.message); }
   }
+  USING_MOCK = true;
   return mockRecomendar();
 }
-function mockRecomendar() {   // MOCK ONLY: imitates the re-ranking the backend will do
+function mockRecomendar() {   // offline snapshot of a real response; re-ranking only if an entry carries _mock helpers
   const d = JSON.parse(JSON.stringify(MOCK));
   const w = state.prio, s = state.esc;
   d.estrategias.forEach(e => {
+    if (!e._mock) return;
     const m = e._mock, base = PRIOS.reduce((a, [k]) => a + (w[k] || 0) * m.sub[k], 0);
     const hit = m.vuln * (Math.max(0, -s.lluvia_pct) * .5 + s.temp_c * 4);
     e.puntaje = Math.max(0, Math.round(base - hit));
@@ -67,16 +72,23 @@ function mockRecomendar() {   // MOCK ONLY: imitates the re-ranking the backend 
   return d;
 }
 async function anioMalo(year) {
-  if (API_URL) {
-    const r = await fetch(`${API_URL}/anio-malo?anio=${year}&lat=${state.lat}&lon=${state.lon}`);
-    if (!r.ok) throw new Error('API ' + r.status);
-    return r.json();
+  if (API_URL && !USING_MOCK) {
+    try {
+      const q = `anio=${year}&lat=${state.lat}&lon=${state.lon}&suelo=${state.suelo}&cultivos_previos=${state.prev.join(',')}&lluvia_pct=${state.esc.lluvia_pct}&temp_c=${state.esc.temp_c}`;
+      const r = await fetch(`${API_URL}/anio-malo?${q}`);
+      if (!r.ok) throw new Error('API ' + r.status);
+      return await r.json();
+    } catch (e) { console.warn('anio-malo unavailable, deriving it from the per-year results:', e.message); }
   }
-  return MOCK._mock_anio_malo[year];
+  // offline: read that season from the per-year results (anios) already in the recommendation
+  return { estrategias: DATA.estrategias.map(e => { const a = (e.anios || []).find(x => x.anio == year) || {};
+    return { id: e.id, semaforo: a.ok ? 'verde' : 'rojo', peor_anio: { anio: +year, motivo: a.ok ? 'no failure in this season' : (a.motivo || 'failed') },
+      porque: a.ok ? 'This rotation would have held in that season.' : 'This rotation would have failed in that season.' }; }) };
 }
 async function preguntar(pregunta) {
-  if (API_URL) {
-    const r = await fetch(API_URL + '/preguntar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pregunta, recomendacion: DATA }) });
+  const base = IA_URL || API_URL;
+  if (base && !USING_MOCK) {
+    const r = await fetch(base + '/preguntar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pregunta, recomendacion: DATA }) });
     if (!r.ok) throw new Error('API ' + r.status);
     return r.json();
   }
@@ -106,7 +118,7 @@ function renderSoil(s) {
   $('soilGrid').innerHTML = SOIL_FIELDS.map(([k, label, unit]) => `
     <div class="card p-4"><div class="flex justify-between items-start"><span class="text-sm text-slate-400">${label}</span>${tag(s.fuente || 'SENSOR')}</div>
     <div class="text-3xl font-bold mt-2">${s[k] ?? '—'}<span class="text-base font-normal text-slate-400 ml-1">${unit}</span></div></div>`).join('');
-  $('soilTime').textContent = s.ts ? '· last reading: ' + new Date(s.ts * 1000).toISOString().replace('T', ' ').slice(0, 16) + ' UTC' : '';
+  $('soilTime').textContent = (s.ts ? '· last reading: ' + new Date(s.ts * 1000).toISOString().replace('T', ' ').slice(0, 16) + ' UTC' : '') + (s.mock ? ' · demo reading (node not connected yet)' : '');
 }
 
 /* ---------- 3. compare ---------- */
@@ -141,8 +153,9 @@ function renderCompare(d) {
 
 /* ---------- 4. bad year ---------- */
 async function initBadYear() {
-  const years = API_URL ? [2011, 2020] : Object.keys(MOCK._mock_anio_malo);
-  $('yearSel').innerHTML = years.map(y => `<option>${y}</option>`).join('');
+  const years = (DATA.estrategias[0].anios || []).map(a => a.anio), worst = DATA.estrategias[0].peor_anio.anio;
+  if (!years.length) years.push(worst);
+  $('yearSel').innerHTML = years.map(y => `<option${y === worst ? ' selected' : ''}>${y}</option>`).join('');
   const draw = async () => {
     const out = await anioMalo($('yearSel').value);
     const base = DATA.estrategias;
@@ -173,8 +186,9 @@ function initWhatIf() {
   $('preset1').onclick = () => preset(-20, 0); $('preset2').onclick = () => preset(0, 1.5); $('preset0').onclick = () => preset(0, 0);
 }
 function renderRank(d) {
-  const max = Math.max(...d.estrategias.map(e => e.puntaje), 1);
-  $('rank').innerHTML = d.estrategias.map((e, i) => `
+  const ranked = [...d.estrategias].sort((a, b) => b.puntaje - a.puntaje);   // the API returns a fixed order: rank here
+  const max = Math.max(...ranked.map(e => e.puntaje), 1);
+  $('rank').innerHTML = ranked.map((e, i) => `
     <div class="rounded-xl bg-navy p-3"><div class="flex justify-between text-sm"><span><b class="text-gold">#${i + 1}</b> ${e.ciclos.map(c => CROPS[c]?.icon || '').join(' ')} ${e.es_actual ? '<span class="text-xs text-slate-400">(current)</span>' : ''}</span><span class="font-bold">${e.puntaje}</span></div>
     <div class="h-2 rounded bg-navy2 mt-1.5 overflow-hidden"><div class="h-full ${e.semaforo === 'verde' ? 'bg-green-500' : e.semaforo === 'amarillo' ? 'bg-yellow-500' : 'bg-red-500'}" style="width:${e.puntaje / max * 100}%;transition:width .4s"></div></div>
     <div class="text-xs text-slate-400 mt-1">Works in ${e.resiliencia.anios_ok} of ${e.resiliencia.anios_total} years ${tag('NASA')}</div></div>`).join('');
@@ -206,11 +220,11 @@ function initGlossary() {
 
 /* ---------- 8. report ---------- */
 function reportText(d) {
-  const best = d.estrategias[0], cur = d.estrategias.find(e => e.es_actual);
+  const best = [...d.estrategias].sort((a, b) => b.puntaje - a.puntaje)[0], cur = d.estrategias.find(e => e.es_actual);
   const fmt = e => e.ciclos.map(cname).join(' → ');
-  return `RotaHalcón\nBest option: ${fmt(best)} (${best.semaforo}) works in ${best.resiliencia.anios_ok} of ${best.resiliencia.anios_total} years.\n` +
+  return `RotaHalcón\nTop score for your priorities: ${fmt(best)} (${best.semaforo}) works in ${best.resiliencia.anios_ok} of ${best.resiliencia.anios_total} years.\n` +
     (cur ? `Your current rotation: ${fmt(cur)} works in ${cur.resiliencia.anios_ok} of ${cur.resiliencia.anios_total} years. Worst year ${cur.peor_anio.anio}.\n` : '') +
-    'Decision support tool — does not replace an agronomist.' + (API_URL ? '' : '\n(DEMO DATA)');
+    'Decision support tool — does not replace an agronomist.' + (USING_MOCK ? '\n(offline snapshot)' : '');
 }
 function renderReport(d) {
   $('reportPreview').innerHTML = `<pre class="whitespace-pre-wrap font-sans">${esc(reportText(d))}</pre>`;
@@ -221,6 +235,7 @@ function renderReport(d) {
 async function refresh() {
   try {
     DATA = await recomendar();
+    $('demoBanner').style.display = USING_MOCK ? '' : 'none';
     renderCompare(DATA); renderRank(DATA);
     renderSoil(DATA.sensor || {});
   } catch (e) { $('cards').innerHTML = `<div class="card p-5 text-red-300">Could not load recommendations (${esc(e.message)}). Showing nothing instead of guessing.</div>`; }
@@ -228,7 +243,7 @@ async function refresh() {
 (async function init() {
   try { MOCK = await (await fetch('mock.json')).json(); }
   catch (e) { if (!API_URL) { $('cards').innerHTML = '<div class="card p-5 text-red-300">mock.json could not be loaded. Serve this folder with a local web server (python -m http.server).</div>'; return; } }
-  $('demoBanner').style.display = API_URL ? 'none' : '';
+  $('cards').innerHTML = '<div class="card p-5 text-slate-300">Loading real engine results… the free server can take up to a minute to wake up.</div>';
   initField(); initGlossary(); initChat(); initWhatIf();
   await refresh();
   await initBadYear();

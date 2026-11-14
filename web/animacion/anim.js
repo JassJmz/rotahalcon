@@ -4,14 +4,23 @@
 // ?scene=N&t=SECONDS freezes scene N (0-10) at time t: for slide stills and frame-by-frame review
 'use strict';
 
-// ── DATOS ──  (values marked "illustrative" are replaced by the real engine output at H14)
-const YEARS = 42;                        // 1981 → 2022
-const FAILS = [9, 3, 5, 6];              // failed years per row: current, alt A, B, C   (illustrative)
-const ROW_LABELS = ['Current', 'Alt A', 'Alt B', 'Alt C'];
-const ROW_CROPS = ['🫘🫘🫘', '🫘🌾🌱', '🌾🫘🌿', '🌽🫘🌱'];
-const WORST_YEAR = { year: 2011, why: 'rainfall 45% below average' };   // illustrative
-const SAT_PCT = 18, SENSOR_PCT = 24.1, ADJUST = 6;                       // illustrative
-const RAIN = null;                       // null = placeholder bars. Replace with 42 annual rainfall values from NASA POWER.
+// ── DATOS ──  Act 2 is driven by data.js: real engine output (POST /recomendar) + NASA POWER annual rainfall.
+// Regenerate it with:  python build_data.py   (never edit numbers here by hand).
+// Sensor reading and calibration are still mock until the AGRISENSE node is live; those scenes say so on screen.
+const D = window.ROTA_DATA;
+const ICON = { frijol: '🫘', maiz: '🌽', avena: '🌾', sorgo: '🌱', alfalfa: '🌿' };
+const NAME = { frijol: 'beans', maiz: 'corn', avena: 'oats', sorgo: 'sorghum', alfalfa: 'alfalfa' };
+const SEM = { verde: '#22c55e', amarillo: '#eab308', rojo: '#ef4444' };
+const ROWS = [...D.estrategias].sort((a, b) => b.es_actual - a.es_actual);      // current rotation first
+const Y0 = D.years[0], YEARS = D.years.length;
+const FAILS = ROWS.map(e => e.fails.length);                                    // failed seasons per rotation
+const ROW_LABELS = ROWS.map((e, i) => e.es_actual ? 'Current' : 'Alt ' + i);
+const ROW_CROPS = ROWS.map(e => e.ciclos.map(c => ICON[c] || '🌱').join(''));
+const rainPct = (m => { const x = /rain ([+-]?\d+)% vs normal/.exec(m || ''); return x ? +x[1] : null; })(ROWS[0].peor_anio.motivo);
+const WORST_YEAR = { year: ROWS[0].peor_anio.anio, why: rainPct === null ? 'the hardest season on record' : `rainfall ${Math.abs(rainPct)}% ${rainPct < 0 ? 'below' : 'above'} normal` };
+const SENSOR_MOCK = !D.sensor || !!D.sensor.mock;
+const SAT_PCT = D.calibracion.satelite_pct, SENSOR_PCT = D.sensor.humedad_pct, ADJUST = D.calibracion.ajuste;
+const RAIN = D.rain_mm;                                                         // mm per year, NASA POWER PRECTOTCORR
 const DURATIONS = [3, 6, 4, 4, 8, 6, 10, 6, 5, 6, 3];   // seconds per scene (storyboard C2), used by ?autoplay=1
 // ── FIN DATOS ──
 
@@ -53,20 +62,15 @@ function burst(parent, x, y, n, col, dist, tl, at) {     // radial particle burs
 }
 
 /* ---------- data shared by scenes 6, 7 and 8 (so the same years line up across them) ---------- */
-const WI = WORST_YEAR.year - 1981;                       // column of the worst year
-const BEST = FAILS.indexOf(Math.min(...FAILS));          // row of the best alternative
-const RAINH = (() => {                                   // rainfall per year, normalised 0..1
-  const rnd = rng(11), hs = [];
-  for (let i = 0; i < YEARS; i++) hs.push(RAIN ? RAIN[i] : (80 + rnd() * 200) * ([WI, 38, 12].includes(i) ? .35 : 1) + 40);
-  const m = Math.max(...hs); return hs.map(v => v / m);
-})();
-const FAILSETS = (() => {                                // which years fail in each row (illustrative until real data)
-  const r = rng(5);
-  return FAILS.map((nf, row) => { const s = new Set(); if (row === 0) s.add(WI);
-    while (s.size < nf) { const k = Math.floor(r() * YEARS); if (row === BEST && k === WI) continue; s.add(k); } return s; });
-})();
+const WI = WORST_YEAR.year - Y0;                         // column of the worst year
+const ALTS = ROWS.map((_, i) => i).filter(i => !ROWS[i].es_actual);
+const BEST = ALTS.reduce((a, b) => FAILS[b] < FAILS[a] || (FAILS[b] === FAILS[a] && ROWS[b].puntaje > ROWS[a].puntaje) ? b : a);   // most resilient alternative
+const RISKY = ALTS.reduce((a, b) => FAILS[b] > FAILS[a] ? b : a);                 // least resilient alternative
+const SAFER = FAILS[BEST] < FAILS[0];                    // does any alternative fail in fewer seasons than the current rotation?
+const RAINH = (() => { const m = Math.max(...RAIN); return RAIN.map(v => v / m); })();   // rainfall per year, normalised 0..1
+const FAILSETS = ROWS.map(e => new Set(e.fails.map(y => y - Y0)));                // failed columns per row
 const GRID = { x0: 380, cw: 860 / YEARS, h: 92, y: r => 120 + r * 130 };
-function gridRow(g, r, final) {                          // one rotation row: label, crops, counter and 42 year cells
+function gridRow(g, r, final) {                          // one rotation row: label, crops, counter and one cell per year
   const rg = grp(g, 0, GRID.y(r));
   const lab = txt(rg, 44, 34, ROW_LABELS[r], 28, r === 0 ? C.gold : C.white, 'start', 800), crops = txt(rg, 44, 72, ROW_CROPS[r], 28, C.white, 'start', 500);
   const cnt = txt(rg, 350, 54, (final ? FAILS[r] : 0) + ' / ' + YEARS, 24, final && r === 0 ? C.red : C.mute, 'end', 700), cells = [];
@@ -197,7 +201,7 @@ SCENES.push({ act: 'ACT 1 · FROM SOIL TO CLOUD', cap: 'Read every 60 s', build(
 } });
 
 // 4 ── Wi-Fi → Firebase → SENSOR card (4 s)
-SCENES.push({ act: 'ACT 1 · FROM SOIL TO CLOUD', cap: 'Live, from this field', build(g, from) {
+SCENES.push({ act: 'ACT 1 · FROM SOIL TO CLOUD', cap: 'Live, from this field', note: SENSOR_MOCK ? 'Demo sensor reading' : '', build(g, from) {
   const d = from === 2 ? .6 : 0;     // coming from scene 3, the ESP32 travels here first
   const esp = grp(g, 170, 520);
   el('rect', { x: -90, y: -52, width: 180, height: 104, rx: 14, fill: C.navy2, stroke: C.gold, 'stroke-width': 3 }, esp); txt(esp, 0, 12, 'ESP32', 32, C.white, 'middle', 800);
@@ -226,7 +230,7 @@ SCENES.push({ act: 'ACT 1 · FROM SOIL TO CLOUD', cap: 'Live, from this field', 
 } });
 
 // 5 ── Satellite sees km; we see your field (8 s)
-SCENES.push({ act: 'ACT 1 · FROM SOIL TO CLOUD', cap: 'Satellite sees km. We see your field.', note: 'Illustrative values', build(g, from) {
+SCENES.push({ act: 'ACT 1 · FROM SOIL TO CLOUD', cap: 'Satellite sees km. We see your field.', note: SENSOR_MOCK ? 'Demo sensor and calibration values' : '', build(g, from) {
   const px = el('rect', { x: 340, y: 240, width: 600, height: 340, fill: '#3b82f61f', stroke: C.blue, 'stroke-width': 3, 'stroke-dasharray': '14 10', opacity: 0 }, g);
   const gridL = [1, 2].flatMap(i => [el('line', { x1: 340 + i * 200, x2: 340 + i * 200, y1: 240, y2: 580, stroke: C.blue, 'stroke-width': 1, opacity: 0 }, g), el('line', { x1: 340, x2: 940, y1: 240 + i * 113, y2: 240 + i * 113, stroke: C.blue, 'stroke-width': 1, opacity: 0 }, g)]);
   const pxl = txt(g, 640, 224, 'ONE SATELLITE PIXEL ≈ SEVERAL KM', 20, C.blueL, 'middle', 700, { 'letter-spacing': '2', opacity: 0 });
@@ -262,23 +266,23 @@ SCENES.push({ act: 'ACT 1 · FROM SOIL TO CLOUD', cap: 'Satellite sees km. We se
   return tl;
 } });
 
-// 6 ── 42 years of NASA rainfall (6 s)
-SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: '42 years of real NASA climate', note: 'Illustrative rainfall bars', build(g) {
+// 6 ── Every year of NASA rainfall (6 s)
+SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: YEARS + ' years of real NASA climate', note: 'NASA POWER · PRECTOTCORR annual sum · Durango', build(g) {
   const w = 1120 / YEARS, bars = RAINH.map((v, i) => { const h = v * 300; return el('rect', { x: 80 + i * w + 2, y: 600 - h, width: w - 4, height: h, rx: 3, fill: C.blue, opacity: .5 }, g); });
   el('line', { x1: 70, x2: 1210, y1: 602, y2: 602, stroke: '#ffffff44', 'stroke-width': 2 }, g);
-  txt(g, 80, 636, '1981', 20, C.mute, 'start', 600); txt(g, 1200, 636, 'today', 20, C.mute, 'end', 600);
+  txt(g, 80, 636, String(Y0), 20, C.mute, 'start', 600); txt(g, 1200, 636, String(Y0 + YEARS - 1), 20, C.mute, 'end', 600);
   txt(g, 1200, 192, 'NASA POWER · rainfall per year', 20, C.blueL, 'end', 600);
-  const yr = txt(g, 1200, 150, '1981', 92, C.gold, 'end', 800), scan = el('rect', { x: 78, y: 280, width: 3, height: 330, fill: C.goldL, opacity: 0 }, g);
-  const o = { y: 1981 }, tl = gsap.timeline(), D = 4.2;
+  const yr = txt(g, 1200, 150, String(Y0), 92, C.gold, 'end', 800), scan = el('rect', { x: 78, y: 280, width: 3, height: 330, fill: C.goldL, opacity: 0 }, g);
+  const o = { y: Y0 }, tl = gsap.timeline(), D = 4.2;
   tl.from(bars, { attr: { height: 0, y: 600 }, duration: .6, stagger: .09, ease: E.out3 }, 0)
     .to(scan, { opacity: .8, duration: .2 }, 0).to(scan, { x: 1120, duration: D, ease: 'none' }, 0).to(scan, { opacity: 0, duration: .3 }, D)
-    .to(o, { y: 1981 + YEARS - 1, duration: D, ease: 'none', onUpdate: () => yr.textContent = Math.round(o.y) }, 0);
+    .to(o, { y: Y0 + YEARS - 1, duration: D, ease: 'none', onUpdate: () => yr.textContent = Math.round(o.y) }, 0);
   bars.forEach((b, i) => tl.to(b, { opacity: .95, duration: .25 }, .1 + i * (D / YEARS)));
   return tl;
 } });
 
 // 7 ── Every rotation, every year (10 s)
-SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: 'Every rotation, every year', note: 'Illustrative failures', build(g, from) {
+SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: 'Every rotation, every year', note: 'Engine output: FAO water and frost rules on NASA POWER data', build(g, from) {
   const tl = gsap.timeline(), cnt = FAILS.map(() => 0), STEP = .16, T0 = from === 5 ? 1.1 : .25, bw = 1120 / YEARS;
   // the rainfall bars of the previous scene shrink into a strip above the grid, so each year keeps its column
   const strip = RAINH.map((v, i) => el('rect', { x: GRID.x0 + i * GRID.cw + 1, y: 108 - v * 44, width: GRID.cw - 2, height: v * 44, rx: 2, fill: C.blue, opacity: .85 }, g));
@@ -304,75 +308,88 @@ SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: 'Every rotation, every year', no
   return tl;
 } });
 
-// 8 ── The worst year, not the average (6 s): the same grid, narrowed to current vs best, then to one year
-SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: 'The worst year, not the average', note: 'Illustrative numbers', build(g, from) {
-  const tl = gsap.timeline(), rows = FAILS.map((_, r) => gridRow(g, r, true)), cur = rows[0], best = rows[BEST];
+// 8 ── The worst year, not the average (6 s): the same grid, narrowed to two rows, then to one year.
+// The comparison is chosen from the data: the safest alternative if one beats the current rotation, otherwise the riskiest.
+SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: 'The worst year, not the average', note: 'Engine output on NASA POWER data', build(g, from) {
+  const other = SAFER ? BEST : RISKY, rel = FAILS[other] < FAILS[0] ? 'SAFER' : FAILS[other] > FAILS[0] ? 'RISKIER' : 'SAME RISK';
+  const relCol = rel === 'SAFER' ? C.green : rel === 'RISKIER' ? C.red : C.yellow;
+  const tl = gsap.timeline(), rows = FAILS.map((_, r) => gridRow(g, r, true)), cur = rows[0], cmp = rows[other];
   if (from !== 6) tl.from(rows.map(x => x.rg), { opacity: 0, duration: .5, stagger: .06, ease: E.out3 }, 0);
-  const others = rows.filter((_, r) => r !== 0 && r !== BEST).map(x => x.rg);
-  const tag = chip(best.rg, 165, 26, 'BEST', C.green, '#05290f', 15); tag.setAttribute('opacity', 0);
+  const others = rows.filter((_, r) => r !== 0 && r !== other).map(x => x.rg);
+  const tag = chip(cmp.rg, 190, 16, rel, relCol, rel === 'RISKIER' ? '#fff' : '#05290f', 15); tag.setAttribute('opacity', 0);
   const bx = GRID.x0 + WI * GRID.cw;
-  const dim = [cur, best].flatMap(x => x.cells.filter(c => c.i !== WI).map(c => c.c));
+  const dim = [cur, cmp].flatMap(x => x.cells.filter(c => c.i !== WI).map(c => c.c));
   const band = el('rect', { x: bx - 5, y: 136, width: GRID.cw + 10, height: 270, rx: 6, fill: '#D4AF3718', stroke: C.gold, 'stroke-width': 3, opacity: 0, filter: 'url(#glow)' }, g);
-  const yl = txt(g, bx + GRID.cw / 2, 122, String(WORST_YEAR.year), 32, C.gold, 'middle', 800, { opacity: 0 });
-  const ax = [txt(g, GRID.x0, 430, '1981', 16, C.mute, 'start', 600, { opacity: 0 }), txt(g, GRID.x0 + 860, 430, String(1981 + YEARS - 1), 16, C.mute, 'end', 600, { opacity: 0 })];
-  const pill = grp(g, 640, 500);
-  el('rect', { x: -340, y: -46, width: 680, height: 90, rx: 45, fill: '#D4AF3722', stroke: C.gold, 'stroke-width': 3 }, pill);
+  const yl = txt(g, Math.min(bx + GRID.cw / 2, 1200), 122, String(WORST_YEAR.year), 32, C.gold, 'middle', 800, { opacity: 0 });
+  const ax = [txt(g, GRID.x0, 430, String(Y0), 16, C.mute, 'start', 600, { opacity: 0 }), txt(g, GRID.x0 + 860, 430, String(Y0 + YEARS - 1), 16, C.mute, 'end', 600, { opacity: 0 })];
+  const pill = grp(g, 640, 486);
+  el('rect', { x: -340, y: -44, width: 680, height: 86, rx: 43, fill: '#D4AF3722', stroke: C.gold, 'stroke-width': 3 }, pill);
   txt(pill, 0, -4, 'Worst year ' + WORST_YEAR.year, 34, C.gold, 'middle', 800); txt(pill, 0, 26, WORST_YEAR.why, 20, C.white, 'middle', 500);
-  const res = [txt(g, 420, 598, '✗  Current rotation: crop failed', 24, C.red, 'middle', 700, { opacity: 0 }), txt(g, 880, 598, '✓  Best alternative: held', 24, C.green, 'middle', 700, { opacity: 0 })];
-  const cw_ = cur.cells[WI].c, cb = best.cells[WI].c;
+  const who = r => r === 0 ? 'Current rotation' : ROW_LABELS[r] + ' (' + NAME[ROWS[r].ciclos[0]] + ' first)';
+  const verdictOf = r => FAILSETS[r].has(WI) ? ['✗  ' + who(r) + ': crop failed', C.red] : ['✓  ' + who(r) + ': held', C.green];
+  const v0 = verdictOf(0), v1 = verdictOf(other);
+  const res = [txt(g, 400, 572, v0[0], 23, v0[1], 'middle', 700, { opacity: 0 }), txt(g, 880, 572, v1[0], 23, v1[1], 'middle', 700, { opacity: 0 })];
+  const say = SAFER ? `${who(BEST)} fails ${FAILS[BEST]} of ${YEARS} seasons. Yours fails ${FAILS[0]}.`
+    : FAILS[BEST] === FAILS[0] ? `No alternative is safer in a drought here: the best also fails ${FAILS[0]} of ${YEARS}, and ${NAME[ROWS[RISKY].ciclos[0]]} first fails ${FAILS[RISKY]}.`
+    : `Every alternative is riskier here: ${NAME[ROWS[RISKY].ciclos[0]]} first fails ${FAILS[RISKY]} of ${YEARS}. Yours fails ${FAILS[0]}.`;
+  const verdict = txt(g, 640, 610, say, 20, C.white, 'middle', 600, { opacity: 0 });
+  const cw_ = cur.cells[WI].c, cb = cmp.cells[WI].c;
   tl.to(others, { opacity: 0, duration: .4, ease: 'power2.out' }, .4)
-    .to(cur.rg, { y: 150, duration: .8, ease: E.io }, .7).to(best.rg, { y: 300, duration: .8, ease: E.io }, .7)
+    .to(cur.rg, { y: 150, duration: .8, ease: E.io }, .7).to(cmp.rg, { y: 300, duration: .8, ease: E.io }, .7)
     .to(tag, { opacity: 1, duration: .4 }, 1.4).to(ax, { opacity: 1, duration: .4 }, 1.4)
-    .to(cur.cnt, { attr: { 'font-size': 46, y: 66, fill: C.red }, duration: .6, ease: E.out3 }, 1.5)
-    .to(best.cnt, { attr: { 'font-size': 46, y: 66, fill: C.green }, duration: .6, ease: E.out3 }, 1.6)
+    .to(cur.cnt, { attr: { 'font-size': 46, y: 74, fill: C.red }, duration: .6, ease: E.out3 }, 1.5)
+    .to(cmp.cnt, { attr: { 'font-size': 46, y: 74, fill: relCol }, duration: .6, ease: E.out3 }, 1.6)
     .to(dim, { opacity: .12, duration: .6, ease: 'power2.out' }, 2.4)
     .to(band, { opacity: 1, duration: .4 }, 2.6).from(band, { scaleY: .7, transformOrigin: '50% 50%', transformBox: 'fill-box', duration: .6, ease: E.out }, 2.6)
     .to(yl, { opacity: 1, duration: .4 }, 2.8).to(cb, { opacity: 1, duration: .3 }, 2.8)
     .fromTo(cw_, { scaleY: 1.3 }, { scaleY: 1, duration: .5, ease: E.out3, transformOrigin: '50% 50%', transformBox: 'fill-box', immediateRender: false }, 2.8)
     .from(pill, { opacity: 0, y: '+=24', duration: .6, ease: E.out3 }, 3.3)
-    .to(res, { opacity: 1, duration: .4, stagger: .2 }, 3.9);
+    .to(res, { opacity: 1, duration: .4, stagger: .2 }, 3.9).to(verdict, { opacity: 1, duration: .5 }, 4.5);
   return tl;
 } });
 
-// 9 ── Your priorities, your ranking (5 s)
-SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: 'Your priorities, your ranking', build(g) {
-  const names = ['Water', 'Soil', 'Income', 'Risk'], knobs = [];
-  names.forEach((n, i) => { const y = 200 + i * 80; txt(g, 70, y + 8, n, 28, C.white, 'start', 700); el('rect', { x: 230, y: y - 2, width: 300, height: 8, rx: 4, fill: '#ffffff2e' }, g); knobs.push(el('circle', { cx: 300 + i * 30, cy: y + 2, r: 16, fill: C.gold, filter: 'url(#glow)' }, g)); });
-  const data = [['🫘🌾🌱', 82, C.green], ['🌾🫘🌿', 71, C.yellow], ['🌽🫘🌱', 63, C.yellow]];
-  const rows = data.map(([label, sc, col], i) => {
-    const r = grp(g, 660, 170 + i * 120), box = el('rect', { width: 560, height: 92, rx: 16, fill: C.navy2, stroke: col, 'stroke-width': 3 }, r); txt(r, 26, 58, label, 34, C.white, 'start', 500);
-    const bar = el('rect', { x: 200, y: 38, width: sc * 2.8, height: 16, rx: 8, fill: col }, r), v = txt(r, 534, 60, String(sc), 34, C.white, 'end', 800); return { r, box, bar, v, sc }; });
-  const tl = gsap.timeline(), o = { w: 0, s: 0 };
-  tl.from(rows.map(x => x.r), { opacity: 0, x: '+=40', duration: .5, stagger: .08, ease: E.out3 }, 0)
-    .to(knobs[0], { attr: { cx: 215 }, duration: 1, ease: E.io }, 1).to(knobs[2], { attr: { cx: 520 }, duration: 1, ease: E.io }, 1)
-    .to(rows[0].r, { y: 410, duration: .9, ease: E.io }, 2.2).to(rows[2].r, { y: 170, duration: .9, ease: E.io }, 2.2).to(rows[1].r, { y: 290, duration: .9, ease: E.io }, 2.2)
-    .to(rows[2].bar, { attr: { width: 92 * 2.8 }, duration: .9, ease: E.io }, 2.2).to(rows[0].bar, { attr: { width: 52 * 2.8 }, duration: .9, ease: E.io }, 2.2)
-    .to(rows[2].box, { attr: { stroke: C.green }, duration: .9, ease: E.io }, 2.2).to(rows[2].bar, { attr: { fill: C.green }, duration: .9, ease: E.io }, 2.2)
-    .to(rows[0].box, { attr: { stroke: C.red }, duration: .9, ease: E.io }, 2.2).to(rows[0].bar, { attr: { fill: C.red }, duration: .9, ease: E.io }, 2.2)
-    .to(o, { w: 1, duration: .9, ease: E.io, onUpdate: () => { rows[2].v.textContent = Math.round(63 + 29 * o.w); rows[0].v.textContent = Math.round(82 - 30 * o.w); } }, 2.2);
+// 9 ── Your priorities, your ranking (5 s): real engine scores for two sets of priorities
+SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: 'Your priorities, your ranking', note: 'Engine scores for both sets of priorities', build(g) {
+  const keys = ['agua', 'suelo', 'ingreso', 'riesgo'], names = ['Water', 'Soil', 'Income', 'Risk'], pa = D.request.prioridades, pb = D.prioridades_b, kx = v => 230 + v * 300;
+  const knobs = names.map((n, i) => { const y = 210 + i * 80; txt(g, 70, y + 8, n, 28, C.white, 'start', 700); el('rect', { x: 230, y: y - 2, width: 300, height: 8, rx: 4, fill: '#ffffff2e' }, g);
+    return el('circle', { cx: kx(pa[keys[i]]), cy: y + 2, r: 16, fill: C.gold, filter: 'url(#glow)' }, g); });
+  const idx = ROWS.map((_, i) => i), a = [...idx].sort((x, y) => ROWS[y].puntaje - ROWS[x].puntaje), b = [...idx].sort((x, y) => ROWS[y].puntaje_b - ROWS[x].puntaje_b), yAt = k => 140 + k * 106;
+  const rows = ROWS.map((e, i) => {
+    const r = grp(g, 660, yAt(a.indexOf(i))); el('rect', { width: 560, height: 90, rx: 16, fill: C.navy2, stroke: SEM[e.semaforo], 'stroke-width': 3 }, r);
+    txt(r, 22, 58, ROW_CROPS[i], 30, C.white, 'start', 500); txt(r, 140, 34, ROW_LABELS[i], 17, i === 0 ? C.gold : C.mute, 'start', 700);
+    const bar = el('rect', { x: 140, y: 48, width: e.puntaje * 3, height: 14, rx: 7, fill: SEM[e.semaforo] }, r), v = txt(r, 536, 60, String(e.puntaje), 34, C.white, 'end', 800); return { r, bar, v, e, i };
+  });
+  const tl = gsap.timeline(), o = { w: 0 };
+  tl.from(rows.map(x => x.r), { opacity: 0, x: '+=40', duration: .5, stagger: .08, ease: E.out3 }, 0);
+  knobs.forEach((k, i) => tl.to(k, { attr: { cx: kx(pb[keys[i]]) }, duration: 1, ease: E.io }, 1 + i * .06));
+  rows.forEach(x => { tl.to(x.r, { y: yAt(b.indexOf(x.i)), duration: .9, ease: E.io }, 2.3).to(x.bar, { attr: { width: x.e.puntaje_b * 3 }, duration: .9, ease: E.io }, 2.3); });
+  tl.to(o, { w: 1, duration: .9, ease: E.io, onUpdate: () => rows.forEach(x => x.v.textContent = Math.round(x.e.puntaje + (x.e.puntaje_b - x.e.puntaje) * o.w)) }, 2.3);
   return tl;
 } });
 
 // 10 ── Explained. Sourced. In your pocket. (6 s)
-SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: 'Explained. Sourced. In your pocket.', note: 'Illustrative answer', build(g) {
+SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: 'Explained. Sourced. In your pocket.', note: 'Numbers from the engine; wording illustrative', build(g) {
+  const cur = ROWS[0], top = [...ROWS].sort((x, y) => y.puntaje - x.puntaje)[0], light = { verde: 'green', amarillo: 'yellow', rojo: 'red' };
   const bub = grp(g, 60, 150);
   el('rect', { width: 650, height: 210, rx: 24, fill: C.navy2, stroke: '#4b6a99', 'stroke-width': 3 }, bub);
-  txt(bub, 30, 58, 'Why is my current rotation red?', 24, C.mute, 'start', 600);
-  const full = 'It fails in 9 of 42 years, mostly in dry years.', ans = txt(bub, 30, 118, '', 29, C.white, 'start', 600);
+  txt(bub, 30, 58, 'Why is my current rotation ' + light[cur.semaforo] + '?', 24, C.mute, 'start', 600);
+  const l1 = `It would have failed ${cur.fails.length} of ${YEARS} seasons:`, l2 = `${cur.by_drought} by drought, ${cur.by_frost} by frost.`;
+  const a1 = txt(bub, 30, 114, '', 29, C.white, 'start', 600), a2 = txt(bub, 30, 156, '', 29, C.white, 'start', 600);
   const tags = [['NASA', C.blue, '#fff', 60], ['SENSOR', C.gold, C.navy, 210], ['FAO / INIFAP', '#15803d', '#fff', 380]].map(([l, bg, fg, x]) => { const w = l.length * 15 + 40, t = grp(g, x, 420); el('rect', { width: w, height: 46, rx: 12, fill: bg }, t); txt(t, w / 2, 31, l, 22, fg, 'middle', 800); t.setAttribute('opacity', 0); return t; });
   const note = txt(g, 60, 500, 'Every answer cites its source, and says when one is missing.', 22, C.mute, 'start', 500, { opacity: 0 });
   const ph = grp(g, 1340, 110);
   el('rect', { width: 300, height: 500, rx: 38, fill: '#0f172a', stroke: '#64748b', 'stroke-width': 4 }, ph); el('rect', { x: 18, y: 52, width: 264, height: 400, rx: 16, fill: '#0b141a' }, ph); el('rect', { x: 110, y: 18, width: 80, height: 10, rx: 5, fill: '#1e293b' }, ph);
   const msg = grp(ph, 0, 0); msg.setAttribute('opacity', 0);
   el('rect', { x: 34, y: 96, width: 232, height: 210, rx: 14, fill: '#005c4b' }, msg);
-  txt(msg, 150, 132, 'RotaHalcón report', 18, '#fff', 'middle', 800); el('circle', { cx: 66, cy: 176, r: 10, fill: C.green }, msg);
-  txt(msg, 86, 184, '🫘 → 🌾 → 🌱', 22, '#fff', 'start', 600); txt(msg, 50, 232, 'Works in 39 of 42 years', 17, '#fff', 'start', 500); txt(msg, 50, 262, 'Decision support only', 15, '#a7f3d0', 'start', 500);
+  txt(msg, 150, 132, 'RotaHalcón report', 18, '#fff', 'middle', 800); el('circle', { cx: 66, cy: 176, r: 10, fill: SEM[top.semaforo] }, msg);
+  txt(msg, 86, 184, top.ciclos.map(c => ICON[c] || '🌱').join(' → '), 22, '#fff', 'start', 600);
+  txt(msg, 50, 232, `Works in ${top.resiliencia.anios_ok} of ${top.resiliencia.anios_total} years`, 17, '#fff', 'start', 500); txt(msg, 50, 262, 'Decision support only', 15, '#a7f3d0', 'start', 500);
   const o = { n: 0 }, tl = gsap.timeline();
   tl.from(bub, { opacity: 0, y: '+=24', duration: .5, ease: E.out3 }, 0)
-    .to(o, { n: full.length, duration: 1.2, ease: 'none', onUpdate: () => ans.textContent = full.slice(0, Math.round(o.n)) }, .5)
-    .to(tags, { opacity: 1, duration: .01, stagger: .25 }, 1.8).from(tags, { y: '+=14', scale: .85, transformOrigin: '0 50%', duration: .4, stagger: .25, ease: E.pop }, 1.8)
-    .to(note, { opacity: 1, duration: .5 }, 2.6)
-    .to(ph, { x: 900, duration: 1, ease: E.out }, 3).fromTo(msg, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .5, ease: E.out3 }, 3.7);
+    .to(o, { n: l1.length + l2.length, duration: 1.5, ease: 'none', onUpdate: () => { const n = Math.round(o.n); a1.textContent = l1.slice(0, n); a2.textContent = l2.slice(0, Math.max(0, n - l1.length)); } }, .5)
+    .to(tags, { opacity: 1, duration: .01, stagger: .25 }, 2.1).from(tags, { y: '+=14', scale: .85, transformOrigin: '0 50%', duration: .4, stagger: .25, ease: E.pop }, 2.1)
+    .to(note, { opacity: 1, duration: .5 }, 2.9)
+    .to(ph, { x: 900, duration: 1, ease: E.out }, 3.2).fromTo(msg, { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: .5, ease: E.out3 }, 3.9);
   return tl;
 } });
 
