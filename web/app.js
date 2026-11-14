@@ -28,7 +28,7 @@ const GLOSSARY = {   // provisional – Role 3 provides final texts
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const cname = id => (CROPS[id] ? CROPS[id].en : id);
-const state = { lat: DEFAULT_POINT.lat, lon: DEFAULT_POINT.lon, suelo: 'franco', prev: ['frijol', 'frijol'],
+const state = { lat: DEFAULT_POINT.lat, lon: DEFAULT_POINT.lon, suelo: 'franco', prev: ['maiz', 'maiz'],   // example farmer: maize every cycle (clearest real case, Role 2)
   prio: { agua: .4, suelo: .3, ingreso: .2, riesgo: .1 }, esc: { lluvia_pct: 0, temp_c: 0 } };
 let MOCK = null, DATA = null, USING_MOCK = false;   // USING_MOCK: API unreachable, showing the offline snapshot
 

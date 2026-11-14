@@ -348,22 +348,34 @@ SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: 'The worst year, not the average
   return tl;
 } });
 
-// 9 ── Your priorities, your ranking (5 s): real engine scores for two sets of priorities
-SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: 'Your priorities, your ranking', note: 'Engine scores for both sets of priorities', build(g) {
+// 9 ── Your priorities, your ranking (5 s): real engine output for two sets of priorities.
+// The engine can propose different alternatives for different priorities, so rows are matched by their crops:
+// rotations in both rankings slide to their new place, the ones that drop out fade away, new ones fade in.
+SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: 'Your priorities, your ranking', note: 'Engine output for both sets of priorities', build(g) {
   const keys = ['agua', 'suelo', 'ingreso', 'riesgo'], names = ['Water', 'Soil', 'Income', 'Risk'], pa = D.request.prioridades, pb = D.prioridades_b, kx = v => 230 + v * 300;
   const knobs = names.map((n, i) => { const y = 210 + i * 80; txt(g, 70, y + 8, n, 28, C.white, 'start', 700); el('rect', { x: 230, y: y - 2, width: 300, height: 8, rx: 4, fill: '#ffffff2e' }, g);
     return el('circle', { cx: kx(pa[keys[i]]), cy: y + 2, r: 16, fill: C.gold, filter: 'url(#glow)' }, g); });
-  const idx = ROWS.map((_, i) => i), a = [...idx].sort((x, y) => ROWS[y].puntaje - ROWS[x].puntaje), b = [...idx].sort((x, y) => ROWS[y].puntaje_b - ROWS[x].puntaje_b), yAt = k => 140 + k * 106;
-  const rows = ROWS.map((e, i) => {
-    const r = grp(g, 660, yAt(a.indexOf(i))); el('rect', { width: 560, height: 90, rx: 16, fill: C.navy2, stroke: SEM[e.semaforo], 'stroke-width': 3 }, r);
-    txt(r, 22, 58, ROW_CROPS[i], 30, C.white, 'start', 500); txt(r, 140, 34, ROW_LABELS[i], 17, i === 0 ? C.gold : C.mute, 'start', 700);
-    const bar = el('rect', { x: 140, y: 48, width: e.puntaje * 3, height: 14, rx: 7, fill: SEM[e.semaforo] }, r), v = txt(r, 536, 60, String(e.puntaje), 34, C.white, 'end', 800); return { r, bar, v, e, i };
+  const key = e => e.ciclos.join('-'), byScore = (x, y) => y.puntaje - x.puntaje, yAt = k => 140 + k * 106;
+  const A = [...ROWS].sort(byScore), B = [...D.ranking_b].sort(byScore);
+  const all = [...A, ...B.filter(b => !A.some(a => key(a) === key(b)))];          // union of both rankings
+  const rows = all.map(e => {
+    const ia = A.findIndex(a => key(a) === key(e)), ib = B.findIndex(b => key(b) === key(e)), a = A[ia], b = B[ib], first = a || b;
+    const r = grp(g, 660, yAt(ia >= 0 ? ia : ib)); if (ia < 0) r.setAttribute('opacity', 0);
+    const box = el('rect', { width: 560, height: 90, rx: 16, fill: C.navy2, stroke: SEM[first.semaforo], 'stroke-width': 3 }, r);
+    txt(r, 22, 58, e.ciclos.map(c => ICON[c] || '🌱').join(''), 30, C.white, 'start', 500);
+    if (e.es_actual) txt(r, 140, 34, 'Current', 17, C.gold, 'start', 700);
+    const bar = el('rect', { x: 140, y: 48, width: first.puntaje * 3, height: 14, rx: 7, fill: SEM[first.semaforo] }, r), v = txt(r, 536, 60, String(first.puntaje), 34, C.white, 'end', 800);
+    return { r, box, bar, v, a, b, ib };
   });
-  const tl = gsap.timeline(), o = { w: 0 };
-  tl.from(rows.map(x => x.r), { opacity: 0, x: '+=40', duration: .5, stagger: .08, ease: E.out3 }, 0);
+  const tl = gsap.timeline(), o = { w: 0 }, T = 2.3;
+  tl.from(rows.filter(x => x.a).map(x => x.r), { opacity: 0, x: '+=40', duration: .5, stagger: .08, ease: E.out3 }, 0);
   knobs.forEach((k, i) => tl.to(k, { attr: { cx: kx(pb[keys[i]]) }, duration: 1, ease: E.io }, 1 + i * .06));
-  rows.forEach(x => { tl.to(x.r, { y: yAt(b.indexOf(x.i)), duration: .9, ease: E.io }, 2.3).to(x.bar, { attr: { width: x.e.puntaje_b * 3 }, duration: .9, ease: E.io }, 2.3); });
-  tl.to(o, { w: 1, duration: .9, ease: E.io, onUpdate: () => rows.forEach(x => x.v.textContent = Math.round(x.e.puntaje + (x.e.puntaje_b - x.e.puntaje) * o.w)) }, 2.3);
+  rows.forEach(x => {
+    if (x.a && x.b) tl.to(x.r, { y: yAt(x.ib), duration: .9, ease: E.io }, T).to(x.bar, { attr: { width: x.b.puntaje * 3, fill: SEM[x.b.semaforo] }, duration: .9, ease: E.io }, T).to(x.box, { attr: { stroke: SEM[x.b.semaforo] }, duration: .9 }, T);
+    else if (x.a) tl.to(x.r, { opacity: 0, x: '+=40', duration: .45, ease: 'power2.in' }, T);          // dropped from the new ranking
+    else tl.fromTo(x.r, { opacity: 0, x: 700 }, { opacity: 1, x: 660, duration: .6, ease: E.out3 }, T + .45);   // new in the ranking
+  });
+  tl.to(o, { w: 1, duration: .9, ease: E.io, onUpdate: () => rows.forEach(x => { if (x.a && x.b) x.v.textContent = Math.round(x.a.puntaje + (x.b.puntaje - x.a.puntaje) * o.w); }) }, T);
   return tl;
 } });
 

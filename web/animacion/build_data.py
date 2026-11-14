@@ -9,7 +9,8 @@ from datetime import datetime, timezone
 
 # ── DATOS ──
 API_URL = "https://rotahalcon.onrender.com"          # or http://localhost:8000
-REQUEST = {"lat": 24.02, "lon": -104.65, "suelo": "franco", "cultivos_previos": ["frijol", "frijol"],
+# Example farmer for the pitch: grows maize every cycle (Role 2: the clearest real case in Durango).
+REQUEST = {"lat": 24.02, "lon": -104.65, "suelo": "franco", "cultivos_previos": ["maiz", "maiz"],
            "prioridades": {"agua": 0.4, "suelo": 0.3, "ingreso": 0.2, "riesgo": 0.1},
            "escenario": {"lluvia_pct": 0, "temp_c": 0}}
 PRIORITIES_B = {"agua": 0.7, "suelo": 0.1, "ingreso": 0.1, "riesgo": 0.1}   # "water first": used by the sliders scene
@@ -26,7 +27,11 @@ def recomendar(body):
 
 rec = recomendar(REQUEST)
 rec_b = recomendar(dict(REQUEST, prioridades=PRIORITIES_B))      # same field, different priorities
-score_b = {e["id"]: e["puntaje"] for e in rec_b["estrategias"]}
+# The engine may propose DIFFERENT alternatives for different priorities, so ids are not comparable across
+# requests: the second ranking is kept as its own list and matched by its crops (ciclos) in the animation.
+ranking_b = [{"ciclos": e["ciclos"], "es_actual": bool(e.get("es_actual")), "puntaje": e["puntaje"],
+              "semaforo": e["semaforo"], "fails": e["resiliencia"]["anios_total"] - e["resiliencia"]["anios_ok"]}
+             for e in rec_b["estrategias"]]
 
 rain = {}
 with io.open(RAIN_CSV, encoding="utf-8") as f:
@@ -39,6 +44,7 @@ out = {
     "source": API_URL + "/recomendar",
     "request": REQUEST,
     "prioridades_b": PRIORITIES_B,
+    "ranking_b": ranking_b,
     "years": years,
     "rain_mm": [rain.get(y) for y in years],          # NASA POWER PRECTOTCORR annual sum
     "estrategias": [],
@@ -49,7 +55,7 @@ for e in rec["estrategias"]:
     bad = [a for a in e["anios"] if not a["ok"]]
     out["estrategias"].append({
         "id": e["id"], "es_actual": bool(e.get("es_actual")), "ciclos": e["ciclos"],
-        "semaforo": e["semaforo"], "puntaje": e["puntaje"], "puntaje_b": score_b.get(e["id"]), "resiliencia": e["resiliencia"],
+        "semaforo": e["semaforo"], "puntaje": e["puntaje"], "resiliencia": e["resiliencia"],
         "peor_anio": e["peor_anio"],
         "fails": [a["anio"] for a in bad],
         "by_drought": sum(1 for a in bad if a.get("motivo", "").startswith("drought")),

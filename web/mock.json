@@ -1,16 +1,311 @@
 {
- "_comment": "Offline snapshot of a REAL POST /recomendar response (default Durango field, beans-beans). Used only when the API is unreachable. Sensor and calibration are still mock.",
+ "_comment": "Offline snapshot of a REAL POST /recomendar response (default Durango field, maize-maize, default priorities). Used only when the API is unreachable. Sensor and calibration are still mock.",
  "estrategias": [
   {
    "id": "actual",
    "es_actual": true,
    "ciclos": [
+    "maiz",
+    "maiz",
+    "maiz"
+   ],
+   "semaforo": "rojo",
+   "puntaje": 35,
+   "resiliencia": {
+    "anios_ok": 22,
+    "anios_total": 45,
+    "rango": [
+     17,
+     27
+    ],
+    "metodo": "bootstrap n=2000, p5–p95"
+   },
+   "peor_anio": {
+    "anio": 1997,
+    "motivo": "drought: maize got 21% of the water it needs, expected yield loss 99% (rain -56% vs normal)"
+   },
+   "porque": "Would have failed 23 of 45 seasons (1981–2025): 23 by drought, 0 by frost.",
+   "beneficios": [],
+   "huecos": [
+    "Rainfed sowing dates for Durango (INIFAP Campo Experimental Valle del Guadiana) were not found online",
+    "FAO cycle lengths are global ranges; local varieties (e.g. Pinto Saltillo bean) may differ",
+    "No sourced seed cost or crop price for Durango"
+   ],
+   "riesgos": [
+    "Maize lacked water in 23 of 45 seasons: review with an agronomist.",
+    "Repeats the Poaceae family in consecutive cycles: review pests and diseases with an agronomist.",
+    "Assumes rainfed sowing on 01 July and FAO global crop values: confirm with INIFAP or an agronomist."
+   ],
+   "fuentes": [
+    "NASA POWER PRECTOTCORR",
+    "NASA POWER T2M_MIN",
+    "NASA POWER GWETROOT",
+    "FAO 1998 (Allen et al.)",
+    "FAO 2005 (Snyder & de Melo-Abreu)",
+    "FAO 1986 (Brouwer & Heibloem)",
+    "FAO 1986 (Brouwer & Heibloem) ch. 4"
+   ],
+   "anios": [
+    {
+     "anio": 1981,
+     "ok": true,
+     "cultivo": "maiz"
+    },
+    {
+     "anio": 1982,
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 42% of the water it needs, expected yield loss 72% (rain -14% vs normal)"
+    },
+    {
+     "anio": 1983,
+     "ok": true,
+     "cultivo": "maiz"
+    },
+    {
+     "anio": 1984,
+     "ok": true,
+     "cultivo": "maiz"
+    },
+    {
+     "anio": 1985,
+     "ok": true,
+     "cultivo": "maiz"
+    },
+    {
+     "anio": 1986,
+     "ok": true,
+     "cultivo": "maiz"
+    },
+    {
+     "anio": 1987,
+     "ok": true,
+     "cultivo": "maiz"
+    },
+    {
+     "anio": 1988,
+     "ok": true,
+     "cultivo": "maiz"
+    },
+    {
+     "anio": 1989,
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 53% of the water it needs, expected yield loss 59% (rain +15% vs normal)"
+    },
+    {
+     "anio": 1990,
+     "ok": true,
+     "cultivo": "maiz"
+    },
+    {
+     "anio": 1991,
+     "ok": true,
+     "cultivo": "maiz"
+    },
+    {
+     "anio": 1992,
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 29% of the water it needs, expected yield loss 88% (rain -43% vs normal)"
+    },
+    {
+     "anio": 1993,
+     "ok": true,
+     "cultivo": "maiz"
+    },
+    {
+     "anio": 1994,
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 26% of the water it needs, expected yield loss 93% (rain -38% vs normal)"
+    },
+    {
+     "anio": 1995,
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 41% of the water it needs, expected yield loss 74% (rain -16% vs normal)"
+    },
+    {
+     "anio": 1996,
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 41% of the water it needs, expected yield loss 74% (rain -13% vs normal)"
+    },
+    {
+     "anio": 1997,
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 21% of the water it needs, expected yield loss 99% (rain -56% vs normal)"
+    },
+    {
+     "anio": 1998,
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 32% of the water it needs, expected yield loss 84% (rain -28% vs normal)"
+    },
+    {
+     "anio": 1999,
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 37% of the water it needs, expected yield loss 78% (rain -47% vs normal)"
+    },
+    {
+     "anio": 2000,
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 36% of the water it needs, expected yield loss 80% (rain -32% vs normal)"
+    },
+    {
+     "anio": 2001,
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 49% of the water it needs, expected yield loss 64% (rain -2% vs normal)"
+    },
+    {
+     "anio": 2002,
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 56% of the water it needs, expected yield loss 55% (rain +18% vs normal)"
+    },
+    {
+     "anio": 2003,
+     "ok": true,
+     "cultivo": "maiz"
+    },
+    {
+     "anio": 2004,
+     "ok": true,
+     "cultivo": "maiz"
+    },
+    {
+     "anio": 2005,
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 47% of the water it needs, expected yield loss 67% (rain +5% vs normal)"
+    },
+    {
+     "anio": 2006,
+     "ok": true,
+     "cultivo": "maiz"
+    },
+    {
+     "anio": 2007,
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 56% of the water it needs, expected yield loss 55% (rain -14% vs normal)"
+    },
+    {
+     "anio": 2008,
+     "ok": true,
+     "cultivo": "maiz"
+    },
+    {
+     "anio": 2009,
+     "ok": true,
+     "cultivo": "maiz"
+    },
+    {
+     "anio": 2010,
+     "ok": true,
+     "cultivo": "maiz"
+    },
+    {
+     "anio": 2011,
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 23% of the water it needs, expected yield loss 96% (rain -36% vs normal)"
+    },
+    {
+     "anio": 2012,
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 42% of the water it needs, expected yield loss 73% (rain -9% vs normal)"
+    },
+    {
+     "anio": 2013,
+     "ok": true,
+     "cultivo": "maiz"
+    },
+    {
+     "anio": 2014,
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 52% of the water it needs, expected yield loss 60% (rain -3% vs normal)"
+    },
+    {
+     "anio": 2015,
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 56% of the water it needs, expected yield loss 55% (rain -13% vs normal)"
+    },
+    {
+     "anio": 2016,
+     "ok": true,
+     "cultivo": "maiz"
+    },
+    {
+     "anio": 2017,
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 58% of the water it needs, expected yield loss 52% (rain +21% vs normal)"
+    },
+    {
+     "anio": 2018,
+     "ok": true,
+     "cultivo": "maiz"
+    },
+    {
+     "anio": 2019,
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 31% of the water it needs, expected yield loss 87% (rain -24% vs normal)"
+    },
+    {
+     "anio": 2020,
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 59% of the water it needs, expected yield loss 52% (rain +2% vs normal)"
+    },
+    {
+     "anio": 2021,
+     "ok": true,
+     "cultivo": "maiz"
+    },
+    {
+     "anio": 2022,
+     "ok": true,
+     "cultivo": "maiz"
+    },
+    {
+     "anio": 2023,
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 22% of the water it needs, expected yield loss 97% (rain -34% vs normal)"
+    },
+    {
+     "anio": 2024,
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 53% of the water it needs, expected yield loss 59% (rain -2% vs normal)"
+    },
+    {
+     "anio": 2025,
+     "ok": true,
+     "cultivo": "maiz"
+    }
+   ]
+  },
+  {
+   "id": "alt1",
+   "es_actual": false,
+   "ciclos": [
     "frijol",
     "frijol",
-    "frijol"
+    "sorgo"
    ],
    "semaforo": "amarillo",
-   "puntaje": 69,
+   "puntaje": 74,
    "resiliencia": {
     "anios_ok": 36,
     "anios_total": 45,
@@ -26,292 +321,8 @@
    },
    "porque": "Would have failed 9 of 45 seasons (1981–2025): 9 by drought, 0 by frost.",
    "beneficios": [
-    "Bean is a legume: it fixes nitrogen from the air (FAO)."
-   ],
-   "huecos": [
-    "Rainfed sowing dates for Durango (INIFAP Campo Experimental Valle del Guadiana) were not found online",
-    "FAO cycle lengths are global ranges; local varieties (e.g. Pinto Saltillo bean) may differ",
-    "No sourced seed cost or crop price for Durango"
-   ],
-   "riesgos": [
-    "Bean lacked water in 9 of 45 seasons: review with an agronomist.",
-    "Repeats the Fabaceae family in consecutive cycles: review pests and diseases with an agronomist.",
-    "Assumes rainfed sowing on 01 July and FAO global crop values: confirm with INIFAP or an agronomist."
-   ],
-   "fuentes": [
-    "NASA POWER PRECTOTCORR",
-    "NASA POWER T2M_MIN",
-    "NASA POWER GWETROOT",
-    "FAO 1998 (Allen et al.)",
-    "AFNETA manual (FAO repository)",
-    "FAO 2005 (Snyder & de Melo-Abreu)",
-    "FAO 1986 (Brouwer & Heibloem)",
-    "FAO 1986 (Brouwer & Heibloem) ch. 4"
-   ],
-   "anios": [
-    {
-     "anio": 1981,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 1982,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 1983,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 1984,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 1985,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 1986,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 1987,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 1988,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 1989,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 1990,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 1991,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 1992,
-     "ok": false,
-     "cultivo": "frijol",
-     "motivo": "drought: bean got 40% of the water it needs, expected yield loss 68% (rain -45% vs normal)"
-    },
-    {
-     "anio": 1993,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 1994,
-     "ok": false,
-     "cultivo": "frijol",
-     "motivo": "drought: bean got 35% of the water it needs, expected yield loss 74% (rain -44% vs normal)"
-    },
-    {
-     "anio": 1995,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 1996,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 1997,
-     "ok": false,
-     "cultivo": "frijol",
-     "motivo": "drought: bean got 29% of the water it needs, expected yield loss 81% (rain -57% vs normal)"
-    },
-    {
-     "anio": 1998,
-     "ok": false,
-     "cultivo": "frijol",
-     "motivo": "drought: bean got 48% of the water it needs, expected yield loss 60% (rain -30% vs normal)"
-    },
-    {
-     "anio": 1999,
-     "ok": false,
-     "cultivo": "frijol",
-     "motivo": "drought: bean got 50% of the water it needs, expected yield loss 58% (rain -44% vs normal)"
-    },
-    {
-     "anio": 2000,
-     "ok": false,
-     "cultivo": "frijol",
-     "motivo": "drought: bean got 46% of the water it needs, expected yield loss 62% (rain -40% vs normal)"
-    },
-    {
-     "anio": 2001,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 2002,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 2003,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 2004,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 2005,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 2006,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 2007,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 2008,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 2009,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 2010,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 2011,
-     "ok": false,
-     "cultivo": "frijol",
-     "motivo": "drought: bean got 39% of the water it needs, expected yield loss 70% (rain -33% vs normal)"
-    },
-    {
-     "anio": 2012,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 2013,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 2014,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 2015,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 2016,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 2017,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 2018,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 2019,
-     "ok": false,
-     "cultivo": "frijol",
-     "motivo": "drought: bean got 50% of the water it needs, expected yield loss 57% (rain -22% vs normal)"
-    },
-    {
-     "anio": 2020,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 2021,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 2022,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 2023,
-     "ok": false,
-     "cultivo": "frijol",
-     "motivo": "drought: bean got 26% of the water it needs, expected yield loss 85% (rain -49% vs normal)"
-    },
-    {
-     "anio": 2024,
-     "ok": true,
-     "cultivo": "frijol"
-    },
-    {
-     "anio": 2025,
-     "ok": true,
-     "cultivo": "frijol"
-    }
-   ]
-  },
-  {
-   "id": "alt1",
-   "es_actual": false,
-   "ciclos": [
-    "sorgo",
-    "frijol",
-    "frijol"
-   ],
-   "semaforo": "amarillo",
-   "puntaje": 74,
-   "resiliencia": {
-    "anios_ok": 36,
-    "anios_total": 45,
-    "rango": [
-     31,
-     40
-    ],
-    "metodo": "bootstrap n=2000, p5–p95"
-   },
-   "peor_anio": {
-    "anio": 2023,
-    "motivo": "drought: sorghum got 25% of the water it needs, expected yield loss 68% (rain -34% vs normal)"
-   },
-   "porque": "Would have failed 9 of 45 seasons (1981–2025): 9 by drought, 0 by frost.",
-   "beneficios": [
     "Bean is a legume: it fixes nitrogen from the air (FAO).",
-    "Alternates plant families (Poaceae / Fabaceae)."
+    "Alternates plant families (Fabaceae / Poaceae)."
    ],
    "huecos": [
     "Rainfed sowing dates for Durango (INIFAP Campo Experimental Valle del Guadiana) were not found online",
@@ -338,7 +349,7 @@
     {
      "anio": 1981,
      "ok": true,
-     "cultivo": "sorgo"
+     "cultivo": "frijol"
     },
     {
      "anio": 1982,
@@ -348,12 +359,12 @@
     {
      "anio": 1983,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 1984,
      "ok": true,
-     "cultivo": "sorgo"
+     "cultivo": "frijol"
     },
     {
      "anio": 1985,
@@ -363,12 +374,12 @@
     {
      "anio": 1986,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 1987,
      "ok": true,
-     "cultivo": "sorgo"
+     "cultivo": "frijol"
     },
     {
      "anio": 1988,
@@ -378,12 +389,12 @@
     {
      "anio": 1989,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 1990,
      "ok": true,
-     "cultivo": "sorgo"
+     "cultivo": "frijol"
     },
     {
      "anio": 1991,
@@ -393,13 +404,13 @@
     {
      "anio": 1992,
      "ok": false,
-     "cultivo": "frijol",
-     "motivo": "drought: bean got 40% of the water it needs, expected yield loss 68% (rain -45% vs normal)"
+     "cultivo": "sorgo",
+     "motivo": "drought: sorghum got 32% of the water it needs, expected yield loss 61% (rain -42% vs normal)"
     },
     {
      "anio": 1993,
      "ok": true,
-     "cultivo": "sorgo"
+     "cultivo": "frijol"
     },
     {
      "anio": 1994,
@@ -410,12 +421,12 @@
     {
      "anio": 1995,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 1996,
      "ok": true,
-     "cultivo": "sorgo"
+     "cultivo": "frijol"
     },
     {
      "anio": 1997,
@@ -426,14 +437,14 @@
     {
      "anio": 1998,
      "ok": false,
-     "cultivo": "frijol",
-     "motivo": "drought: bean got 48% of the water it needs, expected yield loss 60% (rain -30% vs normal)"
+     "cultivo": "sorgo",
+     "motivo": "drought: sorghum got 36% of the water it needs, expected yield loss 58% (rain -28% vs normal)"
     },
     {
      "anio": 1999,
      "ok": false,
-     "cultivo": "sorgo",
-     "motivo": "drought: sorghum got 41% of the water it needs, expected yield loss 53% (rain -47% vs normal)"
+     "cultivo": "frijol",
+     "motivo": "drought: bean got 50% of the water it needs, expected yield loss 58% (rain -44% vs normal)"
     },
     {
      "anio": 2000,
@@ -444,12 +455,12 @@
     {
      "anio": 2001,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 2002,
      "ok": true,
-     "cultivo": "sorgo"
+     "cultivo": "frijol"
     },
     {
      "anio": 2003,
@@ -459,12 +470,12 @@
     {
      "anio": 2004,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 2005,
      "ok": true,
-     "cultivo": "sorgo"
+     "cultivo": "frijol"
     },
     {
      "anio": 2006,
@@ -474,12 +485,12 @@
     {
      "anio": 2007,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 2008,
      "ok": true,
-     "cultivo": "sorgo"
+     "cultivo": "frijol"
     },
     {
      "anio": 2009,
@@ -489,13 +500,13 @@
     {
      "anio": 2010,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 2011,
      "ok": false,
-     "cultivo": "sorgo",
-     "motivo": "drought: sorghum got 26% of the water it needs, expected yield loss 67% (rain -35% vs normal)"
+     "cultivo": "frijol",
+     "motivo": "drought: bean got 39% of the water it needs, expected yield loss 70% (rain -33% vs normal)"
     },
     {
      "anio": 2012,
@@ -505,12 +516,12 @@
     {
      "anio": 2013,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 2014,
      "ok": true,
-     "cultivo": "sorgo"
+     "cultivo": "frijol"
     },
     {
      "anio": 2015,
@@ -520,12 +531,12 @@
     {
      "anio": 2016,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 2017,
      "ok": true,
-     "cultivo": "sorgo"
+     "cultivo": "frijol"
     },
     {
      "anio": 2018,
@@ -535,13 +546,13 @@
     {
      "anio": 2019,
      "ok": false,
-     "cultivo": "frijol",
-     "motivo": "drought: bean got 50% of the water it needs, expected yield loss 57% (rain -22% vs normal)"
+     "cultivo": "sorgo",
+     "motivo": "drought: sorghum got 34% of the water it needs, expected yield loss 59% (rain -24% vs normal)"
     },
     {
      "anio": 2020,
      "ok": true,
-     "cultivo": "sorgo"
+     "cultivo": "frijol"
     },
     {
      "anio": 2021,
@@ -551,13 +562,13 @@
     {
      "anio": 2022,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 2023,
      "ok": false,
-     "cultivo": "sorgo",
-     "motivo": "drought: sorghum got 25% of the water it needs, expected yield loss 68% (rain -34% vs normal)"
+     "cultivo": "frijol",
+     "motivo": "drought: bean got 26% of the water it needs, expected yield loss 85% (rain -49% vs normal)"
     },
     {
      "anio": 2024,
@@ -567,7 +578,7 @@
     {
      "anio": 2025,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     }
    ]
   },
@@ -575,29 +586,29 @@
    "id": "alt2",
    "es_actual": false,
    "ciclos": [
-    "maiz",
     "frijol",
-    "frijol"
+    "maiz",
+    "maiz"
    ],
    "semaforo": "rojo",
-   "puntaje": 71,
+   "puntaje": 61,
    "resiliencia": {
-    "anios_ok": 30,
+    "anios_ok": 28,
     "anios_total": 45,
     "rango": [
-     25,
-     35
+     23,
+     33
     ],
     "metodo": "bootstrap n=2000, p5–p95"
    },
    "peor_anio": {
-    "anio": 2023,
-    "motivo": "drought: maize got 22% of the water it needs, expected yield loss 97% (rain -34% vs normal)"
+    "anio": 1997,
+    "motivo": "drought: maize got 21% of the water it needs, expected yield loss 99% (rain -56% vs normal)"
    },
-   "porque": "Would have failed 15 of 45 seasons (1981–2025): 15 by drought, 0 by frost.",
+   "porque": "Would have failed 17 of 45 seasons (1981–2025): 17 by drought, 0 by frost.",
    "beneficios": [
     "Bean is a legume: it fixes nitrogen from the air (FAO).",
-    "Alternates plant families (Poaceae / Fabaceae)."
+    "Alternates plant families (Fabaceae / Poaceae)."
    ],
    "huecos": [
     "Rainfed sowing dates for Durango (INIFAP Campo Experimental Valle del Guadiana) were not found online",
@@ -607,7 +618,7 @@
    "riesgos": [
     "Maize lacked water in 23 of 45 seasons: review with an agronomist.",
     "Bean lacked water in 9 of 45 seasons: review with an agronomist.",
-    "Repeats the Fabaceae family in consecutive cycles: review pests and diseases with an agronomist.",
+    "Repeats the Poaceae family in consecutive cycles: review pests and diseases with an agronomist.",
     "Assumes rainfed sowing on 01 July and FAO global crop values: confirm with INIFAP or an agronomist."
    ],
    "fuentes": [
@@ -624,242 +635,244 @@
     {
      "anio": 1981,
      "ok": true,
-     "cultivo": "maiz"
+     "cultivo": "frijol"
     },
     {
      "anio": 1982,
-     "ok": true,
-     "cultivo": "frijol"
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 42% of the water it needs, expected yield loss 72% (rain -14% vs normal)"
     },
     {
      "anio": 1983,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "maiz"
     },
     {
      "anio": 1984,
      "ok": true,
-     "cultivo": "maiz"
+     "cultivo": "frijol"
     },
     {
      "anio": 1985,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "maiz"
     },
     {
      "anio": 1986,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "maiz"
     },
     {
      "anio": 1987,
      "ok": true,
-     "cultivo": "maiz"
+     "cultivo": "frijol"
     },
     {
      "anio": 1988,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "maiz"
     },
     {
      "anio": 1989,
-     "ok": true,
-     "cultivo": "frijol"
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 53% of the water it needs, expected yield loss 59% (rain +15% vs normal)"
     },
     {
      "anio": 1990,
      "ok": true,
-     "cultivo": "maiz"
+     "cultivo": "frijol"
     },
     {
      "anio": 1991,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "maiz"
     },
     {
      "anio": 1992,
      "ok": false,
-     "cultivo": "frijol",
-     "motivo": "drought: bean got 40% of the water it needs, expected yield loss 68% (rain -45% vs normal)"
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 29% of the water it needs, expected yield loss 88% (rain -43% vs normal)"
     },
     {
      "anio": 1993,
      "ok": true,
-     "cultivo": "maiz"
+     "cultivo": "frijol"
     },
     {
      "anio": 1994,
      "ok": false,
-     "cultivo": "frijol",
-     "motivo": "drought: bean got 35% of the water it needs, expected yield loss 74% (rain -44% vs normal)"
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 26% of the water it needs, expected yield loss 93% (rain -38% vs normal)"
     },
     {
      "anio": 1995,
-     "ok": true,
-     "cultivo": "frijol"
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 41% of the water it needs, expected yield loss 74% (rain -16% vs normal)"
     },
     {
      "anio": 1996,
-     "ok": false,
-     "cultivo": "maiz",
-     "motivo": "drought: maize got 41% of the water it needs, expected yield loss 74% (rain -13% vs normal)"
+     "ok": true,
+     "cultivo": "frijol"
     },
     {
      "anio": 1997,
      "ok": false,
-     "cultivo": "frijol",
-     "motivo": "drought: bean got 29% of the water it needs, expected yield loss 81% (rain -57% vs normal)"
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 21% of the water it needs, expected yield loss 99% (rain -56% vs normal)"
     },
     {
      "anio": 1998,
      "ok": false,
-     "cultivo": "frijol",
-     "motivo": "drought: bean got 48% of the water it needs, expected yield loss 60% (rain -30% vs normal)"
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 32% of the water it needs, expected yield loss 84% (rain -28% vs normal)"
     },
     {
      "anio": 1999,
      "ok": false,
-     "cultivo": "maiz",
-     "motivo": "drought: maize got 37% of the water it needs, expected yield loss 78% (rain -47% vs normal)"
+     "cultivo": "frijol",
+     "motivo": "drought: bean got 50% of the water it needs, expected yield loss 58% (rain -44% vs normal)"
     },
     {
      "anio": 2000,
      "ok": false,
-     "cultivo": "frijol",
-     "motivo": "drought: bean got 46% of the water it needs, expected yield loss 62% (rain -40% vs normal)"
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 36% of the water it needs, expected yield loss 80% (rain -32% vs normal)"
     },
     {
      "anio": 2001,
-     "ok": true,
-     "cultivo": "frijol"
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 49% of the water it needs, expected yield loss 64% (rain -2% vs normal)"
     },
     {
      "anio": 2002,
-     "ok": false,
-     "cultivo": "maiz",
-     "motivo": "drought: maize got 56% of the water it needs, expected yield loss 55% (rain +18% vs normal)"
+     "ok": true,
+     "cultivo": "frijol"
     },
     {
      "anio": 2003,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "maiz"
     },
     {
      "anio": 2004,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "maiz"
     },
     {
      "anio": 2005,
-     "ok": false,
-     "cultivo": "maiz",
-     "motivo": "drought: maize got 47% of the water it needs, expected yield loss 67% (rain +5% vs normal)"
+     "ok": true,
+     "cultivo": "frijol"
     },
     {
      "anio": 2006,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "maiz"
     },
     {
      "anio": 2007,
-     "ok": true,
-     "cultivo": "frijol"
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 56% of the water it needs, expected yield loss 55% (rain -14% vs normal)"
     },
     {
      "anio": 2008,
      "ok": true,
-     "cultivo": "maiz"
+     "cultivo": "frijol"
     },
     {
      "anio": 2009,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "maiz"
     },
     {
      "anio": 2010,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "maiz"
     },
     {
      "anio": 2011,
      "ok": false,
-     "cultivo": "maiz",
-     "motivo": "drought: maize got 23% of the water it needs, expected yield loss 96% (rain -36% vs normal)"
+     "cultivo": "frijol",
+     "motivo": "drought: bean got 39% of the water it needs, expected yield loss 70% (rain -33% vs normal)"
     },
     {
      "anio": 2012,
-     "ok": true,
-     "cultivo": "frijol"
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 42% of the water it needs, expected yield loss 73% (rain -9% vs normal)"
     },
     {
      "anio": 2013,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "maiz"
     },
     {
      "anio": 2014,
-     "ok": false,
-     "cultivo": "maiz",
-     "motivo": "drought: maize got 52% of the water it needs, expected yield loss 60% (rain -3% vs normal)"
+     "ok": true,
+     "cultivo": "frijol"
     },
     {
      "anio": 2015,
-     "ok": true,
-     "cultivo": "frijol"
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 56% of the water it needs, expected yield loss 55% (rain -13% vs normal)"
     },
     {
      "anio": 2016,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "maiz"
     },
     {
      "anio": 2017,
-     "ok": false,
-     "cultivo": "maiz",
-     "motivo": "drought: maize got 58% of the water it needs, expected yield loss 52% (rain +21% vs normal)"
+     "ok": true,
+     "cultivo": "frijol"
     },
     {
      "anio": 2018,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "maiz"
     },
     {
      "anio": 2019,
      "ok": false,
-     "cultivo": "frijol",
-     "motivo": "drought: bean got 50% of the water it needs, expected yield loss 57% (rain -22% vs normal)"
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 31% of the water it needs, expected yield loss 87% (rain -24% vs normal)"
     },
     {
      "anio": 2020,
-     "ok": false,
-     "cultivo": "maiz",
-     "motivo": "drought: maize got 59% of the water it needs, expected yield loss 52% (rain +2% vs normal)"
+     "ok": true,
+     "cultivo": "frijol"
     },
     {
      "anio": 2021,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "maiz"
     },
     {
      "anio": 2022,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "maiz"
     },
     {
      "anio": 2023,
      "ok": false,
-     "cultivo": "maiz",
-     "motivo": "drought: maize got 22% of the water it needs, expected yield loss 97% (rain -34% vs normal)"
+     "cultivo": "frijol",
+     "motivo": "drought: bean got 26% of the water it needs, expected yield loss 85% (rain -49% vs normal)"
     },
     {
      "anio": 2024,
-     "ok": true,
-     "cultivo": "frijol"
+     "ok": false,
+     "cultivo": "maiz",
+     "motivo": "drought: maize got 53% of the water it needs, expected yield loss 59% (rain -2% vs normal)"
     },
     {
      "anio": 2025,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "maiz"
     }
    ]
   },
@@ -867,12 +880,12 @@
    "id": "alt3",
    "es_actual": false,
    "ciclos": [
-    "avena",
-    "frijol",
-    "frijol"
+    "alfalfa",
+    "sorgo",
+    "sorgo"
    ],
    "semaforo": "rojo",
-   "puntaje": 71,
+   "puntaje": 55,
    "resiliencia": {
     "anios_ok": 25,
     "anios_total": 45,
@@ -884,23 +897,23 @@
    },
    "peor_anio": {
     "anio": 2023,
-    "motivo": "drought: oats got 25% of the water it needs (rain -34% vs normal)"
+    "motivo": "drought: alfalfa got 12% of the water it needs, expected yield loss 96% (rain -41% vs normal)"
    },
    "porque": "Would have failed 20 of 45 seasons (1981–2025): 20 by drought, 0 by frost.",
    "beneficios": [
-    "Bean is a legume: it fixes nitrogen from the air (FAO).",
-    "Alternates plant families (Poaceae / Fabaceae)."
+    "Alfalfa is a legume: it fixes nitrogen from the air (FAO).",
+    "Alternates plant families (Fabaceae / Poaceae)."
    ],
    "huecos": [
+    "Alfalfa is not listed in FAO frost Table 4.5",
     "Rainfed sowing dates for Durango (INIFAP Campo Experimental Valle del Guadiana) were not found online",
     "FAO cycle lengths are global ranges; local varieties (e.g. Pinto Saltillo bean) may differ",
-    "No sourced seed cost or crop price for Durango",
-    "Oats is not listed in FAO-56 Table 24 (seasonal Ky)"
+    "No sourced seed cost or crop price for Durango"
    ],
    "riesgos": [
-    "Bean lacked water in 9 of 45 seasons: review with an agronomist.",
-    "Oats lacked water in 44 of 45 seasons: review with an agronomist.",
-    "Repeats the Fabaceae family in consecutive cycles: review pests and diseases with an agronomist.",
+    "Sorghum lacked water in 9 of 45 seasons: review with an agronomist.",
+    "Alfalfa lacked water in 44 of 45 seasons: review with an agronomist.",
+    "Repeats the Poaceae family in consecutive cycles: review pests and diseases with an agronomist.",
     "Assumes rainfed sowing on 01 July and FAO global crop values: confirm with INIFAP or an agronomist."
    ],
    "fuentes": [
@@ -917,247 +930,247 @@
     {
      "anio": 1981,
      "ok": false,
-     "cultivo": "avena",
-     "motivo": "drought: oats got 91% of the water it needs (rain +29% vs normal)"
+     "cultivo": "alfalfa",
+     "motivo": "drought: alfalfa got 48% of the water it needs, expected yield loss 57% (rain +21% vs normal)"
     },
     {
      "anio": 1982,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 1983,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 1984,
      "ok": false,
-     "cultivo": "avena",
-     "motivo": "drought: oats got 86% of the water it needs (rain +17% vs normal)"
+     "cultivo": "alfalfa",
+     "motivo": "drought: alfalfa got 48% of the water it needs, expected yield loss 57% (rain +19% vs normal)"
     },
     {
      "anio": 1985,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 1986,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 1987,
      "ok": false,
-     "cultivo": "avena",
-     "motivo": "drought: oats got 72% of the water it needs (rain +13% vs normal)"
+     "cultivo": "alfalfa",
+     "motivo": "drought: alfalfa got 41% of the water it needs, expected yield loss 65% (rain +18% vs normal)"
     },
     {
      "anio": 1988,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 1989,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 1990,
      "ok": true,
-     "cultivo": "avena"
+     "cultivo": "alfalfa"
     },
     {
      "anio": 1991,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 1992,
      "ok": false,
-     "cultivo": "frijol",
-     "motivo": "drought: bean got 40% of the water it needs, expected yield loss 68% (rain -45% vs normal)"
+     "cultivo": "sorgo",
+     "motivo": "drought: sorghum got 32% of the water it needs, expected yield loss 61% (rain -42% vs normal)"
     },
     {
      "anio": 1993,
      "ok": false,
-     "cultivo": "avena",
-     "motivo": "drought: oats got 92% of the water it needs (rain +28% vs normal)"
+     "cultivo": "alfalfa",
+     "motivo": "drought: alfalfa got 52% of the water it needs, expected yield loss 53% (rain +33% vs normal)"
     },
     {
      "anio": 1994,
      "ok": false,
-     "cultivo": "frijol",
-     "motivo": "drought: bean got 35% of the water it needs, expected yield loss 74% (rain -44% vs normal)"
+     "cultivo": "sorgo",
+     "motivo": "drought: sorghum got 28% of the water it needs, expected yield loss 64% (rain -37% vs normal)"
     },
     {
      "anio": 1995,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 1996,
      "ok": false,
-     "cultivo": "avena",
-     "motivo": "drought: oats got 45% of the water it needs (rain -12% vs normal)"
+     "cultivo": "alfalfa",
+     "motivo": "drought: alfalfa got 28% of the water it needs, expected yield loss 80% (rain -8% vs normal)"
     },
     {
      "anio": 1997,
      "ok": false,
-     "cultivo": "frijol",
-     "motivo": "drought: bean got 29% of the water it needs, expected yield loss 81% (rain -57% vs normal)"
+     "cultivo": "sorgo",
+     "motivo": "drought: sorghum got 23% of the water it needs, expected yield loss 69% (rain -55% vs normal)"
     },
     {
      "anio": 1998,
      "ok": false,
-     "cultivo": "frijol",
-     "motivo": "drought: bean got 48% of the water it needs, expected yield loss 60% (rain -30% vs normal)"
+     "cultivo": "sorgo",
+     "motivo": "drought: sorghum got 36% of the water it needs, expected yield loss 58% (rain -28% vs normal)"
     },
     {
      "anio": 1999,
      "ok": false,
-     "cultivo": "avena",
-     "motivo": "drought: oats got 41% of the water it needs (rain -47% vs normal)"
+     "cultivo": "alfalfa",
+     "motivo": "drought: alfalfa got 23% of the water it needs, expected yield loss 84% (rain -44% vs normal)"
     },
     {
      "anio": 2000,
      "ok": false,
-     "cultivo": "frijol",
-     "motivo": "drought: bean got 46% of the water it needs, expected yield loss 62% (rain -40% vs normal)"
+     "cultivo": "sorgo",
+     "motivo": "drought: sorghum got 40% of the water it needs, expected yield loss 54% (rain -32% vs normal)"
     },
     {
      "anio": 2001,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 2002,
      "ok": false,
-     "cultivo": "avena",
-     "motivo": "drought: oats got 63% of the water it needs (rain +19% vs normal)"
+     "cultivo": "alfalfa",
+     "motivo": "drought: alfalfa got 34% of the water it needs, expected yield loss 73% (rain +16% vs normal)"
     },
     {
      "anio": 2003,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 2004,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 2005,
      "ok": false,
-     "cultivo": "avena",
-     "motivo": "drought: oats got 52% of the water it needs (rain +5% vs normal)"
+     "cultivo": "alfalfa",
+     "motivo": "drought: alfalfa got 29% of the water it needs, expected yield loss 78% (rain +6% vs normal)"
     },
     {
      "anio": 2006,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 2007,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 2008,
      "ok": false,
-     "cultivo": "avena",
-     "motivo": "drought: oats got 88% of the water it needs (rain +51% vs normal)"
+     "cultivo": "alfalfa",
+     "motivo": "drought: alfalfa got 49% of the water it needs, expected yield loss 56% (rain +52% vs normal)"
     },
     {
      "anio": 2009,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 2010,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 2011,
      "ok": false,
-     "cultivo": "avena",
-     "motivo": "drought: oats got 26% of the water it needs (rain -35% vs normal)"
+     "cultivo": "alfalfa",
+     "motivo": "drought: alfalfa got 14% of the water it needs, expected yield loss 94% (rain -34% vs normal)"
     },
     {
      "anio": 2012,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 2013,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 2014,
      "ok": false,
-     "cultivo": "avena",
-     "motivo": "drought: oats got 58% of the water it needs (rain -3% vs normal)"
+     "cultivo": "alfalfa",
+     "motivo": "drought: alfalfa got 32% of the water it needs, expected yield loss 74% (rain -1% vs normal)"
     },
     {
      "anio": 2015,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 2016,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 2017,
      "ok": false,
-     "cultivo": "avena",
-     "motivo": "drought: oats got 64% of the water it needs (rain +21% vs normal)"
+     "cultivo": "alfalfa",
+     "motivo": "drought: alfalfa got 36% of the water it needs, expected yield loss 70% (rain +24% vs normal)"
     },
     {
      "anio": 2018,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 2019,
      "ok": false,
-     "cultivo": "frijol",
-     "motivo": "drought: bean got 50% of the water it needs, expected yield loss 57% (rain -22% vs normal)"
+     "cultivo": "sorgo",
+     "motivo": "drought: sorghum got 34% of the water it needs, expected yield loss 59% (rain -24% vs normal)"
     },
     {
      "anio": 2020,
      "ok": false,
-     "cultivo": "avena",
-     "motivo": "drought: oats got 65% of the water it needs (rain +3% vs normal)"
+     "cultivo": "alfalfa",
+     "motivo": "drought: alfalfa got 37% of the water it needs, expected yield loss 70% (rain +6% vs normal)"
     },
     {
      "anio": 2021,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 2022,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 2023,
      "ok": false,
-     "cultivo": "avena",
-     "motivo": "drought: oats got 25% of the water it needs (rain -34% vs normal)"
+     "cultivo": "alfalfa",
+     "motivo": "drought: alfalfa got 12% of the water it needs, expected yield loss 96% (rain -41% vs normal)"
     },
     {
      "anio": 2024,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     },
     {
      "anio": 2025,
      "ok": true,
-     "cultivo": "frijol"
+     "cultivo": "sorgo"
     }
    ]
   }
@@ -1172,7 +1185,8 @@
   "p_mgkg": 18,
   "k_mgkg": 145,
   "fuente": "SENSOR",
-  "mock": true
+  "mock": true,
+  "motivo_mock": "Firebase not configured (FIREBASE_DB_URL)"
  },
  "calibracion": {
   "satelite_pct": 18,
