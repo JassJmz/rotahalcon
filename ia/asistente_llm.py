@@ -11,7 +11,7 @@ import os
 import anthropic
 from dotenv import load_dotenv
 
-from asistente import responder as responder_plantilla, AVISO, compactar, resumen_para_llm
+from asistente import responder as responder_plantilla, AVISO, compactar, resumen_para_llm, detectar_idioma
 
 # ── DATOS ──────────────────────────────────────────────────────────────
 load_dotenv()                                   # reads ia/.env (git-ignored): ANTHROPIC_API_KEY=...
@@ -41,7 +41,7 @@ def _plantilla(pregunta: str, rec: dict, idioma: str, motivo: str) -> dict:
 
 def responder(pregunta: str, recomendacion: dict, idioma: str | None = None) -> dict:
     """Return {"respuesta", "fuentes", "modo": "llm"|"plantilla"}."""
-    idioma = idioma if idioma in ("en", "es") else "en"
+    idioma = idioma if idioma in ("en", "es") else detectar_idioma(pregunta)
     cliente = _get_cliente()
     if cliente is None:
         return _plantilla(pregunta, recomendacion, idioma, "no_api_key")

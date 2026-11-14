@@ -11,7 +11,7 @@ import os
 import httpx
 from dotenv import load_dotenv
 
-from asistente import responder as responder_plantilla, AVISO, compactar, resumen_para_llm
+from asistente import responder as responder_plantilla, AVISO, compactar, resumen_para_llm, detectar_idioma
 from prompt import SISTEMA, ESQUEMA   # same grounding rules as the Claude mode
 
 # ── DATOS ──────────────────────────────────────────────────────────────
@@ -38,7 +38,7 @@ def disponible() -> bool:
 
 def responder(pregunta: str, recomendacion: dict, idioma: str | None = None) -> dict:
     """Return {"respuesta", "fuentes", "modo": "ollama"|"plantilla"}."""
-    idioma = idioma if idioma in ("en", "es") else "en"
+    idioma = idioma if idioma in ("en", "es") else detectar_idioma(pregunta)
     nombre_idioma = "English" if idioma == "en" else "Spanish (Mexico)"
     contenido = (
         f"RECOMMENDATION DATA:\n{resumen_para_llm(recomendacion)}\n\n"

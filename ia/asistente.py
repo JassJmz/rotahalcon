@@ -17,7 +17,12 @@ SIN_DATO = {
     "es": "No tengo ese dato. Confírmalo con un agrónomo de tu zona.",
 }
 # Keywords that route a question to an answer type (lowercase, no accents needed)
-INTENCIONES = {
+INTENCIONES = {   # order matters: first match wins
+    "comparar": ["fails less", "fail less", "falla menos", "fallan menos", "compare", "compara", "which rotation",
+                 "cual rotacion", "cual aguanta", "more resilient", "mas resistente", "better than", "mejor que",
+                 "any option better", "alguna opcion mejor", "ranking"],
+    "huecos":  ["missing", "gap", "don't know", "dont know", "unknown", "que falta", "que datos faltan",
+                "datos faltan", "no sabes", "no saben", "huecos", "what data"],
     "peor":    ["worst", "bad year", "peor", "año malo", "anio malo", "sequia", "drought"],
     "porque":  ["why", "por que", "porque", "por qué", "razon", "reason"],
     "mejor":   ["best", "recommend", "mejor", "recomienda", "conviene", "que siembro", "what should"],
@@ -26,7 +31,31 @@ INTENCIONES = {
     "riesgo":  ["risk", "riesgo", "danger", "peligro", "frost", "helada"],
     "calibra": ["satellite", "satelite", "nasa", "calibra", "accurate", "precision"],
 }
+# Words that point at the farmer's CURRENT rotation or at a traffic-light colour
+REF_ACTUAL = ["current", "mine", "my rotation", "actual", "mi rotacion", "la mia", "lo de siempre",
+              "red", "rojo", "roja", "yellow", "amarillo", "amarilla", "semaforo", "traffic light", "score", "puntaje"]
+PALABRAS_ES = ["que", "por", "como", "cual", "mi", "mis", "el", "la", "los", "las", "es", "esta", "siembro",
+               "conviene", "suelo", "cuanto", "año", "anio", "peor", "mejor", "falla", "sembrar", "tengo"]
+PALABRAS_EN = ["what", "why", "how", "which", "my", "the", "is", "should", "plant", "soil", "year", "worst",
+               "best", "fails", "does", "do", "i", "rotation"]
 # ───────────────────────────────────────────────────────────────────────
+
+
+COLORES_EN = {"rojo": "red", "amarillo": "yellow", "verde": "green"}
+
+
+def detectar_idioma(texto: str, por_defecto: str = "en") -> str:
+    """Cheap EN/ES guess for when the web doesn't send `idioma`."""
+    if any(c in texto for c in "¿¡ñÑáéíóú"):
+        return "es"
+    palabras = _normaliza(texto).replace("?", " ").replace(",", " ").split()
+    es = sum(p in PALABRAS_ES for p in palabras)
+    en = sum(p in PALABRAS_EN for p in palabras)
+    if es > en:
+        return "es"
+    if en > es:
+        return "en"
+    return por_defecto
 
 
 def compactar(recomendacion: dict) -> dict:
@@ -147,7 +176,7 @@ def _res(e: dict, idioma: str) -> str:
 
 def responder(pregunta: str, recomendacion: dict, idioma: str | None = None) -> dict:
     """Return {"respuesta": str, "fuentes": [str], "modo": "plantilla"}."""
-    idioma = idioma if idioma in ("en", "es") else IDIOMA_POR_DEFECTO
+    idioma = idioma if idioma in ("en", "es") else detectar_idioma(pregunta, IDIOMA_POR_DEFECTO)
     es = idioma == "es"
     estrategias = recomendacion.get("estrategias") or []
     if not estrategias:
@@ -160,7 +189,41 @@ def responder(pregunta: str, recomendacion: dict, idioma: str | None = None) -> 
     fuentes: list[str] = []
     intencion = _intencion(pregunta)
 
-    if intencion == "mejor":
+    if intencion == "comparar":
+        con_res = [e for e in estrategias if (e.get("resiliencia") or {}).get("anios_total")]
+        orden = sorted(con_res, key=lambda e: e["resiliencia"]["anios_total"] - e["resiliencia"]["anios_ok"])
+        partes = []
+        for e in orden:
+            rr = e["resiliencia"]; f = rr["anios_total"] - rr["anios_ok"]
+            marca = (" (tu actual)" if es else " (your current)") if e.get("es_actual") else ""
+            partes.append(f"{_ciclos(e)}{marca}: " + (f"falla {f} de {rr['anios_total']}" if es else f"fails {f} of {rr['anios_total']}"))
+        if partes:
+            r = ("De la que menos falla a la que más: " if es else "From fewest to most failed seasons: ") + "; ".join(partes) + "."
+            fuentes = ["NASA POWER"]
+        else:
+            r = SIN_DATO[idioma]
+
+    elif intencion == "huecos":
+        huecos = list(dict.fromkeys((mejor.get("huecos") or []) + ((actual or {}).get("huecos") or [])))
+        if huecos:
+            r = ("Lo que todavía no sabemos y conviene confirmar: " if es else "What we still don't know and you should confirm: ") \
+                + "; ".join(x.rstrip(".") for x in huecos) + "."
+            fuentes = mejor.get("fuentes", [])
+        else:
+            r = SIN_DATO[idioma]
+
+    elif intencion == "porque" and actual and any(_normaliza(w) in _normaliza(pregunta) for w in REF_ACTUAL):
+        r = (f"Tu rotación actual ({_ciclos(actual)}) está en {actual.get('semaforo')} con {actual.get('puntaje')}/100 "
+             f"porque {_res(actual, idioma)}. {actual.get('porque', '')}"
+             if es else
+             f"Your current rotation ({_ciclos(actual)}) is {COLORES_EN.get(actual.get('semaforo'), actual.get('semaforo'))} with {actual.get('puntaje')}/100 "
+             f"because it {_res(actual, idioma)}. {actual.get('porque', '')}")
+        riesgos = actual.get("riesgos") or []
+        if riesgos:
+            r += (" A revisar: " if es else " To review: ") + "; ".join(x.rstrip(".") for x in riesgos[:2]) + "."
+        fuentes = actual.get("fuentes", [])
+
+    elif intencion == "mejor":
         r = (f"La mejor opción para tus prioridades es {_ciclos(mejor)}: {_res(mejor, idioma)}. {mejor.get('porque', '')}"
              if es else
              f"The best option for your priorities is {_ciclos(mejor)}: {_res(mejor, idioma)}. {mejor.get('porque', '')}")
