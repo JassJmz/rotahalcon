@@ -10,7 +10,8 @@ Owner: Role 3. API keys go in `.env` (git-ignored).
 | Uncertainty (bootstrap → `resiliencia.rango`), `incertidumbre.py` + `POST /incertidumbre` | ✅ working — needs per-year results from backend (below) |
 | Satellite ↔ sensor calibration (linear vs. random forest) | ⏳ |
 | NDVI bare-soil detection | ⏳ optional |
-| Glossary texts · AI-use declaration | ⏳ |
+| Glossary EN/ES (10 terms) — `glosario.json` + `GET /glosario?idioma=en\|es` for the web tooltips | ✅ |
+| AI-use declaration | ⏳ |
 
 ## Local AI (Ollama) — free
 ```bash

@@ -1,0 +1,65 @@
+{
+  "_nota": "Plain-language glossary for the web tooltips (Role 4). Definitions only — no agronomic values. Owner: Role 3.",
+  "terminos": [
+    {
+      "id": "evapotranspiracion",
+      "en": { "termino": "Evapotranspiration", "corto": "Water that leaves your field into the air.", "largo": "Water evaporates from the soil and plants 'sweat' it out through their leaves. Together that is evapotranspiration. On hot, dry, windy days it is higher, so the crop needs more water." },
+      "es": { "termino": "Evapotranspiración", "corto": "El agua que tu parcela pierde hacia el aire.", "largo": "El agua se evapora del suelo y las plantas la 'sudan' por sus hojas. Juntas, eso es la evapotranspiración. En días calientes, secos y con viento es mayor, así que el cultivo necesita más agua." },
+      "fuente": "NASA"
+    },
+    {
+      "id": "ndvi",
+      "en": { "termino": "NDVI (vegetation index)", "corto": "How green and alive the field looks from space.", "largo": "Satellites measure how much light plants reflect. Healthy green plants give a high NDVI; bare soil or stressed plants give a low one. It helps spot months when the soil is bare." },
+      "es": { "termino": "NDVI (índice de vegetación)", "corto": "Qué tan verde y viva se ve la parcela desde el espacio.", "largo": "Los satélites miden cuánta luz reflejan las plantas. Las plantas verdes y sanas dan un NDVI alto; el suelo desnudo o las plantas estresadas, uno bajo. Sirve para ver en qué meses el suelo queda sin cubierta." },
+      "fuente": "NASA"
+    },
+    {
+      "id": "anomalia_humedad",
+      "en": { "termino": "Soil moisture anomaly", "corto": "Is the soil wetter or drier than usual?", "largo": "We compare the soil moisture now with what is normal for this place and time of year. A negative anomaly means drier than usual, a warning sign for drought." },
+      "es": { "termino": "Anomalía de humedad del suelo", "corto": "¿El suelo está más húmedo o más seco que de costumbre?", "largo": "Comparamos la humedad del suelo de ahora con la que es normal para este lugar y esta época del año. Una anomalía negativa significa más seco que de costumbre: una señal de alerta de sequía." },
+      "fuente": "NASA"
+    },
+    {
+      "id": "riesgo_helada",
+      "en": { "termino": "Frost risk", "corto": "Chance that it gets cold enough to damage the crop.", "largo": "When night temperature drops near or below freezing, many crops get damaged. We check, year by year, whether that happened while each crop was in the field." },
+      "es": { "termino": "Riesgo de helada", "corto": "Probabilidad de que haga tanto frío que dañe el cultivo.", "largo": "Cuando la temperatura de la noche baja cerca o por debajo del punto de congelación, muchos cultivos se dañan. Revisamos, año por año, si eso pasó mientras cada cultivo estaba en la parcela." },
+      "fuente": "NASA"
+    },
+    {
+      "id": "balance_hidrico",
+      "en": { "termino": "Water balance", "corto": "Water in versus water out.", "largo": "Rain and water stored in the soil come in; evapotranspiration takes it out. If more goes out than comes in during the crop's cycle, the crop suffers from lack of water." },
+      "es": { "termino": "Balance hídrico", "corto": "El agua que entra contra el agua que sale.", "largo": "Entran la lluvia y el agua guardada en el suelo; la evapotranspiración la saca. Si durante el ciclo del cultivo sale más de la que entra, el cultivo sufre por falta de agua." },
+      "fuente": "NASA"
+    },
+    {
+      "id": "resiliencia",
+      "en": { "termino": "Resilience score", "corto": "How many past years this rotation would have survived.", "largo": "We replay each rotation in every year since 1981 with real NASA climate and count the years it did OK. We also show its worst year, because one bad year can cost a whole harvest." },
+      "es": { "termino": "Puntaje de resiliencia", "corto": "Cuántos años pasados habría aguantado esta rotación.", "largo": "Repetimos cada rotación en cada año desde 1981 con clima real de la NASA y contamos los años en que salió bien. También mostramos su peor año, porque un solo año malo puede costar toda la cosecha." },
+      "fuente": "NASA"
+    },
+    {
+      "id": "rango_incertidumbre",
+      "en": { "termino": "Uncertainty range", "corto": "How sure we are about the score.", "largo": "The past doesn't repeat exactly. We reshuffle the years thousands of times and show the range where the result usually falls, for example 'works in 36 of 45 years (range 31–40)'." },
+      "es": { "termino": "Rango de incertidumbre", "corto": "Qué tan seguros estamos del puntaje.", "largo": "El pasado no se repite igual. Revolvemos los años miles de veces y mostramos el rango donde suele caer el resultado, por ejemplo 'funciona en 36 de 45 años (rango 31–40)'." },
+      "fuente": "RotaHalcón"
+    },
+    {
+      "id": "satelite_vs_sensor",
+      "en": { "termino": "Satellite vs. sensor", "corto": "The satellite sees kilometers; the sensor sees your field.", "largo": "Satellite data covers big areas, so it averages many fields together. The soil sensor measures your exact spot. We use the sensor to correct the satellite estimate for your field." },
+      "es": { "termino": "Satélite vs. sensor", "corto": "El satélite ve kilómetros; el sensor ve tu parcela.", "largo": "Los datos del satélite cubren áreas grandes, así que promedian muchas parcelas juntas. El sensor de suelo mide tu punto exacto. Usamos el sensor para corregir la estimación del satélite en tu parcela." },
+      "fuente": "NASA + SENSOR"
+    },
+    {
+      "id": "leguminosa",
+      "en": { "termino": "Legume (nitrogen fixing)", "corto": "Crops like beans and alfalfa that feed nitrogen to the soil.", "largo": "Legumes host bacteria in their roots that take nitrogen from the air and leave part of it in the soil, which helps the next crop." },
+      "es": { "termino": "Leguminosa (fija nitrógeno)", "corto": "Cultivos como el frijol y la alfalfa que le dan nitrógeno al suelo.", "largo": "Las leguminosas tienen bacterias en sus raíces que toman nitrógeno del aire y dejan parte en el suelo, lo que ayuda al siguiente cultivo." },
+      "fuente": "FAO"
+    },
+    {
+      "id": "temporal",
+      "en": { "termino": "Rainfed farming", "corto": "Farming that depends only on rain, no irrigation.", "largo": "Many fields in Durango are rainfed: the crop lives on the rain of the season and the water stored in the soil. That is why a dry year hits so hard." },
+      "es": { "termino": "Temporal", "corto": "Siembra que depende solo de la lluvia, sin riego.", "largo": "Muchas parcelas de Durango son de temporal: el cultivo vive de la lluvia de la temporada y del agua guardada en el suelo. Por eso un año seco pega tan fuerte." },
+      "fuente": "RotaHalcón"
+    }
+  ]
+}

@@ -23,6 +23,7 @@ load_dotenv()
 PROVEEDOR = os.getenv("ROTAHALCON_PROVEEDOR", "ollama")   # "ollama" (free, local) | "claude" | "plantilla"
 ORIGENES_PERMITIDOS = ["*"]                               # hackathon: open CORS so the web can call us
 MOCK_PATH = Path(__file__).with_name("mock_recomendacion.json")
+GLOSARIO_PATH = Path(__file__).with_name("glosario.json")
 # ───────────────────────────────────────────────────────────────────────
 
 RESPONDEDORES = {
@@ -31,7 +32,7 @@ RESPONDEDORES = {
     "plantilla": asistente.responder,
 }
 
-app = FastAPI(title="RotaHalcón AI", version="0.4.0")
+app = FastAPI(title="RotaHalcón AI", version="0.5.0")
 app.add_middleware(CORSMiddleware, allow_origins=ORIGENES_PERMITIDOS,
                    allow_methods=["*"], allow_headers=["*"])
 
@@ -66,3 +67,11 @@ def calcular_incertidumbre(recomendacion: dict):
     """Backend sends its /recomendar output with per-year results in each strategy
     (estrategia["anios"] = [{"anio": 1981, "ok": true}, ...]); we fill resiliencia.rango."""
     return incertidumbre.agregar_incertidumbre(recomendacion)
+
+
+@app.get("/glosario")
+def glosario(idioma: str = "en"):
+    """Plain-language glossary for the web tooltips. ?idioma=en|es"""
+    idioma = idioma if idioma in ("en", "es") else "en"
+    datos = json.loads(GLOSARIO_PATH.read_text(encoding="utf-8"))
+    return [{"id": t["id"], **t[idioma], "fuente": t["fuente"]} for t in datos["terminos"]]
