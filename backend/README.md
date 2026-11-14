@@ -14,7 +14,9 @@ Free plan: it sleeps after ~15 min idle and the first call takes ~1 min — open
 | `POST /recomendar` | ✅ **REAL** — current rotation + 3 alternatives, simulated on NASA climate 1981–2025 |
 | `GET /anio-malo?anio=2011&lat=..&lon=..` | ✅ **REAL** — same 4 strategies replayed in one past year |
 | `GET /sensor` | ✅ latest AGRISENSE reading from Firebase (or the flagged mock) — for Web's live soil card |
-| `POST /preguntar` | stub only — the real assistant is `ia/api.py` (Role 3), port 8001 |
+| `GET /calibracion` | ✅ satellite ↔ sensor calibration (Role 3 model), same block as in `/recomendar` |
+| `POST /preguntar` | ✅ Role 3 grounded assistant (`ia/rutas.py`). On Render: **template mode** (no Ollama, no keys); on the demo laptop with Ollama: local LLM |
+| `GET /glosario?idioma=en\|es` | ✅ Role 3 plain-language glossary for web tooltips |
 
 `calibracion` comes from **Role 3's model** (`ia/calibracion.py`: linear vs random forest, leave-one-out). It takes ~20 s, so `calibration_service.py` runs it in a **background thread** at startup and when new sensor history arrives (max every 30 min); requests always answer instantly. Until the first result: `"estado": "calculando"`. While the node has no moisture readings it uses Role 3's labeled **example data** (`"datos": "ejemplo"` + `aviso`).
 
