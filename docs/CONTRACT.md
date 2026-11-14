@@ -25,12 +25,16 @@ Respuesta:
       "resiliencia": { "anios_ok": 33, "anios_total": 42, "rango": [30, 35] },
       "peor_anio": { "anio": 2011, "motivo": "lluvia 45% abajo del promedio" },
       "porque": "texto corto", "beneficios": ["..."], "huecos": ["..."],
-      "riesgos": ["..."], "fuentes": ["NASA POWER PRECTOTCORR", "FAO ..."] }
+      "riesgos": ["..."], "fuentes": ["NASA POWER PRECTOTCORR", "FAO ..."],
+      "anios": [ { "anio": 1981, "ok": true, "cultivo": "frijol" },
+                 { "anio": 1982, "ok": false, "cultivo": "frijol", "motivo": "drought: ..." } ] }
   ],
   "sensor": { "...última lectura...": "" },
   "calibracion": { "satelite_pct": 18, "sensor_pct": 24, "ajuste": 6, "error": 3, "modelo": "lineal" } }
 ```
-**`GET /anio-malo?anio=2011&lat=..&lon=..`** devuelve lo mismo, pero solo para ese año.
+**Agregado (acordado entre Backend e IA):** `anios` = resultado de cada año simulado (la rotación se siembra en orden desde 1981: 1981 = ciclo 1, 1982 = ciclo 2…). `motivo` solo aparece cuando `ok` es `false`. Con esa lista, IA llena `resiliencia.rango` por bootstrap y agrega `resiliencia.metodo`. `sensor` lleva `"mock": true` mientras no sea una lectura real.
+
+**`GET /anio-malo?anio=2011&lat=..&lon=..`** devuelve lo mismo, pero solo para ese año (sin `anios`). Opcionales: `suelo`, `cultivos_previos` (separados por coma), `lluvia_pct`, `temp_c`.
 **`POST /preguntar`** recibe `{ "pregunta": "...", "recomendacion": {...} }` y devuelve `{ "respuesta": "...", "fuentes": ["..."] }`.
 
 
