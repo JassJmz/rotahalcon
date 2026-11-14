@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RotaHalcón · How it works</title>
+<style>
+  html,body{margin:0;height:100%;background:#0B1F3A;overflow:hidden;font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+  #wrap{width:100%;height:100%;display:flex;align-items:center;justify-content:center;cursor:pointer}
+  svg{max-width:100%;max-height:100%;width:100%;height:100%}
+  text{font-family:inherit}
+</style>
+</head>
+<body>
+<div id="wrap"><svg id="stage" viewBox="0 0 1280 720" preserveAspectRatio="xMidYMid meet"></svg></div>
+<!-- GSAP: CDN first; drop gsap.min.js into ./vendor/ to run fully offline -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script>window.gsap || document.write('<script src="vendor/gsap.min.js"><\/script>')</script>
+<script src="anim.js"></script>
+</body>
+</html>

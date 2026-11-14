@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RotaHalcón · Rotation as climate insurance</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.css">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = { theme: { extend: { colors: { navy: '#0B1F3A', navy2: '#102a4c', gold: '#D4AF37' } } } };
+</script>
+<style>
+  html{scroll-behavior:smooth}
+  body{background:#0B1F3A;color:#e8eef7}
+  .card{background:#102a4c;border:1px solid #1d3d6b;border-radius:16px}
+  .tag{font-size:11px;font-weight:700;letter-spacing:.5px;padding:2px 7px;border-radius:6px;display:inline-block}
+  .tag-NASA{background:#1d4ed8;color:#fff}
+  .tag-SENSOR{background:#D4AF37;color:#0B1F3A}
+  .tag-FAO{background:#15803d;color:#fff}
+  .tag-GAP{background:#7c2d12;color:#fed7aa}
+  .light{width:16px;height:16px;border-radius:50%;display:inline-block;box-shadow:0 0 10px currentColor}
+  .light.verde{background:#22c55e;color:#22c55e}.light.amarillo{background:#eab308;color:#eab308}.light.rojo{background:#ef4444;color:#ef4444}
+  #map{height:340px;border-radius:12px}
+  .term{border-bottom:1px dotted #D4AF37;cursor:help;position:relative}
+  .term:hover::after,.term:focus::after{content:attr(data-def);position:absolute;left:0;top:130%;width:260px;background:#000c;border:1px solid #D4AF37;color:#fff;padding:8px 10px;border-radius:8px;font-size:12.5px;z-index:30}
+  section{scroll-margin-top:70px}
+  input[type=range]{accent-color:#D4AF37;width:100%}
+  .reorder{transition:transform .4s}
+</style>
+</head>
+<body>
+<nav class="sticky top-0 z-40 bg-navy/90 backdrop-blur border-b border-navy2">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex items-center gap-4 overflow-x-auto text-sm whitespace-nowrap">
+    <a href="#top" class="font-bold text-gold text-base">RotaHalcón</a>
+    <a href="#field" class="hover:text-gold">My field</a>
+    <a href="#soil" class="hover:text-gold">My soil today</a>
+    <a href="#compare" class="hover:text-gold">Compare</a>
+    <a href="#badyear" class="hover:text-gold">Your bad year</a>
+    <a href="#whatif" class="hover:text-gold">What if…?</a>
+    <a href="#ask" class="hover:text-gold">Ask RotaHalcón</a>
+    <a href="#glossary" class="hover:text-gold">Glossary</a>
+    <a href="#report" class="hover:text-gold">Report</a>
+    <a href="#how" class="hover:text-gold">How it works</a>
+  </div>
+</nav>
+
+<header id="top" class="max-w-6xl mx-auto px-4 pt-12 pb-8">
+  <p class="text-gold font-semibold tracking-wide">NASA Space Apps Challenge 2026 · Field Shift · Halcones Dorados (ITSRLL)</p>
+  <h1 class="text-4xl md:text-6xl font-extrabold mt-2">Rotation as <span class="text-gold">climate insurance</span></h1>
+  <p class="mt-4 text-lg text-slate-300 max-w-3xl">We test every crop rotation against 40+ years of real NASA climate, correct it with a sensor in your field, and tell you which one holds up best in a bad year, not on average.</p>
+  <div id="demoBanner" class="mt-5 inline-flex items-center gap-2 rounded-lg border border-amber-500 text-amber-300 px-3 py-1.5 text-sm">⚠ DEMO DATA · mock responses in the exact API format</div>
+</header>
+
+<main class="max-w-6xl mx-auto px-4 space-y-14 pb-20">
+
+<!-- 1 -->
+<section id="field">
+  <h2 class="text-2xl font-bold mb-1">1 · My field</h2>
+  <p class="text-slate-400 mb-4">Drop a pin on your plot, pick the soil and the last 2 crops you planted.</p>
+  <div class="grid md:grid-cols-2 gap-5">
+    <div class="card p-3"><div id="map"></div></div>
+    <div class="card p-5 space-y-4">
+      <div class="grid grid-cols-2 gap-3">
+        <label class="text-sm text-slate-300">Latitude<input id="lat" type="number" step="0.001" class="w-full mt-1 rounded-lg bg-navy border border-navy2 px-3 py-2"></label>
+        <label class="text-sm text-slate-300">Longitude<input id="lon" type="number" step="0.001" class="w-full mt-1 rounded-lg bg-navy border border-navy2 px-3 py-2"></label>
+      </div>
+      <label class="text-sm text-slate-300 block">Soil type
+        <select id="suelo" class="w-full mt-1 rounded-lg bg-navy border border-navy2 px-3 py-2">
+          <option value="franco">Loam</option><option value="arenoso">Sandy</option><option value="arcilloso">Clay</option>
+        </select>
+      </label>
+      <div class="grid grid-cols-2 gap-3">
+        <label class="text-sm text-slate-300">Crop, 2 cycles ago<select id="prev1" class="w-full mt-1 rounded-lg bg-navy border border-navy2 px-3 py-2"></select></label>
+        <label class="text-sm text-slate-300">Crop, last cycle<select id="prev2" class="w-full mt-1 rounded-lg bg-navy border border-navy2 px-3 py-2"></select></label>
+      </div>
+      <button id="runBtn" class="w-full bg-gold text-navy font-bold rounded-xl py-3 hover:brightness-110">Test my rotations →</button>
+    </div>
+  </div>
+</section>
+
+<!-- 2 -->
+<section id="soil">
+  <h2 class="text-2xl font-bold mb-1">2 · My soil today</h2>
+  <p class="text-slate-400 mb-4">Live reading from the AGRISENSE node in your field. <span id="soilTime" class="text-slate-500"></span></p>
+  <div id="soilGrid" class="grid grid-cols-2 md:grid-cols-4 gap-3"></div>
+</section>
+
+<!-- 3 -->
+<section id="compare">
+  <h2 class="text-2xl font-bold mb-1">3 · Compare</h2>
+  <p class="text-slate-400 mb-4">Your current rotation and 3 alternatives, each simulated over 3 cycles in every year since 1981.</p>
+  <div id="cards" class="grid md:grid-cols-2 gap-5"></div>
+  <div id="calib" class="card p-4 mt-5 text-sm"></div>
+</section>
+
+<!-- 4 -->
+<section id="badyear">
+  <h2 class="text-2xl font-bold mb-1">4 · Your bad year</h2>
+  <p class="text-slate-400 mb-4">Pick a year you remember. See what each rotation would have done.</p>
+  <div class="card p-5">
+    <label class="text-sm text-slate-300">Year
+      <select id="yearSel" class="ml-2 rounded-lg bg-navy border border-navy2 px-3 py-2"></select>
+    </label>
+    <div id="yearOut" class="grid md:grid-cols-2 gap-4 mt-4"></div>
+  </div>
+</section>
+
+<!-- 5 -->
+<section id="whatif">
+  <h2 class="text-2xl font-bold mb-1">5 · What if…?</h2>
+  <p class="text-slate-400 mb-4">Change your priorities or the climate. The ranking re-orders live.</p>
+  <div class="grid md:grid-cols-2 gap-5">
+    <div class="card p-5 space-y-3">
+      <h3 class="font-semibold text-gold">Priorities</h3>
+      <div id="prioBox" class="space-y-3"></div>
+      <h3 class="font-semibold text-gold pt-2">Scenario</h3>
+      <label class="text-sm text-slate-300 block">Rainfall <b id="rainV" class="float-right text-white">0%</b><input id="rain" type="range" min="-30" max="20" step="5" value="0"></label>
+      <label class="text-sm text-slate-300 block">Temperature <b id="tempV" class="float-right text-white">+0.0 °C</b><input id="temp" type="range" min="0" max="3" step="0.5" value="0"></label>
+      <div class="flex gap-2 pt-1">
+        <button id="preset1" class="text-xs border border-gold text-gold rounded-lg px-3 py-1.5">Rain −20%</button>
+        <button id="preset2" class="text-xs border border-gold text-gold rounded-lg px-3 py-1.5">+1.5 °C</button>
+        <button id="preset0" class="text-xs border border-slate-500 text-slate-300 rounded-lg px-3 py-1.5">Reset</button>
+      </div>
+    </div>
+    <div class="card p-5">
+      <h3 class="font-semibold text-gold mb-3">Live ranking</h3>
+      <div id="rank" class="space-y-2"></div>
+    </div>
+  </div>
+</section>
+
+<!-- 6 -->
+<section id="ask">
+  <h2 class="text-2xl font-bold mb-1">6 · Ask RotaHalcón</h2>
+  <p class="text-slate-400 mb-4">An assistant that does not make things up: every answer cites NASA, SENSOR or FAO/INIFAP, and says when a source is missing.</p>
+  <div class="card p-5">
+    <div id="chat" class="space-y-3 max-h-72 overflow-y-auto mb-3"></div>
+    <form id="chatForm" class="flex gap-2">
+      <input id="chatIn" class="flex-1 rounded-lg bg-navy border border-navy2 px-3 py-2" placeholder="Why is my current rotation red?">
+      <button class="bg-gold text-navy font-bold rounded-lg px-5">Ask</button>
+    </form>
+  </div>
+</section>
+
+<!-- 7 -->
+<section id="glossary">
+  <h2 class="text-2xl font-bold mb-1">7 · Glossary</h2>
+  <p class="text-slate-400 mb-4">Hover or tap a term. <span class="text-amber-300">Provisional texts: final wording comes from Role 3.</span></p>
+  <div id="gloss" class="card p-5 flex flex-wrap gap-4 text-lg"></div>
+</section>
+
+<!-- 8 -->
+<section id="report">
+  <h2 class="text-2xl font-bold mb-1">8 · Report</h2>
+  <p class="text-slate-400 mb-4">A one-page summary you can download or send by WhatsApp.</p>
+  <div class="card p-5 flex flex-col md:flex-row items-start gap-5">
+    <div id="reportPreview" class="flex-1 text-sm"></div>
+    <div class="space-y-2 w-full md:w-60">
+      <button id="waBtn" class="w-full bg-green-600 text-white font-semibold rounded-lg py-2.5">Share on WhatsApp</button>
+      <button class="w-full border border-gold text-gold rounded-lg py-2.5 opacity-60 cursor-not-allowed" title="Report PDF is built by Role 1 (web/boleta/)">Download PDF (coming)</button>
+    </div>
+  </div>
+  <p class="mt-4 text-center text-amber-200 font-semibold">Decision support tool — does not replace an agronomist.</p>
+</section>
+
+<!-- How it works -->
+<section id="how">
+  <h2 class="text-2xl font-bold mb-1">How it works</h2>
+  <p class="text-slate-400 mb-4">Click the animation or press → to move through the story.</p>
+  <div class="card p-2"><iframe src="animacion/index.html" title="How RotaHalcón works" class="w-full aspect-video rounded-xl" allowfullscreen></iframe></div>
+  <p class="text-xs text-slate-500 mt-2"><a class="underline" href="animacion/index.html" target="_blank" rel="noopener">Open full screen</a></p>
+</section>
+</main>
+
+<footer class="border-t border-navy2 py-8 text-center text-xs text-slate-400 px-4">
+  Data: NASA POWER · AGRISENSE node (Alberto Ortega, Gabriel Jahir Landa, Lizzeth Avalos, Cecilia Reyes, Angel Moreno) · FAO / INIFAP references. Open source: github.com/JassJmz/rotahalcon · Built with the help of AI tools (see project page). Not affiliated with or endorsed by NASA.
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
