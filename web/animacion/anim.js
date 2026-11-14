@@ -1,6 +1,8 @@
 // RotaHalcón pitch animation – 11 scenes (HTML + SVG + GSAP)
 // Controls: click / → / Space = next · ← = back · F = fullscreen · Home = restart
 // ?autoplay=1        advances by itself (screen-record the 1080p MP4 backup)
+// ?short=1            ~30 s version: soil, cloud, calibration, every rotation, worst year, close. Plays by itself (add &autoplay=0 to click through).
+//                     With short=1, start/end are positions 0-5 inside that sequence (slide 3 = 0..2, slide 4 = 3..5).
 // ?start=N&end=M      plays only scenes N..M; going past the ends tells the parent page (slide deck) to move on
 // ?scene=N&t=SECONDS freezes scene N (0-10) at time t: for slide stills and frame-by-frame review
 'use strict';
@@ -477,13 +479,17 @@ SCENES.push({ act: 'ROTAHALCÓN', cap: 'RotaHalcón — rotation as climate insu
 } });
 
 /* ---------- controller ---------- */
-const START = Math.max(0, +(Q.get('start') || 0)), END = Math.min(SCENES.length - 1, Q.get('end') !== null ? +Q.get('end') : SCENES.length - 1);
+const SHORT = Q.get('short') === '1';
+const SEQ = SHORT ? [1, 3, 4, 6, 7, 10] : SCENES.map((_, i) => i);                 // scene indexes played, in order
+const SPEED = { 1: 1.6, 3: 1.3, 4: 1.6, 6: 1.9, 7: 1.4, 10: 1 };                    // short version: play some scenes faster
+const AUTO = SHORT ? Q.get('autoplay') !== '0' : !!Q.get('autoplay'), HOLD = SHORT ? 0.8 : 0;   // seconds to hold a finished scene
+const START = Math.max(0, +(Q.get('start') || 0)), END = Math.min(SEQ.length - 1, Q.get('end') !== null ? +Q.get('end') : SEQ.length - 1);
 let cur = -1, live = null, master = null, timer = null;
 function step(d) {                       // click / arrows: next or previous scene inside the range, else hand over to the deck
-  const n = cur + d;
+  const n = SEQ.indexOf(cur) + d;
   if (n > END) { parent !== window && parent.postMessage({ rota: 'next' }, '*'); return; }
   if (n < START) { parent !== window && parent.postMessage({ rota: 'prev' }, '*'); return; }
-  go(n);
+  go(SEQ[n]);
 }
 
 function setCaption(s) {
@@ -521,14 +527,18 @@ function go(n, instant, fromOverride) {
   const ctx = gsap.context(() => { master = S.build(g, from); });
   live = { g, ctx };
   setCaption(S.cap);
-  if (Q.get('autoplay') && n < END) timer = setTimeout(() => go(n + 1), DURATIONS[n] * 1000);
+  if (SHORT && master) master.timeScale(SPEED[n] || 1);
+  if (AUTO && !instant) {
+    if (SHORT && master) master.eventCallback('onComplete', () => { timer = setTimeout(() => step(1), HOLD * 1000); });
+    else if (SEQ.indexOf(n) < END) timer = setTimeout(() => step(1), DURATIONS[n] * 1000);
+  }
 }
 
 document.getElementById('wrap').addEventListener('click', () => step(1));
 document.addEventListener('keydown', e => {
   if (['ArrowRight', ' ', 'PageDown', 'Enter'].includes(e.key)) { e.preventDefault(); step(1); }
   else if (['ArrowLeft', 'PageUp', 'Backspace'].includes(e.key)) { e.preventDefault(); step(-1); }
-  else if (e.key === 'Home') go(START);
+  else if (e.key === 'Home') go(SEQ[START]);
   else if (e.key.toLowerCase() === 'f') (document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen()).catch(() => {});
 });
 
@@ -539,4 +549,4 @@ if (Q.get('scene') !== null) {            // freeze a scene at time t (stills / 
   if (master) master.seek(t, false);
   capTxt.querySelectorAll('tspan').forEach(s => s.setAttribute('fill-opacity', 1));
   capTxt.setAttribute('transform', 'translate(0 0)'); capLine.setAttribute('opacity', .9);
-} else go(START);
+} else go(SEQ[START]);

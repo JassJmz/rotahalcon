@@ -9,9 +9,9 @@ Ejemplo actual (agricultor de maíz, Durango, 45 temporadas 1981–2025): la rot
 |---|---|---|
 | 1 Portada | 0:00–0:10 | Quien expone |
 | 2 El problema | 0:10–0:50 | Quien expone |
-| 3 Animación, Acto 1 (sensor) | 0:50–1:20 | Quien expone, avanza con clic |
-| 4 Animación, Acto 2 (RotaHalcón) | 1:20–2:00 | Quien expone, avanza con clic |
-| 5 Demostración en vivo | 2:00–3:15 | Quien expone maneja la web; Rol 1 maneja el nodo |
+| 3 Animación, parte 1 (sensor, ~13 s) | 0:50–1:10 | Se reproduce sola |
+| 4 Animación, parte 2 (el sistema, ~14 s) | 1:10–1:35 | Se reproduce sola |
+| 5 Demostración en vivo | 1:35–3:15 | Quien expone maneja la web; Rol 1 maneja el nodo |
 | 6 Impacto y validez | 3:15–3:50 | Quien expone |
 | 7 Cierre | 3:50–4:00 | Quien expone |
 
@@ -25,16 +25,13 @@ Ejemplo actual (agricultor de maíz, Durango, 45 temporadas 1981–2025): la rot
 Los datos del clima de la NASA son gratuitos, pero cubren kilómetros, no su parcela, y son difíciles de interpretar.
 Entonces nos hicimos una pregunta simple: con 45 años de datos reales de la NASA, ¿cuántas veces le habría fallado el maíz a don José? La respuesta: 23 temporadas de 45."
 
-**3 · Animación, Acto 1 (30 s) — avanzar con clic por las escenas 1 a 5**
-"Primero, el campo. Nuestro nodo AGRISENSE entra al suelo y lee nitrógeno, fósforo, potasio, pH, salinidad y humedad. La señal pasa por un módulo RS485 a un ESP32 y de ahí a la nube, cada minuto.
-¿Por qué un sensor? Porque un satélite ve un píxel de varios kilómetros. Nosotros vemos este campo. Comparamos los dos y corregimos al satélite con la tierra. En esta demostración esa calibración son datos de ejemplo: es nuestro próximo módulo."
+**3 · Animación, parte 1 (20 s) — se reproduce sola (suelo, calibración)**
+"Nuestro nodo AGRISENSE lee el suelo: nitrógeno, fósforo, potasio, pH, salinidad y humedad, y lo manda a la nube cada minuto. Un satélite ve un píxel de varios kilómetros; nosotros vemos este campo. Corregimos al satélite con la tierra. En esta demostración esa calibración son datos de ejemplo: es nuestro próximo módulo."
 
-**4 · Animación, Acto 2 (40 s) — avanzar con clic por las escenas 6 a 11**
-"Ahora el sistema. Tomamos la lluvia de cada año de la NASA, 45 años, y probamos cada rotación en cada año. Rojo significa que el cultivo falla.
-El maíz de don José falla en 23 temporadas. Una rotación de frijol, frijol y sorgo falla en 9. Y miren el peor año, 1997, con la lluvia 56 por ciento por debajo de lo normal: lo mostramos, no el promedio.
-Luego el agricultor cambia sus prioridades y el ranking se mueve. Puede preguntarle al asistente, y cada respuesta cita su fuente: la NASA, el sensor o la FAO. Y recibe un reporte en su celular."
+**4 · Animación, parte 2 (25 s) — se reproduce sola (cada rotación, peor año)**
+"Después probamos cada rotación en cada uno de los 45 años de datos de la NASA. Rojo significa que el cultivo falla. El maíz de don José falla en 23 temporadas. Frijol, frijol y sorgo, en 9. Y mostramos el peor año, 1997, no el promedio. Vamos a verlo en vivo."
 
-**5 · Demostración en vivo (1:15)**
+**5 · Demostración en vivo (1:40)**
 "Vamos a usarlo. Marco la parcela en el mapa. Aquí está el suelo, en vivo desde nuestro nodo [el Rol 1 toca la sonda]. Aquí hay cuatro rotaciones, lado a lado. La actual de don José está en rojo: funciona en 22 de 45 años. Esta funciona en 36, con un rango, porque no afirmamos tener certeza.
 Elijo un año malo, 1997. Miren lo que habría pasado con cada rotación.
 Ahora muevo los sliders: más peso al agua, y el ranking cambia. Fíjense en el slider de ingreso: dice hueco de información. No tenemos un costo de semilla ni un precio del cultivo con fuente para Durango, y lo decimos en lugar de fingir.
@@ -49,7 +46,7 @@ Es código abierto: cualquier región puede conectar sus propios cultivos y su c
 
 ## Plan B
 - Sin red: la web usa su respuesta real guardada (aviso OFFLINE SNAPSHOT); la animación corre con archivos locales.
-- Si falla la animación: reproducir el MP4 (`?autoplay=1&lang=es`, grabado en pantalla a 1080p).
+- Si falla la animación: reproducir el MP4 (`animacion/index.html?short=1&lang=es`, grabado en pantalla a 1080p; sirve también como el video de 30 segundos si no permiten diapositivas con animación).
 - Preguntas probables de los jueces:
   - *¿El sensor es en vivo?* — El nodo lee suelo real; la calibración con el satélite en la demo son datos de ejemplo y así está etiquetado. Es el próximo módulo.
   - *¿Por qué en 1997 fallaron las dos rotaciones?* — El motor dice que ese año fue demasiado seco para ambas. El punto es 9 fallos en lugar de 23, no cero.
