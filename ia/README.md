@@ -60,3 +60,13 @@ POST /calibrar  { "lecturas": [ { "ts": 1794700000, "humedad_pct": 44.2 }, { "fe
 
 Backend can fill `/recomendar`'s `calibracion` with `from calibracion import calibrar` (same pattern as `agregar_incertidumbre`).
 With the synthetic example (hypothetical field = 0.85 × satellite + 12), the linear model recovers slope 0.84 / intercept 12.0, MAE 1.45 vs random forest 1.51 (50 trees; set `CALIBRACION_ARBOLES` to change) — the method works. Timestamps in seconds or milliseconds are accepted.
+
+## Serving the AI routes from the public backend (Render)
+`ia/rutas.py` is a FastAPI router with `POST /preguntar` and `GET /glosario`. It needs only fastapi + pydantic:
+```python
+# backend/main.py  (ia/ is already on sys.path)
+from rutas import router as ia_router
+app.include_router(ia_router)      # remove the old /preguntar stub first
+```
+On Render there is no Ollama, so `/preguntar` answers in template mode (exact, instant). On the demo laptop with Ollama running, the local service (port 8001) answers free-form questions with the local LLM.
+The web should send the `recomendacion` it already got from `/recomendar` in the `/preguntar` body; without it a real snapshot is used.

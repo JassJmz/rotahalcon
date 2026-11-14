@@ -12,7 +12,7 @@ import httpx
 from dotenv import load_dotenv
 
 from asistente import responder as responder_plantilla, AVISO, compactar, resumen_para_llm
-from asistente_llm import SISTEMA, ESQUEMA   # same grounding rules as the Claude mode
+from prompt import SISTEMA, ESQUEMA   # same grounding rules as the Claude mode
 
 # ── DATOS ──────────────────────────────────────────────────────────────
 load_dotenv()

@@ -1,45 +1,33 @@
 """
-RotaHalcón — AI service. Endpoint: POST /preguntar (see docs/CONTRACT.md).
+RotaHalcón — AI service (local, port 8001). Endpoints: see docs/CONTRACT.md.
 
 Run:   .venv/bin/uvicorn api:app --reload --port 8001
 Docs:  http://localhost:8001/docs
+
+/preguntar and /glosario live in rutas.py so the public backend can include them too.
 """
-import json
-import os
-from pathlib import Path
-
-from dotenv import load_dotenv
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
-
-import asistente
-import asistente_llm
-import asistente_ollama
-import incertidumbre
-import calibracion
 from functools import lru_cache
 
+from dotenv import load_dotenv
+
+load_dotenv()                                  # before importing modules that read env vars
+
+from fastapi import FastAPI                    # noqa: E402
+from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
+from pydantic import BaseModel                 # noqa: E402
+
+import calibracion                             # noqa: E402
+import incertidumbre                           # noqa: E402
+import rutas                                   # noqa: E402
+
 # ── DATOS ──────────────────────────────────────────────────────────────
-load_dotenv()
-PROVEEDOR = os.getenv("ROTAHALCON_PROVEEDOR", "ollama")   # "ollama" (free, local) | "claude" | "plantilla"
-# Hybrid: questions the templates recognize get the exact template answer (always correct);
-# only free-form questions go to the LLM. Recommended with the small local model.
-HIBRIDO = os.getenv("ROTAHALCON_HIBRIDO", "true").lower() == "true"
-ORIGENES_PERMITIDOS = ["*"]                               # hackathon: open CORS so the web can call us
-MOCK_PATH = Path(__file__).with_name("mock_recomendacion.json")
-GLOSARIO_PATH = Path(__file__).with_name("glosario.json")
+ORIGENES_PERMITIDOS = ["*"]                    # hackathon: open CORS so the web can call us
 # ───────────────────────────────────────────────────────────────────────
 
-RESPONDEDORES = {
-    "ollama": asistente_ollama.responder,
-    "claude": asistente_llm.responder,
-    "plantilla": asistente.responder,
-}
-
-app = FastAPI(title="RotaHalcón AI", version="0.6.0")
+app = FastAPI(title="RotaHalcón AI", version="0.7.0")
 app.add_middleware(CORSMiddleware, allow_origins=ORIGENES_PERMITIDOS,
                    allow_methods=["*"], allow_headers=["*"])
+app.include_router(rutas.router)               # POST /preguntar, GET /glosario
 
 
 class Lecturas(BaseModel):
@@ -51,32 +39,9 @@ def _calibracion_ejemplo() -> dict:
     return calibracion.calibrar(None)
 
 
-class Pregunta(BaseModel):
-    pregunta: str
-    recomendacion: dict | None = None   # backend /recomendar output; mock if missing
-    idioma: str | None = None           # optional: "en" | "es"
-
-
 @app.get("/salud")
 def salud():
-    return {
-        "ok": True,
-        "servicio": "ia",
-        "proveedor": PROVEEDOR,
-        "hibrido": HIBRIDO,
-        "ollama": asistente_ollama.disponible(),
-        "ollama_modelo": asistente_ollama.OLLAMA_MODELO,
-        "claude_key": bool(os.getenv("ANTHROPIC_API_KEY")),
-    }
-
-
-@app.post("/preguntar")
-def preguntar(p: Pregunta):
-    rec = p.recomendacion or json.loads(MOCK_PATH.read_text())
-    if HIBRIDO and PROVEEDOR != "plantilla" and asistente._intencion(p.pregunta) != "desconocida":
-        return asistente.responder(p.pregunta, rec, p.idioma)
-    responder = RESPONDEDORES.get(PROVEEDOR, asistente.responder)
-    return responder(p.pregunta, rec, p.idioma)
+    return {"ok": True, "servicio": "ia", **rutas.info()}
 
 
 @app.post("/incertidumbre")
@@ -84,14 +49,6 @@ def calcular_incertidumbre(recomendacion: dict):
     """Backend sends its /recomendar output with per-year results in each strategy
     (estrategia["anios"] = [{"anio": 1981, "ok": true}, ...]); we fill resiliencia.rango."""
     return incertidumbre.agregar_incertidumbre(recomendacion)
-
-
-@app.get("/glosario")
-def glosario(idioma: str = "en"):
-    """Plain-language glossary for the web tooltips. ?idioma=en|es"""
-    idioma = idioma if idioma in ("en", "es") else "en"
-    datos = json.loads(GLOSARIO_PATH.read_text(encoding="utf-8"))
-    return [{"id": t["id"], **t[idioma], "fuente": t["fuente"]} for t in datos["terminos"]]
 
 
 @app.get("/calibracion")
