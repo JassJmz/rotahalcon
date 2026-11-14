@@ -98,7 +98,7 @@ def resumen_para_llm(recomendacion: dict) -> str:
                     ("n_mgkg", "Nitrogen N", " mg/kg"), ("p_mgkg", "Phosphorus P", " mg/kg"),
                     ("k_mgkg", "Potassium K", " mg/kg")]
         for k, nombre, u in unidades:
-            if k in s:
+            if s.get(k) is not None:
                 lineas.append(f"{nombre}: {s[k]}{u}")
         lineas.append("There are no reference thresholds in this data: do not judge these values as good or bad.")
         lineas.append("")
@@ -212,7 +212,7 @@ def responder(pregunta: str, recomendacion: dict, idioma: str | None = None) -> 
         campos = [("humedad_pct", "moisture", "humedad", "%"), ("n_mgkg", "N", "N", " mg/kg"),
                   ("p_mgkg", "P", "P", " mg/kg"), ("k_mgkg", "K", "K", " mg/kg"),
                   ("ph", "pH", "pH", ""), ("ce_uScm", "EC", "CE", " µS/cm")]
-        partes = [f"{(es_n if es else en_n)} {sensor[k]}{u}" for k, en_n, es_n, u in campos if k in sensor]
+        partes = [f"{(es_n if es else en_n)} {sensor[k]}{u}" for k, en_n, es_n, u in campos if sensor.get(k) is not None]
         r = ("Lectura del sensor en tu parcela: " if es else "Sensor reading in your field: ") + ", ".join(partes) + "."
         r += (" Es una lectura indicativa, no un análisis de laboratorio." if es
               else " It is an indicative reading, not a lab analysis.")
