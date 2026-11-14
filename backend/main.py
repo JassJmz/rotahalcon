@@ -19,6 +19,8 @@ ALLOWED_ORIGINS = ["*"]               # open CORS for the hackathon (Web on any 
 # ── FIN DATOS ──
 
 import copy
+import sys
+from pathlib import Path
 from typing import Dict, List, Optional
 
 from fastapi import FastAPI, HTTPException, Query
@@ -26,6 +28,14 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 import engine
+
+# Role 3 bootstrap (ia/incertidumbre.py) fills resiliencia.rango from the per-year results.
+# If it cannot be imported, the engine's 90 % Wilson interval stays in place.
+sys.path.append(str(Path(__file__).resolve().parent.parent / "ia"))
+try:
+    from incertidumbre import agregar_incertidumbre
+except ImportError:
+    agregar_incertidumbre = None
 
 app = FastAPI(title="RotaHalcón API", version="0.2.0")
 app.add_middleware(
@@ -89,6 +99,7 @@ def salud():
         "ok": True, "service": "RotaHalcón API", "mock": MOCK_MODE,
         "years": [engine.YEARS[0], engine.YEARS[-1]],
         "crops": engine.CROP_IDS, "soils": list(engine.SOILS),
+        "uncertainty": "bootstrap (ia/incertidumbre.py)" if agregar_incertidumbre else "wilson 90%",
     }
 
 
@@ -101,7 +112,10 @@ def recomendar(datos: RecomendarIn):
         )
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc))
-    return _envelope(estrategias)
+    rec = _envelope(estrategias)
+    if agregar_incertidumbre:
+        rec = agregar_incertidumbre(rec)
+    return rec
 
 
 @app.get("/anio-malo")

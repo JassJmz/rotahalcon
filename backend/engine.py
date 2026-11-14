@@ -212,41 +212,48 @@ def _wilson(ok, n, z=CONF_Z):
 
 
 # ───────────────────────── rotation scoring ─────────────────────────
-def simulate(ciclos, soil_id, rain_pct=0.0, temp_c=0.0, years=None):
-    years = years or YEARS
-    per_year, fails_by = [], {"drought": 0.0, "frost": 0.0}
+def simulate(ciclos, soil_id, rain_pct=0.0, temp_c=0.0):
+    """Plant the rotation in order since the first year: year k grows ciclos[k % 3]."""
+    seasons = []
+    for k, y in enumerate(YEARS):
+        e = evaluate(ciclos[k % len(ciclos)], y, soil_id, rain_pct, temp_c)
+        if e:
+            seasons.append(e)
+    n = len(seasons)
+    ok = sum(e["ok"] for e in seasons)
+    fails_by = {"drought": sum(e["cause"] == "drought" for e in seasons),
+                "frost": sum(e["cause"] == "frost" for e in seasons)}
+
+    # climate risk of each crop over ALL years (phase independent, for texts and water score)
     crop_fails = {c: {"drought": 0, "frost": 0} for c in set(ciclos)}
     ratios = []
-    for y in years:
-        evs = [evaluate(c, y, soil_id, rain_pct, temp_c) for c in ciclos]
-        evs = [e for e in evs if e]
-        if not evs:
-            continue
-        frac = sum(not e["ok"] for e in evs) / len(evs)
-        for e in evs:
-            ratios.append(min(1.0, e["water_ratio"]))
-            if not e["ok"]:
-                fails_by[e["cause"]] += 1 / len(evs)
-        for c in set(ciclos):
+    for c in ciclos:
+        for y in YEARS:
+            e = evaluate(c, y, soil_id, rain_pct, temp_c)
+            if e:
+                ratios.append(min(1.0, e["water_ratio"]))
+    for c in set(ciclos):
+        for y in YEARS:
             e = evaluate(c, y, soil_id, rain_pct, temp_c)
             if e and not e["ok"]:
                 crop_fails[c][e["cause"]] += 1
-        per_year.append((y, frac, evs))
-    n = len(per_year)
-    expected_fail = sum(f for _, f, _ in per_year)
-    ok = n - round(expected_fail)
 
-    worst_y, worst_f, worst_evs = max(
-        per_year, key=lambda t: (t[1], -min(e["water_ratio"] for e in t[2])))
-    worst_e = min(worst_evs, key=lambda e: (e["ok"], e["water_ratio"]))
+    failed = [e for e in seasons if not e["ok"]]
+    worst = min(failed or seasons, key=lambda e: (e["cause"] != "frost", e["water_ratio"]))
+    anios = []
+    for e in seasons:
+        item = {"anio": e["year"], "ok": e["ok"], "cultivo": e["crop"]}
+        if not e["ok"]:
+            item["motivo"] = _motivo(e)
+        anios.append(item)
     return {
-        "n": n, "ok": ok, "ok_share": (n - expected_fail) / n,
+        "n": n, "ok": ok, "ok_share": ok / n,
         "rango": _wilson(ok, n),
-        "peor_anio": {"anio": worst_y, "motivo": _motivo(worst_e)},
-        "fails_by": {k: round(v) for k, v in fails_by.items()},
+        "peor_anio": {"anio": worst["year"], "motivo": _motivo(worst)},
+        "fails_by": fails_by,
         "crop_fails": crop_fails,
         "water_score": 100 * statistics.fmean(ratios),
-        "per_year": per_year,
+        "anios": anios,
     }
 
 
@@ -329,6 +336,7 @@ def _strategy(id_, ciclos, sim, score, previos, site_far, es_actual):
         "peor_anio": sim["peor_anio"],
         "porque": porque, "beneficios": beneficios, "huecos": huecos,
         "riesgos": riesgos, "fuentes": fuentes,
+        "anios": sim["anios"],      # per-year results (Role 3 bootstrap, animation scene 7)
     }
 
 
@@ -383,8 +391,10 @@ def bad_year(anio, lat, lon, suelo, cultivos_previos, prioridades, lluvia_pct=0.
     soil = normalize_soil(suelo)
     strategies = recommend(lat, lon, suelo, cultivos_previos, prioridades, lluvia_pct, temp_c)
     for st in strategies:
-        sim = simulate(tuple(st["ciclos"]), soil, lluvia_pct, temp_c, years=[anio])
-        _, frac, evs = sim["per_year"][0]
+        st.pop("anios", None)
+        # "if a year like this came back": every cycle of the rotation faces it
+        evs = [e for c in st["ciclos"] if (e := evaluate(c, anio, soil, lluvia_pct, temp_c))]
+        frac = sum(not e["ok"] for e in evs) / len(evs)
         failed = [e for e in evs if not e["ok"]]
         worst = min(evs, key=lambda e: (e["ok"], e["water_ratio"]))
         st["semaforo"] = "verde" if frac == 0 else "amarillo" if frac < 0.5 else "rojo"

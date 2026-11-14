@@ -46,7 +46,10 @@ A season **fails by drought** when the expected yield loss is **≥ 50 %**.
 
 **2 · Frost.** Did NASA `T2M_MIN` reach the FAO critical damage temperature for the crop stage (germination / flowering / fruiting, FAO frost Table 4.5)?
 
-**Rotation** = 3 cycles, one rainfed crop per year, repeated. Its resilience is the expected number of failed seasons over 45 years (it does not depend on which cycle falls in which year). `rango` is a 90 % Wilson interval (Role 3 may replace it with the bootstrap).
+**Rotation** = 3 cycles, one rainfed crop per year, **planted in order since 1981** (1981 = cycle 1, 1982 = cycle 2, 1983 = cycle 3, 1984 = cycle 1 …). Resilience = seasons OK / 45.
+Each strategy carries **`anios`**: `[{"anio": 1981, "ok": true, "cultivo": "maiz"}, {"anio": 1989, "ok": false, "cultivo": "maiz", "motivo": "drought: …"}, …]` — used by Role 3 and by the animation (scene 7).
+`rango` comes from **Role 3's bootstrap** (`ia/incertidumbre.py`, 2000 resamples, 5th–95th percentile, adds `resiliencia.metodo`). If that module is missing, a 90 % Wilson interval is used.
+`/anio-malo` answers a different question — *"if a year like this came back, how many of my 3 cycles would fail?"* — so it has no `anios`.
 
 **Score (`puntaje`, 0–100)** = weighted with the user's priorities:
 | Priority | Score | Data |
