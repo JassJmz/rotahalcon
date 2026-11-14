@@ -46,3 +46,12 @@ alfalfa,fixes_nitrogen,true,,,,FAO_BNF,"Technical paper 2, rhizobia host table: 
 alfalfa,water_need_mm,,800,1600,mm per growing period,FAO_TM3,"Table 14, row ""Alfalfa""",Perennial: the range covers short to year-round seasons
 alfalfa,drought_sensitivity,low-medium,,,,FAO_TM3,"Table 14, row ""Alfalfa""",
 alfalfa,cycle_days,,100,365,days,FAO_TM3,"Table 6, row ""Alfalfa""",Perennial forage
+frijol,root_depth_m,,0.6,0.9,m,FAO_56,"Table 22, row ""Beans, dry and Pulses""",Maximum effective rooting depth
+maiz,root_depth_m,,1.0,1.7,m,FAO_56,"Table 22, row ""Maize, Field (grain)""",Maximum effective rooting depth
+avena,root_depth_m,,1.0,1.5,m,FAO_56,"Table 22, row ""Oats""",Maximum effective rooting depth
+sorgo,root_depth_m,,1.0,2.0,m,FAO_56,"Table 22, row ""Sorghum - grain""",Maximum effective rooting depth
+alfalfa,root_depth_m,,1.0,2.0,m,FAO_56,"Table 22, row ""Alfalfa - for hay""",Maximum effective rooting depth
+frijol,ky_seasonal,1.15,,,-,FAO_56,"Table 24, row ""Beans"" (from FAO Paper 33)",Yield response factor: relative yield loss = Ky x relative water deficit
+maiz,ky_seasonal,1.25,,,-,FAO_56,"Table 24, row ""Maize"" (from FAO Paper 33)",Yield response factor
+sorgo,ky_seasonal,0.9,,,-,FAO_56,"Table 24, row ""Sorghum"" (from FAO Paper 33)",Yield response factor
+alfalfa,ky_seasonal,1.1,,,-,FAO_56,"Table 24, row ""Alfalfa"" (from FAO Paper 33)",Yield response factor

@@ -21,10 +21,11 @@ CROP_IDS = ["frijol", "maiz", "avena", "sorgo", "alfalfa"]
 REQUIRED = [                       # every crop needs each one, or a row in gaps.csv
     "name_en", "scientific_name", "family", "fixes_nitrogen",
     "water_need_mm", "drought_sensitivity", "cycle_days",
-    "frost_tc_germination", "frost_tc_flowering", "frost_tc_fruiting",
+    "frost_tc_germination", "frost_tc_flowering", "frost_tc_fruiting", "root_depth_m",
+    "ky_seasonal",
 ]
 RANGE_ATTRS = {"water_need_mm", "cycle_days", "frost_tc_germination",
-               "frost_tc_flowering", "frost_tc_fruiting"}
+               "frost_tc_flowering", "frost_tc_fruiting", "root_depth_m"}
 # ── FIN DATOS ──
 
 import csv
@@ -102,6 +103,8 @@ def build(values: list[dict], sources: dict, gaps: list[dict]) -> dict:
             val = [_num(r["value_min"]), _num(r["value_max"])]
         elif r["value"] in ("true", "false"):
             val = r["value"] == "true"
+        elif r["attribute"] == "ky_seasonal":
+            val = _num(r["value"])
         else:
             val = r["value"]
         crops[r["crop_id"]]["values"][r["attribute"]] = {
@@ -129,6 +132,26 @@ def load_crops() -> dict:
     if errors:
         raise ValueError("Crop table invalid:\n  " + "\n  ".join(errors))
     return build(values, sources, gaps)["crops"]
+
+
+def load_soils() -> dict:
+    """Soil water table (FAO-56 Table 19) by soil_id. Raises if a row has no source."""
+    sources = {s["source_id"]: s for s in _read("sources.csv")}
+    soils = {}
+    for r in _read("soils.csv"):
+        if r["source_id"] not in sources or not r["where_in_source"]:
+            raise ValueError(f"soils.csv: '{r['soil_id']}' has no valid source (rule A5)")
+        s = sources[r["source_id"]]
+        soils[r["soil_id"]] = {
+            "name_en": r["name_en"],
+            "taw_m3m3": [_num(r["taw_min"]), _num(r["taw_max"])],
+            "source": f"{s['short']}, {r['where_in_source']}",
+        }
+    return soils
+
+
+def load_sources() -> dict:
+    return {s["source_id"]: s for s in _read("sources.csv")}
 
 
 def _fmt(v: dict | None) -> str:

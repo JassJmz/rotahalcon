@@ -87,6 +87,23 @@
           "source": "FAO 2005 (Snyder & de Melo-Abreu), Table 4.5, row \"Beans\"",
           "source_id": "FAO_FROST",
           "note": "Critical damage temperature"
+        },
+        "root_depth_m": {
+          "value": [
+            0.6,
+            0.9
+          ],
+          "unit": "m",
+          "source": "FAO 1998 (Allen et al.), Table 22, row \"Beans, dry and Pulses\"",
+          "source_id": "FAO_56",
+          "note": "Maximum effective rooting depth"
+        },
+        "ky_seasonal": {
+          "value": 1.15,
+          "unit": "-",
+          "source": "FAO 1998 (Allen et al.), Table 24, row \"Beans\" (from FAO Paper 33)",
+          "source_id": "FAO_56",
+          "note": "Yield response factor: relative yield loss = Ky x relative water deficit"
         }
       },
       "gaps": [
@@ -197,6 +214,23 @@
           "source": "FAO 2005 (Snyder & de Melo-Abreu), Table 4.5, row \"Corn [maize]\"",
           "source_id": "FAO_FROST",
           "note": "Critical damage temperature"
+        },
+        "root_depth_m": {
+          "value": [
+            1,
+            1.7
+          ],
+          "unit": "m",
+          "source": "FAO 1998 (Allen et al.), Table 22, row \"Maize, Field (grain)\"",
+          "source_id": "FAO_56",
+          "note": "Maximum effective rooting depth"
+        },
+        "ky_seasonal": {
+          "value": 1.25,
+          "unit": "-",
+          "source": "FAO 1998 (Allen et al.), Table 24, row \"Maize\" (from FAO Paper 33)",
+          "source_id": "FAO_56",
+          "note": "Yield response factor"
         }
       },
       "gaps": [
@@ -307,6 +341,16 @@
           "source": "FAO 2005 (Snyder & de Melo-Abreu), Table 4.5, row \"Oats\"",
           "source_id": "FAO_FROST",
           "note": "Critical damage temperature"
+        },
+        "root_depth_m": {
+          "value": [
+            1,
+            1.5
+          ],
+          "unit": "m",
+          "source": "FAO 1998 (Allen et al.), Table 22, row \"Oats\"",
+          "source_id": "FAO_56",
+          "note": "Maximum effective rooting depth"
         }
       },
       "gaps": [
@@ -333,6 +377,12 @@
           "status": "group_value",
           "detail": "FAO gives one value for barley/oats/wheat",
           "next_step": "Acceptable for the hackathon; flagged in the UI sources"
+        },
+        {
+          "attribute": "ky_seasonal",
+          "status": "no_source",
+          "detail": "Oats is not listed in FAO-56 Table 24 (seasonal Ky)",
+          "next_step": "Until a source is found the engine uses the strictest rule for oats: a season passes only with 100% of its water need"
         }
       ]
     },
@@ -423,6 +473,23 @@
           "source": "FAO 2005 (Snyder & de Melo-Abreu), Table 4.5, row \"Sorghum\"",
           "source_id": "FAO_FROST",
           "note": "Critical damage temperature"
+        },
+        "root_depth_m": {
+          "value": [
+            1,
+            2
+          ],
+          "unit": "m",
+          "source": "FAO 1998 (Allen et al.), Table 22, row \"Sorghum - grain\"",
+          "source_id": "FAO_56",
+          "note": "Maximum effective rooting depth"
+        },
+        "ky_seasonal": {
+          "value": 0.9,
+          "unit": "-",
+          "source": "FAO 1998 (Allen et al.), Table 24, row \"Sorghum\" (from FAO Paper 33)",
+          "source_id": "FAO_56",
+          "note": "Yield response factor"
         }
       },
       "gaps": [
@@ -509,6 +576,23 @@
           "source": "FAO 1986 (Brouwer & Heibloem), Table 6, row \"Alfalfa\"",
           "source_id": "FAO_TM3",
           "note": "Perennial forage"
+        },
+        "root_depth_m": {
+          "value": [
+            1,
+            2
+          ],
+          "unit": "m",
+          "source": "FAO 1998 (Allen et al.), Table 22, row \"Alfalfa - for hay\"",
+          "source_id": "FAO_56",
+          "note": "Maximum effective rooting depth"
+        },
+        "ky_seasonal": {
+          "value": 1.1,
+          "unit": "-",
+          "source": "FAO 1998 (Allen et al.), Table 24, row \"Alfalfa\" (from FAO Paper 33)",
+          "source_id": "FAO_56",
+          "note": "Yield response factor"
         }
       },
       "gaps": [
@@ -558,6 +642,16 @@
     "GBIF": {
       "citation": "GBIF Secretariat. GBIF Backbone Taxonomy. Species match API (status ACCEPTED, match EXACT).",
       "url": "https://api.gbif.org/v1/species/match",
+      "accessed": "2026-11-14"
+    },
+    "FAO_56": {
+      "citation": "Allen, R.G., Pereira, L.S., Raes, D. & Smith, M. (1998). Crop evapotranspiration - Guidelines for computing crop water requirements. FAO Irrigation and Drainage Paper 56, Rome. Table 19 (ch. 7), Tables 22 and 24 (ch. 8).",
+      "url": "https://www.fao.org/4/x0490e/x0490e00.htm",
+      "accessed": "2026-11-14"
+    },
+    "FAO_TM3_PE": {
+      "citation": "Brouwer, C. & Heibloem, M. (1986). Irrigation Water Management: Training Manual No. 3 - Irrigation Water Needs. FAO, Rome. Chapter 4, effective rainfall formula (slopes up to 4-5%).",
+      "url": "https://www.fao.org/4/s2022e/s2022e08.htm",
       "accessed": "2026-11-14"
     }
   },

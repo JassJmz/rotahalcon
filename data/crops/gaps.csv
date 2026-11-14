@@ -5,3 +5,4 @@ alfalfa,frost_tc_*,no_source,Alfalfa is not listed in FAO frost Table 4.5,Look f
 *,price_and_costs,no_source,No sourced seed cost or crop price for Durango,"The 'ingreso' (income) priority has no sourced data: show it as a gap (""we don't know the seed cost in your area"")"
 avena,water_need_mm,group_value,FAO gives one value for barley/oats/wheat,Acceptable for the hackathon; flagged in the UI sources
 sorgo,water_need_mm,group_value,FAO gives one value for sorghum/millet,Acceptable for the hackathon; flagged in the UI sources
+avena,ky_seasonal,no_source,Oats is not listed in FAO-56 Table 24 (seasonal Ky),"Until a source is found the engine uses the strictest rule for oats: a season passes only with 100% of its water need"

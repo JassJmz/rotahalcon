@@ -1,0 +1,6 @@
+soil_id,name_en,usda_texture,theta_fc_min,theta_fc_max,theta_wp_min,theta_wp_max,taw_min,taw_max,unit,source_id,where_in_source,note
+arenoso,sandy,Sand,0.07,0.17,0.02,0.07,0.05,0.11,m3/m3,FAO_56,"Table 19, row ""Sand""",taw = theta_fc - theta_wp (available water per m of soil)
+franco_arenoso,sandy loam,Sandy loam,0.18,0.28,0.06,0.16,0.11,0.15,m3/m3,FAO_56,"Table 19, row ""Sandy loam""",
+franco,loam,Loam,0.20,0.30,0.07,0.17,0.13,0.18,m3/m3,FAO_56,"Table 19, row ""Loam""",
+franco_limoso,silt loam,Silt loam,0.22,0.36,0.09,0.21,0.13,0.19,m3/m3,FAO_56,"Table 19, row ""Silt loam""",
+arcilloso,clay,Clay,0.32,0.40,0.20,0.24,0.12,0.20,m3/m3,FAO_56,"Table 19, row ""Clay""",

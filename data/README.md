@@ -73,16 +73,30 @@ python backend/nasa_power.py --offline  # rebuild summaries/chart from the saved
 ¹ FAO group value for barley/oats/wheat · ² FAO group value for sorghum/millet.
 Frost values for germination and fruiting stages are also in the CSV.
 
+| Crop | Root depth (m) · FAO-56 T22 | Ky (yield response to water) · FAO-56 T24 |
+|---|---|---|
+| Bean | 0.6 – 0.9 | 1.15 |
+| Maize | 1.0 – 1.7 | 1.25 |
+| Oats | 1.0 – 1.5 | **gap — not in Table 24** |
+| Sorghum | 1.0 – 2.0 | 0.9 |
+| Alfalfa | 1.0 – 2.0 | 1.1 |
+
+**Soils** (`soils.csv`, FAO-56 Table 19): available water (θFC − θWP) per m of soil — sandy 0.05–0.11 · sandy loam 0.11–0.15 · loam 0.13–0.18 · silt loam 0.13–0.19 · clay 0.12–0.20 m³/m³.
+**Effective rain:** FAO TM3 ch. 4 — `Pe = 0.8·P − 25` if P > 75 mm/month, else `0.6·P − 10` (never negative).
+
 ### Sources
 | ID | Used for | Reference |
 |---|---|---|
 | `FAO_TM3` | Water need, drought sensitivity, cycle length | Brouwer & Heibloem (1986), *Irrigation Water Management: Training Manual No. 3 — Irrigation Water Needs*, FAO, ch. 3, Tables 6 & 14 · [link](https://www.fao.org/4/s2022e/s2022e07.htm) |
 | `FAO_FROST` | Critical frost damage temperatures | Snyder & de Melo-Abreu (2005), *Frost Protection: fundamentals, practice and economics*, Vol. 1, FAO Env. & Nat. Resources Series 10, Table 4.5 · [link](https://www.fao.org/4/y7223e/y7223e0a.htm) |
+| `FAO_56` | Soil available water, root depth, Ky | Allen et al. (1998), *Crop evapotranspiration*, FAO Irrigation and Drainage Paper 56, Tables 19, 22, 24 · [link](https://www.fao.org/4/x0490e/x0490e00.htm) |
+| `FAO_TM3_PE` | Effective rainfall formula | Brouwer & Heibloem (1986), FAO TM3, ch. 4 · [link](https://www.fao.org/4/s2022e/s2022e08.htm) |
 | `FAO_BNF` | Nitrogen fixation (bean, alfalfa) | AFNETA alley farming training manual, Vol. 2, Technical paper 2: *Biological nitrogen fixation* (FAO Knowledge Repository) · [link](https://openknowledge.fao.org/server/api/core/bitstreams/b447cf68-d3f5-4733-940c-f33591e0588a/content/x5546e05.htm) |
 | `GBIF` | Scientific name & botanical family | GBIF Backbone Taxonomy (species match API) · [link](https://api.gbif.org/v1/species/match) |
 
 ### Gaps (`gaps.csv`) — shown to users as *"huecos"*
 - **Alfalfa frost tolerance:** not in FAO Table 4.5 → the engine must not invent a frost rule for alfalfa.
+- **Oats Ky:** not in FAO-56 Table 24 → the engine uses the strictest water rule for oats.
 - **Sowing window in Durango (rainfed):** INIFAP data not found online → pending (INIFAP Campo Experimental Valle del Guadiana).
 - **Local varieties** (e.g. *Pinto Saltillo* bean) may have shorter cycles than FAO global ranges → pending INIFAP.
 - **Seed cost / crop price:** no source → the *income* priority has no data yet.
