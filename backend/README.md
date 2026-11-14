@@ -2,6 +2,10 @@
 
 Owner: Role 2 (NASA data & engine). API format: [`docs/CONTRACT.md`](../docs/CONTRACT.md) (A4).
 
+## 🌐 Public API
+**https://rotahalcon.onrender.com** · interactive docs: **https://rotahalcon.onrender.com/docs**
+Free plan: it sleeps after ~15 min idle and the first call takes ~1 min — open it before the demo. Every push to `main` that touches `backend/` redeploys it.
+
 ## Status
 | Endpoint | Status |
 |---|---|
