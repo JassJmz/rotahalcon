@@ -37,6 +37,9 @@ SOIL_WEIGHTS = {"legume": 0.5, "family_change": 0.5}
 NORMAL_PERIOD = (1991, 2020)
 N_CYCLES = 3
 N_ALTERNATIVES = 3
+MIN_CROP_DIFF = 2                    # each alternative differs from the others in >= 2 of its 3 crops (variety)
+NO_WORSE_THAN_CURRENT = True         # "do no harm": alternatives that fail MORE seasons than the
+                                     # current rotation are only shown if nothing better exists
 CONF_Z = 1.645                       # 90 % Wilson interval for the resilience range
 SITE_MAX_DIST_DEG = 0.5              # farther than this from the data point → warn in "huecos"
 DEFAULT_SOIL = "franco"
@@ -44,6 +47,7 @@ DEFAULT_SOIL = "franco"
 
 import itertools
 import math
+from collections import Counter
 import statistics
 import unicodedata
 from datetime import date, timedelta
@@ -368,15 +372,26 @@ def recommend(lat, lon, suelo, cultivos_previos, prioridades, lluvia_pct=0.0, te
         ranked.append((s, combo, sim))
     ranked.sort(key=lambda t: -t[0])
 
-    picked, seen = [], {tuple(sorted(actual))}
-    for s, combo, sim in ranked:
-        key = tuple(sorted(combo))          # same crops in another order = same option for the farmer
-        if key in seen:
-            continue
-        seen.add(key)
-        picked.append((s, combo, sim))
-        if len(picked) == N_ALTERNATIVES:
-            break
+    def crop_diff(a, b):                    # how many crops of a are not in b (as multisets)
+        return sum((Counter(a) - Counter(b)).values())
+
+    act_fail = sim_act["n"] - sim_act["ok"]
+    # passes, best first: (only rotations that fail <= current?, minimum crop difference)
+    safe_first = [True, False] if NO_WORSE_THAN_CURRENT else [False]
+    passes = [(safe, d) for safe in safe_first for d in sorted({MIN_CROP_DIFF, 1}, reverse=True)]
+    picked = []
+    for safe, min_diff in passes:
+        for s, combo, sim in ranked:
+            if len(picked) == N_ALTERNATIVES:
+                break
+            if safe and sim["n"] - sim["ok"] > act_fail:
+                continue
+            if any(crop_diff(combo, other) < min_diff for other in [p[1] for p in picked]):
+                continue                     # too similar to an alternative already chosen
+            if crop_diff(combo, actual) < 1 or any(combo == p[1] for p in picked):
+                continue                     # same crops as the current rotation, in another order
+            picked.append((s, combo, sim))
+    picked.sort(key=lambda t: -t[0])
 
     out = [_strategy("actual", actual, sim_act, s_act, previos, far, True)]
     for k, (s, combo, sim) in enumerate(picked, start=1):

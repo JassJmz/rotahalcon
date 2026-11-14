@@ -79,8 +79,11 @@ Each strategy carries **`anios`**: `[{"anio": 1981, "ok": true, "cultivo": "maiz
 | `riesgo` | share of seasons that did not fail | NASA + FAO |
 | `ingreso` | **not used — no sourced price/cost data** (declared gap); weights are re-normalised | — |
 
-**Alternatives** = all 125 combinations of 3 crops are simulated; the 3 best scores with a different crop mix from the current rotation are returned.
-**Semáforo:** green ≥ 90 % OK seasons · yellow ≥ 75 % · red below.
+**Alternatives** = all 125 combinations of 3 crops are simulated and ranked by score, then picked in this order:
+1. **Do no harm:** only rotations that fail **no more seasons than the current one**; worse ones are used only if nothing else is left.
+2. **Variety:** each alternative differs from the others in ≥ 2 of its 3 crops (relaxed to 1 if needed); never the current crops in another order.
+
+**Semáforo** depends **only on failed seasons**, never on the priorities: green ≥ 90 % OK · yellow ≥ 75 % · red below. Priorities only change `puntaje` and which alternatives are chosen.
 **Scenario:** `lluvia_pct` scales daily rain, `temp_c` shifts daily minimum temperature.
 
 ### Model assumptions (all in the `# ── DATOS ──` block, all shown to users)
