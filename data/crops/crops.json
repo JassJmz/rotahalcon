@@ -1,0 +1,565 @@
+{
+  "crops": {
+    "frijol": {
+      "id": "frijol",
+      "values": {
+        "name_en": {
+          "value": "bean (dry)",
+          "unit": null,
+          "source": "FAO 1986 (Brouwer & Heibloem), Table 6, row \"Bean dry\"",
+          "source_id": "FAO_TM3",
+          "note": null
+        },
+        "scientific_name": {
+          "value": "Phaseolus vulgaris",
+          "unit": null,
+          "source": "GBIF Backbone Taxonomy, usageKey 5350452",
+          "source_id": "GBIF",
+          "note": null
+        },
+        "family": {
+          "value": "Fabaceae",
+          "unit": null,
+          "source": "GBIF Backbone Taxonomy, usageKey 5350452",
+          "source_id": "GBIF",
+          "note": null
+        },
+        "fixes_nitrogen": {
+          "value": true,
+          "unit": null,
+          "source": "AFNETA manual (FAO repository), Technical paper 2, rhizobia host table: Phaseolus vulgaris (common bean)",
+          "source_id": "FAO_BNF",
+          "note": "Legume; fixes N with rhizobia"
+        },
+        "water_need_mm": {
+          "value": [
+            300,
+            500
+          ],
+          "unit": "mm per growing period",
+          "source": "FAO 1986 (Brouwer & Heibloem), Table 14, row \"Bean\"",
+          "source_id": "FAO_TM3",
+          "note": "Use the low value for short cycles"
+        },
+        "drought_sensitivity": {
+          "value": "medium-high",
+          "unit": null,
+          "source": "FAO 1986 (Brouwer & Heibloem), Table 14, row \"Bean\"",
+          "source_id": "FAO_TM3",
+          "note": null
+        },
+        "cycle_days": {
+          "value": [
+            95,
+            110
+          ],
+          "unit": "days",
+          "source": "FAO 1986 (Brouwer & Heibloem), Table 6, row \"Bean dry\"",
+          "source_id": "FAO_TM3",
+          "note": null
+        },
+        "frost_tc_germination": {
+          "value": [
+            -6,
+            -5
+          ],
+          "unit": "°C",
+          "source": "FAO 2005 (Snyder & de Melo-Abreu), Table 4.5, row \"Beans\"",
+          "source_id": "FAO_FROST",
+          "note": "Critical damage temperature"
+        },
+        "frost_tc_flowering": {
+          "value": [
+            -3,
+            -2
+          ],
+          "unit": "°C",
+          "source": "FAO 2005 (Snyder & de Melo-Abreu), Table 4.5, row \"Beans\"",
+          "source_id": "FAO_FROST",
+          "note": "Critical damage temperature"
+        },
+        "frost_tc_fruiting": {
+          "value": [
+            -4,
+            -3
+          ],
+          "unit": "°C",
+          "source": "FAO 2005 (Snyder & de Melo-Abreu), Table 4.5, row \"Beans\"",
+          "source_id": "FAO_FROST",
+          "note": "Critical damage temperature"
+        }
+      },
+      "gaps": [
+        {
+          "attribute": "sowing_window_durango",
+          "status": "pending_inifap",
+          "detail": "Rainfed sowing dates for Durango (INIFAP Campo Experimental Valle del Guadiana) were not found online",
+          "next_step": "Get the INIFAP technical agenda for Durango or ask CEVAG; until then use the planting window as a slider/assumption shown to the user"
+        },
+        {
+          "attribute": "local_cycle_days",
+          "status": "pending_inifap",
+          "detail": "FAO cycle lengths are global ranges; local varieties (e.g. Pinto Saltillo bean) may differ",
+          "next_step": "Replace with INIFAP variety data for Durango when available"
+        },
+        {
+          "attribute": "price_and_costs",
+          "status": "no_source",
+          "detail": "No sourced seed cost or crop price for Durango",
+          "next_step": "The 'ingreso' (income) priority has no sourced data: show it as a gap (\"we don't know the seed cost in your area\")"
+        }
+      ]
+    },
+    "maiz": {
+      "id": "maiz",
+      "values": {
+        "name_en": {
+          "value": "maize (grain)",
+          "unit": null,
+          "source": "FAO 1986 (Brouwer & Heibloem), Table 6, row \"Maize grain\"",
+          "source_id": "FAO_TM3",
+          "note": null
+        },
+        "scientific_name": {
+          "value": "Zea mays",
+          "unit": null,
+          "source": "GBIF Backbone Taxonomy, usageKey 5290052",
+          "source_id": "GBIF",
+          "note": null
+        },
+        "family": {
+          "value": "Poaceae",
+          "unit": null,
+          "source": "GBIF Backbone Taxonomy, usageKey 5290052",
+          "source_id": "GBIF",
+          "note": null
+        },
+        "fixes_nitrogen": {
+          "value": false,
+          "unit": null,
+          "source": "GBIF Backbone Taxonomy, usageKey 5290052",
+          "source_id": "GBIF",
+          "note": "Derived: Poaceae (grass) - not a legume"
+        },
+        "water_need_mm": {
+          "value": [
+            500,
+            800
+          ],
+          "unit": "mm per growing period",
+          "source": "FAO 1986 (Brouwer & Heibloem), Table 14, row \"Maize\"",
+          "source_id": "FAO_TM3",
+          "note": "Use the low value for short cycles"
+        },
+        "drought_sensitivity": {
+          "value": "medium-high",
+          "unit": null,
+          "source": "FAO 1986 (Brouwer & Heibloem), Table 14, row \"Maize\"",
+          "source_id": "FAO_TM3",
+          "note": null
+        },
+        "cycle_days": {
+          "value": [
+            125,
+            180
+          ],
+          "unit": "days",
+          "source": "FAO 1986 (Brouwer & Heibloem), Table 6, row \"Maize grain\"",
+          "source_id": "FAO_TM3",
+          "note": null
+        },
+        "frost_tc_germination": {
+          "value": [
+            -3,
+            -2
+          ],
+          "unit": "°C",
+          "source": "FAO 2005 (Snyder & de Melo-Abreu), Table 4.5, row \"Corn [maize]\"",
+          "source_id": "FAO_FROST",
+          "note": "Critical damage temperature"
+        },
+        "frost_tc_flowering": {
+          "value": [
+            -2,
+            -1
+          ],
+          "unit": "°C",
+          "source": "FAO 2005 (Snyder & de Melo-Abreu), Table 4.5, row \"Corn [maize]\"",
+          "source_id": "FAO_FROST",
+          "note": "Critical damage temperature"
+        },
+        "frost_tc_fruiting": {
+          "value": [
+            -3,
+            -2
+          ],
+          "unit": "°C",
+          "source": "FAO 2005 (Snyder & de Melo-Abreu), Table 4.5, row \"Corn [maize]\"",
+          "source_id": "FAO_FROST",
+          "note": "Critical damage temperature"
+        }
+      },
+      "gaps": [
+        {
+          "attribute": "sowing_window_durango",
+          "status": "pending_inifap",
+          "detail": "Rainfed sowing dates for Durango (INIFAP Campo Experimental Valle del Guadiana) were not found online",
+          "next_step": "Get the INIFAP technical agenda for Durango or ask CEVAG; until then use the planting window as a slider/assumption shown to the user"
+        },
+        {
+          "attribute": "local_cycle_days",
+          "status": "pending_inifap",
+          "detail": "FAO cycle lengths are global ranges; local varieties (e.g. Pinto Saltillo bean) may differ",
+          "next_step": "Replace with INIFAP variety data for Durango when available"
+        },
+        {
+          "attribute": "price_and_costs",
+          "status": "no_source",
+          "detail": "No sourced seed cost or crop price for Durango",
+          "next_step": "The 'ingreso' (income) priority has no sourced data: show it as a gap (\"we don't know the seed cost in your area\")"
+        }
+      ]
+    },
+    "avena": {
+      "id": "avena",
+      "values": {
+        "name_en": {
+          "value": "oats",
+          "unit": null,
+          "source": "FAO 2005 (Snyder & de Melo-Abreu), Table 4.5, row \"Oats\"",
+          "source_id": "FAO_FROST",
+          "note": null
+        },
+        "scientific_name": {
+          "value": "Avena sativa",
+          "unit": null,
+          "source": "GBIF Backbone Taxonomy, usageKey 2705290",
+          "source_id": "GBIF",
+          "note": null
+        },
+        "family": {
+          "value": "Poaceae",
+          "unit": null,
+          "source": "GBIF Backbone Taxonomy, usageKey 2705290",
+          "source_id": "GBIF",
+          "note": null
+        },
+        "fixes_nitrogen": {
+          "value": false,
+          "unit": null,
+          "source": "GBIF Backbone Taxonomy, usageKey 2705290",
+          "source_id": "GBIF",
+          "note": "Derived: Poaceae (grass) - not a legume"
+        },
+        "water_need_mm": {
+          "value": [
+            450,
+            650
+          ],
+          "unit": "mm per growing period",
+          "source": "FAO 1986 (Brouwer & Heibloem), Table 14, row \"Barley/Oats/Wheat\"",
+          "source_id": "FAO_TM3",
+          "note": "Group value (barley/oats/wheat)"
+        },
+        "drought_sensitivity": {
+          "value": "low-medium",
+          "unit": null,
+          "source": "FAO 1986 (Brouwer & Heibloem), Table 14, row \"Barley/Oats/Wheat\"",
+          "source_id": "FAO_TM3",
+          "note": "Group value"
+        },
+        "cycle_days": {
+          "value": [
+            120,
+            150
+          ],
+          "unit": "days",
+          "source": "FAO 1986 (Brouwer & Heibloem), Table 6, row \"Barley/Oats/Wheat\"",
+          "source_id": "FAO_TM3",
+          "note": "Group value; grain crop (forage oats are cut earlier)"
+        },
+        "frost_tc_germination": {
+          "value": [
+            -9,
+            -8
+          ],
+          "unit": "°C",
+          "source": "FAO 2005 (Snyder & de Melo-Abreu), Table 4.5, row \"Oats\"",
+          "source_id": "FAO_FROST",
+          "note": "Critical damage temperature"
+        },
+        "frost_tc_flowering": {
+          "value": [
+            -2,
+            -1
+          ],
+          "unit": "°C",
+          "source": "FAO 2005 (Snyder & de Melo-Abreu), Table 4.5, row \"Oats\"",
+          "source_id": "FAO_FROST",
+          "note": "Critical damage temperature"
+        },
+        "frost_tc_fruiting": {
+          "value": [
+            -4,
+            -2
+          ],
+          "unit": "°C",
+          "source": "FAO 2005 (Snyder & de Melo-Abreu), Table 4.5, row \"Oats\"",
+          "source_id": "FAO_FROST",
+          "note": "Critical damage temperature"
+        }
+      },
+      "gaps": [
+        {
+          "attribute": "sowing_window_durango",
+          "status": "pending_inifap",
+          "detail": "Rainfed sowing dates for Durango (INIFAP Campo Experimental Valle del Guadiana) were not found online",
+          "next_step": "Get the INIFAP technical agenda for Durango or ask CEVAG; until then use the planting window as a slider/assumption shown to the user"
+        },
+        {
+          "attribute": "local_cycle_days",
+          "status": "pending_inifap",
+          "detail": "FAO cycle lengths are global ranges; local varieties (e.g. Pinto Saltillo bean) may differ",
+          "next_step": "Replace with INIFAP variety data for Durango when available"
+        },
+        {
+          "attribute": "price_and_costs",
+          "status": "no_source",
+          "detail": "No sourced seed cost or crop price for Durango",
+          "next_step": "The 'ingreso' (income) priority has no sourced data: show it as a gap (\"we don't know the seed cost in your area\")"
+        },
+        {
+          "attribute": "water_need_mm",
+          "status": "group_value",
+          "detail": "FAO gives one value for barley/oats/wheat",
+          "next_step": "Acceptable for the hackathon; flagged in the UI sources"
+        }
+      ]
+    },
+    "sorgo": {
+      "id": "sorgo",
+      "values": {
+        "name_en": {
+          "value": "sorghum (grain)",
+          "unit": null,
+          "source": "FAO 1986 (Brouwer & Heibloem), Table 6, row \"Sorghum\"",
+          "source_id": "FAO_TM3",
+          "note": null
+        },
+        "scientific_name": {
+          "value": "Sorghum bicolor",
+          "unit": null,
+          "source": "GBIF Backbone Taxonomy, usageKey 2705181",
+          "source_id": "GBIF",
+          "note": null
+        },
+        "family": {
+          "value": "Poaceae",
+          "unit": null,
+          "source": "GBIF Backbone Taxonomy, usageKey 2705181",
+          "source_id": "GBIF",
+          "note": null
+        },
+        "fixes_nitrogen": {
+          "value": false,
+          "unit": null,
+          "source": "GBIF Backbone Taxonomy, usageKey 2705181",
+          "source_id": "GBIF",
+          "note": "Derived: Poaceae (grass) - not a legume"
+        },
+        "water_need_mm": {
+          "value": [
+            450,
+            650
+          ],
+          "unit": "mm per growing period",
+          "source": "FAO 1986 (Brouwer & Heibloem), Table 14, row \"Sorghum/Millet\"",
+          "source_id": "FAO_TM3",
+          "note": "Group value (sorghum/millet)"
+        },
+        "drought_sensitivity": {
+          "value": "low",
+          "unit": null,
+          "source": "FAO 1986 (Brouwer & Heibloem), Table 14, row \"Sorghum/Millet\"",
+          "source_id": "FAO_TM3",
+          "note": null
+        },
+        "cycle_days": {
+          "value": [
+            120,
+            130
+          ],
+          "unit": "days",
+          "source": "FAO 1986 (Brouwer & Heibloem), Table 6, row \"Sorghum\"",
+          "source_id": "FAO_TM3",
+          "note": null
+        },
+        "frost_tc_germination": {
+          "value": [
+            -3,
+            -2
+          ],
+          "unit": "°C",
+          "source": "FAO 2005 (Snyder & de Melo-Abreu), Table 4.5, row \"Sorghum\"",
+          "source_id": "FAO_FROST",
+          "note": "Critical damage temperature"
+        },
+        "frost_tc_flowering": {
+          "value": [
+            -2,
+            -1
+          ],
+          "unit": "°C",
+          "source": "FAO 2005 (Snyder & de Melo-Abreu), Table 4.5, row \"Sorghum\"",
+          "source_id": "FAO_FROST",
+          "note": "Critical damage temperature"
+        },
+        "frost_tc_fruiting": {
+          "value": [
+            -3,
+            -2
+          ],
+          "unit": "°C",
+          "source": "FAO 2005 (Snyder & de Melo-Abreu), Table 4.5, row \"Sorghum\"",
+          "source_id": "FAO_FROST",
+          "note": "Critical damage temperature"
+        }
+      },
+      "gaps": [
+        {
+          "attribute": "sowing_window_durango",
+          "status": "pending_inifap",
+          "detail": "Rainfed sowing dates for Durango (INIFAP Campo Experimental Valle del Guadiana) were not found online",
+          "next_step": "Get the INIFAP technical agenda for Durango or ask CEVAG; until then use the planting window as a slider/assumption shown to the user"
+        },
+        {
+          "attribute": "local_cycle_days",
+          "status": "pending_inifap",
+          "detail": "FAO cycle lengths are global ranges; local varieties (e.g. Pinto Saltillo bean) may differ",
+          "next_step": "Replace with INIFAP variety data for Durango when available"
+        },
+        {
+          "attribute": "price_and_costs",
+          "status": "no_source",
+          "detail": "No sourced seed cost or crop price for Durango",
+          "next_step": "The 'ingreso' (income) priority has no sourced data: show it as a gap (\"we don't know the seed cost in your area\")"
+        },
+        {
+          "attribute": "water_need_mm",
+          "status": "group_value",
+          "detail": "FAO gives one value for sorghum/millet",
+          "next_step": "Acceptable for the hackathon; flagged in the UI sources"
+        }
+      ]
+    },
+    "alfalfa": {
+      "id": "alfalfa",
+      "values": {
+        "name_en": {
+          "value": "alfalfa",
+          "unit": null,
+          "source": "FAO 1986 (Brouwer & Heibloem), Table 6, row \"Alfalfa\"",
+          "source_id": "FAO_TM3",
+          "note": null
+        },
+        "scientific_name": {
+          "value": "Medicago sativa",
+          "unit": null,
+          "source": "GBIF Backbone Taxonomy, usageKey 9151957",
+          "source_id": "GBIF",
+          "note": null
+        },
+        "family": {
+          "value": "Fabaceae",
+          "unit": null,
+          "source": "GBIF Backbone Taxonomy, usageKey 9151957",
+          "source_id": "GBIF",
+          "note": null
+        },
+        "fixes_nitrogen": {
+          "value": true,
+          "unit": null,
+          "source": "AFNETA manual (FAO repository), Technical paper 2, rhizobia host table: Medicago sativa (alfalfa)",
+          "source_id": "FAO_BNF",
+          "note": "Legume; fixes N with rhizobia"
+        },
+        "water_need_mm": {
+          "value": [
+            800,
+            1600
+          ],
+          "unit": "mm per growing period",
+          "source": "FAO 1986 (Brouwer & Heibloem), Table 14, row \"Alfalfa\"",
+          "source_id": "FAO_TM3",
+          "note": "Perennial: the range covers short to year-round seasons"
+        },
+        "drought_sensitivity": {
+          "value": "low-medium",
+          "unit": null,
+          "source": "FAO 1986 (Brouwer & Heibloem), Table 14, row \"Alfalfa\"",
+          "source_id": "FAO_TM3",
+          "note": null
+        },
+        "cycle_days": {
+          "value": [
+            100,
+            365
+          ],
+          "unit": "days",
+          "source": "FAO 1986 (Brouwer & Heibloem), Table 6, row \"Alfalfa\"",
+          "source_id": "FAO_TM3",
+          "note": "Perennial forage"
+        }
+      },
+      "gaps": [
+        {
+          "attribute": "frost_tc_*",
+          "status": "no_source",
+          "detail": "Alfalfa is not listed in FAO frost Table 4.5",
+          "next_step": "Look for an FAO or INIFAP frost tolerance value for alfalfa; until then the engine must not apply a frost rule to alfalfa and must show this gap"
+        },
+        {
+          "attribute": "sowing_window_durango",
+          "status": "pending_inifap",
+          "detail": "Rainfed sowing dates for Durango (INIFAP Campo Experimental Valle del Guadiana) were not found online",
+          "next_step": "Get the INIFAP technical agenda for Durango or ask CEVAG; until then use the planting window as a slider/assumption shown to the user"
+        },
+        {
+          "attribute": "local_cycle_days",
+          "status": "pending_inifap",
+          "detail": "FAO cycle lengths are global ranges; local varieties (e.g. Pinto Saltillo bean) may differ",
+          "next_step": "Replace with INIFAP variety data for Durango when available"
+        },
+        {
+          "attribute": "price_and_costs",
+          "status": "no_source",
+          "detail": "No sourced seed cost or crop price for Durango",
+          "next_step": "The 'ingreso' (income) priority has no sourced data: show it as a gap (\"we don't know the seed cost in your area\")"
+        }
+      ]
+    }
+  },
+  "sources": {
+    "FAO_TM3": {
+      "citation": "Brouwer, C. & Heibloem, M. (1986). Irrigation Water Management: Training Manual No. 3 - Irrigation Water Needs. FAO, Rome. Chapter 3.",
+      "url": "https://www.fao.org/4/s2022e/s2022e07.htm",
+      "accessed": "2026-11-14"
+    },
+    "FAO_FROST": {
+      "citation": "Snyder, R.L. & de Melo-Abreu, J.P. (2005). Frost Protection: fundamentals, practice and economics. Volume 1. FAO Environment and Natural Resources Series 10, Rome. Chapter 4, Table 4.5 (after Ventskevich, 1958).",
+      "url": "https://www.fao.org/4/y7223e/y7223e0a.htm",
+      "accessed": "2026-11-14"
+    },
+    "FAO_BNF": {
+      "citation": "Tripathi, B.R. & Psychas, P.J. (eds.). The AFNETA alley farming training manual - Volume 2: Source book for alley farming research. Technical paper 2: Biological nitrogen fixation. Hosted in the FAO Knowledge Repository.",
+      "url": "https://openknowledge.fao.org/server/api/core/bitstreams/b447cf68-d3f5-4733-940c-f33591e0588a/content/x5546e05.htm",
+      "accessed": "2026-11-14"
+    },
+    "GBIF": {
+      "citation": "GBIF Secretariat. GBIF Backbone Taxonomy. Species match API (status ACCEPTED, match EXACT).",
+      "url": "https://api.gbif.org/v1/species/match",
+      "accessed": "2026-11-14"
+    }
+  },
+  "rule": "Every value has a source (FAO / GBIF). Missing values are listed in 'gaps', never invented."
+}

@@ -1,0 +1,48 @@
+crop_id,attribute,value,value_min,value_max,unit,source_id,where_in_source,note
+frijol,name_en,bean (dry),,,,FAO_TM3,"Table 6, row ""Bean dry""",
+frijol,scientific_name,Phaseolus vulgaris,,,,GBIF,usageKey 5350452,
+frijol,family,Fabaceae,,,,GBIF,usageKey 5350452,
+frijol,fixes_nitrogen,true,,,,FAO_BNF,"Technical paper 2, rhizobia host table: Phaseolus vulgaris (common bean)",Legume; fixes N with rhizobia
+frijol,water_need_mm,,300,500,mm per growing period,FAO_TM3,"Table 14, row ""Bean""",Use the low value for short cycles
+frijol,drought_sensitivity,medium-high,,,,FAO_TM3,"Table 14, row ""Bean""",
+frijol,cycle_days,,95,110,days,FAO_TM3,"Table 6, row ""Bean dry""",
+frijol,frost_tc_germination,,-6,-5,°C,FAO_FROST,"Table 4.5, row ""Beans""",Critical damage temperature
+frijol,frost_tc_flowering,,-3,-2,°C,FAO_FROST,"Table 4.5, row ""Beans""",Critical damage temperature
+frijol,frost_tc_fruiting,,-4,-3,°C,FAO_FROST,"Table 4.5, row ""Beans""",Critical damage temperature
+maiz,name_en,maize (grain),,,,FAO_TM3,"Table 6, row ""Maize grain""",
+maiz,scientific_name,Zea mays,,,,GBIF,usageKey 5290052,
+maiz,family,Poaceae,,,,GBIF,usageKey 5290052,
+maiz,fixes_nitrogen,false,,,,GBIF,usageKey 5290052,Derived: Poaceae (grass) - not a legume
+maiz,water_need_mm,,500,800,mm per growing period,FAO_TM3,"Table 14, row ""Maize""",Use the low value for short cycles
+maiz,drought_sensitivity,medium-high,,,,FAO_TM3,"Table 14, row ""Maize""",
+maiz,cycle_days,,125,180,days,FAO_TM3,"Table 6, row ""Maize grain""",
+maiz,frost_tc_germination,,-3,-2,°C,FAO_FROST,"Table 4.5, row ""Corn [maize]""",Critical damage temperature
+maiz,frost_tc_flowering,,-2,-1,°C,FAO_FROST,"Table 4.5, row ""Corn [maize]""",Critical damage temperature
+maiz,frost_tc_fruiting,,-3,-2,°C,FAO_FROST,"Table 4.5, row ""Corn [maize]""",Critical damage temperature
+avena,name_en,oats,,,,FAO_FROST,"Table 4.5, row ""Oats""",
+avena,scientific_name,Avena sativa,,,,GBIF,usageKey 2705290,
+avena,family,Poaceae,,,,GBIF,usageKey 2705290,
+avena,fixes_nitrogen,false,,,,GBIF,usageKey 2705290,Derived: Poaceae (grass) - not a legume
+avena,water_need_mm,,450,650,mm per growing period,FAO_TM3,"Table 14, row ""Barley/Oats/Wheat""",Group value (barley/oats/wheat)
+avena,drought_sensitivity,low-medium,,,,FAO_TM3,"Table 14, row ""Barley/Oats/Wheat""",Group value
+avena,cycle_days,,120,150,days,FAO_TM3,"Table 6, row ""Barley/Oats/Wheat""",Group value; grain crop (forage oats are cut earlier)
+avena,frost_tc_germination,,-9,-8,°C,FAO_FROST,"Table 4.5, row ""Oats""",Critical damage temperature
+avena,frost_tc_flowering,,-2,-1,°C,FAO_FROST,"Table 4.5, row ""Oats""",Critical damage temperature
+avena,frost_tc_fruiting,,-4,-2,°C,FAO_FROST,"Table 4.5, row ""Oats""",Critical damage temperature
+sorgo,name_en,sorghum (grain),,,,FAO_TM3,"Table 6, row ""Sorghum""",
+sorgo,scientific_name,Sorghum bicolor,,,,GBIF,usageKey 2705181,
+sorgo,family,Poaceae,,,,GBIF,usageKey 2705181,
+sorgo,fixes_nitrogen,false,,,,GBIF,usageKey 2705181,Derived: Poaceae (grass) - not a legume
+sorgo,water_need_mm,,450,650,mm per growing period,FAO_TM3,"Table 14, row ""Sorghum/Millet""",Group value (sorghum/millet)
+sorgo,drought_sensitivity,low,,,,FAO_TM3,"Table 14, row ""Sorghum/Millet""",
+sorgo,cycle_days,,120,130,days,FAO_TM3,"Table 6, row ""Sorghum""",
+sorgo,frost_tc_germination,,-3,-2,°C,FAO_FROST,"Table 4.5, row ""Sorghum""",Critical damage temperature
+sorgo,frost_tc_flowering,,-2,-1,°C,FAO_FROST,"Table 4.5, row ""Sorghum""",Critical damage temperature
+sorgo,frost_tc_fruiting,,-3,-2,°C,FAO_FROST,"Table 4.5, row ""Sorghum""",Critical damage temperature
+alfalfa,name_en,alfalfa,,,,FAO_TM3,"Table 6, row ""Alfalfa""",
+alfalfa,scientific_name,Medicago sativa,,,,GBIF,usageKey 9151957,
+alfalfa,family,Fabaceae,,,,GBIF,usageKey 9151957,
+alfalfa,fixes_nitrogen,true,,,,FAO_BNF,"Technical paper 2, rhizobia host table: Medicago sativa (alfalfa)",Legume; fixes N with rhizobia
+alfalfa,water_need_mm,,800,1600,mm per growing period,FAO_TM3,"Table 14, row ""Alfalfa""",Perennial: the range covers short to year-round seasons
+alfalfa,drought_sensitivity,low-medium,,,,FAO_TM3,"Table 14, row ""Alfalfa""",
+alfalfa,cycle_days,,100,365,days,FAO_TM3,"Table 6, row ""Alfalfa""",Perennial forage

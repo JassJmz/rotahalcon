@@ -5,7 +5,7 @@ Owner: Role 2. Every dataset here states its **source** and carries a **NASA** o
 | Folder / file | Content | Source | Label |
 |---|---|---|---|
 | [`nasa_power/`](nasa_power/) | Daily climate 1981 → today for the example field (Durango) | NASA POWER | **NASA** |
-| crop table *(next)* | Bean, maize, oats, sorghum, alfalfa: every value with its source | FAO / INIFAP | — |
+| [`crops/`](crops/) | Bean, maize, oats, sorghum, alfalfa: every value with its source | FAO / GBIF (INIFAP pending) | — |
 
 ---
 
@@ -55,3 +55,47 @@ python backend/nasa_power.py --offline  # rebuild summaries/chart from the saved
 
 ### Citation
 > These data were obtained from the NASA Langley Research Center (LaRC) POWER Project funded through the NASA Earth Science/Applied Science Program.
+
+---
+
+## `crops/` — crop table with sources
+
+**Rule A5:** no agronomic value without a source. Each row of `crop_values.csv` names its source **and the exact table/row** where it was read. `backend/crops.py` refuses to load a value without a source.
+
+| Crop | Family | Fixes N | Water need (mm/cycle) | Drought sensitivity | Cycle (days) | Frost damage at flowering (°C) |
+|---|---|---|---|---|---|---|
+| Bean (dry) · *Phaseolus vulgaris* | Fabaceae | ✅ yes | 300 – 500 | medium-high | 95 – 110 | −2 to −3 |
+| Maize (grain) · *Zea mays* | Poaceae | no | 500 – 800 | medium-high | 125 – 180 | −1 to −2 |
+| Oats · *Avena sativa* | Poaceae | no | 450 – 650 ¹ | low-medium ¹ | 120 – 150 ¹ | −1 to −2 |
+| Sorghum (grain) · *Sorghum bicolor* | Poaceae | no | 450 – 650 ² | low | 120 – 130 | −1 to −2 |
+| Alfalfa · *Medicago sativa* | Fabaceae | ✅ yes | 800 – 1600 | low-medium | 100 – 365 (perennial) | **gap — no source** |
+
+¹ FAO group value for barley/oats/wheat · ² FAO group value for sorghum/millet.
+Frost values for germination and fruiting stages are also in the CSV.
+
+### Sources
+| ID | Used for | Reference |
+|---|---|---|
+| `FAO_TM3` | Water need, drought sensitivity, cycle length | Brouwer & Heibloem (1986), *Irrigation Water Management: Training Manual No. 3 — Irrigation Water Needs*, FAO, ch. 3, Tables 6 & 14 · [link](https://www.fao.org/4/s2022e/s2022e07.htm) |
+| `FAO_FROST` | Critical frost damage temperatures | Snyder & de Melo-Abreu (2005), *Frost Protection: fundamentals, practice and economics*, Vol. 1, FAO Env. & Nat. Resources Series 10, Table 4.5 · [link](https://www.fao.org/4/y7223e/y7223e0a.htm) |
+| `FAO_BNF` | Nitrogen fixation (bean, alfalfa) | AFNETA alley farming training manual, Vol. 2, Technical paper 2: *Biological nitrogen fixation* (FAO Knowledge Repository) · [link](https://openknowledge.fao.org/server/api/core/bitstreams/b447cf68-d3f5-4733-940c-f33591e0588a/content/x5546e05.htm) |
+| `GBIF` | Scientific name & botanical family | GBIF Backbone Taxonomy (species match API) · [link](https://api.gbif.org/v1/species/match) |
+
+### Gaps (`gaps.csv`) — shown to users as *"huecos"*
+- **Alfalfa frost tolerance:** not in FAO Table 4.5 → the engine must not invent a frost rule for alfalfa.
+- **Sowing window in Durango (rainfed):** INIFAP data not found online → pending (INIFAP Campo Experimental Valle del Guadiana).
+- **Local varieties** (e.g. *Pinto Saltillo* bean) may have shorter cycles than FAO global ranges → pending INIFAP.
+- **Seed cost / crop price:** no source → the *income* priority has no data yet.
+
+### ⚠️ Read before using
+- FAO ranges are **global indicative values**, not Durango measurements. Use the low end for short cycles.
+- Frost critical temperatures are **plant-tissue** temperatures. NASA `T2M_MIN` is **air at 2 m**; FAO warns that buds and flowers are usually colder than air, so the threshold should be applied with margin.
+- `fixes_nitrogen = false` for grasses is derived from the botanical family (Poaceae, not legumes).
+
+### Files
+| File | Edit it? | What |
+|---|---|---|
+| `crop_values.csv` | ✅ source of truth | one value per row: value or min/max, unit, source_id, where in source, note |
+| `sources.csv` | ✅ | full citations + URL + access date |
+| `gaps.csv` | ✅ | missing data, status and next step |
+| `crops.json` | ❌ generated | `python backend/crops.py` validates the CSVs and rebuilds it |

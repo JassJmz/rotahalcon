@@ -1,0 +1,7 @@
+crop_id,attribute,status,detail,next_step
+alfalfa,frost_tc_*,no_source,Alfalfa is not listed in FAO frost Table 4.5,Look for an FAO or INIFAP frost tolerance value for alfalfa; until then the engine must not apply a frost rule to alfalfa and must show this gap
+*,sowing_window_durango,pending_inifap,Rainfed sowing dates for Durango (INIFAP Campo Experimental Valle del Guadiana) were not found online,Get the INIFAP technical agenda for Durango or ask CEVAG; until then use the planting window as a slider/assumption shown to the user
+*,local_cycle_days,pending_inifap,FAO cycle lengths are global ranges; local varieties (e.g. Pinto Saltillo bean) may differ,Replace with INIFAP variety data for Durango when available
+*,price_and_costs,no_source,No sourced seed cost or crop price for Durango,"The 'ingreso' (income) priority has no sourced data: show it as a gap (""we don't know the seed cost in your area"")"
+avena,water_need_mm,group_value,FAO gives one value for barley/oats/wheat,Acceptable for the hackathon; flagged in the UI sources
+sorgo,water_need_mm,group_value,FAO gives one value for sorghum/millet,Acceptable for the hackathon; flagged in the UI sources

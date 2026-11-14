@@ -33,11 +33,13 @@ curl -X POST http://localhost:8000/recomendar -H "Content-Type: application/json
 | `main.py` | FastAPI app (endpoints above) |
 | `nasa_power.py` | Downloads NASA POWER daily climate → `data/nasa_power/` (CSV + metadata + chart). `load_daily()` reads it offline for the engine. Standard library only. See [`data/README.md`](../data/README.md) |
 
+| `crops.py` | Validates the crop table (`data/crops/`): **refuses any value without a source**. Builds `crops.json`. `load_crops()` for the engine |
+
 ```bash
 python backend/nasa_power.py            # download (needs internet)
 python backend/nasa_power.py --offline  # rebuild from saved CSV
+python backend/crops.py                 # validate crop table + rebuild crops.json
 ```
 
 ## Next
-- Crop table with FAO / INIFAP source per value
-- Rules engine + 45-year simulation (1981–2025)
+- Rules engine (H8) + 45-year simulation 1981–2025 (H10)
