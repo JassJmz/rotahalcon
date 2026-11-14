@@ -12,7 +12,7 @@ Owner: Role 3. API keys go in `.env` (git-ignored).
 | Satellite ↔ sensor calibration — `calibracion.py`, `GET /calibracion`, `POST /calibrar`: NASA GWETTOP vs field moisture, **linear vs random forest** (leave-one-out MAE); difference mode with < 5 days | ✅ method working — **EXAMPLE data** until the moisture probe is added |
 | NDVI bare-soil detection | ⏳ optional |
 | Glossary EN/ES (10 terms) — `glosario.json` + `GET /glosario?idioma=en\|es` for the web tooltips | ✅ |
-| AI-use declaration | ⏳ |
+| AI-use declaration — `docs/AI_USE.md` (product AI + team tools; Roles 1, 2, 4 complete their part) | ✅ Role 3 part done |
 
 ## Local AI (Ollama) — free
 ```bash
