@@ -1,10 +1,12 @@
 """
 RotaHalcón — latest SENSOR reading from Firebase Realtime Database (AGRISENSE node).
 
-Reads  <FIREBASE_DB_URL>/nodos/agrisense-01/ultima.json  (REST, standard library only)
-and returns it in the contract format (docs/CONTRACT.md):
-    { "ts", "humedad_pct", "temp_c", "ph", "ce_uScm", "n_mgkg", "p_mgkg", "k_mgkg", "fuente": "SENSOR" }
-plus  "mock": false, "edad_s": seconds since the reading.
+Reads  <FIREBASE_DB_URL>/nodos/<node>/ultima.json  (REST, standard library only; node = agrisense-01
+or env FIREBASE_NODE) and returns it in the contract format (docs/CONTRACT.md):
+    { "ts", "humedad_pct", "temp_c", "ph", "ce_uScm", "n_mgkg", "p_mgkg", "k_mgkg", "fuente" }
+plus  "mock", "edad_s" (seconds since the reading), "nodo".
+Only "fuente": "SENSOR" counts as real field data ("mock": false). Any other label (e.g. "TEST")
+is shown as written, with "mock": true, and is never used by the engine or the calibration.
 
 If Firebase is not configured, unreachable, or the reading is malformed, it returns the
 MOCK reading with "mock": true — the API never breaks during the demo.
@@ -16,12 +18,12 @@ Set them as environment variables (Render → Environment) or in backend/.env (g
 """
 
 # ── DATOS ──
-NODE_PATH = "nodos/agrisense-01/ultima"
+DEFAULT_NODE = "agrisense-01"  # contract path; override with env FIREBASE_NODE (e.g. agrisense-test) for tests
+REAL_SOURCE = "SENSOR"         # only readings with "fuente": "SENSOR" count as real field data
 TIMEOUT_S = 4                 # keep /recomendar fast even if Firebase is slow
 CACHE_S = 30                  # sensor reads every 60 s, no need to ask more often
 MEASURE_FIELDS = ["humedad_pct", "temp_c", "ph", "ce_uScm", "n_mgkg", "p_mgkg", "k_mgkg"]
 # "ts" is required; a measurement may be null/absent (e.g. an NPK-only probe) — at least one must be numeric.
-HISTORY_PATH = "nodos/agrisense-01/lecturas"
 HISTORY_LAST_N = 500          # readings used for calibration
 HISTORY_CACHE_S = 5 * 60
 MOCK_READING = {
@@ -51,13 +53,27 @@ def _config() -> tuple[str | None, str | None]:
     return (url or None), (os.environ.get("FIREBASE_AUTH", "").strip() or None)
 
 
+def node() -> str:
+    _config()
+    return os.environ.get("FIREBASE_NODE", "").strip() or DEFAULT_NODE
+
+
+def _latest_path() -> str:
+    return f"nodos/{node()}/ultima"
+
+
+def _history_path() -> str:
+    return f"nodos/{node()}/lecturas"
+
+
 def _mock(reason: str) -> dict:
     return {**MOCK_READING, "mock": True, "motivo_mock": reason}
 
 
 def _validate(raw) -> dict:
+    """Parse a reading. Keeps the writer's "fuente" label (SENSOR, TEST, …) — never relabels it."""
     if not isinstance(raw, dict):
-        raise ValueError("no reading at " + NODE_PATH)
+        raise ValueError("no reading at " + _latest_path())
     if raw.get("ts") is None:
         raise ValueError("missing field: ts")
     ts = float(raw["ts"])
@@ -69,8 +85,12 @@ def _validate(raw) -> dict:
         out[f] = None if v is None or v == "" else float(v)
     if all(out[f] is None for f in MEASURE_FIELDS):
         raise ValueError("reading has no numeric measurement")
-    out["fuente"] = "SENSOR"
+    out["fuente"] = str(raw.get("fuente") or "UNLABELED").strip().upper()
     return out
+
+
+def is_real(reading: dict) -> bool:
+    return reading.get("fuente") == REAL_SOURCE
 
 
 def _get_json(path: str, params: dict | None = None):
@@ -89,19 +109,21 @@ _hist_cache = {"at": 0.0, "value": []}
 
 
 def history(force: bool = False) -> list[dict]:
-    """Last HISTORY_LAST_N real readings, oldest first ([] if none / not configured). Never raises."""
+    """Last HISTORY_LAST_N REAL readings ("fuente": "SENSOR"), oldest first. Test data is ignored. Never raises."""
     now = time.time()
     if not force and now - _hist_cache["at"] < HISTORY_CACHE_S:
         return _hist_cache["value"]
     try:
-        raw = _get_json(HISTORY_PATH, {"orderBy": '"$key"', "limitToLast": HISTORY_LAST_N}) or {}
+        raw = _get_json(_history_path(), {"orderBy": '"$key"', "limitToLast": HISTORY_LAST_N}) or {}
         items = raw.values() if isinstance(raw, dict) else [r for r in raw if r]
         out = []
         for r in items:
             try:
-                out.append(_validate(r))
+                v = _validate(r)
             except Exception:
                 continue
+            if is_real(v):
+                out.append(v)
         out.sort(key=lambda r: r["ts"])
     except Exception:
         out = []
@@ -119,14 +141,15 @@ def latest_reading(force: bool = False) -> dict:
     if not url:
         value = _mock("Firebase not configured (FIREBASE_DB_URL)")
     else:
-        full = f"{url}/{NODE_PATH}.json"
-        if auth:
-            full += "?" + urllib.parse.urlencode({"auth": auth})
         try:
-            with urllib.request.urlopen(full, timeout=TIMEOUT_S) as resp:
-                value = _validate(json.load(resp))
-            value["mock"] = False
+            value = _validate(_get_json(_latest_path()))
             value["edad_s"] = max(0, int(now) - value["ts"])
+            value["nodo"] = node()
+            if is_real(value):
+                value["mock"] = False
+            else:                                # e.g. "fuente": "TEST" — shown with its own label, never used as field truth
+                value["mock"] = True
+                value["motivo_mock"] = f"fuente is '{value['fuente']}', not '{REAL_SOURCE}' (test data)"
         except Exception as exc:                 # network, auth (401), bad JSON, bad format
             value = _mock(f"Firebase read failed: {type(exc).__name__}: {str(exc)[:120]}")
 

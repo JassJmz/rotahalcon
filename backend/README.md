@@ -21,7 +21,8 @@ Free plan: it sleeps after ~15 min idle and the first call takes ~1 min — open
 `calibracion` comes from **Role 3's model** (`ia/calibracion.py`: linear vs random forest, leave-one-out). It takes ~20 s, so `calibration_service.py` runs it in a **background thread** at startup and when new sensor history arrives (max every 30 min); requests always answer instantly. Until the first result: `"estado": "calculando"`. While the node has no moisture readings it uses Role 3's labeled **example data** (`"datos": "ejemplo"` + `aviso`).
 
 ## SENSOR reading (Firebase)
-`sensor.py` reads `nodos/agrisense-01/ultima` from **Firebase Realtime Database** over REST and puts it in `sensor` (and `GET /sensor`):
+`sensor.py` reads `nodos/agrisense-01/ultima` from **Firebase Realtime Database** over REST and puts it in `sensor` (and `GET /sensor`).
+**Only `"fuente": "SENSOR"` counts as real field data.** Any other label (e.g. Role 1's `"fuente": "TEST"`) is shown as written with `"mock": true` and is never used by the engine or the calibration. To point the API at another node (e.g. `agrisense-test`), set env `FIREBASE_NODE`.
 - real reading → contract fields + `"mock": false` + `"edad_s"` (seconds since the reading). Fields the probe does not measure may be `null` (e.g. NPK-only probe); `ts` and at least one measurement are required
 - history for calibration: last 500 readings from `nodos/agrisense-01/lecturas`
 - not configured / unreachable / wrong format → mock reading + `"mock": true` + `"motivo_mock"` (why). The API never breaks.

@@ -169,6 +169,33 @@ class TestSensorAndApi(unittest.TestCase):
         self.assertEqual(r["n_mgkg"], 14.0)
         self.assertIsNone(r["humedad_pct"])
 
+    def _reading_from_firebase(self, raw):
+        """Run latest_reading() with a fake Firebase answer (no network)."""
+        old_get, old_url = sensor._get_json, os.environ.get("FIREBASE_DB_URL")
+        sensor._get_json = lambda path, params=None: raw
+        os.environ["FIREBASE_DB_URL"] = "https://fake.example"
+        try:
+            return sensor.latest_reading(force=True)
+        finally:
+            sensor._get_json = old_get
+            os.environ["FIREBASE_DB_URL"] = old_url or ""
+            sensor._cache.update(at=0.0, value=None)
+
+    def test_test_data_is_never_field_truth(self):
+        r = self._reading_from_firebase({"ts": 1794695592, "n_mgkg": 32, "fuente": "TEST"})
+        self.assertEqual(r["fuente"], "TEST")          # label kept, never relabelled as SENSOR
+        self.assertTrue(r["mock"])
+        self.assertIsNone(main._real_n(r))
+
+    def test_real_sensor_reading_is_used(self):
+        r = self._reading_from_firebase({"ts": 1794695592, "n_mgkg": 14, "fuente": "SENSOR"})
+        self.assertFalse(r["mock"])
+        self.assertEqual(main._real_n(r), 14.0)
+
+    def test_unlabeled_reading_is_not_real(self):
+        r = self._reading_from_firebase({"ts": 1794695592, "n_mgkg": 14})
+        self.assertTrue(r["mock"])
+
     def test_ms_timestamp_is_converted(self):
         self.assertEqual(sensor._validate({"ts": 1794700000123, "n_mgkg": 1})["ts"], 1794700000)
 
