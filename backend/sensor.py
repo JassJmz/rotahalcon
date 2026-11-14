@@ -19,7 +19,11 @@ Set them as environment variables (Render → Environment) or in backend/.env (g
 NODE_PATH = "nodos/agrisense-01/ultima"
 TIMEOUT_S = 4                 # keep /recomendar fast even if Firebase is slow
 CACHE_S = 30                  # sensor reads every 60 s, no need to ask more often
-REQUIRED_FIELDS = ["ts", "humedad_pct", "temp_c", "ph", "ce_uScm", "n_mgkg", "p_mgkg", "k_mgkg"]
+MEASURE_FIELDS = ["humedad_pct", "temp_c", "ph", "ce_uScm", "n_mgkg", "p_mgkg", "k_mgkg"]
+# "ts" is required; a measurement may be null/absent (e.g. an NPK-only probe) — at least one must be numeric.
+HISTORY_PATH = "nodos/agrisense-01/lecturas"
+HISTORY_LAST_N = 500          # readings used for calibration
+HISTORY_CACHE_S = 5 * 60
 MOCK_READING = {
     "ts": 1794700000, "humedad_pct": 24.1, "temp_c": 19.3, "ph": 7.2,
     "ce_uScm": 410, "n_mgkg": 32, "p_mgkg": 18, "k_mgkg": 145, "fuente": "SENSOR",
@@ -54,12 +58,51 @@ def _mock(reason: str) -> dict:
 def _validate(raw) -> dict:
     if not isinstance(raw, dict):
         raise ValueError("no reading at " + NODE_PATH)
-    missing = [f for f in REQUIRED_FIELDS if f not in raw]
-    if missing:
-        raise ValueError("missing fields: " + ", ".join(missing))
-    out = {f: float(raw[f]) for f in REQUIRED_FIELDS}
-    out["ts"] = int(out["ts"])
+    if raw.get("ts") is None:
+        raise ValueError("missing field: ts")
+    out = {"ts": int(float(raw["ts"]))}
+    for f in MEASURE_FIELDS:
+        v = raw.get(f)
+        out[f] = None if v is None or v == "" else float(v)
+    if all(out[f] is None for f in MEASURE_FIELDS):
+        raise ValueError("reading has no numeric measurement")
     out["fuente"] = "SENSOR"
+    return out
+
+
+def _get_json(path: str, params: dict | None = None):
+    url, auth = _config()
+    if not url:
+        raise RuntimeError("Firebase not configured (FIREBASE_DB_URL)")
+    q = dict(params or {})
+    if auth:
+        q["auth"] = auth
+    full = f"{url}/{path}.json" + ("?" + urllib.parse.urlencode(q) if q else "")
+    with urllib.request.urlopen(full, timeout=TIMEOUT_S) as resp:
+        return json.load(resp)
+
+
+_hist_cache = {"at": 0.0, "value": []}
+
+
+def history(force: bool = False) -> list[dict]:
+    """Last HISTORY_LAST_N real readings, oldest first ([] if none / not configured). Never raises."""
+    now = time.time()
+    if not force and now - _hist_cache["at"] < HISTORY_CACHE_S:
+        return _hist_cache["value"]
+    try:
+        raw = _get_json(HISTORY_PATH, {"orderBy": '"$key"', "limitToLast": HISTORY_LAST_N}) or {}
+        items = raw.values() if isinstance(raw, dict) else [r for r in raw if r]
+        out = []
+        for r in items:
+            try:
+                out.append(_validate(r))
+            except Exception:
+                continue
+        out.sort(key=lambda r: r["ts"])
+    except Exception:
+        out = []
+    _hist_cache.update(at=now, value=out)
     return out
 
 

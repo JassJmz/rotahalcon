@@ -6,7 +6,8 @@ Endpoints follow docs/CONTRACT.md (A4):
     GET  /anio-malo    the same 4 strategies, in one past year
     POST /preguntar    stub only — the real assistant is ia/api.py (Role 3)
 
-`sensor` and `calibracion` are still MOCK until Hardware (Firebase) and IA (calibration) plug in.
+`sensor` = latest Firebase reading (flagged mock until the node writes).
+`calibracion` = Role 3 model (ia/calibracion.py), computed in a background thread.
 
 Run:  uvicorn main:app --reload --port 8000
 Docs: http://localhost:8000/docs
@@ -27,6 +28,7 @@ from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
+import calibration_service
 import engine
 import sensor
 
@@ -74,10 +76,6 @@ class PreguntarIn(BaseModel):
     recomendacion: Optional[Dict] = None
 
 
-# ---------- Still mock (Role 3) ----------
-MOCK_CALIBRACION = {
-    "satelite_pct": 18, "sensor_pct": 24, "ajuste": 6, "error": 3, "modelo": "lineal",
-}
 
 
 def _real_n(reading: Dict):
@@ -89,7 +87,7 @@ def _envelope(estrategias: List[Dict], reading: Dict) -> Dict:
     return {
         "estrategias": estrategias,
         "sensor": copy.deepcopy(reading),                   # real Firebase reading or flagged mock
-        "calibracion": copy.deepcopy(MOCK_CALIBRACION),
+        "calibracion": calibration_service.current(),       # Role 3 model, computed in background
     }
 
 
@@ -101,7 +99,13 @@ def salud():
         "years": [engine.YEARS[0], engine.YEARS[-1]],
         "crops": engine.CROP_IDS, "soils": list(engine.SOILS),
         "uncertainty": "bootstrap (ia/incertidumbre.py)" if agregar_incertidumbre else "wilson 90%",
+        "calibration": calibration_service.status(),
     }
+
+
+@app.on_event("startup")
+def _start_background_jobs():
+    calibration_service.start()
 
 
 @app.get("/sensor")
