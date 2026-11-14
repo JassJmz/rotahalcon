@@ -17,6 +17,10 @@ const SOIL_FIELDS = [   // sensor field -> label, unit
   ['humedad_pct', 'Moisture', '%'], ['temp_c', 'Soil temp', '°C'], ['ph', 'pH', ''], ['ce_uScm', 'Salinity (EC)', 'µS/cm'],
   ['n_mgkg', 'Nitrogen (N)', 'mg/kg'], ['p_mgkg', 'Phosphorus (P)', 'mg/kg'], ['k_mgkg', 'Potassium (K)', 'mg/kg'],
 ];
+// Fields whose meaning Role 1 has verified on the real sensor. Empty until they confirm: a real reading still shows
+// every field, but marked UNVERIFIED, so we never present an unconfirmed variable as measured.
+const CONFIRMED_FIELDS = [];
+const CALIB_CONFIRMED = false;   // calibration stays 'example data' until Role 1 confirms the moisture reading
 const PRIOS = [['agua', 'Water'], ['suelo', 'Soil'], ['ingreso', 'Income'], ['riesgo', 'Risk']];
 const GLOSSARY = {   // provisional – Role 3 provides final texts
   'Evapotranspiration': 'Water that leaves the field as evaporation from soil plus transpiration from plants.',
@@ -117,10 +121,11 @@ function initField() {
 
 /* ---------- 2. soil ---------- */
 function renderSoil(s) {
+  const zeros = !!s.mock && /zeros/.test(s.motivo_mock || '');   // probe not in soil / RS485 silent: do not show 0% and pH 0 as readings
   $('soilGrid').innerHTML = SOIL_FIELDS.map(([k, label, unit]) => `
-    <div class="card p-4"><div class="flex justify-between items-start"><span class="text-sm text-slate-400">${label}</span>${tag(s.fuente || 'SENSOR')}</div>
-    <div class="text-3xl font-bold mt-2">${s[k] ?? '—'}<span class="text-base font-normal text-slate-400 ml-1">${unit}</span></div></div>`).join('');
-  $('soilTime').textContent = (s.ts ? '· last reading: ' + new Date(s.ts * 1000).toISOString().replace('T', ' ').slice(0, 16) + ' UTC' : '') + (s.mock ? ' · demo reading (node not connected yet)' : '');
+    <div class="card p-4"><div class="flex justify-between items-start"><span class="text-sm text-slate-400">${label}</span>${(s.mock || CONFIRMED_FIELDS.includes(k)) ? tag(s.fuente || 'SENSOR') : '<span class="tag tag-GAP">UNVERIFIED</span>'}</div>
+    <div class="text-3xl font-bold mt-2">${zeros ? '—' : (s[k] ?? '—')}<span class="text-base font-normal text-slate-400 ml-1">${unit}</span></div></div>`).join('');
+  $('soilTime').textContent = (s.ts ? '· last reading: ' + new Date(s.ts * 1000).toISOString().replace('T', ' ').slice(0, 16) + ' UTC' : '') + (s.mock ? (zeros ? ' · node connected, probe returns zeros (not in soil or RS485 silent): no reading shown' : ' · demo reading (node not connected yet)') : '');
 }
 
 /* ---------- 3. compare ---------- */
@@ -156,7 +161,7 @@ function renderCompare(d) {
 // While the moisture probe is not connected the numbers are EXAMPLE data, and the card says so.
 function renderCalib(c, example) {
   if (!c) { $('calib').innerHTML = ''; return; }
-  const ex = example || c.datos === 'ejemplo';
+  const ex = !CALIB_CONFIRMED || example || c.datos === 'ejemplo';
   const err = c.error === null || c.error === undefined ? '' : `± ${c.error}, `;
   $('calib').innerHTML = `${ex ? '<span class="tag tag-GAP mr-2">EXAMPLE DATA · NEXT MODULE</span>' : ''}<b class="text-gold">Satellite corrected by the ground:</b> ${tag('NASA')} satellite says ${c.satelite_pct}% moisture · ${tag('SENSOR')} your field measures ${c.sensor_pct}% → adjustment ${c.ajuste > 0 ? '+' : ''}${c.ajuste} pts (${err}${esc(c.modelo)} model).`
     + (ex ? '<div class="text-xs text-slate-400 mt-1">Illustrative until the AGRISENSE moisture probe is connected.</div>' : '');

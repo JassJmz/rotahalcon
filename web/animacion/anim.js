@@ -21,9 +21,12 @@ const ROW_LABELS = ROWS.map((e, i) => e.es_actual ? 'Current' : 'Alt ' + i);
 const ROW_CROPS = ROWS.map(e => e.ciclos.map(c => ICON[c] || '🌱').join(''));
 const rainPct = (m => { const x = /rain ([+-]?\d+)% vs normal/.exec(m || ''); return x ? +x[1] : null; })(ROWS[0].peor_anio.motivo);
 const WORST_YEAR = { year: ROWS[0].peor_anio.anio, why: rainPct === null ? 'the hardest season on record' : `rainfall ${Math.abs(rainPct)}% ${rainPct < 0 ? 'below' : 'above'} normal` };
+// Role 1: the sensor must be shown as measuring moisture, and calibrated against NASA, ONLY after they verify it. Until then
+// scene 5 stays on demo values even if a real reading arrives. Set to true when Role 1 confirms.
+const CALIB_CONFIRMED = false;
 const SENSOR_MOCK = !D.sensor || !!D.sensor.mock;
-const CALIB_LIVE = !SENSOR_MOCK && D.calibracion_datos === 'sensor';
-const SAT_PCT = D.calibracion.satelite_pct, SENSOR_PCT = D.sensor.humedad_pct, ADJUST = D.calibracion.ajuste;
+const CALIB_LIVE = CALIB_CONFIRMED && !SENSOR_MOCK && D.calibracion_datos === 'sensor';
+const SAT_PCT = D.calibracion.satelite_pct, SENSOR_PCT = CALIB_CONFIRMED ? D.sensor.humedad_pct : D.calibracion.sensor_pct, ADJUST = D.calibracion.ajuste;
 const RAIN = D.rain_mm;                                                         // mm per year, NASA POWER PRECTOTCORR
 const DURATIONS = [3, 6, 4, 4, 8, 6, 10, 6, 5, 6, 3];   // seconds per scene (storyboard C2), used by ?autoplay=1
 // ── FIN DATOS ──
@@ -54,7 +57,7 @@ const ES = {
   'Engine output on NASA POWER data': 'Resultado del motor sobre datos NASA POWER', 'Engine output for both sets of priorities': 'Resultado del motor para ambas prioridades',
   'Numbers from the engine; wording illustrative': 'Números del motor; redacción ilustrativa',
   'Demo sensor and calibration values': 'Valores de ejemplo del sensor y la calibración', 'Live sensor readings': 'Lecturas del sensor en vivo',
-  'Current': 'Actual', 'Water': 'Agua', 'Soil': 'Suelo', 'Income*': 'Ingreso*', 'Risk': 'Riesgo',
+  'Reading received': 'Lectura recibida', 'Current': 'Actual', 'Water': 'Agua', 'Soil': 'Suelo', 'Income*': 'Ingreso*', 'Risk': 'Riesgo',
   '* Income: no sourced seed cost or crop price yet (information gap)': '* Ingreso: aún no hay costo de semilla ni precio con fuente (hueco de información)',
   'EXAMPLE · NEXT MODULE': 'EJEMPLO · PRÓXIMO MÓDULO', 'LIVE': 'EN VIVO', 'SAFER': 'MÁS SEGURA', 'RISKIER': 'MÁS RIESGOSA', 'SAME RISK': 'MISMO RIESGO',
   'RotaHalcón report': 'Reporte RotaHalcón', 'Decision support only': 'Solo apoyo a la decisión',
@@ -267,7 +270,9 @@ SCENES.push({ act: 'ACT 1 · FROM SOIL TO CLOUD', cap: 'Live, from this field', 
   const card = grp(g, 840, 420);
   el('rect', { width: 360, height: 140, rx: 18, fill: C.navy2, stroke: C.gold, 'stroke-width': 3 }, card);
   el('rect', { x: 20, y: 18, width: 96, height: 30, rx: 8, fill: C.gold }, card); txt(card, 68, 39, 'SENSOR', 17, C.navy, 'middle', 800);
-  const val = txt(card, 28, 106, 'Moisture 0.0%', 44, C.white, 'start', 800);
+  const REAL = !SENSOR_MOCK && !CALIB_CONFIRMED;     // real reading, variable mapping not verified yet
+  const val = txt(card, 28, 106, REAL ? 'Reading received' : 'Moisture 0.0%', REAL ? 38 : 44, C.white, 'start', 800);
+  if (REAL && D.sensor.ts) txt(card, 28, 130, new Date(D.sensor.ts * 1000).toISOString().slice(11, 16) + ' UTC', 18, C.mute, 'start', 600);
   const o = { v: 0 }, tl = gsap.timeline();
   tl.from(esp, from === 2 ? { x: 1020, y: 360, scale: 1.44, transformOrigin: '50% 50%', duration: .9, ease: E.io } : { opacity: 0, x: -30, duration: .5, ease: E.out3 }, 0)
     .to(arcs, { opacity: 1, duration: .3, stagger: .15 }, .3 + d)
@@ -275,7 +280,7 @@ SCENES.push({ act: 'ACT 1 · FROM SOIL TO CLOUD', cap: 'Live, from this field', 
     .from(cloud, { opacity: 0, y: '+=30', scale: .9, svgOrigin: '800 210', duration: .7, ease: E.out }, .7)
     .from(card, { opacity: 0, y: '+=40', duration: .6, ease: E.out3 }, 1.9);
   pk.forEach((p, i) => tl.set(p, { opacity: 1, attr: { cx: 440, cy: 470 } }, 1 + i * .3).to(p, { attr: { cx: 690, cy: 290 }, duration: .7, ease: 'none' }, 1 + i * .3).to(p, { opacity: 0, duration: .1 }, 1.7 + i * .3));
-  countTo(o, 'v', SENSOR_PCT, val, v => T('Moisture ' + v.toFixed(1) + '%'), 1.2, E.out3, tl, 2.2);
+  if (!REAL) countTo(o, 'v', SENSOR_PCT, val, v => T('Moisture ' + v.toFixed(1) + '%'), 1.2, E.out3, tl, 2.2);
   gsap.to(arcs, { opacity: .2, duration: .6, stagger: .15, repeat: LOOP, yoyo: true, ease: E.sine, delay: 1.2 });
   gsap.to(cloud, { y: '-=8', duration: 2.2, repeat: LOOP, yoyo: true, ease: E.sine, delay: 1.5 });
   return tl;
