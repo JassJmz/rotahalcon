@@ -250,7 +250,7 @@ SCENES.push({ act: 'ACT 1 · FROM SOIL TO CLOUD', cap: 'Satellite sees km. We se
   const chk = el('path', { d: 'M-150 2 l18 18 l34 -38', stroke: '#05290f', 'stroke-width': 8, fill: 'none', 'stroke-linecap': 'round', 'stroke-linejoin': 'round', pathLength: 1, 'stroke-dasharray': 1, 'stroke-dashoffset': 1 }, ok);
   txt(ok, 24, 14, 'Calibrated', 44, '#05290f', 'middle', 800);
   const adj = txt(g, 640, 598, '+' + ADJUST + ' pts adjustment', 22, C.green, 'middle', 700, { opacity: 0 });
-  if (SENSOR_MOCK) chip(g, 1130, 60, 'EXAMPLE · NEXT MODULE', '#ffffff1f', C.goldL, 16);   // calibration is not live yet: say so on screen
+  if (SENSOR_MOCK) chip(g, 1090, 62, 'EXAMPLE · NEXT MODULE', C.gold, C.navy, 21);   // calibration is not live yet: say so on screen
   const tl = gsap.timeline();
   tl.to(sat, { y: 110, duration: 1.3, ease: E.out }, 0).to(beam, { opacity: 1, duration: .5 }, 1)
     .to(px, { opacity: 1, duration: .5 }, 1.2).to(gridL, { opacity: .25, duration: .5, stagger: .05 }, 1.4).to(pxl, { opacity: 1, duration: .5 }, 1.5)
