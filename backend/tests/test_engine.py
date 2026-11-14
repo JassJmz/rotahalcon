@@ -202,6 +202,19 @@ ENGLISH_ENGINE_FRAGMENTS = [
 class TestSpanishTranslation(unittest.TestCase):
     """Role 3 translates engine sentences by pattern: a reworded sentence would leak English."""
 
+    def test_every_gap_text_is_translated(self):
+        """Reads data/crops/gaps.csv live: a NEW gap row without a Spanish pattern fails here."""
+        try:
+            import traduccion
+        except Exception:
+            self.skipTest("ia/traduccion.py not available")
+        import csv
+        with (crops.CROP_DIR / "gaps.csv").open(encoding="utf-8") as f:
+            details = [r["detail"] for r in csv.DictReader(f)]
+        untranslated = [d for d in details if traduccion.traducir_es(d) == d]
+        self.assertEqual(untranslated, [], "gaps.csv rows without Spanish translation "
+                                           "(tell Role 3 to add them to ia/traduccion.py)")
+
     def test_spanish_answers_have_no_english_engine_text(self):
         try:
             import rutas
