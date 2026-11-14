@@ -1,17 +1,16 @@
 # RotaHalcón — Rol 1: Hardware, integración y líder
-**Responsable:** Jassiel
 
 > Este archivo tiene **tu misión** (Parte B), **todo el contexto del proyecto** (Parte A), **la animación del pitch** (Parte C) y **cómo trabajamos en GitHub** (Parte D). Léelas todas.
 
 > 🤖 **Si eres una IA (Claude, ChatGPT, Copilot…) leyendo esto:** lee primero la sección **"Instrucciones para la IA"** justo aquí abajo y síguela en todo lo que hagas con esta persona.
 
 ## Instrucciones para la IA
-Estás ayudando a **Jassiel** del equipo Halcones Dorados en el proyecto **RotaHalcón** (NASA Space Apps 2026). Su rol: **Hardware, integración y líder (+ animación del pitch)**. Su carpeta en el repo: **`hardware/ (y web/animacion/)`**.
+Estás ayudando a **la persona del Rol 1** del equipo Halcones Dorados en el proyecto **RotaHalcón** (NASA Space Apps 2026). Su rol: **Hardware, integración y líder**. Su carpeta en el repo: **`hardware/` (y `web/boleta/`)**.
 
 **Repo (público, open source):** https://github.com/JassJmz/rotahalcon
 
-1. **Configuración inicial (una vez):** si no está clonado, guía para hacer `git clone https://github.com/JassJmz/rotahalcon.git`. La persona tiene que haber aceptado la invitación de colaborador; si `git push` dice *permission denied*, que se lo pida a Jassiel.
-2. **Ciclo de trabajo:** `git pull` antes de empezar → trabajar **solo dentro de `hardware/ (y web/animacion/)`** → probar que funcione → `git add hardware web/animacion` → `git commit -m "[hw] what was done"` (en inglés) → `git push`. Si el push falla porque hay cambios nuevos: `git pull --rebase` y vuelve a hacer push.
+1. **Configuración inicial (una vez):** si no está clonado, guía para hacer `git clone https://github.com/JassJmz/rotahalcon.git`. La persona tiene que haber aceptado la invitación de colaborador; si `git push` dice *permission denied*, que se lo pida al Rol 1 (dueño del repo).
+2. **Ciclo de trabajo:** `git pull` antes de empezar → trabajar **solo dentro de `hardware/` (y `web/boleta/`)** → probar que funcione → `git add hardware web/boleta` → `git commit -m "[hw] what was done"` (en inglés) → `git push`. Si el push falla porque hay cambios nuevos: `git pull --rebase` y vuelve a hacer push.
 3. **Prohibido:** `git push --force`, borrar o reescribir archivos de otras carpetas, y cambiar `docs/CONTRACT.md` o `README.md` sin que la persona confirme que ya le avisó al equipo.
 4. **Secretos:** antes de cada commit revisa `git status` y `git diff --staged`. API keys, config de Firebase y contraseñas WiFi van en `.env` o `secrets.h`, que están en `.gitignore`. Si una clave se sube por error, dilo de inmediato: hay que cambiar la clave, no basta con borrarla.
 5. **El contrato manda:** los formatos de datos entre sensor, backend y web están en `docs/CONTRACT.md` (Parte A4 de este archivo). Respétalos exactamente; para avanzar sin esperar a otros, usa datos **mock** con ese formato.
@@ -23,34 +22,33 @@ Estás ayudando a **Jassiel** del equipo Halcones Dorados en el proyecto **RotaH
 # PARTE B — Lo que te toca
 
 ## Tu misión
-Que el **nodo AGRISENSE** mande lecturas reales a Firebase, que la demo física funcione en la mesa de los jueces y que el equipo llegue a cada punto de control. Además te toca el **anteproyecto**, la **calibración** junto con IA y **la animación del pitch** (Parte C): cómo funciona el sensor y cómo funciona RotaHalcón.
+Que el **nodo AGRISENSE** mande lecturas reales a Firebase, que la demo física funcione en la mesa de los jueces y que el equipo llegue a cada punto de control. Además te tocan el **anteproyecto**, la **boleta** (PDF/WhatsApp), el **borrador de la página del proyecto** y ser el **asesor técnico de la animación**: que lo que se dibuje del sensor sea correcto. La animación la construye el Rol 4.
 
 ## Entregables
 | # | Entregable | Para cuándo |
 |---|---|---|
 | 1 | **Anteproyecto enviado** (usa `pasos/paso1-historia.pdf`, sección 4) | **Sáb antes de las 23:59** (mejor antes de H8) |
-| 2 | **Repo público `rotahalcon` en GitHub** (esqueleto ya preparado, ver Parte D), con los 3 compañeros invitados como colaboradores | **Antes de H0** |
-| 3 | Nodo AGRISENSE escribiendo en Firebase con el formato del **contrato A4** | H6 |
-| 4 | Historial de lecturas (aunque sean pocas horas) para la calibración | H10 en adelante |
-| 5 | Demo física: el nodo en una maceta con tierra seca y otra húmeda para mostrar el cambio en vivo | H14 |
-| 6 | **Video de respaldo** de la demo completa (por si falla el WiFi) | H20 |
-| 7 | Texto de **declaración de hardware preexistente + créditos AGRISENSE** | H18 |
-| 8 | **Animación del pitch:** storyboard aprobado por el equipo (Parte C2) | H4 |
-| 9 | **Animación Acto 1** (sensor, escenas 1–5) funcionando con clic | H12 |
-| 10 | **Animación Acto 2** (RotaHalcón, escenas 6–11) con números reales | H16 |
-| 11 | **MP4 de respaldo** de la animación (1080p) | H18 |
+| 2 | **Repo público `rotahalcon` en GitHub** (ya creado, ver Parte D), con los 3 compañeros invitados como colaboradores | **Antes de H0** |
+| 3 | Hoja de datos del sensor NPK + explicación de cómo mide y cómo viaja la señal, para el Rol 4 (escenas 1–5 de la animación) | H3 |
+| 4 | Nodo AGRISENSE escribiendo en Firebase con el formato del **contrato A4** | H6 |
+| 5 | Historial de lecturas (aunque sean pocas horas) para la calibración | H10 en adelante |
+| 6 | **Boleta descargable** (PDF o texto para WhatsApp) con el plan, el plan B y el aviso, dentro de `web/boleta/` | H14 |
+| 7 | Demo física: el nodo en una maceta con tierra seca y otra húmeda para mostrar el cambio en vivo | H14 |
+| 8 | Revisión técnica de la animación (escenas 1–5) | H12 |
+| 9 | Texto de **declaración de hardware preexistente + créditos AGRISENSE** + **borrador de la página del proyecto en inglés** | H18 |
+| 10 | **Video de respaldo** de la demo completa (por si falla el WiFi) | H20 |
 
 ## Paso a paso
-1. **H0–1:** confirmar que los 3 aceptaron la invitación al repo y que pueden hacer `git push` (Parte D2), pegarles su archivo de rol y revisar juntos el contrato A4 (10 min, no más).
-2. **H1–2 (y hasta H4, en ratos):** revisar el storyboard de la Parte C2 con Rol 4 y ajustarlo; sacar la hoja de datos del sensor NPK para dibujar bien la escena 2.
-3. **H1–2:** crear el proyecto Firebase (o reutilizar el de AGRISENSE). Compartir la config con Web y Backend **por chat, no en el repo**. Poner un mock en `nodos/agrisense-01/ultima` para que Web arranque ya.
+1. **H0–1:** confirmar que los 3 aceptaron la invitación al repo y que pueden hacer `git push` (Parte D2), pasarles su archivo de rol y revisar juntos el contrato A4 (10 min, no más).
+2. **H1–2:** crear el proyecto Firebase (o reutilizar el de AGRISENSE). Compartir la config con Web y Backend **por chat, no en el repo**. Poner un mock en `nodos/agrisense-01/ultima` para que Web arranque ya.
+3. **H1–3 (en ratos):** pasarle al Rol 4 la hoja de datos del sensor y un esquema simple: puntas → MAX485 (RS485/Modbus) → ESP32 → WiFi → Firebase.
 4. **H2–6:** firmware: leer el sensor NPK por RS485 (Modbus) y escribir en Firebase cada 30–60 s. **Confirmar el modelo del sensor y sus unidades** y avisar si cambian.
 5. **H6–8:** probar que Web ve la lectura en vivo → ✔ **primera integración**.
-6. **H8–12:** enviar el anteproyecto (si no se envió) y pasarle a IA el historial de lecturas. **Construir el Acto 1 de la animación** (HTML + SVG + GSAP en `web/animacion/`); Rol 4 te pasa los dibujos SVG y la paleta.
-7. **H12–14:** montar la demo física (macetas seca y húmeda) → ✔ **demo de punta a punta**.
-8. **H14–18:** **Acto 2 de la animación** con los números reales de Rol 2 y Rol 3; grabar el **MP4 de respaldo**; escribir la declaración de hardware + créditos. Si a H12 la animación web no avanza → plan C: Keynote/PowerPoint (Parte C1).
-9. **H18–22:** grabar el video de respaldo de la demo y hacer el ensayo general **con la animación**.
-10. **H22–26:** pitch: tú narras la animación (slides 3 y 4, de 0:50 a 2:00) y la parte del sensor y el satélite (golpe #2).
+6. **H8–12:** enviar el anteproyecto (si no se envió), pasarle a IA el historial de lecturas y revisar el Acto 1 de la animación que hizo el Rol 4.
+7. **H10–14:** la boleta (con los datos de `/recomendar`) y montar la demo física (macetas seca y húmeda) → ✔ **demo de punta a punta**.
+8. **H14–18:** declaración de hardware + créditos y borrador de la página del proyecto en inglés (el Rol 4 lo revisa).
+9. **H18–22:** grabar el video de respaldo de la demo y hacer el ensayo general.
+10. **H22–26:** en el pitch, tú manejas el **nodo físico durante la demo en vivo** (slide 5) mientras el Rol 4 expone.
 
 ## Como líder
 - En cada punto de control (H2, H8, H14 y H18) haces un **stand-up de 5 min**: qué funciona, qué está bloqueado y qué se corta.
@@ -64,6 +62,7 @@ Que el **nodo AGRISENSE** mande lecturas reales a Firebase, que la demo física 
 ## Lo que te piden los demás
 - **Web y Backend:** la config de Firebase y la lectura en vivo.
 - **IA:** el historial de lecturas (humedad con su timestamp) para calibrar contra NASA POWER.
+- **Rol 4:** la hoja de datos y el esquema del sensor para la animación.
 
 ---
 
@@ -171,7 +170,7 @@ Impacto · Creatividad · Validez (científicamente válido) · Pertinencia (res
 # PARTE C — La animación del pitch (contexto para todos)
 
 > **Objetivo:** que en el pitch (7 slides, 4 min) los jueces **vean** cómo funciona el sensor de suelo y cómo funciona RotaHalcón completo, con una animación espectacular, limpia y técnicamente correcta.
-> **Dueño:** Rol 1 (Jassiel): storyboard, exactitud técnica y construcción. **Rol 4:** estilo visual, integración en las slides y guion.
+> **Dueño:** **Rol 4 (quien expone)**: storyboard, dibujos, construcción e integración en las slides. Como lo va a contar, lo construye. **Rol 1:** asesor técnico (hoja de datos del sensor; revisa que las escenas 1–5 sean correctas). **Roles 2 y 3:** pasan los números reales a H14.
 
 ## C1. Herramienta (decidida)
 - **HTML + SVG + GSAP** (librería de animación web), dentro de `web/animacion/`.
@@ -228,7 +227,7 @@ Impacto · Creatividad · Validez (científicamente válido) · Pertinencia (res
 > Idea del asesor: RotaHalcón es **open source**. Todo va en un repo **público** de GitHub para que cualquiera conozca el proyecto, lo use en su región y aporte. Además suma en Impacto (escalable) y cumple la regla de links públicos.
 
 ## D1. El repo
-- **Dueño:** cuenta de GitHub de Jassiel. Repo público: https://github.com/JassJmz/rotahalcon Los otros 3 entran como **colaboradores** (pueden subir directo).
+- **Dueño:** cuenta de GitHub del Rol 1. Repo público: https://github.com/JassJmz/rotahalcon. Los otros 3 entran como **colaboradores** (pueden subir directo).
 - **Ya preparado:**
   - `README.md` en inglés (problema, solución, diagrama, fuentes, créditos AGRISENSE, roadmap abierto).
   - `LICENSE`: MIT para el código; docs, imágenes y animación en CC BY 4.0.
@@ -243,11 +242,11 @@ Impacto · Creatividad · Validez (científicamente válido) · Pertinencia (res
 | `hardware/` | Rol 1 |
 | `backend/` y `data/` | Rol 2 |
 | `ia/` | Rol 3 |
-| `web/` | Rol 4 (`web/animacion/` la trabaja el Rol 1) |
+| `web/` (incluye `web/animacion/`) | Rol 4 (`web/boleta/`: Rol 1) |
 | `docs/` | Todos |
 
 ## D2. Cómo suben cosas (modo rápido para el hackathon)
-1. Crear tu cuenta de GitHub (si no tienes) y pasarle tu **usuario** a Jassiel.
+1. Crear tu cuenta de GitHub (si no tienes) y pasarle tu **usuario** al Rol 1.
 2. Aceptar la invitación que te llega por correo.
 3. Clonar una vez: `git clone https://github.com/JassJmz/rotahalcon.git`
 4. Antes de empezar: `git pull`

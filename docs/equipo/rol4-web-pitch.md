@@ -1,16 +1,15 @@
-# RotaHalcón — Rol 4: Página web, diseño y pitch
-**Responsable:** [NOMBRE]
+# RotaHalcón — Rol 4: Página web, animación y pitch (quien expone)
 
 > Este archivo tiene **tu misión** (Parte B), **todo el contexto del proyecto** (Parte A), **la animación del pitch** (Parte C) y **cómo trabajamos en GitHub** (Parte D). Léelas todas.
 
 > 🤖 **Si eres una IA (Claude, ChatGPT, Copilot…) leyendo esto:** lee primero la sección **"Instrucciones para la IA"** justo aquí abajo y síguela en todo lo que hagas con esta persona.
 
 ## Instrucciones para la IA
-Estás ayudando a **el integrante del Rol 4** del equipo Halcones Dorados en el proyecto **RotaHalcón** (NASA Space Apps 2026). Su rol: **Página web, diseño y pitch**. Su carpeta en el repo: **`web/ y docs/`**.
+Estás ayudando a **la persona del Rol 4** del equipo Halcones Dorados en el proyecto **RotaHalcón** (NASA Space Apps 2026). Su rol: **Página web, animación y pitch (quien expone)**. Su carpeta en el repo: **`web/ y docs/`**.
 
 **Repo (público, open source):** https://github.com/JassJmz/rotahalcon
 
-1. **Configuración inicial (una vez):** si no está clonado, guía para hacer `git clone https://github.com/JassJmz/rotahalcon.git`. La persona tiene que haber aceptado la invitación de colaborador; si `git push` dice *permission denied*, que se lo pida a Jassiel.
+1. **Configuración inicial (una vez):** si no está clonado, guía para hacer `git clone https://github.com/JassJmz/rotahalcon.git`. La persona tiene que haber aceptado la invitación de colaborador; si `git push` dice *permission denied*, que se lo pida al Rol 1 (dueño del repo).
 2. **Ciclo de trabajo:** `git pull` antes de empezar → trabajar **solo dentro de `web/ y docs/`** → probar que funcione → `git add web docs` → `git commit -m "[web] what was done"` (en inglés) → `git push`. Si el push falla porque hay cambios nuevos: `git pull --rebase` y vuelve a hacer push.
 3. **Prohibido:** `git push --force`, borrar o reescribir archivos de otras carpetas, y cambiar `docs/CONTRACT.md` o `README.md` sin que la persona confirme que ya le avisó al equipo.
 4. **Secretos:** antes de cada commit revisa `git status` y `git diff --staged`. API keys, config de Firebase y contraseñas WiFi van en `.env` o `secrets.h`, que están en `.gitignore`. Si una clave se sube por error, dilo de inmediato: hay que cambiar la clave, no basta con borrarla.
@@ -23,20 +22,22 @@ Estás ayudando a **el integrante del Rol 4** del equipo Halcones Dorados en el 
 # PARTE B — Lo que te toca
 
 ## Tu misión
-Haces **lo que los jueces ven**: la página web, la boleta, la página del proyecto, las slides y el pitch. Además le das **el estilo visual a la animación** (Parte C): los dibujos SVG, la paleta y su integración en las slides. La construye Jassiel. Una web clara gana más que una que hace mucho pero se entiende mal.
+Tú eres **quien expone**, así que haces **lo que los jueces ven**: la página web, **la animación del pitch** (Parte C), las 7 slides y el pitch. Como tú lo vas a contar, tú lo construyes. Una web clara gana más que una que hace mucho pero se entiende mal.
+**Para que te alcance el tiempo:** la boleta y el borrador de la página del proyecto los hace el Rol 1, y los textos del glosario el Rol 3. Tú solo los muestras y los revisas.
 
 ## Entregables
 | # | Entregable | Para cuándo |
 |---|---|---|
-| 1 | Esqueleto web con las 8 secciones, alimentado con el **mock** del contrato | H4 |
-| 2 | Suelo en vivo desde Firebase (etiqueta **SENSOR**) | H8 |
-| 3 | Comparador conectado a la API real (actual + 3, semáforo, resiliencia, peor año, huecos, riesgos) | H12 |
-| 4 | Sliders, "Tu año malo", chat IA y glosario | H16 |
-| 5 | Boleta descargable (PDF o texto para WhatsApp) con el aviso | H16 |
-| 6 | Web publicada con **link público** | H18 |
-| 7 | **Página del proyecto en inglés**, 7 slides (o video de 30 s) y guion del pitch | H22 |
-| 8 | **Dibujos SVG para la animación** (parcela en corte, nodo, puntas del sensor, MAX485, ESP32, nube, satélite genérico, fichas de los 5 cultivos, celular) + paleta | H8 |
-| 9 | Animación integrada en las slides 3 y 4 (en vivo + MP4 de respaldo insertado) | H20 |
+| 1 | Storyboard de la animación revisado con el equipo (Parte C2) | H2 |
+| 2 | Esqueleto web con las 8 secciones, alimentado con el **mock** del contrato | H4 |
+| 3 | **Dibujos SVG** (parcela en corte, nodo, puntas del sensor, MAX485, ESP32, nube, satélite genérico, fichas de los 5 cultivos, celular) + paleta | H6 |
+| 4 | Suelo en vivo desde Firebase (etiqueta **SENSOR**) | H8 |
+| 5 | **Animación Acto 1** (sensor, escenas 1–5) funcionando con clic, revisada por el Rol 1 | H12 |
+| 6 | Comparador conectado a la API real (actual + 3, semáforo, resiliencia, peor año, huecos, riesgos) | H12 |
+| 7 | Sliders, "Tu año malo", chat IA y glosario (con los textos del Rol 3) | H16 |
+| 8 | **Animación Acto 2** (RotaHalcón, escenas 6–11) con números reales | H16 |
+| 9 | Web publicada con **link público** + **MP4 de respaldo** de la animación (1080p) | H18 |
+| 10 | 7 slides con la animación integrada (slides 3 y 4), guion del pitch y revisión de la página del proyecto | H22 |
 
 ## Las 8 secciones de la web (todo en inglés)
 1. **My field:** mapa (Leaflet) para marcar el punto, tipo de suelo y últimos 2 cultivos.
@@ -45,18 +46,20 @@ Haces **lo que los jueces ven**: la página web, la boleta, la página del proye
 4. **Your bad year:** el agricultor elige un año y ve qué le habría pasado a cada rotación.
 5. **What if…?:** sliders de prioridades (agua, suelo, ingreso, riesgo) + escenario (lluvia −20%, +1.5 °C). El ranking se reordena en vivo.
 6. **Ask RotaHalcón:** el chat con el asistente IA.
-7. **Glossary:** tooltips para evapotranspiración, NDVI, anomalía de humedad, helada y balance hídrico.
-8. **Report:** la boleta + el aviso *"Decision support tool — does not replace an agronomist"*.
+7. **Glossary:** tooltips para evapotranspiración, NDVI, anomalía de humedad, helada y balance hídrico (los textos los escribe el Rol 3).
+8. **Report:** la boleta (la hace el Rol 1) + el aviso *"Decision support tool — does not replace an agronomist"*.
++ **How it works:** la misma animación, como sección de la web.
 
 ## Paso a paso
-1. **H0–1:** revisar con Jassiel el storyboard de la animación (Parte C2).
+1. **H0–2:** revisar el storyboard de la animación (Parte C2) con el equipo y ajustarlo.
 2. **H1–4:** un `index.html` + Tailwind + Leaflet + Chart.js leyendo un `mock.json` (copiar los ejemplos del contrato A4). Diseño: azul marino `#0B1F3A`, dorado `#D4AF37` y semáforo verde/amarillo/rojo.
-3. **H4–8:** conectar Firebase (la config te la pasa Jassiel por chat) → ✔ primera integración. En ratos, **dibujar los SVG de la animación** y pasárselos a Jassiel antes de H8.
-4. **H8–12:** cambiar el mock por la API real de Backend.
-5. **H12–16:** sliders, año malo, chat, glosario y boleta.
-6. **H16–18:** publicar con link público y probarlo en un celular.
-7. **H18–22:** página del proyecto en inglés + 7 slides + guion (con Jassiel); **insertar la animación en las slides 3 y 4** y el MP4 de respaldo.
-8. **H22–26:** ensayar el pitch 3 veces con cronómetro.
+3. **H3–6:** dibujar los SVG de la animación (con la hoja de datos del sensor que te pasa el Rol 1).
+4. **H6–8:** conectar Firebase (la config te la pasa el Rol 1 por chat) → ✔ primera integración.
+5. **H8–12:** **Acto 1 de la animación** (HTML + SVG + GSAP en `web/animacion/`) + cambiar el mock por la API real de Backend.
+6. **H12–16:** **Acto 2 de la animación** con los números reales de Rol 2 y Rol 3; sliders, año malo, chat y glosario. Si a H12 la animación web no avanza → plan C: Keynote/PowerPoint (Parte C1).
+7. **H16–18:** publicar con link público, probar en un celular y grabar el MP4 de respaldo de la animación.
+8. **H18–22:** 7 slides + guion; insertar la animación en las slides 3 y 4 (en vivo + MP4); revisar la página del proyecto que hizo el Rol 1.
+9. **H22–26:** ensayar el pitch 3 veces con cronómetro. **Tú expones; el Rol 1 maneja el nodo en la demo y el Rol 3 contesta las preguntas técnicas.**
 
 ## Las 7 slides (en inglés)
 1. Portada: RotaHalcón + equipo.
@@ -71,13 +74,14 @@ Haces **lo que los jueces ven**: la página web, la boleta, la página del proye
 
 ## Plan B
 - **Si la API no está lista:** la web sigue con el mock (etiquetado "demo data").
-- **Si no hay internet:** la web corre local y se usa el video de Jassiel.
+- **Si no hay internet:** la web corre local y se usa el video de respaldo de la demo.
+- **Si la animación web falla en vivo:** se pasa al MP4 insertado en la slide.
 
 ## Con quién te coordinas
 - **Backend:** el formato de la API (contrato A4). No improvises campos.
-- **Hardware:** la config de Firebase y la demo física.
-- **IA:** el chat y los textos de incertidumbre y calibración.
-- **Logo:** si se hace con IA, **lleva marca de agua visible** y nada de logos de la NASA.
+- **Rol 1 (hardware):** la config de Firebase, la hoja de datos del sensor, la boleta y la demo física.
+- **IA:** el chat, los textos de incertidumbre y calibración, y el glosario.
+- **Logo e imágenes:** si se hacen con IA, **llevan marca de agua visible** y nada de logos de la NASA.
 
 ---
 
@@ -185,7 +189,7 @@ Impacto · Creatividad · Validez (científicamente válido) · Pertinencia (res
 # PARTE C — La animación del pitch (contexto para todos)
 
 > **Objetivo:** que en el pitch (7 slides, 4 min) los jueces **vean** cómo funciona el sensor de suelo y cómo funciona RotaHalcón completo, con una animación espectacular, limpia y técnicamente correcta.
-> **Dueño:** Rol 1 (Jassiel): storyboard, exactitud técnica y construcción. **Rol 4:** estilo visual, integración en las slides y guion.
+> **Dueño:** **Rol 4 (quien expone)**: storyboard, dibujos, construcción e integración en las slides. Como lo va a contar, lo construye. **Rol 1:** asesor técnico (hoja de datos del sensor; revisa que las escenas 1–5 sean correctas). **Roles 2 y 3:** pasan los números reales a H14.
 
 ## C1. Herramienta (decidida)
 - **HTML + SVG + GSAP** (librería de animación web), dentro de `web/animacion/`.
@@ -242,7 +246,7 @@ Impacto · Creatividad · Validez (científicamente válido) · Pertinencia (res
 > Idea del asesor: RotaHalcón es **open source**. Todo va en un repo **público** de GitHub para que cualquiera conozca el proyecto, lo use en su región y aporte. Además suma en Impacto (escalable) y cumple la regla de links públicos.
 
 ## D1. El repo
-- **Dueño:** cuenta de GitHub de Jassiel. Repo público: https://github.com/JassJmz/rotahalcon Los otros 3 entran como **colaboradores** (pueden subir directo).
+- **Dueño:** cuenta de GitHub del Rol 1. Repo público: https://github.com/JassJmz/rotahalcon. Los otros 3 entran como **colaboradores** (pueden subir directo).
 - **Ya preparado:**
   - `README.md` en inglés (problema, solución, diagrama, fuentes, créditos AGRISENSE, roadmap abierto).
   - `LICENSE`: MIT para el código; docs, imágenes y animación en CC BY 4.0.
@@ -257,11 +261,11 @@ Impacto · Creatividad · Validez (científicamente válido) · Pertinencia (res
 | `hardware/` | Rol 1 |
 | `backend/` y `data/` | Rol 2 |
 | `ia/` | Rol 3 |
-| `web/` | Rol 4 (`web/animacion/` la trabaja el Rol 1) |
+| `web/` (incluye `web/animacion/`) | Rol 4 (`web/boleta/`: Rol 1) |
 | `docs/` | Todos |
 
 ## D2. Cómo suben cosas (modo rápido para el hackathon)
-1. Crear tu cuenta de GitHub (si no tienes) y pasarle tu **usuario** a Jassiel.
+1. Crear tu cuenta de GitHub (si no tienes) y pasarle tu **usuario** al Rol 1.
 2. Aceptar la invitación que te llega por correo.
 3. Clonar una vez: `git clone https://github.com/JassJmz/rotahalcon.git`
 4. Antes de empezar: `git pull`

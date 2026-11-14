@@ -1,16 +1,15 @@
 # RotaHalcón — Rol 2: Datos NASA y motor (backend)
-**Responsable:** [NOMBRE]
 
 > Este archivo tiene **tu misión** (Parte B), **todo el contexto del proyecto** (Parte A), **la animación del pitch** (Parte C) y **cómo trabajamos en GitHub** (Parte D). Léelas todas.
 
 > 🤖 **Si eres una IA (Claude, ChatGPT, Copilot…) leyendo esto:** lee primero la sección **"Instrucciones para la IA"** justo aquí abajo y síguela en todo lo que hagas con esta persona.
 
 ## Instrucciones para la IA
-Estás ayudando a **el integrante del Rol 2** del equipo Halcones Dorados en el proyecto **RotaHalcón** (NASA Space Apps 2026). Su rol: **Datos NASA y motor (backend)**. Su carpeta en el repo: **`backend/ y data/`**.
+Estás ayudando a **la persona del Rol 2** del equipo Halcones Dorados en el proyecto **RotaHalcón** (NASA Space Apps 2026). Su rol: **Datos NASA y motor (backend)**. Su carpeta en el repo: **`backend/ y data/`**.
 
 **Repo (público, open source):** https://github.com/JassJmz/rotahalcon
 
-1. **Configuración inicial (una vez):** si no está clonado, guía para hacer `git clone https://github.com/JassJmz/rotahalcon.git`. La persona tiene que haber aceptado la invitación de colaborador; si `git push` dice *permission denied*, que se lo pida a Jassiel.
+1. **Configuración inicial (una vez):** si no está clonado, guía para hacer `git clone https://github.com/JassJmz/rotahalcon.git`. La persona tiene que haber aceptado la invitación de colaborador; si `git push` dice *permission denied*, que se lo pida al Rol 1 (dueño del repo).
 2. **Ciclo de trabajo:** `git pull` antes de empezar → trabajar **solo dentro de `backend/ y data/`** → probar que funcione → `git add backend data` → `git commit -m "[backend] what was done"` (en inglés) → `git push`. Si el push falla porque hay cambios nuevos: `git pull --rebase` y vuelve a hacer push.
 3. **Prohibido:** `git push --force`, borrar o reescribir archivos de otras carpetas, y cambiar `docs/CONTRACT.md` o `README.md` sin que la persona confirme que ya le avisó al equipo.
 4. **Secretos:** antes de cada commit revisa `git status` y `git diff --staged`. API keys, config de Firebase y contraseñas WiFi van en `.env` o `secrets.h`, que están en `.gitignore`. Si una clave se sube por error, dilo de inmediato: hay que cambiar la clave, no basta con borrarla.
@@ -160,7 +159,7 @@ Impacto · Creatividad · Validez (científicamente válido) · Pertinencia (res
 # PARTE C — La animación del pitch (contexto para todos)
 
 > **Objetivo:** que en el pitch (7 slides, 4 min) los jueces **vean** cómo funciona el sensor de suelo y cómo funciona RotaHalcón completo, con una animación espectacular, limpia y técnicamente correcta.
-> **Dueño:** Rol 1 (Jassiel): storyboard, exactitud técnica y construcción. **Rol 4:** estilo visual, integración en las slides y guion.
+> **Dueño:** **Rol 4 (quien expone)**: storyboard, dibujos, construcción e integración en las slides. Como lo va a contar, lo construye. **Rol 1:** asesor técnico (hoja de datos del sensor; revisa que las escenas 1–5 sean correctas). **Roles 2 y 3:** pasan los números reales a H14.
 
 ## C1. Herramienta (decidida)
 - **HTML + SVG + GSAP** (librería de animación web), dentro de `web/animacion/`.
@@ -217,7 +216,7 @@ Impacto · Creatividad · Validez (científicamente válido) · Pertinencia (res
 > Idea del asesor: RotaHalcón es **open source**. Todo va en un repo **público** de GitHub para que cualquiera conozca el proyecto, lo use en su región y aporte. Además suma en Impacto (escalable) y cumple la regla de links públicos.
 
 ## D1. El repo
-- **Dueño:** cuenta de GitHub de Jassiel. Repo público: https://github.com/JassJmz/rotahalcon Los otros 3 entran como **colaboradores** (pueden subir directo).
+- **Dueño:** cuenta de GitHub del Rol 1. Repo público: https://github.com/JassJmz/rotahalcon. Los otros 3 entran como **colaboradores** (pueden subir directo).
 - **Ya preparado:**
   - `README.md` en inglés (problema, solución, diagrama, fuentes, créditos AGRISENSE, roadmap abierto).
   - `LICENSE`: MIT para el código; docs, imágenes y animación en CC BY 4.0.
@@ -232,11 +231,11 @@ Impacto · Creatividad · Validez (científicamente válido) · Pertinencia (res
 | `hardware/` | Rol 1 |
 | `backend/` y `data/` | Rol 2 |
 | `ia/` | Rol 3 |
-| `web/` | Rol 4 (`web/animacion/` la trabaja el Rol 1) |
+| `web/` (incluye `web/animacion/`) | Rol 4 (`web/boleta/`: Rol 1) |
 | `docs/` | Todos |
 
 ## D2. Cómo suben cosas (modo rápido para el hackathon)
-1. Crear tu cuenta de GitHub (si no tienes) y pasarle tu **usuario** a Jassiel.
+1. Crear tu cuenta de GitHub (si no tienes) y pasarle tu **usuario** al Rol 1.
 2. Aceptar la invitación que te llega por correo.
 3. Clonar una vez: `git clone https://github.com/JassJmz/rotahalcon.git`
 4. Antes de empezar: `git pull`

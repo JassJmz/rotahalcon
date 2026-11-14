@@ -71,10 +71,10 @@ Ideas, data sources, translations, code and field validation are all welcome. Re
 See [`docs/AI_USE.md`](docs/AI_USE.md).
 
 ## 👥 Team — Halcones Dorados
-- Jassiel — Hardware & team lead
-- [Name] — Data & backend
-- [Name] — AI
-- [Name] — Web, design & pitch
+- Role 1 — Hardware & team lead
+- Role 2 — Data & backend
+- Role 3 — AI
+- Role 4 — Web, animation & pitch
 
 ## 📄 License
 Code: **MIT** ([LICENSE](LICENSE)) · Docs, images & animation: **CC BY 4.0**. Use it, adapt it, just credit the project.
