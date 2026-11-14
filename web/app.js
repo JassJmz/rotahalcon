@@ -2,7 +2,9 @@
 
 // ── DATOS ──
 const API_URL = 'https://rotahalcon.onrender.com';   // backend (Role 2). '' = always use mock.json. Local: 'http://localhost:8000'
-const IA_URL = '';             // assistant service (Role 3), e.g. 'http://localhost:8001'. '' = use API_URL + /preguntar
+// Assistant, calibration and glossary (Role 3). Same Render URL as the backend by default.
+// For a local demo with Ollama open the page with ?ia=http://localhost:8001 (or set it here).
+const IA_URL = new URLSearchParams(location.search).get('ia') || '';   // '' = use API_URL
 const DEFAULT_POINT = { lat: 24.02, lon: -104.65 };   // Durango
 const CROPS = {                // contract ids -> English display
   frijol:  { en: 'Beans',   icon: '🫘' },
@@ -87,7 +89,7 @@ async function anioMalo(year) {
 }
 async function preguntar(pregunta) {
   const base = IA_URL || API_URL;
-  if (base && !USING_MOCK) {
+  if (base && (!USING_MOCK || IA_URL)) {     // recomendacion = the /recomendar response being shown, so the answer is about this field
     const r = await fetch(base + '/preguntar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pregunta, recomendacion: DATA }) });
     if (!r.ok) throw new Error('API ' + r.status);
     return r.json();
@@ -164,8 +166,8 @@ async function loadSensor() {     // GET /sensor: latest reading from Firebase, 
   try { const r = await fetch(API_URL + '/sensor'); if (r.ok) renderSoil(await r.json()); } catch (e) { /* keep the sensor block from /recomendar */ }
 }
 async function loadCalib() {
-  const base = IA_URL;          // /calibracion lives in Role 3's service; the public backend returns 404
-  if (!base || USING_MOCK) return;
+  const base = IA_URL || API_URL;
+  if (!base || (USING_MOCK && !IA_URL)) return;
   try { const r = await fetch(base + '/calibracion'); if (r.ok) renderCalib(await r.json(), false); } catch (e) { /* keep the card from /recomendar */ }
 }
 
@@ -232,8 +234,17 @@ function initChat() {
 }
 
 /* ---------- 7. glossary ---------- */
-function initGlossary() {
-  $('gloss').innerHTML = Object.entries(GLOSSARY).map(([t, d]) => `<span class="term" tabindex="0" data-def="${esc(d)}">${esc(t)}</span>`).join('');
+async function initGlossary() {
+  draw(GLOSSARY);
+  const base = IA_URL || API_URL; if (!base) return;
+  try {
+    const r = await fetch(base + '/glosario?idioma=en'); if (!r.ok) return;
+    const j = await r.json(); if (!Array.isArray(j) || !j.length) return;
+    draw(Object.fromEntries(j.map(t => [t.termino, t.largo || t.corto])));
+  } catch (e) { /* keep the provisional texts */ }
+  function draw(map) {
+    $('gloss').innerHTML = Object.entries(map).map(([t, d]) => `<span class="term" tabindex="0" data-def="${esc(d)}">${esc(t)}</span>`).join('');
+  }
 }
 
 /* ---------- 8. report ---------- */
