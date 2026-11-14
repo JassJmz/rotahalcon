@@ -26,7 +26,7 @@ Los datos del clima de la NASA son gratuitos, pero cubren kilómetros, no su par
 Entonces nos hicimos una pregunta simple: con 45 años de datos reales de la NASA, ¿cuántas veces le habría fallado el maíz a don José? La respuesta: 23 temporadas de 45."
 
 **3 · Animación, parte 1 (20 s) — se reproduce sola (suelo, calibración)**
-"Nuestro nodo AGRISENSE lee el suelo: nitrógeno, fósforo, potasio, pH, salinidad y humedad, y lo manda a la nube cada minuto. Un satélite ve un píxel de varios kilómetros; nosotros vemos este campo. Corregimos al satélite con la tierra. En esta demostración esa calibración son datos de ejemplo: es nuestro próximo módulo."
+"Nuestro nodo AGRISENSE es un sensor de suelo NPK. Da una lectura indicativa, no de laboratorio, y la manda a la nube cada minuto. Un satélite ve un píxel de varios kilómetros; nosotros vemos este campo. Corregimos al satélite con la tierra. En esta demostración esa calibración son datos de ejemplo: es nuestro próximo módulo."
 
 **4 · Animación, parte 2 (25 s) — se reproduce sola (cada rotación, peor año)**
 "Después probamos cada rotación en cada uno de los 45 años de datos de la NASA. Rojo significa que el cultivo falla. El maíz de don José falla en 23 temporadas. Frijol, frijol y sorgo, en 9. Y mostramos el peor año, 1997, no el promedio. Vamos a verlo en vivo."

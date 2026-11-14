@@ -25,7 +25,7 @@ NASA climate data is free, but it covers kilometres, not his plot, and it is har
 So we asked a simple question: over the last 45 years of real NASA data, how often would Don José's maize have failed? The answer: 23 seasons out of 45."
 
 **3 · Animation, part 1 (20 s) — plays by itself (soil, calibration)**
-"Our AGRISENSE node reads the soil, nitrogen, phosphorus, potassium, pH, salinity and moisture, and sends it to the cloud every minute. A satellite sees one pixel that is several kilometres wide; we see this field. We correct the satellite with the ground. In this demo that calibration is example data: it is our next module."
+"Our AGRISENSE node is an NPK soil sensor. It gives an indicative reading, not a lab test, and sends it to the cloud every minute. A satellite sees one pixel that is several kilometres wide; we see this field. We correct the satellite with the ground. In this demo that calibration is example data: it is our next module."
 
 **4 · Animation, part 2 (25 s) — plays by itself (every rotation, worst year)**
 "Then we test every rotation in each of the 45 years of NASA data. Red means the crop fails. Don José's maize fails in 23 seasons. Beans, beans and sorghum, in 9. And we show the worst year, 1997, not the average. Let's see it live."

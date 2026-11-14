@@ -40,7 +40,7 @@ const stage = document.getElementById('stage');
 const LANG = Q.get('lang') === 'es' ? 'es' : 'en';
 const ES = {
   'ACT 1 · FROM SOIL TO CLOUD': 'ACTO 1 · DEL SUELO A LA NUBE', 'ACT 2 · ROTAHALCÓN': 'ACTO 2 · ROTAHALCÓN', 'ROTAHALCÓN': 'ROTAHALCÓN',
-  'A field in Durango': 'Un campo en Durango', 'N · P · K · pH · salinity · moisture': 'N · P · K · pH · salinidad · humedad',
+  'A field in Durango': 'Un campo en Durango', 'NPK soil sensor · indicative reading': 'Sensor de suelo NPK · lectura indicativa',
   'Read every 60 s': 'Lectura cada 60 s', 'Live, from this field': 'En vivo, desde este campo',
   'Satellite sees km. We see your field.': 'El satélite ve kilómetros. Nosotros vemos tu campo.',
   'Every rotation, every year': 'Cada rotación, cada año', 'The worst year, not the average': 'El peor año, no el promedio',
@@ -197,7 +197,7 @@ SCENES.push({ act: 'ACT 1 · FROM SOIL TO CLOUD', cap: 'A field in Durango', bui
 } });
 
 // 2 ── Inside the soil (6 s)
-SCENES.push({ act: 'ACT 1 · FROM SOIL TO CLOUD', cap: 'N · P · K · pH · salinity · moisture', build(g) {
+SCENES.push({ act: 'ACT 1 · FROM SOIL TO CLOUD', cap: 'NPK soil sensor · indicative reading', build(g) {
   el('rect', { width: 1280, height: 720, fill: '#34210f' }, g);
   const z = el('g', {}, g), r = rng(3), grains = [];
   for (let i = 0; i < 64; i++) {
@@ -210,7 +210,7 @@ SCENES.push({ act: 'ACT 1 · FROM SOIL TO CLOUD', cap: 'N · P · K · pH · sal
   ions.forEach(([l, col]) => { for (let i = 0; i < 5; i++) { const gi = grp(z, 160 + r() * 960, 130 + r() * 430); gi.setAttribute('opacity', 0); el('circle', { r: 15, fill: col }, gi); txt(gi, 0, 6, l, 17, C.navy, 'middle', 800); ionEls.push(gi); } });
   [560, 720].forEach(x => { el('rect', { x: x - 7, y: 40, width: 14, height: 600, rx: 7, fill: C.goldL, filter: 'url(#glow)' }, z); });
   const pulses = [0, 1, 2].map(() => el('circle', { cx: 640, cy: 340, r: 10, fill: 'none', stroke: C.gold, 'stroke-width': 4, opacity: 0 }, z));
-  const labels = ['N', 'P', 'K', 'pH', 'EC', 'H₂O'], chips = labels.map((l, i) => { const c = chip(g, 640 + (i - 2.5) * 120, 110, l, '#ffffff14', C.white, 22); c.setAttribute('opacity', 0); return c; });
+  const labels = ['N', 'P', 'K'], chips = labels.map((l, i) => { const c = chip(g, 640 + (i - 1) * 120, 110, l, '#ffffff14', C.white, 22); c.setAttribute('opacity', 0); return c; });
   const tl = gsap.timeline();
   tl.from(z, { scale: .45, svgOrigin: '640 340', duration: 1.5, ease: E.out }, 0)
     .to(grains, { opacity: 1, duration: .5, stagger: .01 }, 0)
@@ -232,13 +232,13 @@ SCENES.push({ act: 'ACT 1 · FROM SOIL TO CLOUD', cap: 'Read every 60 s', build(
   const max = grp(g, 580, 360);
   el('rect', { x: -110, y: -64, width: 220, height: 128, rx: 14, fill: C.navy2, stroke: C.gold, 'stroke-width': 3 }, max);
   for (let i = 0; i < 6; i++) { el('rect', { x: -88 + i * 32, y: -76, width: 12, height: 12, fill: '#8aa0c2' }, max); el('rect', { x: -88 + i * 32, y: 64, width: 12, height: 12, fill: '#8aa0c2' }, max); }
-  txt(max, 0, -4, 'MAX485', 32, C.gold, 'middle', 800); txt(max, 0, 30, 'RS485 / Modbus', 18, C.white, 'middle', 500);
+  txt(max, 0, -4, 'MAX485', 32, C.gold, 'middle', 800); txt(max, 0, 30, 'RS485 · Modbus RTU', 18, C.white, 'middle', 500);
   const cab2 = el('path', { d: 'M690 360 H900', stroke: C.gold, 'stroke-width': 5, fill: 'none', 'stroke-linecap': 'round', pathLength: 1, 'stroke-dasharray': 1, 'stroke-dashoffset': 1 }, g);
   const esp = grp(g, 1020, 360);
   const board = el('rect', { x: -130, y: -84, width: 260, height: 168, rx: 14, fill: C.navy2, stroke: '#4b6a99', 'stroke-width': 3 }, esp);
   for (let i = 0; i < 7; i++) { el('rect', { x: -110 + i * 36, y: -96, width: 14, height: 12, fill: '#8aa0c2' }, esp); el('rect', { x: -110 + i * 36, y: 84, width: 14, height: 12, fill: '#8aa0c2' }, esp); }
   el('rect', { x: 60, y: -70, width: 56, height: 34, rx: 4, fill: 'none', stroke: '#4b6a99', 'stroke-width': 2 }, esp);
-  txt(esp, 0, 14, 'ESP32', 42, C.white, 'middle', 800);
+  txt(esp, 0, 14, 'ESP32', 42, C.white, 'middle', 800); txt(esp, 0, 52, 'UART → WiFi', 18, C.mute, 'middle', 600);
   const ring = el('circle', { cx: 1170, cy: 230, r: 34, fill: 'none', stroke: '#ffffff22', 'stroke-width': 6 }, g);
   const sweep = el('circle', { cx: 1170, cy: 230, r: 34, fill: 'none', stroke: C.gold, 'stroke-width': 6, 'stroke-linecap': 'round', pathLength: 1, 'stroke-dasharray': 1, 'stroke-dashoffset': 1, transform: 'rotate(-90 1170 230)' }, g);
   txt(g, 1170, 238, '60 s', 18, C.white, 'middle', 700);
