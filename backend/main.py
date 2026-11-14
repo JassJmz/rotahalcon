@@ -40,6 +40,13 @@ try:
 except ImportError:
     agregar_incertidumbre = None
 
+# Role 3 AI routes (ia/rutas.py): POST /preguntar (grounded assistant) and GET /glosario.
+# On Render (no httpx / Ollama) the assistant answers in template mode — no keys needed.
+try:
+    import rutas as ia_rutas
+except Exception:
+    ia_rutas = None
+
 app = FastAPI(title="RotaHalcón API", version="0.2.0")
 app.add_middleware(
     CORSMiddleware,
@@ -47,6 +54,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+if ia_rutas is not None:
+    app.include_router(ia_rutas.router)
 
 
 # ---------- Request models (contract A4) ----------
@@ -100,6 +109,7 @@ def salud():
         "crops": engine.CROP_IDS, "soils": list(engine.SOILS),
         "uncertainty": "bootstrap (ia/incertidumbre.py)" if agregar_incertidumbre else "wilson 90%",
         "calibration": calibration_service.status(),
+        "assistant": ia_rutas.info() if ia_rutas else "not available",
     }
 
 
@@ -152,10 +162,14 @@ def anio_malo(
     return _envelope(estrategias, reading)
 
 
-@app.post("/preguntar")
-def preguntar(datos: PreguntarIn):
-    # Owned by Role 3 (IA): ia/api.py on port 8001. Stub kept so Web never breaks.
-    return {
-        "respuesta": "The assistant runs in the IA service (port 8001).",
-        "fuentes": ["MOCK"],
-    }
+@app.get("/calibracion")
+def calibracion():
+    """Satellite ↔ sensor moisture calibration (Role 3 model), computed in the background."""
+    return calibration_service.current()
+
+
+if ia_rutas is None:
+    @app.post("/preguntar")
+    def preguntar(datos: PreguntarIn):
+        # Fallback only if ia/rutas.py cannot be imported, so Web never breaks.
+        return {"respuesta": "The assistant is not available on this server.", "fuentes": ["MOCK"]}
