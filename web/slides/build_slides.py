@@ -35,7 +35,7 @@ T = {
   'c_title': 'Rotation as climate insurance', 'c_code': 'Code: github.com/JassJmz/rotahalcon', 'c_lic': 'MIT (code) · CC BY 4.0 (docs, images, animation)',
   'c_live': 'Live site: <span id="liveUrl">link on the project page</span>',
   'c_cred': 'Credits', 'c_cred_b': 'AGRISENSE sensor node, pre-existing hardware shared with permission: Alberto Ortega, Gabriel Jahir Landa, Lizzeth Avalos, Cecilia Reyes, Angel Moreno.',
-  'c_ai': 'AI use', 'c_ai_b': 'AI tools helped with code, the assistant and the animation. Details in <b>docs/AI_USE.md</b>. Not affiliated with or endorsed by NASA.',
+  'c_disc': 'Not affiliated with or endorsed by NASA.', 'c_ai': 'AI use', 'c_ai_b': 'AI tools helped with code, the assistant and the animation. Details in <b>docs/AI_USE.md</b>. Not affiliated with or endorsed by NASA.',
   'q': '',
   'wm_fmt': "'rainfall ' + Math.abs(+rain[1]) + '% ' + (+rain[1] < 0 ? 'below' : 'above') + ' normal'",
   'langq': '',
@@ -69,7 +69,7 @@ T = {
   'c_title': 'La rotación como seguro contra el clima', 'c_code': 'Código: github.com/JassJmz/rotahalcon', 'c_lic': 'MIT (código) · CC BY 4.0 (documentos, imágenes y animación)',
   'c_live': 'Sitio en vivo: <span id="liveUrl">enlace en la página del proyecto</span>',
   'c_cred': 'Créditos', 'c_cred_b': 'Nodo sensor AGRISENSE, hardware preexistente compartido con permiso: Alberto Ortega, Gabriel Jahir Landa, Lizzeth Avalos, Cecilia Reyes, Angel Moreno.',
-  'c_ai': 'Uso de IA', 'c_ai_b': 'Usamos herramientas de IA en el código, el asistente y la animación. Detalles en <b>docs/AI_USE.md</b>. Sin afiliación ni respaldo de la NASA.',
+  'c_disc': 'Sin afiliación ni respaldo de la NASA.', 'c_ai': 'Uso de IA', 'c_ai_b': 'Usamos herramientas de IA en el código, el asistente y la animación. Detalles en <b>docs/AI_USE.md</b>. Sin afiliación ni respaldo de la NASA.',
   'q': '&lang=es',
   'wm_fmt': "'lluvia ' + Math.abs(+rain[1]) + '% ' + (+rain[1] < 0 ? 'por debajo' : 'por encima') + ' de lo normal'",
   'langq': '&lang=es',
@@ -274,17 +274,14 @@ TEMPLATE = r'''<!doctype html>
 
 <!-- 7 · Close -->
 <section class="slide" data-n="7">
-  <div class="pad" style="display:grid;grid-template-columns:1.15fr 1fr;gap:50px;align-items:center">
+  <div class="pad" style="display:flex;align-items:center;justify-content:center;text-align:center">
     <div>
-      <svg width="96" height="96" viewBox="-60 -60 120 120" style="margin-bottom:16px"><circle r="52" fill="none" stroke="#D4AF37" stroke-width="5"/><path d="M-34 12L0 -38L34 12L16 5L0 32L-16 5Z" fill="#D4AF37"/></svg>
-      <h2 style="font-size:60px;margin-bottom:20px">{{c_title}}</h2>
+      <svg width="110" height="110" viewBox="-60 -60 120 120" style="margin-bottom:18px"><circle r="52" fill="none" stroke="#D4AF37" stroke-width="5"/><path d="M-34 12L0 -38L34 12L16 5L0 32L-16 5Z" fill="#D4AF37"/></svg>
+      <h2 style="font-size:62px;margin-bottom:22px">{{c_title}}</h2>
       <p style="font-size:30px;color:#fff;font-weight:700;margin:0 0 4px">Halcones Dorados · ITSRLL</p>
       <p class="mute" style="font-size:20px;margin:0">{{c_code}}<br>{{c_lic}}</p>
       <p class="mute" style="font-size:20px;margin-top:14px">{{c_live}}</p>
-    </div>
-    <div class="card">
-      <p class="gold" style="font-weight:800;font-size:22px;margin:0 0 6px">{{c_ai}}</p>
-      <p style="font-size:18px;margin:0">{{c_ai_b}}</p>
+      <p class="mute" style="font-size:15px;margin-top:30px">{{c_disc}}</p>
     </div>
   </div>
 </section>
