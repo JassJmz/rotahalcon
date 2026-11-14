@@ -12,9 +12,24 @@ Free plan: it sleeps after ~15 min idle and the first call takes ~1 min — open
 | `GET /` | ✅ health check (years, crops, soils available) |
 | `POST /recomendar` | ✅ **REAL** — current rotation + 3 alternatives, simulated on NASA climate 1981–2025 |
 | `GET /anio-malo?anio=2011&lat=..&lon=..` | ✅ **REAL** — same 4 strategies replayed in one past year |
+| `GET /sensor` | ✅ latest AGRISENSE reading from Firebase (or the flagged mock) — for Web's live soil card |
 | `POST /preguntar` | stub only — the real assistant is `ia/api.py` (Role 3), port 8001 |
 
-Still **mock**: `sensor` (until Hardware/Firebase, flagged `"mock": true`) and `calibracion` (until Role 3).
+`calibracion` is still **mock** (until Role 3).
+
+## SENSOR reading (Firebase)
+`sensor.py` reads `nodos/agrisense-01/ultima` from **Firebase Realtime Database** over REST and puts it in `sensor` (and `GET /sensor`):
+- real reading → contract fields + `"mock": false` + `"edad_s"` (seconds since the reading)
+- not configured / unreachable / wrong format → mock reading + `"mock": true` + `"motivo_mock"` (why). The API never breaks.
+
+**Configuration — never commit it:**
+| Variable | Value |
+|---|---|
+| `FIREBASE_DB_URL` | e.g. `https://<project>-default-rtdb.firebaseio.com` (from Role 1) |
+| `FIREBASE_AUTH` | optional — only if the database rules require auth |
+
+Locally: create `backend/.env` (git-ignored) with those lines. On Render: *Service → Environment → Add Environment Variable*.
+Test: `python backend/sensor.py`
 
 ## Run locally
 ```bash

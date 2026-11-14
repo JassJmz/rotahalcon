@@ -28,6 +28,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 import engine
+import sensor
 
 # Role 3 bootstrap (ia/incertidumbre.py) fills resiliencia.rango from the per-year results.
 # If it cannot be imported, the engine's 90 % Wilson interval stays in place.
@@ -73,12 +74,7 @@ class PreguntarIn(BaseModel):
     recomendacion: Optional[Dict] = None
 
 
-# ---------- Still mock (other roles) ----------
-MOCK_SENSOR = {
-    "ts": 1794700000, "humedad_pct": 24.1, "temp_c": 19.3, "ph": 7.2,
-    "ce_uScm": 410, "n_mgkg": 32, "p_mgkg": 18, "k_mgkg": 145, "fuente": "SENSOR",
-    "mock": True,
-}
+# ---------- Still mock (Role 3) ----------
 MOCK_CALIBRACION = {
     "satelite_pct": 18, "sensor_pct": 24, "ajuste": 6, "error": 3, "modelo": "lineal",
 }
@@ -87,7 +83,7 @@ MOCK_CALIBRACION = {
 def _envelope(estrategias: List[Dict]) -> Dict:
     return {
         "estrategias": estrategias,
-        "sensor": copy.deepcopy(MOCK_SENSOR),
+        "sensor": copy.deepcopy(sensor.latest_reading()),   # real Firebase reading or flagged mock
         "calibracion": copy.deepcopy(MOCK_CALIBRACION),
     }
 
@@ -101,6 +97,12 @@ def salud():
         "crops": engine.CROP_IDS, "soils": list(engine.SOILS),
         "uncertainty": "bootstrap (ia/incertidumbre.py)" if agregar_incertidumbre else "wilson 90%",
     }
+
+
+@app.get("/sensor")
+def ultima_lectura():
+    """Latest AGRISENSE reading (Firebase) — handy for Web's live soil card."""
+    return sensor.latest_reading()
 
 
 @app.post("/recomendar")
