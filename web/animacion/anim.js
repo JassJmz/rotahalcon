@@ -34,6 +34,54 @@ const LOOP = REDUCE ? 0 : -1;                       // ambient loops are off und
 const Q = new URLSearchParams(location.search);
 const stage = document.getElementById('stage');
 
+// ── IDIOMA ──  ?lang=es shows the whole animation in Spanish. English is the default (international page).
+const LANG = Q.get('lang') === 'es' ? 'es' : 'en';
+const ES = {
+  'ACT 1 · FROM SOIL TO CLOUD': 'ACTO 1 · DEL SUELO A LA NUBE', 'ACT 2 · ROTAHALCÓN': 'ACTO 2 · ROTAHALCÓN', 'ROTAHALCÓN': 'ROTAHALCÓN',
+  'A field in Durango': 'Un campo en Durango', 'N · P · K · pH · salinity · moisture': 'N · P · K · pH · salinidad · humedad',
+  'Read every 60 s': 'Lectura cada 60 s', 'Live, from this field': 'En vivo, desde este campo',
+  'Satellite sees km. We see your field.': 'El satélite ve kilómetros. Nosotros vemos tu campo.',
+  'Every rotation, every year': 'Cada rotación, cada año', 'The worst year, not the average': 'El peor año, no el promedio',
+  'Your priorities, your ranking': 'Tus prioridades, tu ranking', 'Explained. Sourced. In your pocket.': 'Explicado. Con fuentes. En tu bolsillo.',
+  'RotaHalcón — rotation as climate insurance': 'RotaHalcón — la rotación como seguro contra el clima',
+  'Team Halcones Dorados · ITSRLL · NASA Space Apps 2026': 'Equipo Halcones Dorados · ITSRLL · NASA Space Apps 2026',
+  'EC': 'CE', 'NPK probes': 'Sondas NPK', 'in the soil': 'en el suelo', 'Calibrated': 'Calibrado',
+  'ONE SATELLITE PIXEL ≈ SEVERAL KM': 'UN PÍXEL DE SATÉLITE ≈ VARIOS KM', 'NASA POWER · rainfall per year': 'NASA POWER · lluvia por año', 'rainfall': 'lluvia',
+  'NASA POWER · PRECTOTCORR annual sum · Durango': 'NASA POWER · PRECTOTCORR suma anual · Durango',
+  'Engine output: FAO water and frost rules on NASA POWER data': 'Resultado del motor: reglas FAO de agua y helada sobre datos NASA POWER',
+  'Engine output on NASA POWER data': 'Resultado del motor sobre datos NASA POWER', 'Engine output for both sets of priorities': 'Resultado del motor para ambas prioridades',
+  'Numbers from the engine; wording illustrative': 'Números del motor; redacción ilustrativa',
+  'Demo sensor and calibration values': 'Valores de ejemplo del sensor y la calibración', 'Live sensor readings': 'Lecturas del sensor en vivo',
+  'Current': 'Actual', 'Water': 'Agua', 'Soil': 'Suelo', 'Income*': 'Ingreso*', 'Risk': 'Riesgo',
+  '* Income: no sourced seed cost or crop price yet (information gap)': '* Ingreso: aún no hay costo de semilla ni precio con fuente (hueco de información)',
+  'EXAMPLE · NEXT MODULE': 'EJEMPLO · PRÓXIMO MÓDULO', 'LIVE': 'EN VIVO', 'SAFER': 'MÁS SEGURA', 'RISKIER': 'MÁS RIESGOSA', 'SAME RISK': 'MISMO RIESGO',
+  'RotaHalcón report': 'Reporte RotaHalcón', 'Decision support only': 'Solo apoyo a la decisión',
+  'Every answer cites its source, and says when one is missing.': 'Cada respuesta cita su fuente y dice cuándo falta una.',
+  'the hardest season on record': 'la temporada más difícil del registro',
+};
+const ES_CROP = { beans: 'frijol', corn: 'maíz', oats: 'avena', sorghum: 'sorgo', alfalfa: 'alfalfa' }, ES_LIGHT = { red: 'roja', yellow: 'amarilla', green: 'verde' };
+const ES_RULES = [   // dynamic sentences: [pattern, replacement]
+  [/^(\d+) years of real NASA climate$/, '$1 años de clima real de la NASA'], [/^Moisture ([\d.]+)%$/, 'Humedad $1%'],
+  [/^\+(\d+) pts adjustment$/, '+$1 pts de ajuste'], [/^Worst year (\d+)$/, 'Peor año $1'],
+  [/^rainfall (\d+)% (below|above) normal$/, (m, n, d) => 'lluvia ' + n + '% ' + (d === 'below' ? 'por debajo' : 'por encima') + ' de lo normal'],
+  [/^Why is my current rotation (\w+)\?$/, (m, c) => '¿Por qué mi rotación actual está en ' + (ES_LIGHT[c] === 'roja' ? 'rojo' : ES_LIGHT[c] === 'verde' ? 'verde' : 'amarillo') + '?'],
+  [/^It would have failed (\d+) of (\d+) seasons:$/, 'Habría fallado $1 de $2 temporadas:'], [/^(\d+) by drought, (\d+) by frost\.$/, '$1 por sequía, $2 por helada.'],
+  [/^Works in (\d+) of (\d+) years$/, 'Funciona en $1 de $2 años'], [/^Alt (\d+)$/, 'Alt $1'],
+  [/^Alt (\d+) \((\w+) first\)$/, (m, n, c) => 'Alt ' + n + ' (' + (ES_CROP[c] || c) + ' primero)'],
+  [/^(✗|✓)  (.+): (crop failed|held)$/, (m, i, w, r) => i + '  ' + T(w) + ': ' + (r === 'held' ? 'aguantó' : 'el cultivo falló')],
+  [/^Current rotation$/, 'Rotación actual'],
+  [/^(.+) fails (\d+) of (\d+) seasons\. Yours fails (\d+)\.$/, (m, w, a, y, b) => T(w) + ' falla ' + a + ' de ' + y + ' temporadas. La tuya falla ' + b + '.'],
+  [/^No alternative is safer in a drought here: the best also fails (\d+) of (\d+), and (\w+) first fails (\d+)\.$/, (m, a, y, c, b) => 'Ninguna alternativa es más segura en sequía aquí: la mejor también falla ' + a + ' de ' + y + ', y ' + (ES_CROP[c] || c) + ' primero falla ' + b + '.'],
+  [/^Every alternative is riskier here: (\w+) first fails (\d+) of (\d+)\. Yours fails (\d+)\.$/, (m, c, a, y, b) => 'Todas las alternativas son más riesgosas aquí: ' + (ES_CROP[c] || c) + ' primero falla ' + a + ' de ' + y + '. La tuya falla ' + b + '.'],
+];
+function T(str) {
+  if (LANG !== 'es' || typeof str !== 'string') return str;
+  if (ES[str] !== undefined) return ES[str];
+  for (const [re, to] of ES_RULES) if (re.test(str)) return str.replace(re, to);
+  return str;
+}
+// ── FIN IDIOMA ──
+
 /* ---------- helpers ---------- */
 function el(tag, attrs, parent) {
   const e = document.createElementNS(NS, tag);
@@ -42,12 +90,12 @@ function el(tag, attrs, parent) {
 }
 function txt(parent, x, y, s, size, fill, anchor, weight, extra) {
   const t = el('text', Object.assign({ x, y, 'font-size': size || 28, fill: fill || C.white, 'text-anchor': anchor || 'middle', 'font-weight': weight || 600, style: 'font-variant-numeric:tabular-nums' }, extra || {}), parent);
-  t.textContent = s; return t;
+  t.textContent = T(s); return t;
 }
 function grp(parent, x, y) { const g = el('g', {}, parent); gsap.set(g, { x: x || 0, y: y || 0 }); return g; }
 function rng(seed) { return () => { seed |= 0; seed = seed + 0x6D2B79F5 | 0; let t = Math.imul(seed ^ seed >>> 15, 1 | seed); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
 function chip(parent, x, y, label, bg, fg, size) {
-  size = size || 22; const w = label.length * size * .62 + 28, g = grp(parent, x, y);
+  label = T(label); size = size || 22; const w = label.length * size * .62 + 28, g = grp(parent, x, y);
   el('rect', { x: -w / 2, y: -size, width: w, height: size * 2, rx: size * .55, fill: bg }, g);
   txt(g, 0, size * .36, label, size, fg, 'middle', 800); return g;
 }
@@ -225,7 +273,7 @@ SCENES.push({ act: 'ACT 1 · FROM SOIL TO CLOUD', cap: 'Live, from this field', 
     .from(cloud, { opacity: 0, y: '+=30', scale: .9, svgOrigin: '800 210', duration: .7, ease: E.out }, .7)
     .from(card, { opacity: 0, y: '+=40', duration: .6, ease: E.out3 }, 1.9);
   pk.forEach((p, i) => tl.set(p, { opacity: 1, attr: { cx: 440, cy: 470 } }, 1 + i * .3).to(p, { attr: { cx: 690, cy: 290 }, duration: .7, ease: 'none' }, 1 + i * .3).to(p, { opacity: 0, duration: .1 }, 1.7 + i * .3));
-  countTo(o, 'v', SENSOR_PCT, val, v => 'Moisture ' + v.toFixed(1) + '%', 1.2, E.out3, tl, 2.2);
+  countTo(o, 'v', SENSOR_PCT, val, v => T('Moisture ' + v.toFixed(1) + '%'), 1.2, E.out3, tl, 2.2);
   gsap.to(arcs, { opacity: .2, duration: .6, stagger: .15, repeat: LOOP, yoyo: true, ease: E.sine, delay: 1.2 });
   gsap.to(cloud, { y: '-=8', duration: 2.2, repeat: LOOP, yoyo: true, ease: E.sine, delay: 1.5 });
   return tl;
@@ -390,7 +438,7 @@ SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: 'Explained. Sourced. In your poc
   const bub = grp(g, 60, 150);
   el('rect', { width: 650, height: 210, rx: 24, fill: C.navy2, stroke: '#4b6a99', 'stroke-width': 3 }, bub);
   txt(bub, 30, 58, 'Why is my current rotation ' + light[cur.semaforo] + '?', 24, C.mute, 'start', 600);
-  const l1 = `It would have failed ${cur.fails.length} of ${YEARS} seasons:`, l2 = `${cur.by_drought} by drought, ${cur.by_frost} by frost.`;
+  const l1 = T(`It would have failed ${cur.fails.length} of ${YEARS} seasons:`), l2 = T(`${cur.by_drought} by drought, ${cur.by_frost} by frost.`);
   const a1 = txt(bub, 30, 114, '', 29, C.white, 'start', 600), a2 = txt(bub, 30, 156, '', 29, C.white, 'start', 600);
   const tags = [['NASA', C.blue, '#fff', 60], ['SENSOR', C.gold, C.navy, 210], ['FAO / INIFAP', '#15803d', '#fff', 380]].map(([l, bg, fg, x]) => { const w = l.length * 15 + 40, t = grp(g, x, 420); el('rect', { width: w, height: 46, rx: 12, fill: bg }, t); txt(t, w / 2, 31, l, 22, fg, 'middle', 800); t.setAttribute('opacity', 0); return t; });
   const note = txt(g, 60, 500, 'Every answer cites its source, and says when one is missing.', 22, C.mute, 'start', 500, { opacity: 0 });
@@ -439,7 +487,7 @@ function step(d) {                       // click / arrows: next or previous sce
 }
 
 function setCaption(s) {
-  const words = s.split(' ');
+  s = T(s); const words = s.split(' ');
   capTxt.innerHTML = words.map(w => `<tspan fill-opacity="0">${w.replace(/&/g, '&amp;')} </tspan>`).join('');
   const sp = capTxt.querySelectorAll('tspan');
   gsap.killTweensOf([sp, capLine]);
@@ -461,7 +509,7 @@ function go(n, instant, fromOverride) {
   cur = n;
   // A fresh layer per scene: the camera moves in EXITS scale the outgoing layer, so a layer is never reused.
   const g = el('g', { opacity: instant ? 1 : 0 }, host);
-  tagTxt.textContent = S.act; noteTxt.textContent = S.note || '';
+  tagTxt.textContent = T(S.act); noteTxt.textContent = T(S.note || '');
   gsap.to(progress, { attr: { width: (n + 1) / SCENES.length * 1280 }, duration: instant ? 0 : .5, ease: E.out3 });
   if (old) {
     const drop = () => { old.ctx.revert(); old.g.remove(); };
