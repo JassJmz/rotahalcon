@@ -1,0 +1,38 @@
+{
+  "_nota": "MOCK DATA for development. Numbers are illustrative, not agronomic results. Replace with real output from backend /recomendar.",
+  "estrategias": [
+    {
+      "id": "actual",
+      "es_actual": true,
+      "ciclos": ["frijol", "frijol", "frijol"],
+      "semaforo": "rojo",
+      "puntaje": 41,
+      "resiliencia": { "anios_ok": 33, "anios_total": 42, "rango": [30, 35] },
+      "peor_anio": { "anio": 2011, "motivo": "rainfall 45% below average" },
+      "porque": "Repeating the same crop family wears out the soil and concentrates drought risk in the same months.",
+      "beneficios": ["Known crop, no change in equipment"],
+      "huecos": ["Local seed and selling price not included"],
+      "riesgos": ["Pest build-up from repeating the same family — check with an agronomist"],
+      "fuentes": ["NASA POWER PRECTOTCORR", "SENSOR humedad_pct"]
+    },
+    {
+      "id": "alt1",
+      "es_actual": false,
+      "ciclos": ["frijol", "avena", "sorgo"],
+      "semaforo": "verde",
+      "puntaje": 78,
+      "resiliencia": { "anios_ok": 39, "anios_total": 42, "rango": [37, 40] },
+      "peor_anio": { "anio": 2011, "motivo": "rainfall 45% below average" },
+      "porque": "Alternates families and puts the most drought-tolerant crop in the riskiest cycle.",
+      "beneficios": ["Breaks pest cycles", "Lower water demand in the dry cycle"],
+      "huecos": ["Market for sorghum in your area not verified"],
+      "riesgos": ["Frost window for oats — confirm planting date locally"],
+      "fuentes": ["NASA POWER PRECTOTCORR", "NASA POWER T2M_MIN", "SENSOR n_mgkg"]
+    }
+  ],
+  "sensor": {
+    "ts": 1794700000, "humedad_pct": 24.1, "temp_c": 19.3, "ph": 7.2,
+    "ce_uScm": 410, "n_mgkg": 32, "p_mgkg": 18, "k_mgkg": 145, "fuente": "SENSOR"
+  },
+  "calibracion": { "satelite_pct": 18, "sensor_pct": 24, "ajuste": 6, "error": 3, "modelo": "lineal" }
+}
