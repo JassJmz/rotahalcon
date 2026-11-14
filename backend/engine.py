@@ -34,6 +34,16 @@ FAIL_YIELD_LOSS = 0.5                # ASSUMPTION: a season "fails" when expecte
                                      # crops without a sourced Ky (oats): strict rule, fail if supply < need
 SEMAFORO = {"verde": 0.90, "amarillo": 0.75}  # share of OK seasons for green / yellow, else red
 SOIL_WEIGHTS = {"legume": 0.5, "family_change": 0.5}
+# ASSUMPTION: the REAL sensor N reading (never the mock) shifts the soil score towards legumes
+# when the soil is poor in N, and towards family rotation when N is already high.
+# N classes come from NOM-021-RECNAT-2000 (data/crops/soil_n_classes.csv).
+SOIL_WEIGHTS_BY_N = {
+    "muy_bajo": {"legume": 0.7, "family_change": 0.3},
+    "bajo":     {"legume": 0.7, "family_change": 0.3},
+    "medio":    {"legume": 0.5, "family_change": 0.5},
+    "alto":     {"legume": 0.3, "family_change": 0.7},
+    "muy_alto": {"legume": 0.3, "family_change": 0.7},
+}
 NORMAL_PERIOD = (1991, 2020)
 N_CYCLES = 3
 N_ALTERNATIVES = 3
@@ -60,6 +70,7 @@ import nasa_power
 CROPS = crops_mod.load_crops()
 SOILS = crops_mod.load_soils()
 SOURCES = crops_mod.load_sources()
+N_CLASSES = crops_mod.load_n_classes()
 CROP_IDS = list(CROPS)
 
 _ROWS = nasa_power.load_daily()
@@ -261,12 +272,23 @@ def simulate(ciclos, soil_id, rain_pct=0.0, temp_c=0.0):
     }
 
 
-def soil_score(ciclos, previos):
+def n_class(n_mgkg):
+    """NOM-021 class for a REAL sensor N reading, or None."""
+    if n_mgkg is None:
+        return None
+    for c in N_CLASSES:
+        if n_mgkg >= c["min"] and (c["max"] is None or n_mgkg < c["max"]):
+            return c
+    return None
+
+
+def soil_score(ciclos, previos, ncls=None):
+    weights = SOIL_WEIGHTS_BY_N.get(ncls["class_id"]) if ncls else SOIL_WEIGHTS
     legume = sum(bool(_val(c, "fixes_nitrogen")) for c in ciclos) / len(ciclos)
     seq = ([previos[-1]] if previos else []) + list(ciclos) + [ciclos[0]]
     fams = [_val(c, "family") for c in seq]
     changes = sum(a != b for a, b in zip(fams, fams[1:])) / (len(fams) - 1)
-    return 100 * (SOIL_WEIGHTS["legume"] * legume + SOIL_WEIGHTS["family_change"] * changes)
+    return 100 * (weights["legume"] * legume + weights["family_change"] * changes)
 
 
 def _weights(prioridades):
@@ -279,8 +301,7 @@ def _semaforo(share):
     return "verde" if share >= SEMAFORO["verde"] else "amarillo" if share >= SEMAFORO["amarillo"] else "rojo"
 
 
-def _texts(ciclos, sim, previos, site_far):
-    names = [crop_name(c) for c in ciclos]
+def _texts(ciclos, sim, previos, site_far, n_info=None):
     total, fails = sim["n"], sim["n"] - sim["ok"]
     porque = (f"Would have failed {fails} of {total} seasons ({YEARS[0]}–{YEARS[-1]}): "
               f"{sim['fails_by']['drought']} by drought, {sim['fails_by']['frost']} by frost.")
@@ -294,6 +315,10 @@ def _texts(ciclos, sim, previos, site_far):
         beneficios.append(f"Alternates plant families ({' / '.join(dict.fromkeys(fams))}).")
     if sim["fails_by"]["drought"] == 0:
         beneficios.append("Enough water in every simulated season (NASA rain + soil moisture).")
+    has_legume = any(_val(c, "fixes_nitrogen") for c in ciclos)
+    if n_info and n_info["class"]["class_id"] in ("muy_bajo", "bajo") and has_legume:
+        beneficios.append(f"Your soil N reads {n_info['class']['name_en'].upper()} ({n_info['n']:g} mg/kg, SENSOR; "
+                          f"NOM-021 class): the legume in this rotation adds nitrogen.")
 
     riesgos = []
     for c, f in sim["crop_fails"].items():
@@ -309,6 +334,12 @@ def _texts(ciclos, sim, previos, site_far):
             riesgos.append(f"Repeats the {_val(a, 'family')} family in consecutive cycles: "
                            f"review pests and diseases with an agronomist.")
             break
+    if n_info and n_info["class"]["class_id"] in ("muy_bajo", "bajo") and not has_legume:
+        riesgos.append(f"Your soil N reads {n_info['class']['name_en'].upper()} ({n_info['n']:g} mg/kg, SENSOR) and "
+                       f"this rotation has no legume: review fertilization with an agronomist.")
+    if n_info:
+        riesgos.append("Soil N comes from a field sensor (indicative). NOM-021 classes are for lab analysis "
+                       "(method AS-08) of small-grain cereals: confirm with a soil lab.")
     riesgos.append(f"Assumes rainfed sowing on {date(2000, SOWING_MONTH, SOWING_DAY):%d %B} and FAO global "
                    f"crop values: confirm with INIFAP or an agronomist.")
 
@@ -323,16 +354,20 @@ def _texts(ciclos, sim, previos, site_far):
                 huecos.append(text)
     if site_far:
         huecos.insert(0, "Climate data is from the example field in Durango, not from your exact location.")
+    if not n_info:
+        huecos.append("No live soil N reading from the field sensor yet: the soil score does not use N.")
 
     fuentes = ["NASA POWER PRECTOTCORR", "NASA POWER T2M_MIN", "NASA POWER GWETROOT"]
+    if n_info:
+        fuentes.append("SENSOR n_mgkg")
     used = {CROPS[c]["values"][a]["source_id"] for c in ciclos for a in CROPS[c]["values"]}
-    used |= {"FAO_56", "FAO_TM3_PE"}
+    used |= {"FAO_56", "FAO_TM3_PE"} | ({"NOM021"} if n_info else set())
     fuentes += [SOURCES[s]["short"] for s in sorted(used) if s != "GBIF"]
     return porque, beneficios, huecos, riesgos, fuentes
 
 
-def _strategy(id_, ciclos, sim, score, previos, site_far, es_actual):
-    porque, beneficios, huecos, riesgos, fuentes = _texts(ciclos, sim, previos, site_far)
+def _strategy(id_, ciclos, sim, score, previos, site_far, es_actual, n_info=None):
+    porque, beneficios, huecos, riesgos, fuentes = _texts(ciclos, sim, previos, site_far, n_info)
     return {
         "id": id_, "es_actual": es_actual, "ciclos": list(ciclos),
         "semaforo": _semaforo(sim["ok_share"]), "puntaje": round(score),
@@ -349,17 +384,20 @@ def _site_far(lat, lon):
     return abs(lat - meta_lat) > SITE_MAX_DIST_DEG or abs(lon - meta_lon) > SITE_MAX_DIST_DEG
 
 
-def recommend(lat, lon, suelo, cultivos_previos, prioridades, lluvia_pct=0.0, temp_c=0.0):
-    """Current rotation + N best alternatives, in contract A4 format (estrategias list)."""
+def recommend(lat, lon, suelo, cultivos_previos, prioridades, lluvia_pct=0.0, temp_c=0.0, sensor_n=None):
+    """Current rotation + N best alternatives, in contract A4 format (estrategias list).
+    sensor_n: REAL soil N reading in mg/kg (pass None when the sensor reading is mock)."""
     soil = normalize_soil(suelo)
     previos = [normalize_crop(c) for c in (cultivos_previos or [])] or ["frijol"]
     actual = tuple(previos[i % len(previos)] for i in range(N_CYCLES))
     w = _weights(prioridades)
     far = _site_far(lat, lon)
+    ncls = n_class(sensor_n)
+    n_info = {"n": sensor_n, "class": ncls} if ncls else None
 
     def score(ciclos):
         sim = simulate(ciclos, soil, lluvia_pct, temp_c)
-        s = (w["agua"] * sim["water_score"] + w["suelo"] * soil_score(ciclos, previos)
+        s = (w["agua"] * sim["water_score"] + w["suelo"] * soil_score(ciclos, previos, ncls)
              + w["riesgo"] * 100 * sim["ok_share"])
         return s, sim
 
@@ -393,18 +431,18 @@ def recommend(lat, lon, suelo, cultivos_previos, prioridades, lluvia_pct=0.0, te
             picked.append((s, combo, sim))
     picked.sort(key=lambda t: -t[0])
 
-    out = [_strategy("actual", actual, sim_act, s_act, previos, far, True)]
+    out = [_strategy("actual", actual, sim_act, s_act, previos, far, True, n_info)]
     for k, (s, combo, sim) in enumerate(picked, start=1):
-        out.append(_strategy(f"alt{k}", combo, sim, s, previos, far, False))
+        out.append(_strategy(f"alt{k}", combo, sim, s, previos, far, False, n_info))
     return out
 
 
-def bad_year(anio, lat, lon, suelo, cultivos_previos, prioridades, lluvia_pct=0.0, temp_c=0.0):
+def bad_year(anio, lat, lon, suelo, cultivos_previos, prioridades, lluvia_pct=0.0, temp_c=0.0, sensor_n=None):
     """Same 4 strategies, evaluated only in one past year."""
     if anio not in YEARS:
         raise ValueError(f"Year must be between {YEARS[0]} and {YEARS[-1]}")
     soil = normalize_soil(suelo)
-    strategies = recommend(lat, lon, suelo, cultivos_previos, prioridades, lluvia_pct, temp_c)
+    strategies = recommend(lat, lon, suelo, cultivos_previos, prioridades, lluvia_pct, temp_c, sensor_n)
     for st in strategies:
         st.pop("anios", None)
         # "if a year like this came back": every cycle of the rotation faces it

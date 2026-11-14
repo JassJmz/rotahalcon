@@ -1,0 +1,6 @@
+class_id,name_en,n_min_mgkg,n_max_mgkg,source_id,where_in_source,note
+muy_bajo,very low,0,10,NOM021,"Method AS-08, table ""Interpretación de resultados de Nitrógeno inorgánico""",Referred to small-grain cereals; lab method (not a field sensor)
+bajo,low,10,20,NOM021,"Method AS-08, table ""Interpretación de resultados de Nitrógeno inorgánico""",
+medio,medium,20,40,NOM021,"Method AS-08, table ""Interpretación de resultados de Nitrógeno inorgánico""",
+alto,high,40,60,NOM021,"Method AS-08, table ""Interpretación de resultados de Nitrógeno inorgánico""",
+muy_alto,very high,60,,NOM021,"Method AS-08, table ""Interpretación de resultados de Nitrógeno inorgánico""",Open upper bound (> 60)

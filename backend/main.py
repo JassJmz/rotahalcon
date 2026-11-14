@@ -80,10 +80,15 @@ MOCK_CALIBRACION = {
 }
 
 
-def _envelope(estrategias: List[Dict]) -> Dict:
+def _real_n(reading: Dict):
+    """Soil N for the engine ONLY when the reading is real (never the mock)."""
+    return None if reading.get("mock") else reading.get("n_mgkg")
+
+
+def _envelope(estrategias: List[Dict], reading: Dict) -> Dict:
     return {
         "estrategias": estrategias,
-        "sensor": copy.deepcopy(sensor.latest_reading()),   # real Firebase reading or flagged mock
+        "sensor": copy.deepcopy(reading),                   # real Firebase reading or flagged mock
         "calibracion": copy.deepcopy(MOCK_CALIBRACION),
     }
 
@@ -107,14 +112,16 @@ def ultima_lectura():
 
 @app.post("/recomendar")
 def recomendar(datos: RecomendarIn):
+    reading = sensor.latest_reading()
     try:
         estrategias = engine.recommend(
             datos.lat, datos.lon, datos.suelo, datos.cultivos_previos,
             datos.prioridades.model_dump(), datos.escenario.lluvia_pct, datos.escenario.temp_c,
+            sensor_n=_real_n(reading),
         )
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc))
-    rec = _envelope(estrategias)
+    rec = _envelope(estrategias, reading)
     if agregar_incertidumbre:
         rec = agregar_incertidumbre(rec)
     return rec
@@ -131,12 +138,14 @@ def anio_malo(
     temp_c: float = Query(0, ge=-10, le=10),
 ):
     previos = [c for c in cultivos_previos.split(",") if c.strip()]
+    reading = sensor.latest_reading()
     try:
         estrategias = engine.bad_year(anio, lat, lon, suelo, previos,
-                                      Prioridades().model_dump(), lluvia_pct, temp_c)
+                                      Prioridades().model_dump(), lluvia_pct, temp_c,
+                                      sensor_n=_real_n(reading))
     except ValueError as exc:
         raise HTTPException(status_code=422, detail=str(exc))
-    return _envelope(estrategias)
+    return _envelope(estrategias, reading)
 
 
 @app.post("/preguntar")

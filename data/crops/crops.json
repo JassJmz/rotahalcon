@@ -653,6 +653,11 @@
       "citation": "Brouwer, C. & Heibloem, M. (1986). Irrigation Water Management: Training Manual No. 3 - Irrigation Water Needs. FAO, Rome. Chapter 4, effective rainfall formula (slopes up to 4-5%).",
       "url": "https://www.fao.org/4/s2022e/s2022e08.htm",
       "accessed": "2026-11-14"
+    },
+    "NOM021": {
+      "citation": "SEMARNAT (2002). NOM-021-RECNAT-2000, Que establece las especificaciones de fertilidad, salinidad y clasificación de suelos. Estudios, muestreo y análisis. Diario Oficial de la Federación, 31-12-2002. Method AS-08 (inorganic nitrogen), interpretation table.",
+      "url": "https://sidof.segob.gob.mx/notas/docFuente/717582",
+      "accessed": "2026-11-14"
     }
   },
   "rule": "Every value has a source (FAO / GBIF). Missing values are listed in 'gaps', never invented."

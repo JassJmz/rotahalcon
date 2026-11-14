@@ -82,6 +82,7 @@ Frost values for germination and fruiting stages are also in the CSV.
 | Alfalfa | 1.0 – 2.0 | 1.1 |
 
 **Soils** (`soils.csv`, FAO-56 Table 19): available water (θFC − θWP) per m of soil — sandy 0.05–0.11 · sandy loam 0.11–0.15 · loam 0.13–0.18 · silt loam 0.13–0.19 · clay 0.12–0.20 m³/m³.
+**Soil N classes** (`soil_n_classes.csv`, NOM-021-RECNAT-2000, method AS-08): very low 0–10 · low 10–20 · medium 20–40 · high 40–60 · very high > 60 mg/kg inorganic N. The norm states they refer to small-grain cereals and to the lab method — the field sensor reading is indicative.
 **Effective rain:** FAO TM3 ch. 4 — `Pe = 0.8·P − 25` if P > 75 mm/month, else `0.6·P − 10` (never negative).
 
 ### Sources
@@ -91,6 +92,7 @@ Frost values for germination and fruiting stages are also in the CSV.
 | `FAO_FROST` | Critical frost damage temperatures | Snyder & de Melo-Abreu (2005), *Frost Protection: fundamentals, practice and economics*, Vol. 1, FAO Env. & Nat. Resources Series 10, Table 4.5 · [link](https://www.fao.org/4/y7223e/y7223e0a.htm) |
 | `FAO_56` | Soil available water, root depth, Ky | Allen et al. (1998), *Crop evapotranspiration*, FAO Irrigation and Drainage Paper 56, Tables 19, 22, 24 · [link](https://www.fao.org/4/x0490e/x0490e00.htm) |
 | `FAO_TM3_PE` | Effective rainfall formula | Brouwer & Heibloem (1986), FAO TM3, ch. 4 · [link](https://www.fao.org/4/s2022e/s2022e08.htm) |
+| `NOM021` | Soil inorganic-N classes | SEMARNAT (2002), NOM-021-RECNAT-2000, DOF 31-12-2002, method AS-08 · [link](https://sidof.segob.gob.mx/notas/docFuente/717582) |
 | `FAO_BNF` | Nitrogen fixation (bean, alfalfa) | AFNETA alley farming training manual, Vol. 2, Technical paper 2: *Biological nitrogen fixation* (FAO Knowledge Repository) · [link](https://openknowledge.fao.org/server/api/core/bitstreams/b447cf68-d3f5-4733-940c-f33591e0588a/content/x5546e05.htm) |
 | `GBIF` | Scientific name & botanical family | GBIF Backbone Taxonomy (species match API) · [link](https://api.gbif.org/v1/species/match) |
 

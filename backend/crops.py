@@ -150,6 +150,22 @@ def load_soils() -> dict:
     return soils
 
 
+def load_n_classes() -> list[dict]:
+    """Soil inorganic-N classes (NOM-021-RECNAT-2000, method AS-08). Raises if a row has no source."""
+    sources = {s["source_id"]: s for s in _read("sources.csv")}
+    out = []
+    for r in _read("soil_n_classes.csv"):
+        if r["source_id"] not in sources or not r["where_in_source"]:
+            raise ValueError(f"soil_n_classes.csv: '{r['class_id']}' has no valid source (rule A5)")
+        out.append({
+            "class_id": r["class_id"], "name_en": r["name_en"],
+            "min": _num(r["n_min_mgkg"]),
+            "max": _num(r["n_max_mgkg"]) if r["n_max_mgkg"] else None,
+            "source": sources[r["source_id"]]["short"],
+        })
+    return out
+
+
 def load_sources() -> dict:
     return {s["source_id"]: s for s in _read("sources.csv")}
 

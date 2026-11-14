@@ -75,7 +75,7 @@ Each strategy carries **`anios`**: `[{"anio": 1981, "ok": true, "cultivo": "maiz
 | Priority | Score | Data |
 |---|---|---|
 | `agua` | average share of the water need that was covered | NASA + FAO |
-| `suelo` | 50 % share of legumes (fix N) + 50 % family changes between cycles (incl. the last previous crop) | FAO + GBIF |
+| `suelo` | share of legumes (fix N) + family changes between cycles (incl. the last previous crop). 50/50 by default; with a **REAL sensor N** reading: low N → 70/30 towards legumes, high N → 30/70 towards rotation | FAO + GBIF + **SENSOR** + NOM-021 |
 | `riesgo` | share of seasons that did not fail | NASA + FAO |
 | `ingreso` | **not used — no sourced price/cost data** (declared gap); weights are re-normalised | — |
 
@@ -95,6 +95,10 @@ Each strategy carries **`anios`**: `[{"anio": 1981, "ok": true, "cultivo": "maiz
 | Stage split 25 % / 50 % / 25 % of the cycle | Approximation for frost stages | this README |
 | Oats: strict water rule (no Ky source) | Not in FAO-56 Table 24 | `huecos` |
 | Alfalfa: no frost rule (no source) | Not in FAO frost Table 4.5 | `huecos` |
+| Soil N class from the field sensor uses NOM-021 lab classes (method AS-08, small-grain cereals) | Only official Mexican N interpretation found; the sensor is indicative | `riesgos` |
+| N weights 70/30 · 50/50 · 30/70 | Model design: poor soil favours legumes | this README |
+
+**Soil N (field truth):** the engine uses `n_mgkg` **only when the reading is real** (`sensor.mock == false`). It classifies it with **NOM-021-RECNAT-2000** (very low < 10 · low 10–20 · medium 20–40 · high 40–60 · very high > 60 mg/kg), changes the soil weights, and adds texts to `beneficios` / `riesgos`. Without a real reading it adds a gap to `huecos` and the soil score ignores N.
 
 ### Results with real data (loam, no scenario)
 | Crop | Seasons failed of 45 |
