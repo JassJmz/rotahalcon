@@ -11,14 +11,14 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from asistente import responder
+from asistente_llm import responder   # LLM mode; falls back to templates automatically
 
 # ── DATOS ──────────────────────────────────────────────────────────────
 ORIGENES_PERMITIDOS = ["*"]                 # hackathon: open CORS so the web can call us
 MOCK_PATH = Path(__file__).with_name("mock_recomendacion.json")
 # ───────────────────────────────────────────────────────────────────────
 
-app = FastAPI(title="RotaHalcón AI", version="0.1.0")
+app = FastAPI(title="RotaHalcón AI", version="0.2.0")
 app.add_middleware(CORSMiddleware, allow_origins=ORIGENES_PERMITIDOS,
                    allow_methods=["*"], allow_headers=["*"])
 
@@ -31,7 +31,8 @@ class Pregunta(BaseModel):
 
 @app.get("/salud")
 def salud():
-    return {"ok": True, "servicio": "ia"}
+    import os
+    return {"ok": True, "servicio": "ia", "llm": bool(os.getenv("ANTHROPIC_API_KEY"))}
 
 
 @app.post("/preguntar")

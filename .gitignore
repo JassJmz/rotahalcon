@@ -1,6 +1,7 @@
 # Secrets — never commit
 .env
 .env.*
+!.env.example
 *secrets*
 firebase-config.js
 serviceAccount*.json
