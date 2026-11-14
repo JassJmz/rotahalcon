@@ -146,9 +146,23 @@ function renderCompare(d) {
       <div class="flex flex-wrap gap-1.5 mt-3 items-center"><span class="text-xs text-slate-500">Sources:</span>${(e.fuentes || []).map(f => `<span class="text-xs text-slate-300">${tag(srcTag(f))} ${esc(f)}</span>`).join('')}</div>
     </article>`;
   }).join('');
-  const c = d.calibracion;
-  $('calib').innerHTML = c ? `<b class="text-gold">Satellite corrected by the ground:</b> ${tag('NASA')} satellite says ${c.satelite_pct}% moisture · ${tag('SENSOR')} your field measures ${c.sensor_pct}% → adjustment ${c.ajuste > 0 ? '+' : ''}${c.ajuste} pts (± ${c.error}, ${esc(c.modelo)} model).` : '';
+  renderCalib(d.calibracion, !!(d.sensor && d.sensor.mock));
   renderReport(d);
+}
+
+// Calibration card. Source: GET /calibracion (Role 3 service) when reachable, else the calibracion block of /recomendar.
+// While the moisture probe is not connected the numbers are EXAMPLE data, and the card says so.
+function renderCalib(c, example) {
+  if (!c) { $('calib').innerHTML = ''; return; }
+  const ex = example || c.datos === 'ejemplo';
+  const err = c.error === null || c.error === undefined ? '' : `± ${c.error}, `;
+  $('calib').innerHTML = `${ex ? '<span class="tag tag-GAP mr-2">EXAMPLE DATA · NEXT MODULE</span>' : ''}<b class="text-gold">Satellite corrected by the ground:</b> ${tag('NASA')} satellite says ${c.satelite_pct}% moisture · ${tag('SENSOR')} your field measures ${c.sensor_pct}% → adjustment ${c.ajuste > 0 ? '+' : ''}${c.ajuste} pts (${err}${esc(c.modelo)} model).`
+    + (ex ? '<div class="text-xs text-slate-400 mt-1">Illustrative until the AGRISENSE moisture probe is connected.</div>' : '');
+}
+async function loadCalib() {
+  const base = IA_URL || API_URL;
+  if (!base || USING_MOCK) return;
+  try { const r = await fetch(base + '/calibracion'); if (r.ok) renderCalib(await r.json(), false); } catch (e) { /* keep the card from /recomendar */ }
 }
 
 /* ---------- 4. bad year ---------- */
@@ -238,6 +252,7 @@ async function refresh() {
     $('demoBanner').style.display = USING_MOCK ? '' : 'none';
     renderCompare(DATA); renderRank(DATA);
     renderSoil(DATA.sensor || {});
+    loadCalib();
   } catch (e) { $('cards').innerHTML = `<div class="card p-5 text-red-300">Could not load recommendations (${esc(e.message)}). Showing nothing instead of guessing.</div>`; }
 }
 (async function init() {
