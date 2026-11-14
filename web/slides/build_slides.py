@@ -283,8 +283,6 @@ TEMPLATE = r'''<!doctype html>
       <p class="mute" style="font-size:20px;margin-top:14px">{{c_live}}</p>
     </div>
     <div class="card">
-      <p class="gold" style="font-weight:800;font-size:22px;margin:0 0 6px">{{c_cred}}</p>
-      <p style="font-size:18px;margin:0 0 18px">{{c_cred_b}}</p>
       <p class="gold" style="font-weight:800;font-size:22px;margin:0 0 6px">{{c_ai}}</p>
       <p style="font-size:18px;margin:0">{{c_ai_b}}</p>
     </div>
