@@ -41,6 +41,7 @@ tailwind.config = { theme: { extend: { colors: { navy: '#0B1F3A', navy2: '#102a4
     <a href="#glossary" class="hover:text-gold">Glossary</a>
     <a href="#report" class="hover:text-gold">Report</a>
     <a href="#how" class="hover:text-gold">How it works</a>
+    <a id="langBtn" href="?lang=es" class="ml-auto border border-gold text-gold rounded px-2.5 py-0.5 text-xs font-bold">ES</a>
   </div>
 </nav>
 
@@ -145,7 +146,7 @@ tailwind.config = { theme: { extend: { colors: { navy: '#0B1F3A', navy2: '#102a4
 <!-- 7 -->
 <section id="glossary">
   <h2 class="text-2xl font-bold mb-1">7 · Glossary</h2>
-  <p class="text-slate-400 mb-4">Hover or tap a term. <span class="text-amber-300">Provisional texts: final wording comes from Role 3.</span></p>
+  <p class="text-slate-400 mb-4">Hover or tap a term.</p>
   <div id="gloss" class="card p-5 flex flex-wrap gap-4 text-lg"></div>
 </section>
 
@@ -157,7 +158,7 @@ tailwind.config = { theme: { extend: { colors: { navy: '#0B1F3A', navy2: '#102a4
     <div id="reportPreview" class="flex-1 text-sm"></div>
     <div class="space-y-2 w-full md:w-60">
       <button id="waBtn" class="w-full bg-green-600 text-white font-semibold rounded-lg py-2.5">Share on WhatsApp</button>
-      <button class="w-full border border-gold text-gold rounded-lg py-2.5 opacity-60 cursor-not-allowed" title="Report PDF is built by Role 1 (web/boleta/)">Download PDF (coming)</button>
+      <button class="w-full border border-gold text-gold rounded-lg py-2.5 opacity-60 cursor-not-allowed" title="Coming soon">Download PDF (coming)</button>
     </div>
   </div>
   <p class="mt-4 text-center text-amber-200 font-semibold">Decision support tool — does not replace an agronomist.</p>
@@ -178,6 +179,7 @@ tailwind.config = { theme: { extend: { colors: { navy: '#0B1F3A', navy2: '#102a4
 </footer>
 
 <script src="vendor/leaflet/leaflet.min.js"></script>
+<script src="i18n.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

@@ -15,6 +15,9 @@ Website and pitch animation. Everything user-facing is in English.
   - `?scene=N&t=S` freezes scene N (0–10) at second S, for slide stills; add `&from=M` to preview the hand-off from scene M.
   - Elements carry over between scenes; loops and ambient particles turn off under `prefers-reduced-motion`.
 
+## Spanish version
+Open `index.html?lang=es` (or press the ES/EN button, top right). `i18n.js` translates the page, and the backend's English sentences with rules (the engine only writes English); anything it does not recognise stays in English. Glossary and assistant answers come from the API already in Spanish (`idioma=es`). To add a sentence, add a rule in `R` or an entry in `D` inside `i18n.js`.
+
 ## Presenter view
 Open `slides/es.html` (or `index.html`) and press **P**: a second window shows the script of the current slide (read from `docs/PITCH_SCRIPT*.md`), the next slide and a 4:00 timer with a budget per slide (green / amber / red). The timer starts when you leave the cover; its buttons or Space pause it, R resets it. Drag that window to the laptop screen and the deck to the projector. The browser may ask to allow pop-ups.
 

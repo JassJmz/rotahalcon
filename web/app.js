@@ -24,6 +24,7 @@ const SOIL_FIELDS = [   // sensor field -> label, unit
 // every field, but marked UNVERIFIED, so we never present an unconfirmed variable as measured.
 const CONFIRMED_FIELDS = [];
 const CALIB_CONFIRMED = false;   // calibration stays 'example data' until Role 1 confirms the moisture reading
+const tr = s => (window.I18N ? window.I18N.tr(s) : s);   // i18n.js: Spanish version (?lang=es)
 const PRIOS = [['agua', 'Water'], ['suelo', 'Soil'], ['ingreso', 'Income'], ['riesgo', 'Risk']];
 const GLOSSARY = {   // provisional – Role 3 provides final texts
   'Evapotranspiration': 'Water that leaves the field as evaporation from soil plus transpiration from plants.',
@@ -100,7 +101,7 @@ async function anioMalo(year) {
 async function preguntar(pregunta) {
   const base = IA_URL || API_URL;
   if (base && (!USING_MOCK || IA_URL)) {     // recomendacion = the /recomendar response being shown, so the answer is about this field
-    const r = await fetch(base + '/preguntar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pregunta, recomendacion: DATA }) });
+    const r = await fetch(base + '/preguntar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ pregunta, recomendacion: DATA, idioma: window.LANG === 'es' ? 'es' : 'en' }) });
     if (!r.ok) throw new Error('API ' + r.status);
     return r.json();
   }
@@ -249,7 +250,7 @@ async function initGlossary() {
   draw(GLOSSARY);
   const base = IA_URL || API_URL; if (!base) return;
   try {
-    const r = await fetch(base + '/glosario?idioma=en'); if (!r.ok) return;
+    const r = await fetch(base + '/glosario?idioma=' + (window.LANG === 'es' ? 'es' : 'en')); if (!r.ok) return;
     const j = await r.json(); if (!Array.isArray(j) || !j.length) return;
     draw(Object.fromEntries(j.map(t => [t.termino, t.largo || t.corto])));
   } catch (e) { /* keep the provisional texts */ }
@@ -268,7 +269,7 @@ function reportText(d) {
 }
 function renderReport(d) {
   $('reportPreview').innerHTML = `<pre class="whitespace-pre-wrap font-sans">${esc(reportText(d))}</pre>`;
-  $('waBtn').onclick = () => window.open('https://wa.me/?text=' + encodeURIComponent(reportText(d)), '_blank', 'noopener');
+  $('waBtn').onclick = () => window.open('https://wa.me/?text=' + encodeURIComponent(tr(reportText(d))), '_blank', 'noopener');
 }
 
 /* ---------- boot ---------- */
