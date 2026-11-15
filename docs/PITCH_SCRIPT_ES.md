@@ -32,7 +32,7 @@ Entonces nos hicimos una pregunta simple: con 45 años de datos reales de la NAS
 "Después probamos cada rotación en cada uno de los 45 años de datos de la NASA. Rojo significa que el cultivo falla. El maíz de don José falla en 23 temporadas. Frijol, frijol y sorgo, en 9. Y mostramos el peor año, 1997, no el promedio. Vamos a verlo en vivo."
 
 **5 · Demostración en vivo (1:40)**
-"Vamos a usarlo. Marco la parcela en el mapa. Aquí está el suelo, en vivo desde nuestro nodo [el Rol 1 toca la sonda]. Aquí hay cuatro rotaciones, lado a lado. La actual de don José está en rojo: funciona en 22 de 45 años. Esta funciona en 36, con un rango, porque no afirmamos tener certeza.
+"Vamos a usarlo. Marco la parcela en el mapa. Aquí está el suelo, en vivo desde nuestro nodo [el Rol 1 toca la sonda]. [SI LA TARJETA MUESTRA GUIONES, decir: "El nodo está conectado y enviando datos, pero la sonda no está leyendo suelo en este momento. Mostramos guiones y no ceros porque nunca mostramos un número en el que no podemos confiar. En el campo, aquí aparecen los valores del suelo." Luego continuar.] Aquí hay cuatro rotaciones, lado a lado. La actual de don José está en rojo: funciona en 22 de 45 años. Esta funciona en 36, con un rango, porque no afirmamos tener certeza.
 Elijo un año malo, 1997. Miren lo que habría pasado con cada rotación.
 Ahora muevo los sliders: más peso al agua, y el ranking cambia. Fíjense en el slider de ingreso: dice hueco de información. No tenemos un costo de semilla ni un precio del cultivo con fuente para Durango, y lo decimos en lugar de fingir.
 Pregunto: '¿Por qué mi rotación está en rojo?' La respuesta cita a la NASA y a la FAO, y enumera lo que no sabemos."
@@ -45,6 +45,7 @@ Es código abierto: cualquier región puede conectar sus propios cultivos y su c
 "RotaHalcón: la rotación como seguro contra el clima. Gracias al equipo de AGRISENSE, cuyo nodo hizo esto posible. El código está abierto en GitHub. Gracias."
 
 ## Plan B
+- **La tarjeta de suelo muestra guiones (la sonda devuelve ceros):** no la escondas ni toques la web. Di la frase de las notas de la slide 5, señala el nodo sobre la mesa y pasa a la comparación. El nodo sigue contando como conectado: los guiones son la web negándose a mostrar un número en el que no confía.
 - Sin red: la web usa su respuesta real guardada (aviso OFFLINE SNAPSHOT); la animación corre con archivos locales.
 - Si falla la animación: reproducir el MP4 (`animacion/index.html?short=1&lang=es`, grabado en pantalla a 1080p; sirve también como el video de 30 segundos si no permiten diapositivas con animación).
 - Preguntas probables de los jueces:

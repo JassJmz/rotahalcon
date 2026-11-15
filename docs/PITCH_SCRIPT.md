@@ -31,7 +31,7 @@ So we asked a simple question: over the last 45 years of real NASA data, how oft
 "Then we test every rotation in each of the 45 years of NASA data. Red means the crop fails. Don José's maize fails in 23 seasons. Beans, beans and sorghum, in 9. And we show the worst year, 1997, not the average. Let's see it live."
 
 **5 · Live demo (1:40)**
-"Let's use it. I mark the plot on the map. Here is the soil, live from our node [Role 1 touches the probe]. Here are four rotations, side by side. Don José's current one is red: it works in 22 of 45 years. This one works in 36, with a range, because we do not claim certainty.
+"Let's use it. I mark the plot on the map. Here is the soil, live from our node [Role 1 touches the probe]. [IF THE CARD SHOWS DASHES, say: "The node is connected and sending data, but the probe is not reading soil right now. We show dashes instead of zeros because we never show a number we cannot trust. In the field, the soil values appear here." Then continue.] Here are four rotations, side by side. Don José's current one is red: it works in 22 of 45 years. This one works in 36, with a range, because we do not claim certainty.
 I pick a bad year, 1997. Look what each rotation would have done.
 Now I move the sliders: more weight on water, and the ranking changes live. Notice the income slider: it says information gap. We do not have a sourced seed cost or crop price for Durango, and we say so instead of pretending.
 I ask: 'Why is my rotation red?' The answer cites NASA and FAO, and lists what we do not know."
@@ -44,6 +44,7 @@ It is open source. Any region can plug in its own crops and climate. And it is d
 "RotaHalcón: rotation as climate insurance. Thanks to the AGRISENSE team whose node made this possible. The code is open on GitHub. Thank you."
 
 ## Backup plan
+- **The soil card shows dashes (probe returns zeros):** do not hide it or touch the web. Say the sentence in slide 5's notes, point at the node on the table, and move on to the comparison. The node still counts as connected: the dashes are the web refusing to show a number it cannot trust.
 - No network: the web uses its saved real response (OFFLINE SNAPSHOT banner); the animation runs from local files.
 - Animation fails: play the MP4 (`animacion/index.html?short=1`, screen-recorded at 1080p; the same file works as the 30-second video if slides are not allowed).
 - Likely judge questions → answers

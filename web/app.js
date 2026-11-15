@@ -267,7 +267,31 @@ function reportText(d) {
     (cur ? `Your current rotation: ${fmt(cur)} works in ${cur.resiliencia.anios_ok} of ${cur.resiliencia.anios_total} years. Worst year ${cur.peor_anio.anio}.\n` : '') +
     'Decision support tool — does not replace an agronomist.' + (USING_MOCK ? '\n(offline snapshot)' : '');
 }
+function renderPrintReport(d) {     // one printable page ("Download PDF" = print / save as PDF)
+  const ranked = [...d.estrategias].sort((a, b) => b.puntaje - a.puntaje), best = ranked[0], cur = d.estrategias.find(e => e.es_actual) || null;
+  const crops = e => e.ciclos.map(c => (CROPS[c] ? CROPS[c].icon + ' ' : '') + cname(c)).join(' → ');
+  const dot = { verde: '#16a34a', amarillo: '#ca8a04', rojo: '#dc2626' }, word = { verde: 'Green', amarillo: 'Yellow', rojo: 'Red' };
+  const li = a => (a && a.length ? a : ['None']).map(x => `<li>${esc(x)}</li>`).join('');
+  const light = e => `<span class="dot" style="background:${dot[e.semaforo] || '#999'}"></span>${word[e.semaforo] || ''}`;
+  const block = (title, e, compact) => `<h3>${title}</h3><p class="rotline">${crops(e)} ${light(e)}</p>
+    <p>Works in ${e.resiliencia.anios_ok} of ${e.resiliencia.anios_total} years (range ${e.resiliencia.rango[0]}–${e.resiliencia.rango[1]})</p>
+    <p><b>Worst year ${e.peor_anio.anio}:</b> <span>${esc(e.peor_anio.motivo)}</span></p><p><b>Why:</b> <span>${esc(e.porque)}</span></p>
+    ${compact ? '' : `<div class="cols"><div><b>Benefits</b><ul>${li(e.beneficios)}</ul></div><div><b>Information gaps</b><ul>${li(e.huecos)}</ul></div><div><b>Check with an agronomist</b><ul>${li(e.riesgos)}</ul></div></div>
+    <p class="src">Sources: ${(e.fuentes || []).map(esc).join(' · ')}</p>`}`;
+  const soilName = { franco: 'Loam', arenoso: 'Sandy', arcilloso: 'Clay' }[state.suelo] || state.suelo, sn = d.sensor || {};
+  const sensorLine = sn.mock === false ? 'AGRISENSE reading received; the variables are still being verified' : 'No real sensor reading yet: example data';
+  $('printReport').innerHTML = `<h1>Rota<span>Halcón</span></h1><p class="sub">Rotation report · ${new Date().toISOString().slice(0, 10)}</p>
+    <div class="meta"><span><b>Field</b> ${state.lat}, ${state.lon}</span><span><b>Soil type</b> ${soilName}</span><span><b>Previous crops</b> ${state.prev.map(cname).join(', ')}</span></div>
+    ${block('Recommended rotation (highest score for your priorities)', best)}
+    ${cur && cur !== best ? block('Your current rotation', cur, true) : ''}
+    <h3>All rotations tested</h3>
+    <table><tr><th>Rotation</th><th>Failed seasons</th><th>Score</th><th>Traffic light</th></tr>${ranked.map(e => `<tr><td>${crops(e)}${e.es_actual ? ' (current)' : ''}</td><td>${e.resiliencia.anios_total - e.resiliencia.anios_ok} of ${e.resiliencia.anios_total}</td><td>${e.puntaje}</td><td>${light(e)}</td></tr>`).join('')}</table>
+    <p class="note"><b>Soil reading:</b> <span>${sensorLine}</span><br><b>Satellite calibration:</b> <span>Example data (next module)</span></p>
+    <p class="foot">Decision support tool — does not replace an agronomist.<br>Data: NASA POWER · FAO · INIFAP references · github.com/JassJmz/rotahalcon · jassjmz.github.io/rotahalcon<br>Not affiliated with or endorsed by NASA.</p>`;
+}
 function renderReport(d) {
+  renderPrintReport(d);
+  $('pdfBtn').onclick = () => window.print();
   $('reportPreview').innerHTML = `<pre class="whitespace-pre-wrap font-sans">${esc(reportText(d))}</pre>`;
   $('waBtn').onclick = () => window.open('https://wa.me/?text=' + encodeURIComponent(tr(reportText(d))), '_blank', 'noopener');
 }

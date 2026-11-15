@@ -26,6 +26,28 @@ tailwind.config = { theme: { extend: { colors: { navy: '#0B1F3A', navy2: '#102a4
   section{scroll-margin-top:70px}
   input[type=range]{accent-color:#D4AF37;width:100%}
   .reorder{transition:transform .4s}
+  #printReport{display:none}
+  @media print{
+    @page{size:A4;margin:13mm}
+    html,body{background:#fff!important;color:#111!important}
+    body>*:not(#printReport){display:none!important}
+    #printReport{display:block!important;font:12px/1.45 "Segoe UI",system-ui,Arial,sans-serif;color:#111}
+    #printReport h1{font-size:26px;margin:0;color:#0B1F3A}#printReport h1 span{color:#b8921d}
+    #printReport .sub{color:#555;margin:2px 0 10px}
+    #printReport h3{font-size:14px;margin:14px 0 4px;color:#0B1F3A;border-bottom:2px solid #D4AF37;padding-bottom:2px}
+    #printReport p{margin:3px 0}#printReport ul{margin:3px 0 0;padding-left:15px}#printReport li{margin:1px 0}
+    #printReport .meta{display:flex;gap:18px;flex-wrap:wrap;margin:0 0 6px}
+    #printReport .rotline{font-size:15px;font-weight:700}
+    #printReport .dot{display:inline-block;width:11px;height:11px;border-radius:50%;vertical-align:-1px;margin:0 4px 0 6px}
+    #printReport .cols{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-top:6px;font-size:11px}
+    #printReport table{width:100%;border-collapse:collapse;margin-top:4px}
+    #printReport th,#printReport td{border-bottom:1px solid #ddd;padding:4px 6px;text-align:left}
+    #printReport th{font-size:11px;color:#555}
+    #printReport .src{color:#555;font-size:10.5px}
+    #printReport .note{background:#fff7dc;border-left:3px solid #D4AF37;padding:5px 8px;margin:8px 0}
+    #printReport .foot{margin-top:14px;padding-top:6px;border-top:1px solid #bbb;color:#555;font-size:10.5px}
+    * {-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  }
 </style>
 </head>
 <body>
@@ -158,7 +180,7 @@ tailwind.config = { theme: { extend: { colors: { navy: '#0B1F3A', navy2: '#102a4
     <div id="reportPreview" class="flex-1 text-sm"></div>
     <div class="space-y-2 w-full md:w-60">
       <button id="waBtn" class="w-full bg-green-600 text-white font-semibold rounded-lg py-2.5">Share on WhatsApp</button>
-      <button class="w-full border border-gold text-gold rounded-lg py-2.5 opacity-60 cursor-not-allowed" title="Coming soon">Download PDF (coming)</button>
+      <button id="pdfBtn" class="w-full border border-gold text-gold rounded-lg py-2.5 font-semibold hover:bg-gold hover:text-navy">Download PDF</button>
     </div>
   </div>
   <p class="mt-4 text-center text-amber-200 font-semibold">Decision support tool — does not replace an agronomist.</p>
@@ -178,6 +200,7 @@ tailwind.config = { theme: { extend: { colors: { navy: '#0B1F3A', navy2: '#102a4
   Data: NASA POWER · AGRISENSE node (Alberto Ortega, Gabriel Jahir Landa, Lizzeth Avalos, Cecilia Reyes, Angel Moreno) · FAO / INIFAP references. Open source: github.com/JassJmz/rotahalcon · Built with the help of AI tools (see project page). Not affiliated with or endorsed by NASA.
 </footer>
 
+<div id="printReport" aria-hidden="true"></div>
 <script src="vendor/leaflet/leaflet.min.js"></script>
 <script src="i18n.js"></script>
 <script src="app.js"></script>
