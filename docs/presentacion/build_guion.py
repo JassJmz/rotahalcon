@@ -33,27 +33,27 @@ for (n, title, secs, note, text), end in zip(blocks, CUM):
 
 page = f'''<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Guion de Jass · RotaHawk</title>
 <style>
-  @page{{size:A4;margin:8mm 12mm}}
+  @page{{size:A4;margin:9mm 12mm}}
   *{{box-sizing:border-box}}
-  body{{font:12.9px/1.38 "Segoe UI",system-ui,Arial,sans-serif;color:#111;margin:0}}
+  body{{font:13.7px/1.42 "Segoe UI",system-ui,Arial,sans-serif;color:#111;margin:0}}
   h1{{font-size:22px;margin:0;color:#0B1F3A}}h1 span{{color:#b8921d}}
   .sub{{color:#555;margin:2px 0 8px;font-size:12px}}
-  section{{margin:0 0 5px;break-inside:avoid}}
+  section{{margin:0 0 6px;break-inside:avoid}}
   .h{{display:flex;align-items:center;gap:8px;border-bottom:2px solid #D4AF37;padding-bottom:2px;margin-bottom:3px}}
   .n{{background:#0B1F3A;color:#fff;border-radius:50%;width:20px;height:20px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;font-weight:700}}
   .h b{{font-size:14px;color:#0B1F3A}}.t{{margin-left:auto;font-weight:700;color:#8a6d12;font-size:13px}}.nt{{font-size:11px;color:#666}}
   p{{margin:0}}
   .cue{{color:#9a6a00;font-style:italic;font-size:11.8px}}
-  .box{{background:#fff7dc;border-left:3px solid #D4AF37;padding:3px 9px;margin:5px 0;font-size:11px}}
+  .box{{background:#fff7dc;border-left:3px solid #D4AF37;padding:4px 9px;margin:7px 0;font-size:11.8px}}
   .box b{{color:#0B1F3A}}
   .foot{{color:#666;font-size:11px;margin-top:6px}}
   * {{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 </style></head><body>
 <h1>Rota<span>Hawk</span> · Guion de Jass</h1>
-<p class="sub">Solo Jass expone · Pitch de 3 a 5 minutos (este guion: 4:00) · Lo que está entre [corchetes] no se dice: es qué hay en pantalla, a dónde señalar y cuándo hacer clic</p>
+<p class="sub">Solo Jass expone · Pitch de 3 a 5 minutos (este guion: 4:00) · Todo lo que está en este guion es lo que se dice</p>
 {rows}
 <div class="box"><b>Para ajustar el tiempo.</b> A 3:30: omite la explicación del chat en la slide 4 (−15 s) y la última frase de la slide 6 (−8 s). Hasta 5:00: deja correr la animación dos veces o abre la web en vivo para los jueces.<br>
-<b>Si algo falla.</b> Sonda con guiones: di la frase de la slide 5 y sigue. Sin internet: la web usa su respuesta guardada y la animación es local. La animación falla: reproduce el MP4. Cronómetro y notas: tecla <b>P</b> en las slides.</div>
+<b>Si algo falla.</b> Sonda con guiones en la slide 5: di «El nodo está conectado y enviando datos, pero la sonda no está leyendo suelo en este momento. Mostramos guiones y no ceros porque nunca mostramos un número en el que no podemos confiar.» y sigue. Sin internet: la web usa su respuesta guardada y la animación es local. La animación falla: reproduce el MP4. Cronómetro y notas: tecla <b>P</b> en las slides.</div>
 <p class="foot">jassjmz.github.io/rotahalcon · slides/es.html · Guion escrito por el Rol 4: léelo en voz alta y cámbialo a tus palabras.</p>
 </body></html>'''
 src = os.path.join(HERE, 'guion_jass_es.html'); io.open(src, 'w', encoding='utf-8', newline='\n').write(page)
