@@ -44,7 +44,7 @@ Le preguntamos al asistente cuánto va a ganar por hectárea. Responde: «No ten
 Es código abierto y apoyo a la decisión: no sustituye a un agrónomo."
 
 **7 · Cierre (15 s)**
-"RotaHawk: rotación inteligente de cultivos para la resiliencia climática. Pruébenlo ahora: escaneen el código o entren a jassjmz.github.io/rotahalcon. Gracias al equipo de AGRISENSE y a los datos abiertos de la NASA. Gracias."
+"RotaHawk: rotación inteligente de cultivos para la resiliencia climática. Pruébenlo ahora: escaneen el código o entren a jassjmz.github.io/rotahalcon. Gracias a los datos abiertos de la NASA. Gracias."
 
 ## Plan B
 - **La lectura de la slide 5 muestra guiones (la sonda devuelve ceros):** no la escondas. Di la frase de las notas de la slide 5, señala el nodo sobre la mesa y pasa a la slide 6. El nodo sigue contando como conectado: los guiones son la página negándose a mostrar un número en el que no confía.

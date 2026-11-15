@@ -52,8 +52,8 @@
     'Decision support tool — does not replace an agronomist.': 'Herramienta de apoyo a la decisión: no sustituye a un agrónomo.',
     'Click the animation or press → to move through the story.': 'Haz clic en la animación o pulsa → para avanzar por la historia.',
     '▶ Watch the 30-second animation full screen': '▶ Ver la animación de 30 segundos en pantalla completa', 'On a phone, rotate it sideways for a bigger picture.': 'En el celular, gíralo de lado para verla más grande.',
-    'Data: NASA POWER · AGRISENSE node (Alberto Ortega, Gabriel Jahir Landa, Lizzeth Avalos, Cecilia Reyes, Angel Moreno) · FAO / INIFAP references. Open source: github.com/JassJmz/rotahalcon · Built with the help of AI tools (see project page). Not affiliated with or endorsed by NASA.':
-      'Datos: NASA POWER · nodo AGRISENSE (Alberto Ortega, Gabriel Jahir Landa, Lizzeth Avalos, Cecilia Reyes, Angel Moreno) · referencias FAO / INIFAP. Código abierto: github.com/JassJmz/rotahalcon · Hecho con ayuda de herramientas de IA (ver página del proyecto). Sin afiliación ni respaldo de la NASA.',
+    'Data: NASA POWER · FAO / INIFAP references. Open source: github.com/JassJmz/rotahalcon · Built with the help of AI tools (see project page). Not affiliated with or endorsed by NASA.':
+      'Datos: NASA POWER · referencias FAO / INIFAP. Código abierto: github.com/JassJmz/rotahalcon · Hecho con ayuda de herramientas de IA (ver página del proyecto). Sin afiliación ni respaldo de la NASA.',
     'Why is my current rotation red?': '¿Por qué mi rotación actual está en rojo?', 'How RotaHawk works': 'Cómo funciona RotaHawk',
     // soil card
     'Moisture': 'Humedad', 'Soil temperature': 'Temperatura del suelo', 'Salinity (EC)': 'Salinidad (CE)', 'Nitrogen (N)': 'Nitrógeno (N)', 'Phosphorus (P)': 'Fósforo (P)', 'Potassium (K)': 'Potasio (K)', 'UNVERIFIED': 'SIN VERIFICAR',

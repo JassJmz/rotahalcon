@@ -43,7 +43,7 @@ We asked the assistant how much he would earn per hectare. It answers: 'I don't 
 It is open source, and it is decision support: it does not replace an agronomist."
 
 **7 · Close (15 s)**
-"RotaHawk: Smart Crop Rotation for Climate Resilience. Try it now: scan the code, or go to jassjmz.github.io/rotahalcon. Thanks to the AGRISENSE team and to NASA's open data. Thank you."
+"RotaHawk: Smart Crop Rotation for Climate Resilience. Try it now: scan the code, or go to jassjmz.github.io/rotahalcon. Thanks to NASA's open data. Thank you."
 
 ## Backup plan
 - **The slide-5 reading shows dashes (probe returns zeros):** do not hide it. Say the sentence in the notes of slide 5, point at the node on the table, and move on to slide 6. The node still counts as connected: the dashes are the page refusing to show a number it cannot trust.
