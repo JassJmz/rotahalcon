@@ -4,7 +4,7 @@ RotaHalcón — AI routes as a FastAPI router, so the public backend can serve t
     # backend/main.py
     sys.path.append(".../ia")
     from rutas import router as ia_router
-    app.include_router(ia_router)          # adds POST /preguntar and GET /glosario
+    app.include_router(ia_router)          # adds POST /preguntar, GET /glosario, GET /ndvi
 
 Works with only fastapi + pydantic installed (Render): if Ollama / httpx / dotenv
 are missing or Ollama is not running, /preguntar answers in template mode.
@@ -18,6 +18,7 @@ from fastapi import APIRouter
 from pydantic import BaseModel
 
 import asistente
+import ndvi
 
 try:                                    # optional: local LLM (needs httpx; Ollama running)
     import asistente_ollama
@@ -82,3 +83,12 @@ def glosario(idioma: str = "en"):
     idioma = idioma if idioma in ("en", "es") else "en"
     datos = json.loads(GLOSARIO_PATH.read_text(encoding="utf-8"))
     return [{"id": t["id"], **t[idioma], "fuente": t["fuente"]} for t in datos["terminos"]]
+
+
+@router.get("/ndvi")
+def ndvi_parcela(idioma: str = "en"):
+    """NASA MODIS NDVI for the example field: bare-soil months, anomalous drops,
+    and growing-season greenness vs NASA POWER rain. ?idioma=en|es"""
+    if not ndvi.NDVI_CSV.exists():
+        return {"error": "NDVI data not downloaded yet (run ia/descargar_ndvi.py)"}
+    return ndvi.analizar(idioma)
