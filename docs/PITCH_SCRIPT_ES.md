@@ -1,4 +1,4 @@
-# RotaHalcón — guion del pitch en español (4 minutos)
+# RotaHawk — guion del pitch en español (4 minutos)
 
 Versión local. La versión internacional está en `PITCH_SCRIPT.md` (inglés).
 Slides en español: `web/slides/es.html` (clic o flechas; F = pantalla completa; Ctrl+P = exportar a PDF). La animación en español va incluida (`?lang=es`).
@@ -18,7 +18,7 @@ Ejemplo actual (agricultor de maíz, Durango, 45 temporadas 1981–2025): la rot
 ## Guion
 
 **1 · Portada (10 s)**
-"Buenos días. Somos Halcones Dorados, de Durango. Esto es RotaHalcón: la rotación de cultivos como seguro contra el clima."
+"Buenos días. Somos Halcones Dorados, de Durango. Esto es RotaHawk: la rotación inteligente de cultivos para la resiliencia climática."
 
 **2 · El problema (40 s)**
 "Les presento a don José, un agricultor de ejemplo en Durango. Siembra maíz en cada ciclo. Cada temporada decide qué sembrar sin saber cómo le iría con esa decisión en un año malo. Y un solo año malo le puede costar la cosecha, el agua y su suelo.
@@ -42,7 +42,7 @@ Pregunto: '¿Por qué mi rotación está en rojo?' La respuesta cita a la NASA y
 Es código abierto: cualquier región puede conectar sus propios cultivos y su clima. Y es apoyo a la decisión: no sustituye a un agrónomo."
 
 **7 · Cierre (10 s)**
-"RotaHalcón: la rotación como seguro contra el clima. Gracias al equipo de AGRISENSE, cuyo nodo hizo esto posible. El código está abierto en GitHub. Gracias."
+"RotaHawk: la rotación inteligente de cultivos para la resiliencia climática. Gracias al equipo de AGRISENSE, cuyo nodo hizo esto posible. El código está abierto en GitHub. Gracias."
 
 ## Plan B
 - **La tarjeta de suelo muestra guiones (la sonda devuelve ceros):** no la escondas ni toques la web. Di la frase de las notas de la slide 5, señala el nodo sobre la mesa y pasa a la comparación. El nodo sigue contando como conectado: los guiones son la web negándose a mostrar un número en el que no confía.

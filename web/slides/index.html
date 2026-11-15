@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RotaHalcón · Pitch</title>
+<title>RotaHawk · Pitch</title>
 <style>
   :root{--navy:#0B1F3A;--navy2:#102a4c;--navy3:#16345e;--gold:#D4AF37;--goldL:#f1d27a;--ink:#eef3fb;--mute:#9fb0c8;--green:#22c55e;--yellow:#eab308;--red:#ef4444;--blue:#3b82f6;--line:rgba(255,255,255,.09)}
   *{box-sizing:border-box}
@@ -89,8 +89,8 @@
   </svg>
   <div class="pad" style="padding-top:150px">
     <p class="eyebrow">NASA SPACE APPS CHALLENGE 2026 · FIELD SHIFT</p>
-    <h1>Rota<span class="gold">Halcón</span></h1>
-    <p style="font-size:38px;margin:14px 0 22px;color:#fff;font-weight:600">Rotation as climate insurance</p>
+    <h1>Rota<span class="gold">Hawk</span></h1>
+    <p style="font-size:34px;line-height:1.2;margin:14px 0 22px;color:#fff;font-weight:600;max-width:640px">Smart Crop Rotation for Climate Resilience</p>
     <p style="font-size:24px;max-width:640px;color:#c5d3e6">We test every crop rotation against <b>45 years of real NASA climate</b>, so a farmer can see which one survives a bad year.</p>
     <p class="mute" style="font-size:20px;margin-top:34px">Team <b>Halcones Dorados</b> · Mecatrónica, ITSRLL · Durango</p>
   </div>
@@ -117,7 +117,7 @@
       </div>
     </div>
   </div>
-  <div class="foot"><span>Source: RotaHalcón engine on NASA POWER (PRECTOTCORR) and FAO crop-water rules.</span><span class="brand">RotaHalcón · 2 / 7</span></div>
+  <div class="foot"><span>Source: RotaHawk engine on NASA POWER (PRECTOTCORR) and FAO crop-water rules.</span><span class="brand">RotaHawk · 2 / 7</span></div>
 </section>
 
 <!-- 3 · Animation part 1 -->
@@ -175,7 +175,7 @@
       </div>
     </div>
   </div>
-  <div class="foot"><span>Backup: if the network fails, the web runs a saved real response and the animation video plays.</span><span class="brand">RotaHalcón · 5 / 7</span></div>
+  <div class="foot"><span>Backup: if the network fails, the web runs a saved real response and the animation video plays.</span><span class="brand">RotaHawk · 5 / 7</span></div>
 </section>
 
 <!-- 6 · Impact and validity -->
@@ -191,7 +191,7 @@
     <p class="mute" style="font-size:18px;margin:30px 0 10px;letter-spacing:1px;font-weight:700">What we say we do not know</p>
     <div style="display:flex;flex-wrap:wrap;gap:12px"><span class="chip">Seed cost and crop price in Durango</span><span class="chip">Local sowing dates (INIFAP)</span><span class="chip">Soil-sensor calibration: next module, shown as example data</span></div>
   </div>
-  <div class="foot"><span>Decision support tool: it does not replace an agronomist.</span><span class="brand">RotaHalcón · 6 / 7</span></div>
+  <div class="foot"><span>Decision support tool: it does not replace an agronomist.</span><span class="brand">RotaHawk · 6 / 7</span></div>
 </section>
 
 <!-- 7 · Close -->
@@ -199,7 +199,7 @@
   <div class="pad" style="display:grid;grid-template-columns:1.25fr 1fr;gap:56px;align-items:center">
     <div>
       <svg width="96" height="96" viewBox="-60 -60 120 120" style="margin-bottom:16px"><circle r="52" fill="none" stroke="#D4AF37" stroke-width="5"/><path d="M-34 12L0 -38L34 12L16 5L0 32L-16 5Z" fill="#D4AF37"/></svg>
-      <h2 style="font-size:56px;margin-bottom:20px">Rotation as climate insurance</h2>
+      <h2 style="font-size:46px;margin-bottom:20px">Smart Crop Rotation for Climate Resilience</h2>
       <p style="font-size:30px;color:#fff;font-weight:700;margin:0 0 6px">Halcones Dorados · ITSRLL</p>
       <p class="mute" style="font-size:19px;margin:0">Code: github.com/JassJmz/rotahalcon<br>MIT (code) · CC BY 4.0 (docs, images, animation)</p>
       <p class="mute" style="font-size:14px;margin-top:26px">Not affiliated with or endorsed by NASA.</p>
@@ -259,7 +259,7 @@
   document.querySelectorAll('.pg iframe').forEach(f => { const k = f.parentElement.clientWidth / 1280; if (k) f.style.transform = 'scale(' + k + ')'; });
   setTimeout(() => { const h = document.getElementById('hint'); if (h) h.style.opacity = 0; }, 5000);
   // ── presenter view (key P): script of each slide, next slide, 4-minute timer with a budget per slide ──
-  const NOTES = {"1": "\"Good morning. We are Halcones Dorados, from Durango. This is RotaHalcón: crop rotation as climate insurance.\"", "2": "\"Meet Don José, an example farmer in Durango. He grows maize every cycle. Every season he decides what to plant without knowing how that choice would do in a bad year. And one bad year can cost him the harvest, the water and his soil.<br>NASA climate data is free, but it covers kilometers, not his field, and it is hard to read.<br>So we asked a simple question: over the last 45 years of real NASA data, how often would Don José's maize have failed? The answer: 23 seasons out of 45.\"", "3": "\"Our AGRISENSE node is an NPK soil sensor. It gives an indicative reading, not a lab test, and sends it to the cloud every minute. A satellite sees one pixel that is several kilometers wide; we see this field. We correct the satellite with the ground. In this demo that calibration is example data: it is our next module.\"", "4": "\"Then we test every rotation in each of the 45 years of NASA data. Red means the crop fails. Don José's maize fails in 23 seasons. Beans, beans and sorghum, in 9. And we show the worst year, 1997, not the average. Let's see it live.\"", "5": "\"Let's use it. I mark the field on the map. Here is the soil, live from our node <i style=\"color:#D4AF37\">[Role 1 touches the probe]<\/i>. <i style=\"color:#D4AF37\">[IF THE CARD SHOWS DASHES, say: \"The node is connected and sending data, but the probe is not reading soil right now. We show dashes instead of zeros because we never show a number we cannot trust. In the field, the soil values appear here.\" Then continue.]<\/i> Here are four rotations, side by side. Don José's current one is red: it works in 22 of 45 years. This one works in 36, with a range, because we do not claim certainty.<br>I pick a bad year, 1997. Look what each rotation would have done.<br>Now I move the sliders: more weight on water, and the ranking changes live. Notice the income slider: it says information gap. We do not have a sourced seed cost or crop price for Durango, and we say so instead of pretending.<br>I ask: 'Why is my rotation red?' The answer cites NASA and FAO, and lists what we do not know.\"", "6": "\"Why you can trust it: 45 real seasons from NASA POWER, crop water and frost rules from FAO, and a range instead of a single number. What we do not know, we show: local sowing dates, prices, and the sensor calibration.<br>It is open source. Any region can plug in its own crops and climate. And it is decision support: it does not replace an agronomist.\"", "7": "\"RotaHalcón: rotation as climate insurance. Thanks to the AGRISENSE team whose node made this possible. The code is open on GitHub. Thank you.\""}, TITLES = ["Cover", "The problem", "Animation 1: sensor", "Animation 2: the system", "Live demo", "Impact and validity", "Close"], PV = ["Presenter", "Slide", "Next", "Total", "This slide", "Start / pause", "Reset", "budget", "No notes for this slide"], BUDGET = [10, 40, 20, 25, 100, 35, 10];
+  const NOTES = {"1": "\"Good morning. We are Halcones Dorados, from Durango. This is RotaHawk: smart crop rotation for climate resilience.\"", "2": "\"Meet Don José, an example farmer in Durango. He grows maize every cycle. Every season he decides what to plant without knowing how that choice would do in a bad year. And one bad year can cost him the harvest, the water and his soil.<br>NASA climate data is free, but it covers kilometers, not his field, and it is hard to read.<br>So we asked a simple question: over the last 45 years of real NASA data, how often would Don José's maize have failed? The answer: 23 seasons out of 45.\"", "3": "\"Our AGRISENSE node is an NPK soil sensor. It gives an indicative reading, not a lab test, and sends it to the cloud every minute. A satellite sees one pixel that is several kilometers wide; we see this field. We correct the satellite with the ground. In this demo that calibration is example data: it is our next module.\"", "4": "\"Then we test every rotation in each of the 45 years of NASA data. Red means the crop fails. Don José's maize fails in 23 seasons. Beans, beans and sorghum, in 9. And we show the worst year, 1997, not the average. Let's see it live.\"", "5": "\"Let's use it. I mark the field on the map. Here is the soil, live from our node <i style=\"color:#D4AF37\">[Role 1 touches the probe]<\/i>. <i style=\"color:#D4AF37\">[IF THE CARD SHOWS DASHES, say: \"The node is connected and sending data, but the probe is not reading soil right now. We show dashes instead of zeros because we never show a number we cannot trust. In the field, the soil values appear here.\" Then continue.]<\/i> Here are four rotations, side by side. Don José's current one is red: it works in 22 of 45 years. This one works in 36, with a range, because we do not claim certainty.<br>I pick a bad year, 1997. Look what each rotation would have done.<br>Now I move the sliders: more weight on water, and the ranking changes live. Notice the income slider: it says information gap. We do not have a sourced seed cost or crop price for Durango, and we say so instead of pretending.<br>I ask: 'Why is my rotation red?' The answer cites NASA and FAO, and lists what we do not know.\"", "6": "\"Why you can trust it: 45 real seasons from NASA POWER, crop water and frost rules from FAO, and a range instead of a single number. What we do not know, we show: local sowing dates, prices, and the sensor calibration.<br>It is open source. Any region can plug in its own crops and climate. And it is decision support: it does not replace an agronomist.\"", "7": "\"RotaHawk: smart crop rotation for climate resilience. Thanks to the AGRISENSE team whose node made this possible. The code is open on GitHub. Thank you.\""}, TITLES = ["Cover", "The problem", "Animation 1: sensor", "Animation 2: the system", "Live demo", "Impact and validity", "Close"], PV = ["Presenter", "Slide", "Next", "Total", "This slide", "Start / pause", "Reset", "budget", "No notes for this slide"], BUDGET = [10, 40, 20, 25, 100, 35, 10];
   let pw = null, t0 = 0, acc = 0, running = false, slideT0 = 0;
   const total = () => acc + (running ? (Date.now() - t0) / 1000 : 0), fmt = x => { x = Math.max(0, Math.round(x)); return Math.floor(x / 60) + ':' + String(x % 60).padStart(2, '0'); };
   function toggleTimer() { if (running) { acc = total(); running = false; } else { t0 = Date.now(); running = true; } renderPresenter(); }
@@ -282,7 +282,7 @@
     if (pw && !pw.closed) { pw.focus(); return; }
     pw = window.open('', 'rota-presenter', 'width=560,height=780');
     if (!pw) { alert('Allow pop-ups for this page to open the presenter view.'); return; }
-    pw.document.write('<!doctype html><meta charset="utf-8"><title>' + PV[0] + ' · RotaHalcón</title><style>body{margin:0;background:#081528;color:#eef3fb;font-family:Segoe UI,system-ui,sans-serif;padding:18px 22px}small{font-size:.5em;color:#9fb0c8;font-weight:600}.row{display:flex;gap:14px;align-items:stretch}.box{flex:1;background:#102a4c;border:1px solid #ffffff18;border-radius:14px;padding:10px 14px}.l{font-size:12px;letter-spacing:2px;color:#D4AF37;font-weight:800;text-transform:uppercase}.t{font-size:44px;font-weight:800;font-variant-numeric:tabular-nums}#pv-bar{height:6px;background:#D4AF37;border-radius:3px;width:0;transition:width .3s}#pv-notes{font-size:23px;line-height:1.5;margin-top:14px;color:#e6edf8}button{font-size:20px;border:0;border-radius:10px;padding:10px 16px;background:#D4AF37;color:#081528;font-weight:800;cursor:pointer;margin-right:8px}</style>'
+    pw.document.write('<!doctype html><meta charset="utf-8"><title>' + PV[0] + ' · RotaHawk</title><style>body{margin:0;background:#081528;color:#eef3fb;font-family:Segoe UI,system-ui,sans-serif;padding:18px 22px}small{font-size:.5em;color:#9fb0c8;font-weight:600}.row{display:flex;gap:14px;align-items:stretch}.box{flex:1;background:#102a4c;border:1px solid #ffffff18;border-radius:14px;padding:10px 14px}.l{font-size:12px;letter-spacing:2px;color:#D4AF37;font-weight:800;text-transform:uppercase}.t{font-size:44px;font-weight:800;font-variant-numeric:tabular-nums}#pv-bar{height:6px;background:#D4AF37;border-radius:3px;width:0;transition:width .3s}#pv-notes{font-size:23px;line-height:1.5;margin-top:14px;color:#e6edf8}button{font-size:20px;border:0;border-radius:10px;padding:10px 16px;background:#D4AF37;color:#081528;font-weight:800;cursor:pointer;margin-right:8px}</style>'
       + '<div class="l">' + PV[1] + '</div><div id="pv-slide" style="font-size:24px;font-weight:700;margin-bottom:6px"></div>'
       + '<div class="l" style="margin-top:6px">' + PV[2] + '</div><div id="pv-next" style="font-size:18px;color:#9fb0c8;margin-bottom:12px"></div>'
       + '<div class="row"><div class="box"><div class="l">' + PV[3] + '</div><div class="t" id="pv-total">0:00</div></div><div class="box"><div class="l">' + PV[4] + '</div><div class="t" id="pv-slidet">0:00</div></div></div>'

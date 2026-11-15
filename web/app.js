@@ -1,4 +1,4 @@
-// RotaHalcón web – reads docs/CONTRACT.md formats. Uses mock.json until the API is ready.
+// RotaHawk web – reads docs/CONTRACT.md formats. Uses mock.json until the API is ready.
 
 // ── DATOS ──
 // Backend (Role 2). '' = always use the saved snapshot. Local: 'http://localhost:8000'. Test offline mode with ?api=http://localhost:1
@@ -263,7 +263,7 @@ async function initGlossary() {
 function reportText(d) {
   const best = [...d.estrategias].sort((a, b) => b.puntaje - a.puntaje)[0], cur = d.estrategias.find(e => e.es_actual);
   const fmt = e => e.ciclos.map(cname).join(' → ');
-  return `RotaHalcón\nTop score for your priorities: ${fmt(best)} (${best.semaforo}) works in ${best.resiliencia.anios_ok} of ${best.resiliencia.anios_total} years.\n` +
+  return `RotaHawk\nTop score for your priorities: ${fmt(best)} (${best.semaforo}) works in ${best.resiliencia.anios_ok} of ${best.resiliencia.anios_total} years.\n` +
     (cur ? `Your current rotation: ${fmt(cur)} works in ${cur.resiliencia.anios_ok} of ${cur.resiliencia.anios_total} years. Worst year ${cur.peor_anio.anio}.\n` : '') +
     'Decision support tool — does not replace an agronomist.' + (USING_MOCK ? '\n(offline snapshot)' : '');
 }
@@ -280,7 +280,7 @@ function renderPrintReport(d) {     // one printable page ("Download PDF" = prin
     <p class="src">Sources: ${(e.fuentes || []).map(esc).join(' · ')}</p>`}`;
   const soilName = { franco: 'Loam', arenoso: 'Sandy', arcilloso: 'Clay' }[state.suelo] || state.suelo, sn = d.sensor || {};
   const sensorLine = sn.mock === false ? 'AGRISENSE reading received; the variables are still being verified' : 'No real sensor reading yet: example data';
-  $('printReport').innerHTML = `<h1>Rota<span>Halcón</span></h1><p class="sub">Rotation report · ${new Date().toISOString().slice(0, 10)}</p>
+  $('printReport').innerHTML = `<h1>Rota<span>Hawk</span></h1><p class="sub">Rotation report · ${new Date().toISOString().slice(0, 10)}</p>
     <div class="meta"><span><b>Field</b> ${state.lat}, ${state.lon}</span><span><b>Soil type</b> ${soilName}</span><span><b>Previous crops</b> ${state.prev.map(cname).join(', ')}</span></div>
     ${block('Recommended rotation (highest score for your priorities)', best)}
     ${cur && cur !== best ? block('Your current rotation', cur, true) : ''}

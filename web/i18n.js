@@ -1,4 +1,4 @@
-// RotaHalcón web: Spanish version. Open the page with ?lang=es (or use the ES/EN button, top right). English is the default.
+// RotaHawk web: Spanish version. Open the page with ?lang=es (or use the ES/EN button, top right). English is the default.
 // The backend only writes English, so its sentences are translated here with rules; anything unknown stays in English.
 // Glossary and assistant answers are requested in Spanish from the API (idioma=es).
 (function () {
@@ -12,13 +12,20 @@
     const u = new URL(location.href); u.searchParams.set('lang', LANG === 'es' ? 'en' : 'es');
     btn.href = u.toString(); btn.textContent = LANG === 'es' ? 'EN' : 'ES'; btn.title = LANG === 'es' ? 'English' : 'Español';
   }
-  if (LANG !== 'es') { window.I18N = { lang: 'en', tr: s => s }; return; }
+  // Texts that come from the API (assistant, glossary) may still carry the old name: always show RotaHawk.
+  const brand = s => (typeof s === 'string' ? s.replace(/RotaHalc[oó]n/g, 'RotaHawk').replace(/ROTAHALC[OÓ]N/g, 'ROTAHAWK') : s);
+  function watch(fn) {
+    const walk = root => { const w = document.createTreeWalker(root, NodeFilter.SHOW_TEXT); const ns = []; while (w.nextNode()) ns.push(w.currentNode); ns.forEach(n => { const t = fn(n.data); if (t !== n.data) n.data = t; }); };
+    walk(document.body);
+    new MutationObserver(ms => ms.forEach(m => { if (m.type === 'characterData') { const t = fn(m.target.data); if (t !== m.target.data) m.target.data = t; } else m.addedNodes.forEach(n => { if (n.nodeType === 3) { const t = fn(n.data); if (t !== n.data) n.data = t; } else if (n.nodeType === 1) walk(n); }); })).observe(document.body, { childList: true, subtree: true, characterData: true });
+  }
+  if (LANG !== 'es') { window.I18N = { lang: 'en', tr: brand }; watch(brand); return; }
 
   // ── TEXTOS ──  exact strings (after trimming)
   const D = {
     'My field': 'Mi parcela', 'My soil today': 'Mi suelo hoy', 'Compare': 'Comparar', 'Your bad year': 'Tu año malo', 'What if…?': '¿Y si…?',
-    'Ask RotaHalcón': 'Pregunta a RotaHalcón', 'Glossary': 'Glosario', 'Report': 'Reporte', 'How it works': 'Cómo funciona',
-    'Rotation as': 'La rotación como', 'climate insurance': 'seguro contra el clima',
+    'Ask RotaHawk': 'Pregunta a RotaHawk', 'Glossary': 'Glosario', 'Report': 'Reporte', 'How it works': 'Cómo funciona',
+    'Smart crop rotation for': 'Rotación inteligente de cultivos para la', 'climate resilience': 'resiliencia climática',
     'We test every crop rotation against 45 years (1981–2025) of real NASA climate, correct it with a sensor in your field, and tell you which one holds up best in a bad year, not on average.':
       'Probamos cada rotación de cultivos con 45 años (1981–2025) de clima real de la NASA, la corregimos con un sensor en tu parcela y te decimos cuál aguanta mejor un año malo, no el promedio.',
     '⚠ SAVED SNAPSHOT · the live server is unreachable or still waking up; showing a saved real response': '⚠ RESPUESTA GUARDADA · el servidor en vivo no responde o aún está despertando; se muestra una respuesta real guardada',
@@ -32,7 +39,7 @@
     'Priorities': 'Prioridades', 'Scenario': 'Escenario', 'Rainfall': 'Lluvia', 'Temperature': 'Temperatura', 'Rain −20%': 'Lluvia −20%', 'Reset': 'Restablecer', 'Live ranking': 'Ranking en vivo',
     'Water': 'Agua', 'Soil': 'Suelo', 'Income': 'Ingreso', 'Risk': 'Riesgo', 'INFORMATION GAP': 'HUECO DE INFORMACIÓN',
     "We don't know seed cost or crop price in your area yet, so this slider has no sourced data behind it.": 'Aún no conocemos el costo de semilla ni el precio del cultivo en tu zona, así que este control no tiene datos con fuente.',
-    '6 · Ask RotaHalcón': '6 · Pregunta a RotaHalcón', 'An assistant that does not make things up: every answer cites NASA, SENSOR or FAO/INIFAP, and says when a source is missing.': 'Un asistente que no inventa: cada respuesta cita NASA, SENSOR o FAO/INIFAP y dice cuándo falta una fuente.',
+    '6 · Ask RotaHawk': '6 · Pregunta a RotaHawk', 'An assistant that does not make things up: every answer cites NASA, SENSOR or FAO/INIFAP, and says when a source is missing.': 'Un asistente que no inventa: cada respuesta cita NASA, SENSOR o FAO/INIFAP y dice cuándo falta una fuente.',
     'Ask': 'Preguntar', '7 · Glossary': '7 · Glosario', 'Hover or tap a term.': 'Pasa el cursor o toca un término.',
     '8 · Report': '8 · Reporte', 'A one-page summary you can download or send by WhatsApp.': 'Un resumen de una página que puedes descargar o enviar por WhatsApp.',
     'Share on WhatsApp': 'Compartir por WhatsApp', 'Download PDF': 'Descargar PDF', 'Rotation report': 'Reporte de rotación', 'Field': 'Parcela', 'Previous crops': 'Cultivos previos',
@@ -47,7 +54,7 @@
     '▶ Watch the 30-second animation full screen': '▶ Ver la animación de 30 segundos en pantalla completa', 'On a phone, rotate it sideways for a bigger picture.': 'En el celular, gíralo de lado para verla más grande.',
     'Data: NASA POWER · AGRISENSE node (Alberto Ortega, Gabriel Jahir Landa, Lizzeth Avalos, Cecilia Reyes, Angel Moreno) · FAO / INIFAP references. Open source: github.com/JassJmz/rotahalcon · Built with the help of AI tools (see project page). Not affiliated with or endorsed by NASA.':
       'Datos: NASA POWER · nodo AGRISENSE (Alberto Ortega, Gabriel Jahir Landa, Lizzeth Avalos, Cecilia Reyes, Angel Moreno) · referencias FAO / INIFAP. Código abierto: github.com/JassJmz/rotahalcon · Hecho con ayuda de herramientas de IA (ver página del proyecto). Sin afiliación ni respaldo de la NASA.',
-    'Why is my current rotation red?': '¿Por qué mi rotación actual está en rojo?', 'How RotaHalcón works': 'Cómo funciona RotaHalcón',
+    'Why is my current rotation red?': '¿Por qué mi rotación actual está en rojo?', 'How RotaHawk works': 'Cómo funciona RotaHawk',
     // soil card
     'Moisture': 'Humedad', 'Soil temperature': 'Temperatura del suelo', 'Salinity (EC)': 'Salinidad (CE)', 'Nitrogen (N)': 'Nitrógeno (N)', 'Phosphorus (P)': 'Fósforo (P)', 'Potassium (K)': 'Potasio (K)', 'UNVERIFIED': 'SIN VERIFICAR',
     // compare cards
@@ -115,6 +122,7 @@
 
   function tr(str) {
     if (typeof str !== 'string' || !str.trim()) return str;
+    str = brand(str);
     const lead = str.match(/^\s*/)[0], tail = str.match(/\s*$/)[0], core = str.trim();
     if (D[core] !== undefined) return lead + D[core] + tail;
     const lines = core.split('\n').map(line => {
@@ -128,7 +136,7 @@
   window.I18N = { lang: 'es', tr };
 
   document.documentElement.lang = 'es';
-  document.title = 'RotaHalcón · La rotación como seguro contra el clima';
+  document.title = 'RotaHawk · Rotación inteligente de cultivos para la resiliencia climática';
   document.querySelectorAll('[placeholder],[title]').forEach(e => ['placeholder', 'title'].forEach(a => { const v = e.getAttribute(a); if (v && a !== 'title' || (v && e.id !== 'langBtn')) e.setAttribute(a, tr(v)); }));
 
   function walk(root) {

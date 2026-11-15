@@ -48,7 +48,7 @@ NASA Space Apps 2026 asks teams to declare how AI tools were used. We separate t
 - **Data**: the animation, slides and web do not contain invented numbers. They read the real engine output (`POST /recomendar`) and NASA POWER annual rainfall; anything not yet real (sensor reading, satellite calibration) is labelled "example data / next module" on screen. "Don José" is a fictional example farmer and is labelled as such.
 - **Libraries**: GSAP, Tailwind CSS and Leaflet were downloaded from their public CDNs into `web/` and `web/animacion/vendor/` so the pitch runs offline, with the team member's approval.
 - **Review**: the team member reviewed the animation, slides and web on screen and decided what to keep; commits to the repo were made with the team member's approval.
-- **No image, audio or video generation tools were used.** Every illustration (cover scene, sensor node, satellite, charts, icons, the falcon emblem) is vector SVG drawn in code, so there are no AI-generated images to watermark. No NASA logos are used, and the web and slides state that RotaHalcón is not affiliated with or endorsed by NASA.
+- **No image, audio or video generation tools were used.** Every illustration (cover scene, sensor node, satellite, charts, icons, the falcon emblem) is vector SVG drawn in code, so there are no AI-generated images to watermark. No NASA logos are used, and the web and slides state that RotaHawk is not affiliated with or endorsed by NASA.
 
 ---
 

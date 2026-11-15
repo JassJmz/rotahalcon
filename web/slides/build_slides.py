@@ -10,9 +10,9 @@ SITE = 'https://jassjmz.github.io/rotahalcon/'
 # ── TEXTOS ──
 T = {
  'en': {
-  'lang': 'en', 'title': 'RotaHalcón · Pitch', 'hint': '← → / click: move · F: fullscreen · P: presenter view · Ctrl+P: export PDF', 'anim': 'animation',
+  'lang': 'en', 'title': 'RotaHawk · Pitch', 'hint': '← → / click: move · F: fullscreen · P: presenter view · Ctrl+P: export PDF', 'anim': 'animation',
   'event': 'NASA SPACE APPS CHALLENGE 2026 · FIELD SHIFT',
-  'tag': 'Rotation as climate insurance',
+  'tag': 'Smart Crop Rotation for Climate Resilience',
   'sub': 'We test every crop rotation against <b>45 years of real NASA climate</b>, so a farmer can see which one survives a bad year.',
   'team': 'Team <b>Halcones Dorados</b> · Mecatrónica, ITSRLL · Durango',
   'p_eye': 'THE PROBLEM', 'p_title': 'Every season is a bet on the weather',
@@ -22,7 +22,7 @@ T = {
   'p_chart': 'Rainfall per year · Durango · <span class="yrs">1981–2025</span>', 'p_red': 'red = year his maize would have failed',
   'p_big': 'of <span class="yn">45</span> seasons', 'p_big2': 'his maize would have failed',
   'p_worst': 'Worst year <b class="gold wy">1997</b>: <span class="wm">rainfall 56% below normal</span>',
-  'p_src': 'Source: RotaHalcón engine on NASA POWER (PRECTOTCORR) and FAO crop-water rules.',
+  'p_src': 'Source: RotaHawk engine on NASA POWER (PRECTOTCORR) and FAO crop-water rules.',
   'd_eye': 'LIVE DEMO', 'd_title': 'From a pin on the map to a decision',
   'd1': 'Mark the field', 'd2': 'Read the soil', 'd3': 'Compare rotations', 'd4': 'Pick a bad year', 'd5': 'Ask and adjust',
   'd_cur': 'Current rotation', 'd_alt': 'Best alternative', 'd_of': 'of', 'd_seasons': 'seasons fail',
@@ -34,7 +34,7 @@ T = {
   'i3h': 'Open', 'i3b': 'Open source: any region can plug in its own crops and climate.',
   'i_know': 'What we say we do not know', 'k1': 'Seed cost and crop price in Durango', 'k2': 'Local sowing dates (INIFAP)', 'k3': 'Soil-sensor calibration: next module, shown as example data',
   'i_disc': 'Decision support tool: it does not replace an agronomist.',
-  'qr_cap': 'Scan to open the web app', 'c_title': 'Rotation as climate insurance', 'c_code': 'Code: github.com/JassJmz/rotahalcon', 'c_lic': 'MIT (code) · CC BY 4.0 (docs, images, animation)',
+  'qr_cap': 'Scan to open the web app', 'c_title': 'Smart Crop Rotation for Climate Resilience', 'c_code': 'Code: github.com/JassJmz/rotahalcon', 'c_lic': 'MIT (code) · CC BY 4.0 (docs, images, animation)',
   'c_live': 'Live site: <a href="https://jassjmz.github.io/rotahalcon/" style="color:#f1d27a;font-weight:700;text-decoration:none">jassjmz.github.io/rotahalcon</a>',
   'c_cred': 'Credits', 'c_cred_b': 'AGRISENSE sensor node, pre-existing hardware shared with permission: Alberto Ortega, Gabriel Jahir Landa, Lizzeth Avalos, Cecilia Reyes, Angel Moreno.',
   'c_disc': 'Not affiliated with or endorsed by NASA.', 'c_ai': 'AI use', 'c_ai_b': 'AI tools helped with code, the assistant and the animation. Details in <b>docs/AI_USE.md</b>. Not affiliated with or endorsed by NASA.',
@@ -45,9 +45,9 @@ T = {
   'ph1': 'HOW IT WORKS · FROM SOIL TO CLOUD', 'ph2': 'HOW IT WORKS · THE SYSTEM', 'print1': 'Soil and sensor', 'print2': 'Cloud and calibration', 'print3': 'Satellite vs sensor', 'print4': 'Every rotation, every year', 'print5': 'The worst year', 'print6': 'Your priorities',
  },
  'es': {
-  'lang': 'es', 'title': 'RotaHalcón · Presentación', 'hint': '← → / clic: mover · F: pantalla completa · P: vista del presentador · Ctrl+P: exportar a PDF', 'anim': 'animación',
+  'lang': 'es', 'title': 'RotaHawk · Presentación', 'hint': '← → / clic: mover · F: pantalla completa · P: vista del presentador · Ctrl+P: exportar a PDF', 'anim': 'animación',
   'event': 'NASA SPACE APPS CHALLENGE 2026 · FIELD SHIFT',
-  'tag': 'La rotación como seguro contra el clima',
+  'tag': 'Rotación inteligente de cultivos para la resiliencia climática',
   'sub': 'Probamos cada rotación de cultivos con <b>45 años de clima real de la NASA</b>, para que el agricultor vea cuál aguanta un año malo.',
   'team': 'Equipo <b>Halcones Dorados</b> · Mecatrónica, ITSRLL · Durango',
   'p_eye': 'EL PROBLEMA', 'p_title': 'Cada temporada es una apuesta al clima',
@@ -57,7 +57,7 @@ T = {
   'p_chart': 'Lluvia por año · Durango · <span class="yrs">1981–2025</span>', 'p_red': 'rojo = año en que su maíz habría fallado',
   'p_big': 'de <span class="yn">45</span> temporadas', 'p_big2': 'su maíz habría fallado',
   'p_worst': 'Peor año <b class="gold wy">1997</b>: <span class="wm">lluvia 56% por debajo de lo normal</span>',
-  'p_src': 'Fuente: motor de RotaHalcón sobre NASA POWER (PRECTOTCORR) y reglas de agua de cultivos de la FAO.',
+  'p_src': 'Fuente: motor de RotaHawk sobre NASA POWER (PRECTOTCORR) y reglas de agua de cultivos de la FAO.',
   'd_eye': 'DEMOSTRACIÓN EN VIVO', 'd_title': 'De un punto en el mapa a una decisión',
   'd1': 'Marcar la parcela', 'd2': 'Leer el suelo', 'd3': 'Comparar rotaciones', 'd4': 'Elegir un año malo', 'd5': 'Preguntar y ajustar',
   'd_cur': 'Rotación actual', 'd_alt': 'Mejor alternativa', 'd_of': 'de', 'd_seasons': 'temporadas fallan',
@@ -69,7 +69,7 @@ T = {
   'i3h': 'Abierta', 'i3b': 'Código abierto: cualquier región puede conectar sus propios cultivos y su clima.',
   'i_know': 'Lo que decimos que no sabemos', 'k1': 'Costo de semilla y precio del cultivo en Durango', 'k2': 'Fechas locales de siembra (INIFAP)', 'k3': 'Calibración con el sensor de suelo: próximo módulo, mostrada como datos de ejemplo',
   'i_disc': 'Herramienta de apoyo a la decisión: no sustituye a un agrónomo.',
-  'qr_cap': 'Escanea para abrir la web', 'c_title': 'La rotación como seguro contra el clima', 'c_code': 'Código: github.com/JassJmz/rotahalcon', 'c_lic': 'MIT (código) · CC BY 4.0 (documentos, imágenes y animación)',
+  'qr_cap': 'Escanea para abrir la web', 'c_title': 'Rotación inteligente de cultivos para la resiliencia climática', 'c_code': 'Código: github.com/JassJmz/rotahalcon', 'c_lic': 'MIT (código) · CC BY 4.0 (documentos, imágenes y animación)',
   'c_live': 'Sitio en vivo: <a href="https://jassjmz.github.io/rotahalcon/" style="color:#f1d27a;font-weight:700;text-decoration:none">jassjmz.github.io/rotahalcon</a>',
   'c_cred': 'Créditos', 'c_cred_b': 'Nodo sensor AGRISENSE, hardware preexistente compartido con permiso: Alberto Ortega, Gabriel Jahir Landa, Lizzeth Avalos, Cecilia Reyes, Angel Moreno.',
   'c_disc': 'Sin afiliación ni respaldo de la NASA.', 'c_ai': 'Uso de IA', 'c_ai_b': 'Usamos herramientas de IA en el código, el asistente y la animación. Detalles en <b>docs/AI_USE.md</b>. Sin afiliación ni respaldo de la NASA.',
@@ -173,8 +173,8 @@ TEMPLATE = r'''<!doctype html>
   </svg>
   <div class="pad" style="padding-top:150px">
     <p class="eyebrow">{{event}}</p>
-    <h1>Rota<span class="gold">Halcón</span></h1>
-    <p style="font-size:38px;margin:14px 0 22px;color:#fff;font-weight:600">{{tag}}</p>
+    <h1>Rota<span class="gold">Hawk</span></h1>
+    <p style="font-size:34px;line-height:1.2;margin:14px 0 22px;color:#fff;font-weight:600;max-width:640px">{{tag}}</p>
     <p style="font-size:24px;max-width:640px;color:#c5d3e6">{{sub}}</p>
     <p class="mute" style="font-size:20px;margin-top:34px">{{team}}</p>
   </div>
@@ -201,7 +201,7 @@ TEMPLATE = r'''<!doctype html>
       </div>
     </div>
   </div>
-  <div class="foot"><span>{{p_src}}</span><span class="brand">RotaHalcón · 2 / 7</span></div>
+  <div class="foot"><span>{{p_src}}</span><span class="brand">RotaHawk · 2 / 7</span></div>
 </section>
 
 <!-- 3 · Animation part 1 -->
@@ -259,7 +259,7 @@ TEMPLATE = r'''<!doctype html>
       </div>
     </div>
   </div>
-  <div class="foot"><span>{{d_back}}</span><span class="brand">RotaHalcón · 5 / 7</span></div>
+  <div class="foot"><span>{{d_back}}</span><span class="brand">RotaHawk · 5 / 7</span></div>
 </section>
 
 <!-- 6 · Impact and validity -->
@@ -275,7 +275,7 @@ TEMPLATE = r'''<!doctype html>
     <p class="mute" style="font-size:18px;margin:30px 0 10px;letter-spacing:1px;font-weight:700">{{i_know}}</p>
     <div style="display:flex;flex-wrap:wrap;gap:12px"><span class="chip">{{k1}}</span><span class="chip">{{k2}}</span><span class="chip">{{k3}}</span></div>
   </div>
-  <div class="foot"><span>{{i_disc}}</span><span class="brand">RotaHalcón · 6 / 7</span></div>
+  <div class="foot"><span>{{i_disc}}</span><span class="brand">RotaHawk · 6 / 7</span></div>
 </section>
 
 <!-- 7 · Close -->
@@ -283,7 +283,7 @@ TEMPLATE = r'''<!doctype html>
   <div class="pad" style="display:grid;grid-template-columns:1.25fr 1fr;gap:56px;align-items:center">
     <div>
       <svg width="96" height="96" viewBox="-60 -60 120 120" style="margin-bottom:16px"><circle r="52" fill="none" stroke="#D4AF37" stroke-width="5"/><path d="M-34 12L0 -38L34 12L16 5L0 32L-16 5Z" fill="#D4AF37"/></svg>
-      <h2 style="font-size:56px;margin-bottom:20px">{{c_title}}</h2>
+      <h2 style="font-size:46px;margin-bottom:20px">{{c_title}}</h2>
       <p style="font-size:30px;color:#fff;font-weight:700;margin:0 0 6px">Halcones Dorados · ITSRLL</p>
       <p class="mute" style="font-size:19px;margin:0">{{c_code}}<br>{{c_lic}}</p>
       <p class="mute" style="font-size:14px;margin-top:26px">{{c_disc}}</p>
@@ -366,7 +366,7 @@ TEMPLATE = r'''<!doctype html>
     if (pw && !pw.closed) { pw.focus(); return; }
     pw = window.open('', 'rota-presenter', 'width=560,height=780');
     if (!pw) { alert('Allow pop-ups for this page to open the presenter view.'); return; }
-    pw.document.write('<!doctype html><meta charset="utf-8"><title>' + PV[0] + ' · RotaHalcón</title><style>body{margin:0;background:#081528;color:#eef3fb;font-family:Segoe UI,system-ui,sans-serif;padding:18px 22px}small{font-size:.5em;color:#9fb0c8;font-weight:600}.row{display:flex;gap:14px;align-items:stretch}.box{flex:1;background:#102a4c;border:1px solid #ffffff18;border-radius:14px;padding:10px 14px}.l{font-size:12px;letter-spacing:2px;color:#D4AF37;font-weight:800;text-transform:uppercase}.t{font-size:44px;font-weight:800;font-variant-numeric:tabular-nums}#pv-bar{height:6px;background:#D4AF37;border-radius:3px;width:0;transition:width .3s}#pv-notes{font-size:23px;line-height:1.5;margin-top:14px;color:#e6edf8}button{font-size:20px;border:0;border-radius:10px;padding:10px 16px;background:#D4AF37;color:#081528;font-weight:800;cursor:pointer;margin-right:8px}</style>'
+    pw.document.write('<!doctype html><meta charset="utf-8"><title>' + PV[0] + ' · RotaHawk</title><style>body{margin:0;background:#081528;color:#eef3fb;font-family:Segoe UI,system-ui,sans-serif;padding:18px 22px}small{font-size:.5em;color:#9fb0c8;font-weight:600}.row{display:flex;gap:14px;align-items:stretch}.box{flex:1;background:#102a4c;border:1px solid #ffffff18;border-radius:14px;padding:10px 14px}.l{font-size:12px;letter-spacing:2px;color:#D4AF37;font-weight:800;text-transform:uppercase}.t{font-size:44px;font-weight:800;font-variant-numeric:tabular-nums}#pv-bar{height:6px;background:#D4AF37;border-radius:3px;width:0;transition:width .3s}#pv-notes{font-size:23px;line-height:1.5;margin-top:14px;color:#e6edf8}button{font-size:20px;border:0;border-radius:10px;padding:10px 16px;background:#D4AF37;color:#081528;font-weight:800;cursor:pointer;margin-right:8px}</style>'
       + '<div class="l">' + PV[1] + '</div><div id="pv-slide" style="font-size:24px;font-weight:700;margin-bottom:6px"></div>'
       + '<div class="l" style="margin-top:6px">' + PV[2] + '</div><div id="pv-next" style="font-size:18px;color:#9fb0c8;margin-bottom:12px"></div>'
       + '<div class="row"><div class="box"><div class="l">' + PV[3] + '</div><div class="t" id="pv-total">0:00</div></div><div class="box"><div class="l">' + PV[4] + '</div><div class="t" id="pv-slidet">0:00</div></div></div>'

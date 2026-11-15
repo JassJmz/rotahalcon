@@ -1,4 +1,4 @@
-// RotaHalcón pitch animation – 11 scenes (HTML + SVG + GSAP)
+// RotaHawk pitch animation – 11 scenes (HTML + SVG + GSAP)
 // Controls: click / → / Space = next · ← = back · F = fullscreen · Home = restart
 // ?autoplay=1        advances by itself (screen-record the 1080p MP4 backup)
 // ?short=1            ~30 s version: soil, cloud, calibration, every rotation, worst year, close. Plays by itself (add &autoplay=0 to click through).
@@ -42,13 +42,13 @@ const stage = document.getElementById('stage');
 // ── IDIOMA ──  ?lang=es shows the whole animation in Spanish. English is the default (international page).
 const LANG = Q.get('lang') === 'es' ? 'es' : 'en';
 const ES = {
-  'ACT 1 · FROM SOIL TO CLOUD': 'ACTO 1 · DEL SUELO A LA NUBE', 'ACT 2 · ROTAHALCÓN': 'ACTO 2 · ROTAHALCÓN', 'ROTAHALCÓN': 'ROTAHALCÓN',
+  'ACT 1 · FROM SOIL TO CLOUD': 'ACTO 1 · DEL SUELO A LA NUBE', 'ACT 2 · ROTAHAWK': 'ACTO 2 · ROTAHAWK', 'ROTAHAWK': 'ROTAHAWK',
   'A field in Durango': 'Un campo en Durango', 'NPK soil sensor · indicative reading': 'Sensor de suelo NPK · lectura indicativa',
   'Read every 60 s': 'Lectura cada 60 s', 'Live, from this field': 'En vivo, desde este campo',
   'Satellite sees km. We see your field.': 'El satélite ve kilómetros. Nosotros vemos tu campo.',
   'Every rotation, every year': 'Cada rotación, cada año', 'The worst year, not the average': 'El peor año, no el promedio',
   'Your priorities, your ranking': 'Tus prioridades, tu ranking', 'Explained. Sourced. In your pocket.': 'Explicado. Con fuentes. En tu bolsillo.',
-  'RotaHalcón — rotation as climate insurance': 'RotaHalcón — la rotación como seguro contra el clima',
+  'Smart Crop Rotation for Climate Resilience': 'Rotación inteligente de cultivos para la resiliencia climática',
   'Team Halcones Dorados · ITSRLL · NASA Space Apps 2026': 'Equipo Halcones Dorados · ITSRLL · NASA Space Apps 2026',
   'EC': 'CE', 'NPK probes': 'Sondas NPK', 'in the soil': 'en el suelo', 'Calibrated': 'Calibrado',
   'ONE SATELLITE PIXEL ≈ SEVERAL KM': 'UN PÍXEL DE SATÉLITE ≈ VARIOS KM', 'NASA POWER · rainfall per year': 'NASA POWER · lluvia por año', 'rainfall': 'lluvia',
@@ -60,7 +60,7 @@ const ES = {
   'Reading received': 'Lectura recibida', 'Current': 'Actual', 'Water': 'Agua', 'Soil': 'Suelo', 'Income*': 'Ingreso*', 'Risk': 'Riesgo',
   '* Income: no sourced seed cost or crop price yet (information gap)': '* Ingreso: aún no hay costo de semilla ni precio con fuente (hueco de información)',
   'EXAMPLE · NEXT MODULE': 'EJEMPLO · PRÓXIMO MÓDULO', 'LIVE': 'EN VIVO', 'SAFER': 'MÁS SEGURA', 'RISKIER': 'MÁS RIESGOSA', 'SAME RISK': 'MISMO RIESGO',
-  'RotaHalcón report': 'Reporte RotaHalcón', 'Decision support only': 'Solo apoyo a la decisión',
+  'RotaHawk report': 'Reporte RotaHawk', 'Decision support only': 'Solo apoyo a la decisión',
   'Every answer cites its source, and says when one is missing.': 'Cada respuesta cita su fuente y dice cuándo falta una.',
   'the hardest season on record': 'la temporada más difícil del registro',
 };
@@ -326,7 +326,7 @@ SCENES.push({ act: 'ACT 1 · FROM SOIL TO CLOUD', cap: 'Satellite sees km. We se
 } });
 
 // 6 ── Every year of NASA rainfall (6 s)
-SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: YEARS + ' years of real NASA climate', note: 'NASA POWER · PRECTOTCORR annual sum · Durango', build(g) {
+SCENES.push({ act: 'ACT 2 · ROTAHAWK', cap: YEARS + ' years of real NASA climate', note: 'NASA POWER · PRECTOTCORR annual sum · Durango', build(g) {
   const w = 1120 / YEARS, bars = RAINH.map((v, i) => { const h = v * 300; return el('rect', { x: 80 + i * w + 2, y: 600 - h, width: w - 4, height: h, rx: 3, fill: C.blue, opacity: .5 }, g); });
   el('line', { x1: 70, x2: 1210, y1: 602, y2: 602, stroke: '#ffffff44', 'stroke-width': 2 }, g);
   txt(g, 80, 636, String(Y0), 20, C.mute, 'start', 600); txt(g, 1200, 636, String(Y0 + YEARS - 1), 20, C.mute, 'end', 600);
@@ -341,7 +341,7 @@ SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: YEARS + ' years of real NASA cli
 } });
 
 // 7 ── Every rotation, every year (10 s)
-SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: 'Every rotation, every year', note: 'Engine output: FAO water and frost rules on NASA POWER data', build(g, from) {
+SCENES.push({ act: 'ACT 2 · ROTAHAWK', cap: 'Every rotation, every year', note: 'Engine output: FAO water and frost rules on NASA POWER data', build(g, from) {
   const tl = gsap.timeline(), cnt = FAILS.map(() => 0), STEP = .16, T0 = from === 5 ? 1.1 : .25, bw = 1120 / YEARS;
   // the rainfall bars of the previous scene shrink into a strip above the grid, so each year keeps its column
   const strip = RAINH.map((v, i) => el('rect', { x: GRID.x0 + i * GRID.cw + 1, y: 108 - v * 44, width: GRID.cw - 2, height: v * 44, rx: 2, fill: C.blue, opacity: .85 }, g));
@@ -369,7 +369,7 @@ SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: 'Every rotation, every year', no
 
 // 8 ── The worst year, not the average (6 s): the same grid, narrowed to two rows, then to one year.
 // The comparison is chosen from the data: the safest alternative if one beats the current rotation, otherwise the riskiest.
-SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: 'The worst year, not the average', note: 'Engine output on NASA POWER data', build(g, from) {
+SCENES.push({ act: 'ACT 2 · ROTAHAWK', cap: 'The worst year, not the average', note: 'Engine output on NASA POWER data', build(g, from) {
   const other = SAFER ? BEST : RISKY, rel = FAILS[other] < FAILS[0] ? 'SAFER' : FAILS[other] > FAILS[0] ? 'RISKIER' : 'SAME RISK';
   const relCol = rel === 'SAFER' ? C.green : rel === 'RISKIER' ? C.red : C.yellow;
   const tl = gsap.timeline(), rows = FAILS.map((_, r) => gridRow(g, r, true)), cur = rows[0], cmp = rows[other];
@@ -410,7 +410,7 @@ SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: 'The worst year, not the average
 // 9 ── Your priorities, your ranking (5 s): real engine output for two sets of priorities.
 // The engine can propose different alternatives for different priorities, so rows are matched by their crops:
 // rotations in both rankings slide to their new place, the ones that drop out fade away, new ones fade in.
-SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: 'Your priorities, your ranking', note: 'Engine output for both sets of priorities', build(g) {
+SCENES.push({ act: 'ACT 2 · ROTAHAWK', cap: 'Your priorities, your ranking', note: 'Engine output for both sets of priorities', build(g) {
   const keys = ['agua', 'suelo', 'ingreso', 'riesgo'], names = ['Water', 'Soil', 'Income*', 'Risk'], pa = D.request.prioridades, pb = D.prioridades_b, kx = v => 230 + v * 300;
   const knobs = names.map((n, i) => { const y = 210 + i * 80; txt(g, 70, y + 8, n, 28, C.white, 'start', 700); el('rect', { x: 230, y: y - 2, width: 300, height: 8, rx: 4, fill: '#ffffff2e' }, g);
     return el('circle', { cx: kx(pa[keys[i]]), cy: y + 2, r: 16, fill: C.gold, filter: 'url(#glow)' }, g); });
@@ -440,7 +440,7 @@ SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: 'Your priorities, your ranking',
 } });
 
 // 10 ── Explained. Sourced. In your pocket. (6 s)
-SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: 'Explained. Sourced. In your pocket.', note: 'Numbers from the engine; wording illustrative', build(g) {
+SCENES.push({ act: 'ACT 2 · ROTAHAWK', cap: 'Explained. Sourced. In your pocket.', note: 'Numbers from the engine; wording illustrative', build(g) {
   const cur = ROWS[0], top = [...ROWS].sort((x, y) => y.puntaje - x.puntaje)[0], light = { verde: 'green', amarillo: 'yellow', rojo: 'red' };
   const bub = grp(g, 60, 150);
   el('rect', { width: 650, height: 210, rx: 24, fill: C.navy2, stroke: '#4b6a99', 'stroke-width': 3 }, bub);
@@ -453,7 +453,7 @@ SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: 'Explained. Sourced. In your poc
   el('rect', { width: 300, height: 500, rx: 38, fill: '#0f172a', stroke: '#64748b', 'stroke-width': 4 }, ph); el('rect', { x: 18, y: 52, width: 264, height: 400, rx: 16, fill: '#0b141a' }, ph); el('rect', { x: 110, y: 18, width: 80, height: 10, rx: 5, fill: '#1e293b' }, ph);
   const msg = grp(ph, 0, 0); msg.setAttribute('opacity', 0);
   el('rect', { x: 34, y: 96, width: 232, height: 210, rx: 14, fill: '#005c4b' }, msg);
-  txt(msg, 150, 132, 'RotaHalcón report', 18, '#fff', 'middle', 800); el('circle', { cx: 66, cy: 176, r: 10, fill: SEM[top.semaforo] }, msg);
+  txt(msg, 150, 132, 'RotaHawk report', 18, '#fff', 'middle', 800); el('circle', { cx: 66, cy: 176, r: 10, fill: SEM[top.semaforo] }, msg);
   txt(msg, 86, 184, top.ciclos.map(c => ICON[c] || '🌱').join(' → '), 22, '#fff', 'start', 600);
   txt(msg, 50, 232, `Works in ${top.resiliencia.anios_ok} of ${top.resiliencia.anios_total} years`, 17, '#fff', 'start', 500); txt(msg, 50, 262, 'Decision support only', 15, '#a7f3d0', 'start', 500);
   const o = { n: 0 }, tl = gsap.timeline();
@@ -466,12 +466,12 @@ SCENES.push({ act: 'ACT 2 · ROTAHALCÓN', cap: 'Explained. Sourced. In your poc
 } });
 
 // 11 ── Logo and tagline (3 s)
-SCENES.push({ act: 'ROTAHALCÓN', cap: 'RotaHalcón — rotation as climate insurance', build(g) {
+SCENES.push({ act: 'ROTAHAWK', cap: 'Smart Crop Rotation for Climate Resilience', build(g) {
   const logo = grp(g, 640, 250);
   const ring = el('circle', { r: 110, fill: 'none', stroke: C.gold, 'stroke-width': 6, pathLength: 1, 'stroke-dasharray': 1, 'stroke-dashoffset': 1, transform: 'rotate(-90)' }, logo);
   const bird = el('path', { d: 'M-72 22 L0 -74 L72 22 L32 10 L0 64 L-32 10 Z', fill: C.gold, opacity: 0 }, logo);
   const name = txt(g, 640, 472, '', 104, C.gold, 'middle', 800);
-  name.innerHTML = 'RotaHalcón'.split('').map(ch => `<tspan fill-opacity="0">${ch}</tspan>`).join('');
+  name.innerHTML = 'RotaHawk'.split('').map(ch => `<tspan fill-opacity="0">${ch}</tspan>`).join('');
   const sub = txt(g, 640, 540, 'Team Halcones Dorados · ITSRLL · NASA Space Apps 2026', 26, C.mute, 'middle', 500, { opacity: 0 });
   const tl = gsap.timeline();
   tl.to(ring, { strokeDashoffset: 0, duration: 1.1, ease: E.io }, 0).to(bird, { opacity: 1, duration: .5, ease: E.out3 }, .7)

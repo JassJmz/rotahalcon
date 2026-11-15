@@ -1,4 +1,4 @@
-# RotaHalcón — 4-minute pitch script (Role 4 presents)
+# RotaHawk — 4-minute pitch script (Role 4 presents)
 
 Slides: `web/slides/index.html` (click or arrow keys; F = fullscreen; Ctrl+P = export PDF).
 Numbers on the slides and in the animation come from `web/animacion/data.js` (engine output). **If the engine changes, run `python build_data.py` in `web/animacion/` and re-check the numbers below.**
@@ -17,7 +17,7 @@ Current example (maize farmer, Durango, 45 seasons 1981–2025): current rotatio
 ## Script
 
 **1 · Cover (10 s)**
-"Good morning. We are Halcones Dorados, from Durango. This is RotaHalcón: crop rotation as climate insurance."
+"Good morning. We are Halcones Dorados, from Durango. This is RotaHawk: smart crop rotation for climate resilience."
 
 **2 · Problem (40 s)**
 "Meet Don José, an example farmer in Durango. He grows maize every cycle. Every season he decides what to plant without knowing how that choice would do in a bad year. And one bad year can cost him the harvest, the water and his soil.
@@ -41,7 +41,7 @@ I ask: 'Why is my rotation red?' The answer cites NASA and FAO, and lists what w
 It is open source. Any region can plug in its own crops and climate. And it is decision support: it does not replace an agronomist."
 
 **7 · Close (10 s)**
-"RotaHalcón: rotation as climate insurance. Thanks to the AGRISENSE team whose node made this possible. The code is open on GitHub. Thank you."
+"RotaHawk: smart crop rotation for climate resilience. Thanks to the AGRISENSE team whose node made this possible. The code is open on GitHub. Thank you."
 
 ## Backup plan
 - **The soil card shows dashes (probe returns zeros):** do not hide it or touch the web. Say the sentence in slide 5's notes, point at the node on the table, and move on to the comparison. The node still counts as connected: the dashes are the web refusing to show a number it cannot trust.

@@ -1,9 +1,9 @@
-# RotaHalcón – web (Role 4)
+# RotaHawk – web (Role 4)
 
 Website and pitch animation. Everything user-facing is in English.
 
 ## What works
-- `index.html` + `app.js`: the 8 sections (My field, My soil today, Compare, Your bad year, What if…?, Ask RotaHalcón, Glossary, Report) plus "How it works".
+- `index.html` + `app.js`: the 8 sections (My field, My soil today, Compare, Your bad year, What if…?, Ask RotaHawk, Glossary, Report) plus "How it works".
 - **Live data**: the web calls the real backend (`API_URL` in `app.js`, currently `https://rotahalcon.onrender.com`):
   `POST /recomendar`, `GET /anio-malo` and `POST /preguntar`. The ranking is sorted here by `puntaje`.
 - **Offline fallback**: if the API is unreachable the web uses `mock.json`, a saved *real* `/recomendar` response for the default Durango field, and shows an "OFFLINE SNAPSHOT" banner. "Your bad year" is then read from the per-year `anios` list.
