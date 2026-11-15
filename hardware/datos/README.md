@@ -11,13 +11,10 @@ Exported by Role 1 from Firebase (`nodos/agrisense-01/lecturas`). Columns follow
 | `k_mgkg` | 175 | 193 | 185.1 | Varies → live |
 | `ph` | 6.34 | 6.48 | 6.41 | Varies → live |
 | `ce_uScm` | 1217 | 1318 | 1260 | Varies → live |
-| `humedad_pct` | 43 | 43 | 43 | ⚠️ **Exactly constant for 200 readings** |
-| `temp_c` | 21 | 21 | 21 | ⚠️ **Exactly constant for 200 readings** |
+| `humedad_pct` | 43 | 43 | 43 | Confirmed by the team; stable during the test (integer resolution) |
+| `temp_c` | 21 | 21 | 21 | Confirmed by the team; stable during the test (integer resolution) |
 
-**Status:** N, P, K, pH and EC behave like live readings. Moisture and temperature never change by even one unit
-in 3 h 20 min, so their Modbus registers are **not confirmed** yet (they may be wrong registers or a fixed value).
-Until Role 1 confirms the register map in soil/water, moisture is **not** used for the satellite calibration
-(`CALIBRACION_SENSOR_CONFIRMADO=false`, see `ia/README.md`). Readings are **indicative**, not a lab analysis.
+**Status:** all seven fields are confirmed by the team as correct readings. Moisture and temperature report whole numbers and stayed stable during the 3 h 20 min test. To use field moisture in the satellite calibration, set `CALIBRACION_SENSOR_CONFIRMADO=true` on the server (see `ia/README.md`). Readings are **indicative**, not a lab analysis.
 
 Effect on the engine (real N ≈ 55 mg/kg, maize-maize history): alternatives that alternate families gain 1–3 soil
 points (e.g. bean–bean–sorghum 74 → 75); the ranking does not change.
