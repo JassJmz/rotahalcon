@@ -267,11 +267,17 @@ SCENES.push({ act: 'ACT 1 · FROM SOIL TO CLOUD', cap: 'Live, from this field', 
   txt(cloud, 10, 40, 'Firebase', 34, C.navy, 'middle', 800);
   const line = el('path', { d: 'M440 470 L690 290', stroke: C.gold, 'stroke-width': 3, 'stroke-dasharray': '8 10', fill: 'none', opacity: 0 }, g);
   const pk = [0, 1, 2].map(() => el('circle', { cx: 440, cy: 470, r: 7, fill: C.goldL, opacity: 0, filter: 'url(#glow)' }, g));
-  const card = grp(g, 840, 420);
-  el('rect', { width: 360, height: 140, rx: 18, fill: C.navy2, stroke: C.gold, 'stroke-width': 3 }, card);
+  const card = grp(g, 810, 420);      // 420 wide, centered at x=1020 (scene 5 keeps this card in place)
+  el('rect', { width: 420, height: 140, rx: 18, fill: C.navy2, stroke: C.gold, 'stroke-width': 3 }, card);
   el('rect', { x: 20, y: 18, width: 96, height: 30, rx: 8, fill: C.gold }, card); txt(card, 68, 39, 'SENSOR', 17, C.navy, 'middle', 800);
   const REAL = !SENSOR_MOCK && !CALIB_CONFIRMED;     // real reading, variable mapping not verified yet
-  const val = txt(card, 28, 106, REAL ? 'Reading received' : 'Moisture 0.0%', REAL ? 38 : 44, C.white, 'start', 800);
+  const val = txt(card, 28, 106, REAL ? 'Reading received' : 'Moisture 0.0%', 38, C.white, 'start', 800);
+  if (!REAL) {                                   // never let the number spill out of the card, whatever the value or the language
+    val.textContent = T('Moisture ' + Math.max(SENSOR_PCT, 100).toFixed(1) + '%');
+    const wmax = val.getComputedTextLength();
+    if (wmax > 364) val.setAttribute('font-size', (38 * 364 / wmax).toFixed(1));
+    val.textContent = T('Moisture 0.0%');
+  }
   if (REAL && D.sensor.ts) txt(card, 28, 130, new Date(D.sensor.ts * 1000).toISOString().slice(11, 16) + ' UTC', 18, C.mute, 'start', 600);
   const o = { v: 0 }, tl = gsap.timeline();
   tl.from(esp, from === 2 ? { x: 1020, y: 360, scale: 1.44, transformOrigin: '50% 50%', duration: .9, ease: E.io } : { opacity: 0, x: -30, duration: .5, ease: E.out3 }, 0)
