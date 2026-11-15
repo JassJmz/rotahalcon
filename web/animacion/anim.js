@@ -1,8 +1,8 @@
 // RotaHawk pitch animation – 11 scenes (HTML + SVG + GSAP)
 // Controls: click / → / Space = next · ← = back · F = fullscreen · Home = restart
 // ?autoplay=1        advances by itself (screen-record the 1080p MP4 backup)
-// ?short=1            ~30 s version: soil, cloud, calibration, every rotation, worst year, assistant, close. Plays by itself (add &autoplay=0 to click through).
-//                     With short=1, start/end are positions 0-6 inside that sequence (the slides play 0..6).
+// ?short=1            ~30 s version: soil, cloud, calibration, every rotation, worst year, assistant (no closing logo). Plays by itself (add &autoplay=0 to click through).
+//                     With short=1, start/end are positions 0-5 inside that sequence (the slides play 0..5).
 // ?start=N&end=M      plays only scenes N..M; going past the ends tells the parent page (slide deck) to move on
 // ?scene=N&t=SECONDS freezes scene N (0-10) at time t: for slide stills and frame-by-frame review
 'use strict';
@@ -485,7 +485,7 @@ SCENES.push({ act: 'ROTAHAWK', cap: 'Smart Crop Rotation for Climate Resilience'
 
 /* ---------- controller ---------- */
 const SHORT = Q.get('short') === '1';
-const SEQ = SHORT ? [1, 3, 4, 6, 7, 9, 10] : SCENES.map((_, i) => i);                 // scene indexes played, in order
+const SEQ = SHORT ? [1, 3, 4, 6, 7, 9] : SCENES.map((_, i) => i);      // the closing logo scene (10) is left out of the live version                 // scene indexes played, in order
 const SPEED = { 1: 1.6, 3: 1.3, 4: 1.6, 6: 1.9, 7: 1.4, 9: 1.5, 10: 1 };                    // short version: play some scenes faster
 const AUTO = SHORT ? Q.get('autoplay') !== '0' : !!Q.get('autoplay'), HOLD = SHORT ? 0.8 : 0;   // seconds to hold a finished scene
 const START = Math.max(0, +(Q.get('start') || 0)), END = Math.min(SEQ.length - 1, Q.get('end') !== null ? +Q.get('end') : SEQ.length - 1);

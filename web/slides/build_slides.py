@@ -225,7 +225,7 @@ TEMPLATE = r'''<!doctype html>
 </section>
 
 <!-- 3 · Animation (30 s, plays by itself) -->
-<section class="slide" data-n="3" data-src="../animacion/index.html?short=1&start=0&end=6{{q}}">
+<section class="slide" data-n="3" data-src="../animacion/index.html?short=1&start=0&end=5{{q}}">
   <div class="printgrid">
     <p class="eyebrow" style="grid-column:1/-1;margin:0">{{ph1}}</p>
     <div class="pg"><div class="fr"><iframe tabindex="-1" src="../animacion/index.html?scene=1&t=3{{q}}"></iframe></div><b>{{print1}}</b></div>
@@ -233,7 +233,6 @@ TEMPLATE = r'''<!doctype html>
     <div class="pg"><div class="fr"><iframe tabindex="-1" src="../animacion/index.html?scene=6&from=5&t=9{{q}}"></iframe></div><b>{{print3}}</b></div>
     <div class="pg"><div class="fr"><iframe tabindex="-1" src="../animacion/index.html?scene=7&from=6&t=5.5{{q}}"></iframe></div><b>{{print4}}</b></div>
     <div class="pg"><div class="fr"><iframe tabindex="-1" src="../animacion/index.html?scene=9&t=5{{q}}"></iframe></div><b>{{print5}}</b></div>
-    <div class="pg"><div class="fr"><iframe tabindex="-1" src="../animacion/index.html?scene=10&t=2.4{{q}}"></iframe></div><b>{{print6}}</b></div>
   </div>
 </section>
 
