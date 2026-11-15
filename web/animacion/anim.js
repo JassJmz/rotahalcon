@@ -494,7 +494,7 @@ SCENES.push({ act: 'ROTAHAWK', cap: 'Smart Crop Rotation for Climate Resilience'
 /* ---------- controller ---------- */
 const SHORT = Q.get('short') === '1';
 const SEQ = SHORT ? [1, 3, 4, 6, 7, 9] : SCENES.map((_, i) => i);      // the closing logo scene (10) is left out of the live version                 // scene indexes played, in order
-const SPEED = { 1: 1.6, 3: 1.3, 4: 1.6, 6: 1.9, 7: 1.4, 9: 1.5, 10: 1 };                    // short version: play some scenes faster
+const SPEED = { 1: 1.2, 3: 1.0, 4: 1.2, 6: 1.4, 7: 1.05, 9: 1.1, 10: 1 };                  // short version (~35 s): play some scenes a bit faster
 const AUTO = SHORT ? Q.get('autoplay') !== '0' : !!Q.get('autoplay'), HOLD = SHORT ? 0.8 : 0;   // seconds to hold a finished scene
 const START = Math.max(0, +(Q.get('start') || 0)), END = Math.min(SEQ.length - 1, Q.get('end') !== null ? +Q.get('end') : SEQ.length - 1);
 let cur = -1, live = null, master = null, timer = null;
