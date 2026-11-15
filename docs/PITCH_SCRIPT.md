@@ -21,17 +21,17 @@ Current example (maize farmer, Durango, 45 seasons 1981–2025): current rotatio
 
 **2 · Problem (40 s)**
 "Meet Don José, an example farmer in Durango. He grows maize every cycle. Every season he decides what to plant without knowing how that choice would do in a bad year. And one bad year can cost him the harvest, the water and his soil.
-NASA climate data is free, but it covers kilometres, not his plot, and it is hard to read.
+NASA climate data is free, but it covers kilometers, not his field, and it is hard to read.
 So we asked a simple question: over the last 45 years of real NASA data, how often would Don José's maize have failed? The answer: 23 seasons out of 45."
 
 **3 · Animation, part 1 (20 s) — plays by itself (soil, calibration)**
-"Our AGRISENSE node is an NPK soil sensor. It gives an indicative reading, not a lab test, and sends it to the cloud every minute. A satellite sees one pixel that is several kilometres wide; we see this field. We correct the satellite with the ground. In this demo that calibration is example data: it is our next module."
+"Our AGRISENSE node is an NPK soil sensor. It gives an indicative reading, not a lab test, and sends it to the cloud every minute. A satellite sees one pixel that is several kilometers wide; we see this field. We correct the satellite with the ground. In this demo that calibration is example data: it is our next module."
 
 **4 · Animation, part 2 (25 s) — plays by itself (every rotation, worst year)**
 "Then we test every rotation in each of the 45 years of NASA data. Red means the crop fails. Don José's maize fails in 23 seasons. Beans, beans and sorghum, in 9. And we show the worst year, 1997, not the average. Let's see it live."
 
 **5 · Live demo (1:40)**
-"Let's use it. I mark the plot on the map. Here is the soil, live from our node [Role 1 touches the probe]. [IF THE CARD SHOWS DASHES, say: "The node is connected and sending data, but the probe is not reading soil right now. We show dashes instead of zeros because we never show a number we cannot trust. In the field, the soil values appear here." Then continue.] Here are four rotations, side by side. Don José's current one is red: it works in 22 of 45 years. This one works in 36, with a range, because we do not claim certainty.
+"Let's use it. I mark the field on the map. Here is the soil, live from our node [Role 1 touches the probe]. [IF THE CARD SHOWS DASHES, say: "The node is connected and sending data, but the probe is not reading soil right now. We show dashes instead of zeros because we never show a number we cannot trust. In the field, the soil values appear here." Then continue.] Here are four rotations, side by side. Don José's current one is red: it works in 22 of 45 years. This one works in 36, with a range, because we do not claim certainty.
 I pick a bad year, 1997. Look what each rotation would have done.
 Now I move the sliders: more weight on water, and the ranking changes live. Notice the income slider: it says information gap. We do not have a sourced seed cost or crop price for Durango, and we say so instead of pretending.
 I ask: 'Why is my rotation red?' The answer cites NASA and FAO, and lists what we do not know."

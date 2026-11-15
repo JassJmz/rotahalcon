@@ -12,7 +12,7 @@
 // Sensor reading and calibration are still mock until the AGRISENSE node is live; those scenes say so on screen.
 const D = window.ROTA_DATA;
 const ICON = { frijol: '🫘', maiz: '🌽', avena: '🌾', sorgo: '🌱', alfalfa: '🌿' };
-const NAME = { frijol: 'beans', maiz: 'corn', avena: 'oats', sorgo: 'sorghum', alfalfa: 'alfalfa' };
+const NAME = { frijol: 'beans', maiz: 'maize', avena: 'oats', sorgo: 'sorghum', alfalfa: 'alfalfa' };
 const SEM = { verde: '#22c55e', amarillo: '#eab308', rojo: '#ef4444' };
 const ROWS = [...D.estrategias].sort((a, b) => b.es_actual - a.es_actual);      // current rotation first
 const Y0 = D.years[0], YEARS = D.years.length;
@@ -64,7 +64,7 @@ const ES = {
   'Every answer cites its source, and says when one is missing.': 'Cada respuesta cita su fuente y dice cuándo falta una.',
   'the hardest season on record': 'la temporada más difícil del registro',
 };
-const ES_CROP = { beans: 'frijol', corn: 'maíz', oats: 'avena', sorghum: 'sorgo', alfalfa: 'alfalfa' }, ES_LIGHT = { red: 'roja', yellow: 'amarilla', green: 'verde' };
+const ES_CROP = { beans: 'frijol', corn: 'maíz', maize: 'maíz', oats: 'avena', sorghum: 'sorgo', alfalfa: 'alfalfa' }, ES_LIGHT = { red: 'roja', yellow: 'amarilla', green: 'verde' };
 const ES_RULES = [   // dynamic sentences: [pattern, replacement]
   [/^(\d+) years of real NASA climate$/, '$1 años de clima real de la NASA'], [/^Moisture ([\d.]+)%$/, 'Humedad $1%'],
   [/^\+(\d+) pts adjustment$/, '+$1 pts de ajuste'], [/^Worst year (\d+)$/, 'Peor año $1'],

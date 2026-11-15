@@ -11,13 +11,13 @@ const IA_URL = new URLSearchParams(location.search).get('ia') || '';   // '' = u
 const DEFAULT_POINT = { lat: 24.02, lon: -104.65 };   // Durango
 const CROPS = {                // contract ids -> English display
   frijol:  { en: 'Beans',   icon: '🫘' },
-  maiz:    { en: 'Corn',    icon: '🌽' },
+  maiz:    { en: 'Maize',   icon: '🌽' },
   avena:   { en: 'Oats',    icon: '🌾' },
   sorgo:   { en: 'Sorghum', icon: '🌱' },
   alfalfa: { en: 'Alfalfa', icon: '🌿' },
 };
 const SOIL_FIELDS = [   // sensor field -> label, unit
-  ['humedad_pct', 'Moisture', '%'], ['temp_c', 'Soil temp', '°C'], ['ph', 'pH', ''], ['ce_uScm', 'Salinity (EC)', 'µS/cm'],
+  ['humedad_pct', 'Moisture', '%'], ['temp_c', 'Soil temperature', '°C'], ['ph', 'pH', ''], ['ce_uScm', 'Salinity (EC)', 'µS/cm'],
   ['n_mgkg', 'Nitrogen (N)', 'mg/kg'], ['p_mgkg', 'Phosphorus (P)', 'mg/kg'], ['k_mgkg', 'Potassium (K)', 'mg/kg'],
 ];
 // Fields whose meaning Role 1 has verified on the real sensor. Empty until they confirm: a real reading still shows

@@ -22,7 +22,7 @@
     'We test every crop rotation against 45 years (1981–2025) of real NASA climate, correct it with a sensor in your field, and tell you which one holds up best in a bad year, not on average.':
       'Probamos cada rotación de cultivos con 45 años (1981–2025) de clima real de la NASA, la corregimos con un sensor en tu parcela y te decimos cuál aguanta mejor un año malo, no el promedio.',
     '⚠ SAVED SNAPSHOT · the live server is unreachable or still waking up; showing a saved real response': '⚠ RESPUESTA GUARDADA · el servidor en vivo no responde o aún está despertando; se muestra una respuesta real guardada',
-    '1 · My field': '1 · Mi parcela', 'Drop a pin on your plot, pick the soil and the last 2 crops you planted.': 'Marca tu parcela en el mapa, elige el suelo y los últimos 2 cultivos que sembraste.',
+    '1 · My field': '1 · Mi parcela', 'Drop a pin on your field, pick the soil and the last 2 crops you planted.': 'Marca tu parcela en el mapa, elige el suelo y los últimos 2 cultivos que sembraste.',
     'Latitude': 'Latitud', 'Longitude': 'Longitud', 'Soil type': 'Tipo de suelo', 'Loam': 'Franco', 'Sandy': 'Arenoso', 'Clay': 'Arcilloso',
     'Crop, 2 cycles ago': 'Cultivo de hace 2 ciclos', 'Crop, last cycle': 'Cultivo del último ciclo', 'Test my rotations →': 'Probar mis rotaciones →',
     '2 · My soil today': '2 · Mi suelo hoy', 'Live reading from the AGRISENSE node in your field.': 'Lectura en vivo del nodo AGRISENSE en tu parcela.',
@@ -49,7 +49,7 @@
       'Datos: NASA POWER · nodo AGRISENSE (Alberto Ortega, Gabriel Jahir Landa, Lizzeth Avalos, Cecilia Reyes, Angel Moreno) · referencias FAO / INIFAP. Código abierto: github.com/JassJmz/rotahalcon · Hecho con ayuda de herramientas de IA (ver página del proyecto). Sin afiliación ni respaldo de la NASA.',
     'Why is my current rotation red?': '¿Por qué mi rotación actual está en rojo?', 'How RotaHalcón works': 'Cómo funciona RotaHalcón',
     // soil card
-    'Moisture': 'Humedad', 'Soil temp': 'Temp. del suelo', 'Salinity (EC)': 'Salinidad (CE)', 'Nitrogen (N)': 'Nitrógeno (N)', 'Phosphorus (P)': 'Fósforo (P)', 'Potassium (K)': 'Potasio (K)', 'UNVERIFIED': 'SIN VERIFICAR',
+    'Moisture': 'Humedad', 'Soil temperature': 'Temperatura del suelo', 'Salinity (EC)': 'Salinidad (CE)', 'Nitrogen (N)': 'Nitrógeno (N)', 'Phosphorus (P)': 'Fósforo (P)', 'Potassium (K)': 'Potasio (K)', 'UNVERIFIED': 'SIN VERIFICAR',
     // compare cards
     'Your current rotation': 'Tu rotación actual', 'Alternative': 'Alternativa', 'Why:': 'Por qué:', 'Benefits': 'Beneficios', 'Information gaps': 'Huecos de información', 'Check with an agronomist': 'Revisar con un agrónomo', 'Sources:': 'Fuentes:', 'None': 'Ninguno',
     'EXAMPLE DATA · NEXT MODULE': 'DATOS DE EJEMPLO · PRÓXIMO MÓDULO', 'Satellite corrected by the ground:': 'Satélite corregido con la tierra:',
