@@ -26,7 +26,7 @@ T = {
   'd_eye': 'LIVE DEMO', 'd_title': 'From a pin on the map to a decision',
   'd1': 'Mark the plot', 'd2': 'Read the soil', 'd3': 'Compare rotations', 'd4': 'Pick a bad year', 'd5': 'Ask and adjust',
   'd_cur': 'Current rotation', 'd_alt': 'Best alternative', 'd_of': 'of', 'd_seasons': 'seasons fail',
-  'd_node': 'The node, on the table', 'd_node2': 'ESP32 · NPK sensor over RS485 · Firebase', 'd_btn': 'Open the web app →',
+  'd_node': 'Our prototype node, on the table', 'img1': 'Prototype node: outside', 'img2': 'Prototype node: inside', 'd_node2': 'ESP32 · NPK sensor over RS485 · Firebase', 'd_btn': 'Open the web app →',
   'd_back': 'Backup: if the network fails, the web runs a saved real response and the animation video plays.',
   'i_eye': 'IMPACT AND VALIDITY', 'i_title': 'A tool that says how sure it is',
   'i1h': 'Real data', 'i1b': '<span class="yn">45</span> seasons of NASA POWER, with FAO crop-water and frost rules.',
@@ -61,7 +61,7 @@ T = {
   'd_eye': 'DEMOSTRACIÓN EN VIVO', 'd_title': 'De un punto en el mapa a una decisión',
   'd1': 'Marcar la parcela', 'd2': 'Leer el suelo', 'd3': 'Comparar rotaciones', 'd4': 'Elegir un año malo', 'd5': 'Preguntar y ajustar',
   'd_cur': 'Rotación actual', 'd_alt': 'Mejor alternativa', 'd_of': 'de', 'd_seasons': 'temporadas fallan',
-  'd_node': 'El nodo, sobre la mesa', 'd_node2': 'ESP32 · sensor NPK por RS485 · Firebase', 'd_btn': 'Abrir la web →',
+  'd_node': 'Nuestro nodo prototipo, sobre la mesa', 'img1': 'Nodo prototipo: por fuera', 'img2': 'Nodo prototipo: por dentro', 'd_node2': 'ESP32 · sensor NPK por RS485 · Firebase', 'd_btn': 'Abrir la web →',
   'd_back': 'Respaldo: si falla la red, la web usa una respuesta real guardada y se reproduce el video de la animación.',
   'i_eye': 'IMPACTO Y VALIDEZ', 'i_title': 'Una herramienta que dice qué tan segura está',
   'i1h': 'Datos reales', 'i1b': '<span class="yn">45</span> temporadas de NASA POWER, con reglas de agua y helada de cultivos de la FAO.',
@@ -227,8 +227,8 @@ TEMPLATE = r'''<!doctype html>
 <!-- 5 · Live demo -->
 <section class="slide" data-n="5">
   <div class="pad">
-    <p class="eyebrow">{{d_eye}}</p>
-    <h2 style="margin-bottom:30px">{{d_title}}</h2>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start"><div><p class="eyebrow">{{d_eye}}</p>
+    <h2 style="margin-bottom:26px">{{d_title}}</h2></div><a class="btn" style="margin-top:10px;font-size:20px;padding:12px 22px" href="../index.html" target="_blank" rel="noopener">{{d_btn}}</a></div>
     <div class="steps">
       <div class="step"><div class="c"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.8"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.6"/></svg></div><span>{{d1}}</span></div>
       <div class="step"><div class="c"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.8" stroke-linecap="round"><rect x="7" y="3" width="10" height="8" rx="2"/><path d="M10 11v10M14 11v10"/></svg></div><span>{{d2}}</span></div>
@@ -236,24 +236,26 @@ TEMPLATE = r'''<!doctype html>
       <div class="step"><div class="c"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></div><span>{{d4}}</span></div>
       <div class="step"><div class="c"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.8" stroke-linejoin="round"><path d="M4 5h16v10H9l-5 4z"/></svg></div><span>{{d5}}</span></div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1.05fr;gap:24px">
+    <div style="display:grid;grid-template-columns:.8fr .8fr 1.7fr;gap:22px">
       <div class="card" style="border-color:rgba(239,68,68,.45)">
         <p class="mute" style="font-size:18px;margin:0 0 4px"><span class="light" style="background:var(--red);color:var(--red)"></span>&nbsp; {{d_cur}}</p>
-        <div style="font-size:44px;margin:4px 0">🌽 🌽 🌽</div>
+        <div style="font-size:34px;margin:4px 0;white-space:nowrap">🌽🌽🌽</div>
         <div class="big red cf" style="font-size:72px">23</div>
         <p style="font-size:20px;margin:4px 0 0"><span class="mute">{{d_of}}</span> <span class="yn">45</span> {{d_seasons}}</p>
       </div>
       <div class="card" style="border-color:rgba(34,197,94,.5)">
         <p class="mute" style="font-size:18px;margin:0 0 4px"><span class="light" style="background:var(--green);color:var(--green)"></span>&nbsp; {{d_alt}}</p>
-        <div style="font-size:44px;margin:4px 0">🫘 🫘 🌱</div>
+        <div style="font-size:34px;margin:4px 0;white-space:nowrap">🫘🫘🌱</div>
         <div class="big green bf" style="font-size:72px">9</div>
         <p style="font-size:20px;margin:4px 0 0"><span class="mute">{{d_of}}</span> <span class="yn">45</span> {{d_seasons}}</p>
       </div>
-      <div class="card" style="text-align:center">
-        <p class="mute" style="font-size:18px;margin:0">{{d_node}}</p>
-        <p style="font-size:30px;margin:8px 0 2px;font-weight:800;color:#fff">AGRISENSE</p>
-        <p class="mute" style="font-size:16px;margin:0 0 18px">{{d_node2}}</p>
-        <a class="btn" href="../index.html" target="_blank" rel="noopener">{{d_btn}}</a>
+      <div class="card" style="padding:16px 20px">
+        <p class="mute" style="font-size:18px;margin:0 0 10px">{{d_node}}</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <figure style="margin:0"><img src="img/node-exterior.webp" alt="{{img1}}" style="width:100%;display:block;border-radius:12px;background:#fff"><figcaption style="font-size:14px;color:#9fb0c8;margin-top:5px">{{img1}}</figcaption></figure>
+          <figure style="margin:0"><img src="img/node-interior.webp" alt="{{img2}}" style="width:100%;display:block;border-radius:12px;background:#fff"><figcaption style="font-size:14px;color:#9fb0c8;margin-top:5px">{{img2}}</figcaption></figure>
+        </div>
+        <p class="mute" style="font-size:14px;margin:10px 0 0;text-align:center">{{d_node2}}</p>
       </div>
     </div>
   </div>

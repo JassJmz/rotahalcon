@@ -143,8 +143,8 @@
 <!-- 5 · Live demo -->
 <section class="slide" data-n="5">
   <div class="pad">
-    <p class="eyebrow">DEMOSTRACIÓN EN VIVO</p>
-    <h2 style="margin-bottom:30px">De un punto en el mapa a una decisión</h2>
+    <div style="display:flex;justify-content:space-between;align-items:flex-start"><div><p class="eyebrow">DEMOSTRACIÓN EN VIVO</p>
+    <h2 style="margin-bottom:26px">De un punto en el mapa a una decisión</h2></div><a class="btn" style="margin-top:10px;font-size:20px;padding:12px 22px" href="../index.html" target="_blank" rel="noopener">Abrir la web →</a></div>
     <div class="steps">
       <div class="step"><div class="c"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.8"><path d="M12 21s7-6.2 7-11.5A7 7 0 0 0 5 9.5C5 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.6"/></svg></div><span>Marcar la parcela</span></div>
       <div class="step"><div class="c"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.8" stroke-linecap="round"><rect x="7" y="3" width="10" height="8" rx="2"/><path d="M10 11v10M14 11v10"/></svg></div><span>Leer el suelo</span></div>
@@ -152,24 +152,26 @@
       <div class="step"><div class="c"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 10h16M9 3v4M15 3v4"/></svg></div><span>Elegir un año malo</span></div>
       <div class="step"><div class="c"><svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.8" stroke-linejoin="round"><path d="M4 5h16v10H9l-5 4z"/></svg></div><span>Preguntar y ajustar</span></div>
     </div>
-    <div style="display:grid;grid-template-columns:1fr 1fr 1.05fr;gap:24px">
+    <div style="display:grid;grid-template-columns:.8fr .8fr 1.7fr;gap:22px">
       <div class="card" style="border-color:rgba(239,68,68,.45)">
         <p class="mute" style="font-size:18px;margin:0 0 4px"><span class="light" style="background:var(--red);color:var(--red)"></span>&nbsp; Rotación actual</p>
-        <div style="font-size:44px;margin:4px 0">🌽 🌽 🌽</div>
+        <div style="font-size:34px;margin:4px 0;white-space:nowrap">🌽🌽🌽</div>
         <div class="big red cf" style="font-size:72px">23</div>
         <p style="font-size:20px;margin:4px 0 0"><span class="mute">de</span> <span class="yn">45</span> temporadas fallan</p>
       </div>
       <div class="card" style="border-color:rgba(34,197,94,.5)">
         <p class="mute" style="font-size:18px;margin:0 0 4px"><span class="light" style="background:var(--green);color:var(--green)"></span>&nbsp; Mejor alternativa</p>
-        <div style="font-size:44px;margin:4px 0">🫘 🫘 🌱</div>
+        <div style="font-size:34px;margin:4px 0;white-space:nowrap">🫘🫘🌱</div>
         <div class="big green bf" style="font-size:72px">9</div>
         <p style="font-size:20px;margin:4px 0 0"><span class="mute">de</span> <span class="yn">45</span> temporadas fallan</p>
       </div>
-      <div class="card" style="text-align:center">
-        <p class="mute" style="font-size:18px;margin:0">El nodo, sobre la mesa</p>
-        <p style="font-size:30px;margin:8px 0 2px;font-weight:800;color:#fff">AGRISENSE</p>
-        <p class="mute" style="font-size:16px;margin:0 0 18px">ESP32 · sensor NPK por RS485 · Firebase</p>
-        <a class="btn" href="../index.html" target="_blank" rel="noopener">Abrir la web →</a>
+      <div class="card" style="padding:16px 20px">
+        <p class="mute" style="font-size:18px;margin:0 0 10px">Nuestro nodo prototipo, sobre la mesa</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <figure style="margin:0"><img src="img/node-exterior.webp" alt="Nodo prototipo: por fuera" style="width:100%;display:block;border-radius:12px;background:#fff"><figcaption style="font-size:14px;color:#9fb0c8;margin-top:5px">Nodo prototipo: por fuera</figcaption></figure>
+          <figure style="margin:0"><img src="img/node-interior.webp" alt="Nodo prototipo: por dentro" style="width:100%;display:block;border-radius:12px;background:#fff"><figcaption style="font-size:14px;color:#9fb0c8;margin-top:5px">Nodo prototipo: por dentro</figcaption></figure>
+        </div>
+        <p class="mute" style="font-size:14px;margin:10px 0 0;text-align:center">ESP32 · sensor NPK por RS485 · Firebase</p>
       </div>
     </div>
   </div>
