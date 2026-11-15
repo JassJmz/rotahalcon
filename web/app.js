@@ -167,7 +167,7 @@ function initField() {
   let webgl = false; try { webgl = !!document.createElement('canvas').getContext('webgl2') && !!window.maplibregl; } catch (e) { /* no WebGL */ }
   try { if (webgl) globeMap(); else flatMap(); } catch (e) { $('map').innerHTML = ''; flatMap(); }
   ['lat', 'lon'].forEach(i => $(i).addEventListener('change', () => { set($('lat').value, $('lon').value); jump(); }));
-  const msg = (t, bad) => { const m = $('findMsg'); m.textContent = t; m.className = 'text-xs ' + (bad ? 'text-red-300' : 'text-slate-400'); };
+  const msg = (t, bad) => { const m = $('findMsg'); m.textContent = t; m.className = 'text-sm mb-2 ' + (bad ? 'text-red-300' : 'text-gold'); };
   const goto = (la, lo, label) => { set(la, lo); jump(); msg(label ? tr('Found: ') + label : ''); };
   async function search() {     // place search with OpenStreetMap Nominatim (the typed text is sent to that service)
     const q = $('findQ').value.trim(); if (!q) return;
