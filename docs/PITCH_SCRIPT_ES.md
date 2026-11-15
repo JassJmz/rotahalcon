@@ -46,7 +46,7 @@ Entonces preguntamos: en esos 45 años de datos reales, ¿cuántas veces le habr
 "RotaHawk: rotación inteligente de cultivos para la resiliencia climática. Pruébenlo ahora: escaneen el código o entren a jassjmz.github.io/rotahalcon. Gracias a los datos abiertos de la NASA. Gracias."
 
 ## Plan B
-- **La lectura de la slide 5 muestra guiones (la sonda devuelve ceros):** no la escondas. Di: «El nodo está conectado y enviando datos, pero la sonda no está leyendo suelo en este momento. Mostramos guiones y no ceros porque nunca mostramos un número en el que no podemos confiar. En el campo, aquí aparecen los valores del suelo.» Señala el nodo sobre la mesa y pasa a la slide 6.
+- **El nodo en vivo no lee suelo en la slide 5:** la slide muestra sola la **última lectura real grabada** (prueba del 14 de noviembre, con la sonda en el suelo), rotulada como grabada. Di: «Esta es la última lectura real de nuestro nodo, de una prueba de más de tres horas con la sonda en el suelo. En este momento el nodo en vivo no está leyendo, y por eso la marcamos como grabada.» Pasa a la slide 6.
 - Sin red: la web usa su respuesta real guardada (aviso OFFLINE SNAPSHOT); la animación corre con archivos locales.
 - Si falla la animación: reproducir el MP4 (`animacion/index.html?short=1&lang=es`, grabado en pantalla a 1080p; sirve también como el video de 30 segundos si no permiten diapositivas con animación).
 - Preguntas probables de los jueces:

@@ -45,7 +45,7 @@ So we asked: in those 45 years of real data, how many times would his maize have
 "RotaHawk: Smart Crop Rotation for Climate Resilience. Try it now: scan the code, or go to jassjmz.github.io/rotahalcon. Thanks to NASA's open data. Thank you."
 
 ## Backup plan
-- **The slide-5 reading shows dashes (probe returns zeros):** do not hide it. Say: "The node is connected and sending data, but the probe is not reading soil right now. We show dashes instead of zeros because we never show a number we cannot trust. In the field, the soil values appear here." Point at the node on the table and move on to slide 6.
+- **The live node is not reading soil on slide 5:** the slide shows the **last real recorded reading** by itself (the 14 November test, probe in the soil), labeled as recorded. Say: "This is the last real reading from our node, from a test of more than three hours with the probe in the soil. Right now the live node is not reading, so we mark it as recorded." Move on to slide 6.
 - No network: the web uses its saved real response (OFFLINE SNAPSHOT banner); the animation runs from local files.
 - Animation fails: play the MP4 (`animacion/index.html?short=1`, screen-recorded at 1080p; the same file works as the 30-second video if slides are not allowed).
 - Likely judge questions → answers

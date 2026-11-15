@@ -22,7 +22,7 @@ const SOIL_FIELDS = [   // sensor field -> label, unit
 ];
 // Fields whose meaning Role 1 has verified on the real sensor. Empty until they confirm: a real reading still shows
 // every field, but marked UNVERIFIED, so we never present an unconfirmed variable as measured.
-const CONFIRMED_FIELDS = [];
+const CONFIRMED_FIELDS = ['humedad_pct', 'temp_c', 'ph', 'ce_uScm', 'n_mgkg', 'p_mgkg', 'k_mgkg'];   // confirmed by the team (hardware/datos/README.md)
 const CALIB_CONFIRMED = false;   // calibration stays 'example data' until Role 1 confirms the moisture reading
 const tr = s => (window.I18N ? window.I18N.tr(s) : s);   // i18n.js: Spanish version (?lang=es)
 const PRIOS = [['agua', 'Water'], ['suelo', 'Soil'], ['ingreso', 'Income'], ['riesgo', 'Risk']];

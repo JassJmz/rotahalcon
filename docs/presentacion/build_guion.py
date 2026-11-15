@@ -53,7 +53,7 @@ page = f'''<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Gui
 <p class="sub">Solo Jass expone · Pitch de 3 a 5 minutos (este guion: 4:00) · Todo lo que está en este guion es lo que se dice</p>
 {rows}
 <div class="box"><b>Para ajustar el tiempo.</b> A 3:30: omite la explicación del chat en la slide 4 (−15 s) y la última frase de la slide 6 (−8 s). Hasta 5:00: deja correr la animación dos veces o abre la web en vivo para los jueces.<br>
-<b>Si algo falla.</b> Sonda con guiones en la slide 5: di «El nodo está conectado y enviando datos, pero la sonda no está leyendo suelo en este momento. Mostramos guiones y no ceros porque nunca mostramos un número en el que no podemos confiar.» y sigue. Sin internet: la web usa su respuesta guardada y la animación es local. La animación falla: reproduce el MP4. Cronómetro y notas: tecla <b>P</b> en las slides.</div>
+<b>Si algo falla.</b> Nodo en vivo sin leer en la slide 5: la slide muestra sola la última lectura real grabada; di «Esta es la última lectura real de nuestro nodo, de una prueba de más de tres horas con la sonda en el suelo. Ahora el nodo en vivo no está leyendo, por eso la marcamos como grabada.» y sigue. Sin internet: la web usa su respuesta guardada y la animación es local. La animación falla: reproduce el MP4. Cronómetro y notas: tecla <b>P</b> en las slides.</div>
 <p class="foot">jassjmz.github.io/rotahalcon · slides/es.html · Guion escrito por el Rol 4: léelo en voz alta y cámbialo a tus palabras.</p>
 </body></html>'''
 src = os.path.join(HERE, 'guion_jass_es.html'); io.open(src, 'w', encoding='utf-8', newline='\n').write(page)

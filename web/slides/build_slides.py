@@ -47,8 +47,8 @@ T = {
   'r_eye': 'THE RESULT', 'r_title': 'Same weather, two rotations',
   'r_cap': 'Maize after maize: <b class="red cf">23</b> bad seasons out of <span class="yn">45</span>. Bean–bean–sorghum: <b class="green bf">9</b>.',
   'r_chat': 'Asked how much he will earn per hectare, the assistant answers <i>“I don’t have that data.”</i> We have no sourced prices for Durango, so it never invents a number.',
-  'l_eye': 'LIVE · OUR PROTOTYPE', 'l_title': 'The node reads the soil, right now', 'l_card': 'Soil reading', 'l_unit': 'mg/kg',
-  'lt': {'wait': 'Waiting for the reading…', 'zero': 'Node connected: the probe is not reading soil yet.', 'demo': 'Demo reading: the node is not connected.', 'ok': 'Last reading {s} s ago', 'err': 'No connection to the server.', 'unv': 'UNVERIFIED'}, 'ph2': 'HOW IT WORKS · THE SYSTEM', 'print1': 'Soil and sensor', 'print2': 'Satellite vs sensor', 'print3': 'Every rotation, every year', 'print4': 'The worst year', 'print5': 'The assistant cites its sources', 'print6': 'RotaHawk',
+  'l_eye': 'OUR PROTOTYPE', 'l_title': 'The node reads the soil', 'l_card': 'Soil reading', 'l_unit': 'mg/kg',
+  'lt': {'rec': 'Recorded reading, {d} (test with the node in the soil). The live node is not reading right now.', 'rectag': 'SENSOR · RECORDED', 'wait': 'Waiting for the reading…', 'zero': 'Node connected: the probe is not reading soil yet.', 'demo': 'Demo reading: the node is not connected.', 'ok': 'Last reading {s} s ago', 'err': 'No connection to the server.', 'unv': 'UNVERIFIED'}, 'ph2': 'HOW IT WORKS · THE SYSTEM', 'print1': 'Soil and sensor', 'print2': 'Satellite vs sensor', 'print3': 'Every rotation, every year', 'print4': 'The worst year', 'print5': 'The assistant cites its sources', 'print6': 'RotaHawk',
  },
  'es': {
   'lang': 'es', 'title': 'RotaHawk · Presentación', 'hint': '← → / clic: mover · F: pantalla completa · P: vista del presentador · Ctrl+P: exportar a PDF', 'anim': 'animación',
@@ -88,8 +88,8 @@ T = {
   'r_eye': 'EL RESULTADO', 'r_title': 'El mismo clima, dos rotaciones',
   'r_cap': 'Maíz tras maíz: <b class="red cf">23</b> temporadas malas de <span class="yn">45</span>. Frijol–frijol–sorgo: <b class="green bf">9</b>.',
   'r_chat': 'Al preguntarle cuánto ganará por hectárea, el asistente responde <i>«No tengo ese dato».</i> No tenemos precios con fuente para Durango, así que nunca inventa un número.',
-  'l_eye': 'EN VIVO · NUESTRO PROTOTIPO', 'l_title': 'El nodo lee el suelo, ahora mismo', 'l_card': 'Lectura del suelo', 'l_unit': 'mg/kg',
-  'lt': {'wait': 'Esperando la lectura…', 'zero': 'Nodo conectado: la sonda aún no lee suelo.', 'demo': 'Lectura de ejemplo: el nodo no está conectado.', 'ok': 'Última lectura hace {s} s', 'err': 'Sin conexión con el servidor.', 'unv': 'SIN VERIFICAR'}, 'ph2': 'CÓMO FUNCIONA · EL SISTEMA', 'print1': 'Suelo y sensor', 'print2': 'Satélite contra sensor', 'print3': 'Cada rotación, cada año', 'print4': 'El peor año', 'print5': 'El asistente cita sus fuentes', 'print6': 'RotaHawk',
+  'l_eye': 'NUESTRO PROTOTIPO', 'l_title': 'El nodo lee el suelo', 'l_card': 'Lectura del suelo', 'l_unit': 'mg/kg',
+  'lt': {'rec': 'Lectura grabada, {d} (prueba con el nodo en el suelo). El nodo en vivo no está leyendo en este momento.', 'rectag': 'SENSOR · GRABADA', 'wait': 'Esperando la lectura…', 'zero': 'Nodo conectado: la sonda aún no lee suelo.', 'demo': 'Lectura de ejemplo: el nodo no está conectado.', 'ok': 'Última lectura hace {s} s', 'err': 'Sin conexión con el servidor.', 'unv': 'SIN VERIFICAR'}, 'ph2': 'CÓMO FUNCIONA · EL SISTEMA', 'print1': 'Suelo y sensor', 'print2': 'Satélite contra sensor', 'print3': 'Cada rotación, cada año', 'print4': 'El peor año', 'print5': 'El asistente cita sus fuentes', 'print6': 'RotaHawk',
  },
 }
 # ── FIN TEXTOS ──
@@ -266,13 +266,13 @@ TEMPLATE = r'''<!doctype html>
         <p class="mute" style="font-size:16px;margin:10px 0 0">{{d_node}} · {{d_node2}}</p>
       </div>
       <div class="card" style="padding:18px 22px">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><p style="font-size:22px;margin:0;color:#fff;font-weight:700">{{l_card}}</p><span id="live-tag" class="tag SENSOR" style="margin:0">SENSOR</span></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><p style="font-size:22px;margin:0;color:#fff;font-weight:700">{{l_card}}</p><span id="live-tag" class="tag SENSOR" style="margin:0">{{rectag}}</span></div>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px">
-          <div style="background:rgba(255,255,255,.05);border-radius:14px;padding:12px 8px;text-align:center"><div class="mute" style="font-size:20px;font-weight:700">N</div><div id="live-n" style="font-size:54px;font-weight:800;line-height:1.1">—</div><div class="mute" style="font-size:15px">{{l_unit}}</div></div>
-          <div style="background:rgba(255,255,255,.05);border-radius:14px;padding:12px 8px;text-align:center"><div class="mute" style="font-size:20px;font-weight:700">P</div><div id="live-p" style="font-size:54px;font-weight:800;line-height:1.1">—</div><div class="mute" style="font-size:15px">{{l_unit}}</div></div>
-          <div style="background:rgba(255,255,255,.05);border-radius:14px;padding:12px 8px;text-align:center"><div class="mute" style="font-size:20px;font-weight:700">K</div><div id="live-k" style="font-size:54px;font-weight:800;line-height:1.1">—</div><div class="mute" style="font-size:15px">{{l_unit}}</div></div>
+          <div style="background:rgba(255,255,255,.05);border-radius:14px;padding:12px 8px;text-align:center"><div class="mute" style="font-size:20px;font-weight:700">N</div><div id="live-n" style="font-size:54px;font-weight:800;line-height:1.1">{{rec_n}}</div><div class="mute" style="font-size:15px">{{l_unit}}</div></div>
+          <div style="background:rgba(255,255,255,.05);border-radius:14px;padding:12px 8px;text-align:center"><div class="mute" style="font-size:20px;font-weight:700">P</div><div id="live-p" style="font-size:54px;font-weight:800;line-height:1.1">{{rec_p}}</div><div class="mute" style="font-size:15px">{{l_unit}}</div></div>
+          <div style="background:rgba(255,255,255,.05);border-radius:14px;padding:12px 8px;text-align:center"><div class="mute" style="font-size:20px;font-weight:700">K</div><div id="live-k" style="font-size:54px;font-weight:800;line-height:1.1">{{rec_k}}</div><div class="mute" style="font-size:15px">{{l_unit}}</div></div>
         </div>
-        <p id="live-status" class="mute" style="font-size:18px;margin:14px 0 0"><span id="live-dot" class="light" style="background:#64748b;color:#64748b;width:12px;height:12px;margin-right:6px"></span><span id="live-text"></span></p>
+        <p id="live-status" class="mute" style="font-size:18px;margin:14px 0 0"><span id="live-dot" class="light" style="background:#eab308;color:#eab308;width:12px;height:12px;margin-right:6px"></span><span id="live-text">{{rec_text}}</span></p>
       </div>
     </div>
   </div>
@@ -371,7 +371,7 @@ TEMPLATE = r'''<!doctype html>
   document.querySelectorAll('.pg iframe').forEach(f => { const k = f.parentElement.clientWidth / 1280; if (k) f.style.transform = 'scale(' + k + ')'; });
   setTimeout(() => { const h = document.getElementById('hint'); if (h) h.style.opacity = 0; }, 5000);
   // ── presenter view (key P): script of each slide, next slide, 4-minute timer with a budget per slide ──
-  const NOTES = {{notes_json}}, TITLES = {{titles_json}}, PV = {{pv_json}}, BUDGET = [10, 45, 35, 50, 40, 45, 15], LT = {{lt_json}}, API = (new URLSearchParams(location.search).get('api') ?? 'https://rotahalcon.onrender.com'), SENSOR_CONFIRMED = false;   // SENSOR_CONFIRMED: set true when Role 1 confirms which register is N, P and K
+  const NOTES = {{notes_json}}, TITLES = {{titles_json}}, PV = {{pv_json}}, BUDGET = [10, 45, 35, 50, 40, 45, 15], LT = {{lt_json}}, API = (new URLSearchParams(location.search).get('api') ?? 'https://rotahalcon.onrender.com'), SENSOR_CONFIRMED = true, REC = {{rec_json}};   // SENSOR_CONFIRMED: Role 1 and the team confirmed the seven fields
   let pw = null, t0 = 0, acc = 0, running = false, slideT0 = 0;
   const total = () => acc + (running ? (Date.now() - t0) / 1000 : 0), fmt = x => { x = Math.max(0, Math.round(x)); return Math.floor(x / 60) + ':' + String(x % 60).padStart(2, '0'); };
   function toggleTimer() { if (running) { acc = total(); running = false; } else { t0 = Date.now(); running = true; } renderPresenter(); }
@@ -409,15 +409,20 @@ TEMPLATE = r'''<!doctype html>
   async function pollSensor() {
     const $ = id => document.getElementById(id), dot = $('live-dot'), txt = $('live-text'), tag = $('live-tag');
     const paint = (col, msg) => { dot.style.background = col; dot.style.color = col; txt.textContent = msg; };
+    const recorded = extra => {          // live node not reading: show the last REAL reading recorded in the field test, clearly labelled
+      if (!REC) { ['n', 'p', 'k'].forEach(k => $('live-' + k).textContent = '—'); paint('#eab308', extra || LT.zero); return; }
+      ['n', 'p', 'k'].forEach(k => $('live-' + k).textContent = REC[k]);
+      tag.textContent = LT.rectag; tag.className = 'tag SENSOR';
+      paint('#eab308', (extra ? extra + ' ' : '') + LT.rec.replace('{d}', REC.d));
+    };
     try {
       const r = await fetch(API + '/sensor', { cache: 'no-store' }); if (!r.ok) throw new Error(r.status);
-      const s = await r.json(), vals = [s.n_mgkg, s.p_mgkg, s.k_mgkg], zero = vals.every(v => !v);
-      if (s.mock) { ['n', 'p', 'k'].forEach(k => $('live-' + k).textContent = '—'); paint(zero ? '#eab308' : '#64748b', zero ? LT.zero : LT.demo); tag.textContent = 'SENSOR'; tag.className = 'tag SENSOR'; return; }
+      const s = await r.json(), vals = [s.n_mgkg, s.p_mgkg, s.k_mgkg], zero = vals.every(v => !v), fresh = (s.edad_s || 0) < 600;
+      if (s.mock || zero || !fresh) { recorded(); return; }
       ['n', 'p', 'k'].forEach((k, i) => $('live-' + k).textContent = Math.round(vals[i] * 10) / 10);
-      tag.textContent = SENSOR_CONFIRMED ? 'SENSOR' : LT.unv; tag.className = SENSOR_CONFIRMED ? 'tag SENSOR' : 'tag';
-      if (!SENSOR_CONFIRMED) tag.style.cssText = 'margin:0;background:#7c2d12;color:#fed7aa';
+      tag.textContent = 'SENSOR'; tag.className = 'tag SENSOR'; tag.style.cssText = 'margin:0';
       paint('#22c55e', LT.ok.replace('{s}', Math.round(s.edad_s || 0)));
-    } catch (e) { paint('#ef4444', LT.err); }
+    } catch (e) { recorded(LT.err); }
   }
   function livePoll(on) { clearInterval(liveTimer); if (on && !PRINT) { pollSensor(); liveTimer = setInterval(pollSensor, 4000); } }
   window.__deck = { show: n => show(n), cur: () => i, toggle: toggleTimer, reset: resetTimer };
@@ -456,6 +461,20 @@ def nasa_days():
     except Exception:
         return '16,000+'
 
+def recorded():
+    """Last reading of the node's field test (hardware/datos/agrisense-01_2026-11-14.csv), exported by Role 1 from Firebase."""
+    import csv, datetime
+    p = os.path.join(HERE, '..', '..', 'hardware', 'datos', 'agrisense-01_2026-11-14.csv')
+    try:
+        with io.open(p, encoding='utf-8') as f:
+            rows = list(csv.DictReader(f))
+        r = rows[-1]; t = datetime.datetime.fromtimestamp(int(r['ts']), datetime.timezone(datetime.timedelta(hours=-6)))
+        return {'n': round(float(r['n_mgkg'])), 'p': round(float(r['p_mgkg'])), 'k': round(float(r['k_mgkg'])), 'dt': t}
+    except Exception:
+        return None
+
+MESES = {'en': ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'], 'es': ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic']}
+
 def make_qr(url, size=230):
     try:
         import segno
@@ -472,6 +491,15 @@ for lang, d in T.items():
     d = dict(d)
     d['qr_svg'] = make_qr(SITE, 150)
     d['n_line'] = d['n_line'].replace('{{nasa_days}}', nasa_days())
+    rec = recorded()
+    if rec:
+        ds = '%d %s %02d:%02d' % (rec['dt'].day, MESES[lang][rec['dt'].month - 1], rec['dt'].hour, rec['dt'].minute)
+        d['rec_n'], d['rec_p'], d['rec_k'] = str(rec['n']), str(rec['p']), str(rec['k'])
+        d['rec_text'] = d['lt']['rec'].replace('{d}', ds)
+        d['rec_json'] = json.dumps({'n': rec['n'], 'p': rec['p'], 'k': rec['k'], 'd': ds})
+    else:
+        d['rec_n'] = d['rec_p'] = d['rec_k'] = '—'; d['rec_text'] = ''; d['rec_json'] = 'null'
+    d['rectag'] = d['lt']['rectag']
     d['lt_json'] = json.dumps(d['lt'], ensure_ascii=False)
     d['notes_json'] = json.dumps(read_notes(d['script']), ensure_ascii=False).replace('</', '<\\/')
     d['titles_json'] = json.dumps(d['titles'], ensure_ascii=False)
