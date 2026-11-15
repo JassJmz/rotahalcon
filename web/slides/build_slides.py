@@ -251,9 +251,9 @@ TEMPLATE = r'''<!doctype html>
       </div>
       <div class="card" style="padding:16px 20px">
         <p class="mute" style="font-size:18px;margin:0 0 10px">{{d_node}}</p>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-          <figure style="margin:0"><img src="img/node-exterior.webp" alt="{{img1}}" style="width:100%;display:block;border-radius:12px;background:#fff"><figcaption style="font-size:14px;color:#9fb0c8;margin-top:5px">{{img1}}</figcaption></figure>
-          <figure style="margin:0"><img src="img/node-interior.webp" alt="{{img2}}" style="width:100%;display:block;border-radius:12px;background:#fff"><figcaption style="font-size:14px;color:#9fb0c8;margin-top:5px">{{img2}}</figcaption></figure>
+        <div style="display:flex;justify-content:center;align-items:flex-end;gap:14px">
+          <figure style="margin:0;text-align:center"><img src="img/node-exterior.webp" alt="{{img1}}" style="height:190px;width:auto;display:block;border-radius:12px;background:#fff"><figcaption style="font-size:14px;color:#9fb0c8;margin-top:5px">{{img1}}</figcaption></figure>
+          <figure style="margin:0;text-align:center"><img src="img/node-interior.webp" alt="{{img2}}" style="height:190px;width:auto;display:block;border-radius:12px;background:#fff"><figcaption style="font-size:14px;color:#9fb0c8;margin-top:5px">{{img2}}</figcaption></figure>
         </div>
         <p class="mute" style="font-size:14px;margin:10px 0 0;text-align:center">{{d_node2}}</p>
       </div>
