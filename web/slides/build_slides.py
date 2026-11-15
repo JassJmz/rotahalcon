@@ -178,7 +178,7 @@ TEMPLATE = r'''<!doctype html>
     <!-- sensor node -->
     <g>
       <rect x="880" y="425" width="86" height="76" rx="12" fill="#102a4c" stroke="#D4AF37" stroke-width="4"/>
-      <rect x="892" y="437" width="62" height="22" rx="5" fill="#081528"/><text x="923" y="453" font-size="12" font-weight="800" fill="#D4AF37" text-anchor="middle">AGRISENSE</text>
+      <rect x="892" y="437" width="62" height="22" rx="5" fill="#081528"/><text x="923" y="453" font-size="12" font-weight="800" fill="#D4AF37" text-anchor="middle">ROTAHAWK</text>
       <circle cx="948" cy="478" r="5" fill="#22c55e"/>
       <rect x="899" y="501" width="9" height="112" rx="3" fill="#f1d27a"/><rect x="938" y="501" width="9" height="112" rx="3" fill="#f1d27a"/>
       <path d="M923 405q-22-14-44-6M923 405q22-14 44-6M923 385q-36-22-70-8M923 385q36-22 70-8" stroke="#f1d27a" stroke-width="3" fill="none" stroke-linecap="round" opacity=".9"/>

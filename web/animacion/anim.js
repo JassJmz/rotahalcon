@@ -184,7 +184,7 @@ SCENES.push({ act: 'ACT 1 · FROM SOIL TO CLOUD', cap: 'A field in Durango', bui
   const n = grp(g, 640, -240);
   el('rect', { x: -52, y: -134, width: 104, height: 96, rx: 14, fill: C.navy2, stroke: C.gold, 'stroke-width': 4 }, n);
   el('rect', { x: -40, y: -122, width: 80, height: 26, rx: 6, fill: '#0b1a30' }, n);
-  txt(n, 0, -103, 'AGRISENSE', 15, C.gold, 'middle', 800);
+  txt(n, 0, -103, 'ROTAHAWK', 15, C.gold, 'middle', 800);
   const led = el('circle', { cx: 34, cy: -62, r: 6, fill: C.green }, n);
   el('rect', { x: -26, y: -38, width: 10, height: 108, rx: 3, fill: C.goldL }, n); el('rect', { x: 16, y: -38, width: 10, height: 108, rx: 3, fill: C.goldL }, n);
   const tl = gsap.timeline();

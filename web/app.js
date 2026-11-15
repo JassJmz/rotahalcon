@@ -171,7 +171,7 @@ function renderCalib(c, example) {
   const ex = !CALIB_CONFIRMED || example || c.datos === 'ejemplo';
   const err = c.error === null || c.error === undefined ? '' : `± ${c.error}, `;
   $('calib').innerHTML = `${ex ? '<span class="tag tag-GAP mr-2">EXAMPLE DATA · NEXT MODULE</span>' : ''}<b class="text-gold">Satellite corrected by the ground:</b> ${tag('NASA')} satellite says ${c.satelite_pct}% moisture · ${tag('SENSOR')} your field measures ${c.sensor_pct}% → adjustment ${c.ajuste > 0 ? '+' : ''}${c.ajuste} pts (${err}${esc(c.modelo)} model).`
-    + (ex ? '<div class="text-xs text-slate-400 mt-1">Illustrative until the AGRISENSE moisture probe is connected.</div>' : '');
+    + (ex ? '<div class="text-xs text-slate-400 mt-1">Illustrative until the RotaHawk moisture probe is connected.</div>' : '');
 }
 async function loadSensor() {     // GET /sensor: latest reading from Firebase, or an example reading with mock: true
   if (!API_URL || USING_MOCK) return;
@@ -279,7 +279,7 @@ function renderPrintReport(d) {     // one printable page ("Download PDF" = prin
     ${compact ? '' : `<div class="cols"><div><b>Benefits</b><ul>${li(e.beneficios)}</ul></div><div><b>Information gaps</b><ul>${li(e.huecos)}</ul></div><div><b>Check with an agronomist</b><ul>${li(e.riesgos)}</ul></div></div>
     <p class="src">Sources: ${(e.fuentes || []).map(esc).join(' · ')}</p>`}`;
   const soilName = { franco: 'Loam', arenoso: 'Sandy', arcilloso: 'Clay' }[state.suelo] || state.suelo, sn = d.sensor || {};
-  const sensorLine = sn.mock === false ? 'AGRISENSE reading received; the variables are still being verified' : 'No real sensor reading yet: example data';
+  const sensorLine = sn.mock === false ? 'RotaHawk node reading received; the variables are still being verified' : 'No real sensor reading yet: example data';
   $('printReport').innerHTML = `<h1>Rota<span>Hawk</span></h1><p class="sub">Rotation report · ${new Date().toISOString().slice(0, 10)}</p>
     <div class="meta"><span><b>Field</b> ${state.lat}, ${state.lon}</span><span><b>Soil type</b> ${soilName}</span><span><b>Previous crops</b> ${state.prev.map(cname).join(', ')}</span></div>
     ${block('Recommended rotation (highest score for your priorities)', best)}

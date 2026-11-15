@@ -29,7 +29,7 @@ But there is data that does exist: NASA has climate data since 1981. With NASA P
 So we asked: in those 45 years of real data, how many times would his maize have failed? The answer: 23 seasons out of 45."
 
 **3 · Animation (35 s) — plays by itself**
-"Our AGRISENSE node is an NPK soil sensor: an indicative reading, not a lab test, sent to the cloud every minute. The NASA data covers a cell tens of kilometers wide; we measure this field, and we correct the NASA data with the ground. Today that calibration is example data: it is our next module. Then we test every rotation in each of the 45 years from NASA. Red means the crop fails. [When the assistant scene plays:] "Our assistant never invents numbers: it answers only from NASA data, the sensor and FAO, and when it does not know, it says so.""
+"Our RotaHawk node is an NPK soil sensor: an indicative reading, not a lab test, sent to the cloud every minute. The NASA data covers a cell tens of kilometers wide; we measure this field, and we correct the NASA data with the ground. Today that calibration is example data: it is our next module. Then we test every rotation in each of the 45 years from NASA. Red means the crop fails. [When the assistant scene plays:] "Our assistant never invents numbers: it answers only from NASA data, the sensor and FAO, and when it does not know, it says so.""
 
 **4 · The result (50 s)**
 "Don José's maize fails in 23 of 45 seasons. Beans, beans and sorghum: 9. And we show the worst year, not the average: 1997, when the growing season had 56% less rain than normal. And we did not invent normal: it is the 1991–2020 average of the same NASA data. Every number on screen carries its label: NASA, sensor or FAO.

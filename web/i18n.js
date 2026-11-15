@@ -32,7 +32,7 @@
     '1 · My field': '1 · Mi parcela', 'Drop a pin on your field, pick the soil and the last 2 crops you planted.': 'Marca tu parcela en el mapa, elige el suelo y los últimos 2 cultivos que sembraste.',
     'Latitude': 'Latitud', 'Longitude': 'Longitud', 'Soil type': 'Tipo de suelo', 'Loam': 'Franco', 'Sandy': 'Arenoso', 'Clay': 'Arcilloso',
     'Crop, 2 cycles ago': 'Cultivo de hace 2 ciclos', 'Crop, last cycle': 'Cultivo del último ciclo', 'Test my rotations →': 'Probar mis rotaciones →',
-    '2 · My soil today': '2 · Mi suelo hoy', 'Live reading from the AGRISENSE node in your field.': 'Lectura en vivo del nodo AGRISENSE en tu parcela.',
+    '2 · My soil today': '2 · Mi suelo hoy', 'Live reading from the RotaHawk node in your field.': 'Lectura en vivo del nodo RotaHawk en tu parcela.',
     '3 · Compare': '3 · Comparar', 'Your current rotation and 3 alternatives, each simulated over 3 cycles in every year since 1981.': 'Tu rotación actual y 3 alternativas, cada una simulada en 3 ciclos en cada año desde 1981.',
     '4 · Your bad year': '4 · Tu año malo', 'Pick a year you remember. See what each rotation would have done.': 'Elige un año que recuerdes. Mira qué habría hecho cada rotación.', 'Year': 'Año',
     '5 · What if…?': '5 · ¿Y si…?', 'Change your priorities or the climate. The ranking re-orders live.': 'Cambia tus prioridades o el clima. El ranking se reordena en vivo.',
@@ -46,7 +46,7 @@
     'Recommended rotation (highest score for your priorities)': 'Rotación recomendada (mayor puntaje para tus prioridades)', 'All rotations tested': 'Todas las rotaciones probadas',
     'Rotation': 'Rotación', 'Failed seasons': 'Temporadas con fallo', 'Score': 'Puntaje', 'Traffic light': 'Semáforo', 'Green': 'Verde', 'Yellow': 'Amarillo', 'Red': 'Rojo',
     'Soil reading:': 'Lectura del suelo:', 'Satellite calibration:': 'Calibración con el satélite:', 'Example data (next module)': 'Datos de ejemplo (próximo módulo)',
-    'No real sensor reading yet: example data': 'Aún no hay lectura real del sensor: datos de ejemplo', 'AGRISENSE reading received; the variables are still being verified': 'Lectura de AGRISENSE recibida; las variables aún se están verificando',
+    'No real sensor reading yet: example data': 'Aún no hay lectura real del sensor: datos de ejemplo', 'RotaHawk node reading received; the variables are still being verified': 'Lectura del nodo RotaHawk recibida; las variables aún se están verificando',
     'Not affiliated with or endorsed by NASA.': 'Sin afiliación ni respaldo de la NASA.',
     'Data: NASA POWER · FAO · INIFAP references · github.com/JassJmz/rotahalcon · jassjmz.github.io/rotahalcon': 'Datos: NASA POWER · referencias FAO · INIFAP · github.com/JassJmz/rotahalcon · jassjmz.github.io/rotahalcon', 'Download PDF (coming)': 'Descargar PDF (próximamente)', 'Coming soon': 'Próximamente',
     'Decision support tool — does not replace an agronomist.': 'Herramienta de apoyo a la decisión: no sustituye a un agrónomo.',
@@ -60,7 +60,7 @@
     // compare cards
     'Your current rotation': 'Tu rotación actual', 'Alternative': 'Alternativa', 'Why:': 'Por qué:', 'Benefits': 'Beneficios', 'Information gaps': 'Huecos de información', 'Check with an agronomist': 'Revisar con un agrónomo', 'Sources:': 'Fuentes:', 'None': 'Ninguno',
     'EXAMPLE DATA · NEXT MODULE': 'DATOS DE EJEMPLO · PRÓXIMO MÓDULO', 'Satellite corrected by the ground:': 'Satélite corregido con la tierra:',
-    'Illustrative until the AGRISENSE moisture probe is connected.': 'Ilustrativo hasta que se conecte la sonda de humedad de AGRISENSE.', '(current)': '(actual)',
+    'Illustrative until the RotaHawk moisture probe is connected.': 'Ilustrativo hasta que se conecte la sonda de humedad de RotaHawk.', '(current)': '(actual)',
     // chat / loading
     'Hi! Ask me about your rotations. I only answer with NASA data, your SENSOR readings and FAO/INIFAP references.': '¡Hola! Pregúntame sobre tus rotaciones. Solo respondo con datos de la NASA, tus lecturas del SENSOR y referencias de FAO/INIFAP.',
     'The assistant is offline right now. In the live system the answer comes from POST /preguntar, using only NASA data, the SENSOR reading and FAO/INIFAP references.': 'El asistente está desconectado en este momento. En el sistema en vivo la respuesta viene de POST /preguntar, con solo datos de la NASA, la lectura del SENSOR y referencias de FAO/INIFAP.',
