@@ -44,8 +44,11 @@ NASA Space Apps 2026 asks teams to declare how AI tools were used. We separate t
 - No image, audio or video generation tools were used.
 
 ### Role 4 — Web, animation & pitch
-- _To complete: AI tools used (if any) for the web, the animation, slides, video._
-- **Images / video generated with AI must carry a visible watermark** ("AI-generated"), including the logo if it was made with AI. No NASA logos.
+- **Claude (Anthropic), via Claude Code (desktop app)**: helped write and test the code in `web/` (the 8-section website `index.html` / `app.js`, the English/Spanish translator `i18n.js`, the 11-scene pitch animation in HTML + SVG + GSAP, the 7-slide deck and its generator `slides/build_slides.py`, the presenter view, and `animacion/build_data.py`) and the pitch scripts (`docs/PITCH_SCRIPT.md`, `docs/PITCH_SCRIPT_ES.md`).
+- **Data**: the animation, slides and web do not contain invented numbers. They read the real engine output (`POST /recomendar`) and NASA POWER annual rainfall; anything not yet real (sensor reading, satellite calibration) is labelled "example data / next module" on screen. "Don José" is a fictional example farmer and is labelled as such.
+- **Libraries**: GSAP, Tailwind CSS and Leaflet were downloaded from their public CDNs into `web/` and `web/animacion/vendor/` so the pitch runs offline, with the team member's approval.
+- **Review**: the team member reviewed the animation, slides and web on screen and decided what to keep; commits to the repo were made with the team member's approval.
+- **No image, audio or video generation tools were used.** Every illustration (cover scene, sensor node, satellite, charts, icons, the falcon emblem) is vector SVG drawn in code, so there are no AI-generated images to watermark. No NASA logos are used, and the web and slides state that RotaHalcón is not affiliated with or endorsed by NASA.
 
 ---
 
