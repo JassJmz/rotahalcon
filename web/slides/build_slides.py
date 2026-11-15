@@ -43,6 +43,8 @@ T = {
   'langq': '',
   'titles': ['Cover', 'The problem', 'Animation', 'The result', 'Live prototype', 'Impact and validity', 'Close'], 'script': 'PITCH_SCRIPT.md', 'pv': ['Presenter', 'Slide', 'Next', 'Total', 'This slide', 'Start / pause', 'Reset', 'budget', 'No notes for this slide'],
   'ph1': 'HOW IT WORKS · FROM SOIL TO ANSWER',
+  'n_head': 'NASA POWER · daily data since 1981', 'n_c1': 'Rain', 'n_c2': 'Minimum temperature', 'n_c3': 'Root-zone soil moisture', 'n_line': '<span class="yn">45</span> full seasons · {{nasa_days}} daily records for this field',
+  'r_norm': 'Normal = the 1991–2020 average of the same NASA data.',
   'r_eye': 'THE RESULT', 'r_title': 'Same weather, two rotations',
   'r_cap': 'Maize after maize: <b class="red cf">23</b> bad seasons out of <span class="yn">45</span>. Bean–bean–sorghum: <b class="green bf">9</b>.',
   'r_chat': 'Asked how much he will earn per hectare, the assistant answers <i>“I don’t have that data.”</i> We have no sourced prices for Durango, so it never invents a number.',
@@ -83,6 +85,8 @@ T = {
   'langq': '&lang=es',
   'titles': ['Portada', 'El problema', 'Animación', 'El resultado', 'Prototipo en vivo', 'Impacto y validez', 'Cierre'], 'script': 'PITCH_SCRIPT_ES.md', 'pv': ['Presentador', 'Slide', 'Siguiente', 'Total', 'Esta slide', 'Iniciar / pausar', 'Reiniciar', 'tiempo', 'Sin notas para esta slide'],
   'ph1': 'CÓMO FUNCIONA · DEL SUELO A LA RESPUESTA',
+  'n_head': 'NASA POWER · datos diarios desde 1981', 'n_c1': 'Lluvia', 'n_c2': 'Temperatura mínima', 'n_c3': 'Humedad del suelo en la zona de raíces', 'n_line': '<span class="yn">45</span> temporadas completas · {{nasa_days}} registros diarios de este campo',
+  'r_norm': 'Lo normal = el promedio 1991–2020 de los mismos datos de la NASA.',
   'r_eye': 'EL RESULTADO', 'r_title': 'El mismo clima, dos rotaciones',
   'r_cap': 'Maíz tras maíz: <b class="red cf">23</b> temporadas malas de <span class="yn">45</span>. Frijol–frijol–sorgo: <b class="green bf">9</b>.',
   'r_chat': 'Al preguntarle cuánto ganará por hectárea, el asistente responde <i>«No tengo ese dato».</i> No tenemos precios con fuente para Durango, así que nunca inventa un número.',
@@ -203,7 +207,11 @@ TEMPLATE = r'''<!doctype html>
         <h2>{{p_title}}</h2>
         <p>{{p_body1}}</p>
         <p style="font-size:22px">{{p_body2}}</p>
-        <p class="mute" style="font-size:20px">{{p_body3}}</p>
+        <div class="card" style="padding:12px 16px;margin-top:6px;border-color:rgba(59,130,246,.55)">
+          <p style="font-size:17px;font-weight:700;color:#fff;margin:0 0 7px"><span class="tag NASA" style="margin:0 8px 0 0">NASA</span>{{n_head}}</p>
+          <div style="display:flex;flex-wrap:wrap;gap:6px"><span class="chip" style="font-size:15px;padding:4px 11px">{{n_c1}}</span><span class="chip" style="font-size:15px;padding:4px 11px">{{n_c2}}</span><span class="chip" style="font-size:15px;padding:4px 11px">{{n_c3}}</span></div>
+          <p class="mute" style="font-size:15px;margin:7px 0 0">{{n_line}}</p>
+        </div>
       </div>
       <div class="card">
         <p class="mute" style="font-size:18px;margin:0 0 6px">{{p_chart}} <span class="tag NASA">NASA</span></p>
@@ -236,8 +244,9 @@ TEMPLATE = r'''<!doctype html>
   <div class="pad" style="padding-top:44px">
     <p class="eyebrow">{{r_eye}}</p>
     <h2 style="font-size:40px;margin-bottom:16px">{{r_title}}</h2>
-    <img src="img/shot-compare-{{lang}}.webp" alt="" style="width:1080px;display:block;border-radius:16px">
-    <p style="font-size:30px;margin:12px 0 14px;color:#fff;font-weight:700;line-height:1.25">{{r_cap}}</p>
+    <img src="img/shot-compare-{{lang}}.webp" alt="" style="width:1040px;display:block;border-radius:16px">
+    <p style="font-size:30px;margin:10px 0 2px;color:#fff;font-weight:700;line-height:1.25">{{r_cap}}</p>
+    <p class="mute" style="font-size:16px;margin:0 0 10px">{{r_norm}}</p>
     <div style="display:flex;gap:26px;align-items:center">
       <img src="img/shot-chat-{{lang}}.webp" alt="" style="width:520px;display:block;border-radius:16px;flex:none">
       <p style="font-size:21px;margin:0;color:#cfdbea">{{r_chat}}</p>
@@ -441,6 +450,15 @@ def read_notes(md):
         notes[int(m.group(1))] = re.sub(r'\[([^\]]+)\]', r'<i style="color:#D4AF37">[\1]</i>', body.replace('\n\n', '<br><br>').replace('\n', '<br>'))
     return notes
 
+def nasa_days():
+    """Daily records in the complete years of the NASA POWER file used by the engine (data/nasa_power/durango_annual.csv)."""
+    import csv
+    try:
+        with io.open(os.path.join(HERE, '..', '..', 'data', 'nasa_power', 'durango_annual.csv'), encoding='utf-8') as f:
+            return '{:,}'.format(sum(int(r['days']) for r in csv.DictReader(f) if r['complete'] == 'True' and 1981 <= int(r['year']) <= 2025))
+    except Exception:
+        return '16,000+'
+
 def make_qr(url, size=230):
     try:
         import segno
@@ -456,6 +474,7 @@ def make_qr(url, size=230):
 for lang, d in T.items():
     d = dict(d)
     d['qr_svg'] = make_qr(SITE, 150)
+    d['n_line'] = d['n_line'].replace('{{nasa_days}}', nasa_days())
     d['lt_json'] = json.dumps(d['lt'], ensure_ascii=False)
     d['notes_json'] = json.dumps(read_notes(d['script']), ensure_ascii=False).replace('</', '<\\/')
     d['titles_json'] = json.dumps(d['titles'], ensure_ascii=False)
