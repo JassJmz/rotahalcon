@@ -4,6 +4,7 @@
 // ?short=1            ~30 s version: soil, cloud, calibration, every rotation, worst year, assistant (no closing logo). Plays by itself (add &autoplay=0 to click through).
 //                     With short=1, start/end are positions 0-5 inside that sequence (the slides play 0..5).
 // ?start=N&end=M      plays only scenes N..M; going past the ends tells the parent page (slide deck) to move on
+// ?delay=1500          waits that many ms before the first scene (record.mjs uses it)
 // ?scene=N&t=SECONDS freezes scene N (0-10) at time t: for slide stills and frame-by-frame review
 'use strict';
 
@@ -499,7 +500,7 @@ const START = Math.max(0, +(Q.get('start') || 0)), END = Math.min(SEQ.length - 1
 let cur = -1, live = null, master = null, timer = null;
 function step(d) {                       // click / arrows: next or previous scene inside the range, else hand over to the deck
   const n = SEQ.indexOf(cur) + d;
-  if (n > END) { parent !== window && parent.postMessage({ rota: 'next' }, '*'); return; }
+  if (n > END) { if (parent !== window) parent.postMessage({ rota: 'next' }, '*'); else document.title = 'ANIM_DONE'; return; }   // ANIM_DONE: used by record.mjs
   if (n < START) { parent !== window && parent.postMessage({ rota: 'prev' }, '*'); return; }
   go(SEQ[n]);
 }
@@ -561,4 +562,4 @@ if (Q.get('scene') !== null) {            // freeze a scene at time t (stills / 
   if (master) master.seek(t, false);
   capTxt.querySelectorAll('tspan').forEach(s => s.setAttribute('fill-opacity', 1));
   capTxt.setAttribute('transform', 'translate(0 0)'); capLine.setAttribute('opacity', .9);
-} else go(SEQ[START]);
+} else { const D0 = +(Q.get('delay') || 0); if (D0) setTimeout(() => go(SEQ[START]), D0); else go(SEQ[START]); }   // ?delay=ms: wait before the first scene (used when recording)

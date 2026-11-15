@@ -28,6 +28,9 @@ Open `index.html?lang=es` (or press the ES/EN button, top right). `i18n.js` tran
 ## Presenter view
 Open `slides/es.html` (or `index.html`) and press **P**: a second window shows the script of the current slide (read from `docs/PITCH_SCRIPT*.md`), the next slide and a 4:00 timer with a budget per slide (green / amber / red). The timer starts when you leave the cover; its buttons or Space pause it, R resets it. Drag that window to the laptop screen and the deck to the projector. The browser may ask to allow pop-ups.
 
+## Backup video (MP4)
+`node animacion/record.mjs es` (or `en`) records the short animation with headless Chrome and ffmpeg: 1920x1080, ~26 s, no screen recorder needed. It needs Node 22+, Chrome and an ffmpeg (the one bundled with the Python package `imageio-ffmpeg` is used if present). Re-run it whenever the animation or its data change.
+
 ## Offline test
 Open the web with `?api=http://localhost:1` (connection refused) or `?api=http://10.255.255.1` (never answers): it shows a saved real response with a "SAVED SNAPSHOT" banner. With the real API, if the free server takes more than 8 s to wake up, the same snapshot is shown and replaced by the live response when it arrives. The deck and the animation load only local files.
 
