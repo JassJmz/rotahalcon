@@ -33,7 +33,7 @@ T = {
   'i_know': 'What we say we do not know', 'k1': 'Seed cost and crop price in Durango', 'k2': 'Local sowing dates (INIFAP)', 'k3': 'Soil-sensor calibration: next module, shown as example data',
   'i_disc': 'Decision support tool: it does not replace an agronomist.',
   'c_title': 'Rotation as climate insurance', 'c_code': 'Code: github.com/JassJmz/rotahalcon', 'c_lic': 'MIT (code) · CC BY 4.0 (docs, images, animation)',
-  'c_live': 'Live site: <span id="liveUrl">link on the project page</span>',
+  'c_live': 'Live site: <a href="https://jassjmz.github.io/rotahalcon/" style="color:#f1d27a;font-weight:700;text-decoration:none">jassjmz.github.io/rotahalcon</a>',
   'c_cred': 'Credits', 'c_cred_b': 'AGRISENSE sensor node, pre-existing hardware shared with permission: Alberto Ortega, Gabriel Jahir Landa, Lizzeth Avalos, Cecilia Reyes, Angel Moreno.',
   'c_disc': 'Not affiliated with or endorsed by NASA.', 'c_ai': 'AI use', 'c_ai_b': 'AI tools helped with code, the assistant and the animation. Details in <b>docs/AI_USE.md</b>. Not affiliated with or endorsed by NASA.',
   'q': '',
@@ -68,7 +68,7 @@ T = {
   'i_know': 'Lo que decimos que no sabemos', 'k1': 'Costo de semilla y precio del cultivo en Durango', 'k2': 'Fechas locales de siembra (INIFAP)', 'k3': 'Calibración con el sensor de suelo: próximo módulo, mostrada como datos de ejemplo',
   'i_disc': 'Herramienta de apoyo a la decisión: no sustituye a un agrónomo.',
   'c_title': 'La rotación como seguro contra el clima', 'c_code': 'Código: github.com/JassJmz/rotahalcon', 'c_lic': 'MIT (código) · CC BY 4.0 (documentos, imágenes y animación)',
-  'c_live': 'Sitio en vivo: <span id="liveUrl">enlace en la página del proyecto</span>',
+  'c_live': 'Sitio en vivo: <a href="https://jassjmz.github.io/rotahalcon/" style="color:#f1d27a;font-weight:700;text-decoration:none">jassjmz.github.io/rotahalcon</a>',
   'c_cred': 'Créditos', 'c_cred_b': 'Nodo sensor AGRISENSE, hardware preexistente compartido con permiso: Alberto Ortega, Gabriel Jahir Landa, Lizzeth Avalos, Cecilia Reyes, Angel Moreno.',
   'c_disc': 'Sin afiliación ni respaldo de la NASA.', 'c_ai': 'Uso de IA', 'c_ai_b': 'Usamos herramientas de IA en el código, el asistente y la animación. Detalles en <b>docs/AI_USE.md</b>. Sin afiliación ni respaldo de la NASA.',
   'q': '&lang=es',
@@ -282,7 +282,7 @@ TEMPLATE = r'''<!doctype html>
       <h2 style="font-size:62px;margin-bottom:22px">{{c_title}}</h2>
       <p style="font-size:30px;color:#fff;font-weight:700;margin:0 0 4px">Halcones Dorados · ITSRLL</p>
       <p class="mute" style="font-size:20px;margin:0">{{c_code}}<br>{{c_lic}}</p>
-      <p class="mute" style="font-size:20px;margin-top:14px">{{c_live}}</p>
+      <p class="mute" style="font-size:26px;margin-top:18px">{{c_live}}</p>
       <p class="mute" style="font-size:15px;margin-top:30px">{{c_disc}}</p>
     </div>
   </div>
