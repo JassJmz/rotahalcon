@@ -168,15 +168,16 @@ function initField() {
   try { if (webgl) globeMap(); else flatMap(); } catch (e) { $('map').innerHTML = ''; flatMap(); }
   ['lat', 'lon'].forEach(i => $(i).addEventListener('change', () => { set($('lat').value, $('lon').value); jump(); }));
   const msg = (t, bad) => { const m = $('findMsg'); m.textContent = t; m.className = 'text-sm mb-2 ' + (bad ? 'text-red-300' : 'text-gold'); };
-  const goto = (la, lo, label) => { set(la, lo); jump(); msg(label ? tr('Found: ') + label : ''); };
+  const goto = (la, lo, label) => { set(la, lo); jump(); msg(label ? tr('Found:') + ' ' + label : ''); };
   async function search() {     // place search with OpenStreetMap Nominatim (the typed text is sent to that service)
     const q = $('findQ').value.trim(); if (!q) return;
     msg(tr('Searching…'));
     try {
-      const r = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(q), { headers: { 'Accept-Language': document.documentElement.lang || 'en' } });
+      const r = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=5&q=' + encodeURIComponent(q), { headers: { 'Accept-Language': document.documentElement.lang || 'en' } });
       const j = await r.json();
       if (!j.length) return msg(tr('No place found. Try another name or click the map.'), true);
-      goto(+j[0].lat, +j[0].lon, j[0].display_name.split(',').slice(0, 2).join(','));
+      const hit = j.find(x => x.class === 'place') || j[0];   // prefer the town itself over the centre of the whole municipality
+      goto(+hit.lat, +hit.lon, hit.display_name.split(',').slice(0, 2).join(','));
     } catch (e) { msg(tr('Search needs internet. Click the map or type the coordinates.'), true); }
   }
   $('findQ').placeholder = tr('Search a place (town, city, ranch)…');
