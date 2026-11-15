@@ -1,10 +1,12 @@
-"""Builds slides/index.html (English) and slides/es.html (Spanish) from ONE template, so both stay in sync.
+"""Needs `pip install segno` (QR code on slide 7; the generated files are committed, so only rebuilding needs it).
+Builds slides/index.html (English) and slides/es.html (Spanish) from ONE template, so both stay in sync.
 Run from web/slides/:   python build_slides.py
 Numbers (45 seasons, 23 vs 9, worst year...) are filled in the browser from ../animacion/data.js, never typed here."""
 import io, os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
+SITE = 'https://jassjmz.github.io/rotahalcon/'
 # ── TEXTOS ──
 T = {
  'en': {
@@ -32,7 +34,7 @@ T = {
   'i3h': 'Open', 'i3b': 'Open source: any region can plug in its own crops and climate.',
   'i_know': 'What we say we do not know', 'k1': 'Seed cost and crop price in Durango', 'k2': 'Local sowing dates (INIFAP)', 'k3': 'Soil-sensor calibration: next module, shown as example data',
   'i_disc': 'Decision support tool: it does not replace an agronomist.',
-  'c_title': 'Rotation as climate insurance', 'c_code': 'Code: github.com/JassJmz/rotahalcon', 'c_lic': 'MIT (code) · CC BY 4.0 (docs, images, animation)',
+  'qr_cap': 'Scan to open the web app', 'c_title': 'Rotation as climate insurance', 'c_code': 'Code: github.com/JassJmz/rotahalcon', 'c_lic': 'MIT (code) · CC BY 4.0 (docs, images, animation)',
   'c_live': 'Live site: <a href="https://jassjmz.github.io/rotahalcon/" style="color:#f1d27a;font-weight:700;text-decoration:none">jassjmz.github.io/rotahalcon</a>',
   'c_cred': 'Credits', 'c_cred_b': 'AGRISENSE sensor node, pre-existing hardware shared with permission: Alberto Ortega, Gabriel Jahir Landa, Lizzeth Avalos, Cecilia Reyes, Angel Moreno.',
   'c_disc': 'Not affiliated with or endorsed by NASA.', 'c_ai': 'AI use', 'c_ai_b': 'AI tools helped with code, the assistant and the animation. Details in <b>docs/AI_USE.md</b>. Not affiliated with or endorsed by NASA.',
@@ -67,7 +69,7 @@ T = {
   'i3h': 'Abierta', 'i3b': 'Código abierto: cualquier región puede conectar sus propios cultivos y su clima.',
   'i_know': 'Lo que decimos que no sabemos', 'k1': 'Costo de semilla y precio del cultivo en Durango', 'k2': 'Fechas locales de siembra (INIFAP)', 'k3': 'Calibración con el sensor de suelo: próximo módulo, mostrada como datos de ejemplo',
   'i_disc': 'Herramienta de apoyo a la decisión: no sustituye a un agrónomo.',
-  'c_title': 'La rotación como seguro contra el clima', 'c_code': 'Código: github.com/JassJmz/rotahalcon', 'c_lic': 'MIT (código) · CC BY 4.0 (documentos, imágenes y animación)',
+  'qr_cap': 'Escanea para abrir la web', 'c_title': 'La rotación como seguro contra el clima', 'c_code': 'Código: github.com/JassJmz/rotahalcon', 'c_lic': 'MIT (código) · CC BY 4.0 (documentos, imágenes y animación)',
   'c_live': 'Sitio en vivo: <a href="https://jassjmz.github.io/rotahalcon/" style="color:#f1d27a;font-weight:700;text-decoration:none">jassjmz.github.io/rotahalcon</a>',
   'c_cred': 'Créditos', 'c_cred_b': 'Nodo sensor AGRISENSE, hardware preexistente compartido con permiso: Alberto Ortega, Gabriel Jahir Landa, Lizzeth Avalos, Cecilia Reyes, Angel Moreno.',
   'c_disc': 'Sin afiliación ni respaldo de la NASA.', 'c_ai': 'Uso de IA', 'c_ai_b': 'Usamos herramientas de IA en el código, el asistente y la animación. Detalles en <b>docs/AI_USE.md</b>. Sin afiliación ni respaldo de la NASA.',
@@ -276,14 +278,18 @@ TEMPLATE = r'''<!doctype html>
 
 <!-- 7 · Close -->
 <section class="slide" data-n="7">
-  <div class="pad" style="display:flex;align-items:center;justify-content:center;text-align:center">
+  <div class="pad" style="display:grid;grid-template-columns:1.25fr 1fr;gap:56px;align-items:center">
     <div>
-      <svg width="110" height="110" viewBox="-60 -60 120 120" style="margin-bottom:18px"><circle r="52" fill="none" stroke="#D4AF37" stroke-width="5"/><path d="M-34 12L0 -38L34 12L16 5L0 32L-16 5Z" fill="#D4AF37"/></svg>
-      <h2 style="font-size:62px;margin-bottom:22px">{{c_title}}</h2>
-      <p style="font-size:30px;color:#fff;font-weight:700;margin:0 0 4px">Halcones Dorados · ITSRLL</p>
-      <p class="mute" style="font-size:20px;margin:0">{{c_code}}<br>{{c_lic}}</p>
-      <p class="mute" style="font-size:26px;margin-top:18px">{{c_live}}</p>
-      <p class="mute" style="font-size:15px;margin-top:30px">{{c_disc}}</p>
+      <svg width="96" height="96" viewBox="-60 -60 120 120" style="margin-bottom:16px"><circle r="52" fill="none" stroke="#D4AF37" stroke-width="5"/><path d="M-34 12L0 -38L34 12L16 5L0 32L-16 5Z" fill="#D4AF37"/></svg>
+      <h2 style="font-size:56px;margin-bottom:20px">{{c_title}}</h2>
+      <p style="font-size:30px;color:#fff;font-weight:700;margin:0 0 6px">Halcones Dorados · ITSRLL</p>
+      <p class="mute" style="font-size:19px;margin:0">{{c_code}}<br>{{c_lic}}</p>
+      <p class="mute" style="font-size:14px;margin-top:26px">{{c_disc}}</p>
+    </div>
+    <div class="card" style="text-align:center;padding:26px 28px">
+      <div style="background:#fff;border-radius:18px;padding:14px;display:inline-block;line-height:0">{{qr_svg}}</div>
+      <p style="font-size:22px;margin:16px 0 6px;color:#fff;font-weight:700">{{qr_cap}}</p>
+      <p class="mute" style="font-size:22px;margin:0">{{c_live}}</p>
     </div>
   </div>
 </section>
@@ -395,8 +401,21 @@ def read_notes(md):
         notes[int(m.group(1))] = re.sub(r'\[([^\]]+)\]', r'<i style="color:#D4AF37">[\1]</i>', body.replace('\n\n', '<br><br>').replace('\n', '<br>'))
     return notes
 
+def make_qr(url):
+    try:
+        import segno
+    except ImportError:
+        print('WARNING: segno is not installed; slide 7 gets no QR (pip install segno)')
+        return ''
+    qr = segno.make(url, error='m')
+    w, h = qr.symbol_size(scale=1, border=1)
+    svg = qr.svg_inline(scale=1, border=1, dark='#0B1F3A', light='#ffffff')
+    # segno gives a 1-pixel-per-module size and no viewBox: add the viewBox and size it here (crisp at any zoom, also in the PDF)
+    return svg.replace('<svg ', '<svg viewBox="0 0 %d %d" width="230" height="230" shape-rendering="crispEdges" ' % (w, h), 1)
+
 for lang, d in T.items():
     d = dict(d)
+    d['qr_svg'] = make_qr(SITE)
     d['notes_json'] = json.dumps(read_notes(d['script']), ensure_ascii=False).replace('</', '<\\/')
     d['titles_json'] = json.dumps(d['titles'], ensure_ascii=False)
     d['pv_json'] = json.dumps(d['pv'], ensure_ascii=False)
