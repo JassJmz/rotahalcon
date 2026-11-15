@@ -18,6 +18,9 @@ Website and pitch animation. Everything user-facing is in English.
 ## Presenter view
 Open `slides/es.html` (or `index.html`) and press **P**: a second window shows the script of the current slide (read from `docs/PITCH_SCRIPT*.md`), the next slide and a 4:00 timer with a budget per slide (green / amber / red). The timer starts when you leave the cover; its buttons or Space pause it, R resets it. Drag that window to the laptop screen and the deck to the projector. The browser may ask to allow pop-ups.
 
+## Offline test
+Open the web with `?api=http://localhost:1` (connection refused) or `?api=http://10.255.255.1` (never answers): it shows a saved real response with a "SAVED SNAPSHOT" banner. With the real API, if the free server takes more than 8 s to wake up, the same snapshot is shown and replaced by the live response when it arrives. The deck and the animation load only local files.
+
 ## How to run
 ```bash
 python -m http.server 8080      # from this folder, then open http://localhost:8080/

@@ -1,7 +1,10 @@
 // RotaHalcón web – reads docs/CONTRACT.md formats. Uses mock.json until the API is ready.
 
 // ── DATOS ──
-const API_URL = 'https://rotahalcon.onrender.com';   // backend (Role 2). '' = always use mock.json. Local: 'http://localhost:8000'
+// Backend (Role 2). '' = always use the saved snapshot. Local: 'http://localhost:8000'. Test offline mode with ?api=http://localhost:1
+const _api = new URLSearchParams(location.search).get('api');
+const API_URL = _api !== null ? _api : 'https://rotahalcon.onrender.com';
+const SLOW_MS = 8000;           // free server asleep? after this long, show the saved real response and swap in the live one when it arrives
 // Assistant, calibration and glossary (Role 3). Same Render URL as the backend by default.
 // For a local demo with Ollama open the page with ?ia=http://localhost:8001 (or set it here).
 const IA_URL = new URLSearchParams(location.search).get('ia') || '';   // '' = use API_URL
@@ -36,7 +39,7 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;',
 const cname = id => (CROPS[id] ? CROPS[id].en : id);
 const state = { lat: DEFAULT_POINT.lat, lon: DEFAULT_POINT.lon, suelo: 'franco', prev: ['maiz', 'maiz'],   // example farmer: maize every cycle (clearest real case, Role 2)
   prio: { agua: .4, suelo: .3, ingreso: .2, riesgo: .1 }, esc: { lluvia_pct: 0, temp_c: 0 } };
-let MOCK = null, DATA = null, USING_MOCK = false;   // USING_MOCK: API unreachable, showing the offline snapshot
+let MOCK = null, DATA = null, USING_MOCK = false, REQ = 0;   // USING_MOCK: API unreachable, showing the offline snapshot
 
 function srcTag(s) {
   const u = s.toUpperCase();
@@ -51,11 +54,15 @@ const tag = t => `<span class="tag tag-${t}">${t === 'FAO' ? 'FAO/INIFAP' : t}</
 async function recomendar() {
   const body = { lat: state.lat, lon: state.lon, suelo: state.suelo, cultivos_previos: state.prev, prioridades: state.prio, escenario: state.esc };
   if (API_URL) {
+    const me = ++REQ;
+    const real = fetch(API_URL + '/recomendar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+      .then(r => { if (!r.ok) throw new Error('API ' + r.status); return r.json(); });
     try {
-      const r = await fetch(API_URL + '/recomendar', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
-      if (!r.ok) throw new Error('API ' + r.status);
-      const j = await r.json(); USING_MOCK = false; return j;
-    } catch (e) { console.warn('API unavailable, using the offline snapshot:', e.message); }
+      const first = await Promise.race([real, new Promise(res => setTimeout(() => res('slow'), SLOW_MS))]);
+      if (first !== 'slow') { USING_MOCK = false; return first; }
+      // server is waking up: show the saved real response now, swap in the live one when it arrives (if still the latest request)
+      real.then(j => { if (me === REQ) { USING_MOCK = false; DATA = j; applyData(); } }).catch(() => {});
+    } catch (e) { console.warn('API unavailable, using the saved snapshot:', e.message); }
   }
   USING_MOCK = true;
   return mockRecomendar();
@@ -74,7 +81,6 @@ function mockRecomendar() {   // offline snapshot of a real response; re-ranking
     const ratio = e.resiliencia.anios_ok / e.resiliencia.anios_total;
     e.semaforo = ratio >= .88 ? 'verde' : ratio >= .75 ? 'amarillo' : 'rojo';
   });
-  d.estrategias.sort((a, b) => b.puntaje - a.puntaje);
   return d;
 }
 async function anioMalo(year) {
@@ -266,14 +272,17 @@ function renderReport(d) {
 }
 
 /* ---------- boot ---------- */
+function applyData() {
+  $('demoBanner').style.display = USING_MOCK ? '' : 'none';
+  renderCompare(DATA); renderRank(DATA);
+  renderSoil(DATA.sensor || {});
+  loadSensor();
+  loadCalib();
+}
 async function refresh() {
   try {
     DATA = await recomendar();
-    $('demoBanner').style.display = USING_MOCK ? '' : 'none';
-    renderCompare(DATA); renderRank(DATA);
-    renderSoil(DATA.sensor || {});
-    loadSensor();
-    loadCalib();
+    applyData();
   } catch (e) { $('cards').innerHTML = `<div class="card p-5 text-red-300">Could not load recommendations (${esc(e.message)}). Showing nothing instead of guessing.</div>`; }
 }
 (async function init() {
