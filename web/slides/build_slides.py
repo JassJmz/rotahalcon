@@ -8,7 +8,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 # ── TEXTOS ──
 T = {
  'en': {
-  'lang': 'en', 'title': 'RotaHalcón · Pitch', 'hint': '← → / click: move · F: fullscreen · Ctrl+P: export PDF', 'anim': 'animation',
+  'lang': 'en', 'title': 'RotaHalcón · Pitch', 'hint': '← → / click: move · F: fullscreen · P: presenter view · Ctrl+P: export PDF', 'anim': 'animation',
   'event': 'NASA SPACE APPS CHALLENGE 2026 · FIELD SHIFT',
   'tag': 'Rotation as climate insurance',
   'sub': 'We test every crop rotation against <b>45 years of real NASA climate</b>, so a farmer can see which one survives a bad year.',
@@ -39,10 +39,11 @@ T = {
   'q': '',
   'wm_fmt': "'rainfall ' + Math.abs(+rain[1]) + '% ' + (+rain[1] < 0 ? 'below' : 'above') + ' normal'",
   'langq': '',
+  'titles': ['Cover', 'The problem', 'Animation 1: sensor', 'Animation 2: the system', 'Live demo', 'Impact and validity', 'Close'], 'script': 'PITCH_SCRIPT.md', 'pv': ['Presenter', 'Slide', 'Next', 'Total', 'This slide', 'Start / pause', 'Reset', 'budget', 'No notes for this slide'],
   'ph1': 'HOW IT WORKS · FROM SOIL TO CLOUD', 'ph2': 'HOW IT WORKS · THE SYSTEM', 'print1': 'Soil and sensor', 'print2': 'Cloud and calibration', 'print3': 'Satellite vs sensor', 'print4': 'Every rotation, every year', 'print5': 'The worst year', 'print6': 'Your priorities',
  },
  'es': {
-  'lang': 'es', 'title': 'RotaHalcón · Presentación', 'hint': '← → / clic: mover · F: pantalla completa · Ctrl+P: exportar a PDF', 'anim': 'animación',
+  'lang': 'es', 'title': 'RotaHalcón · Presentación', 'hint': '← → / clic: mover · F: pantalla completa · P: vista del presentador · Ctrl+P: exportar a PDF', 'anim': 'animación',
   'event': 'NASA SPACE APPS CHALLENGE 2026 · FIELD SHIFT',
   'tag': 'La rotación como seguro contra el clima',
   'sub': 'Probamos cada rotación de cultivos con <b>45 años de clima real de la NASA</b>, para que el agricultor vea cuál aguanta un año malo.',
@@ -73,6 +74,7 @@ T = {
   'q': '&lang=es',
   'wm_fmt': "'lluvia ' + Math.abs(+rain[1]) + '% ' + (+rain[1] < 0 ? 'por debajo' : 'por encima') + ' de lo normal'",
   'langq': '&lang=es',
+  'titles': ['Portada', 'El problema', 'Animación 1: sensor', 'Animación 2: el sistema', 'Demostración en vivo', 'Impacto y validez', 'Cierre'], 'script': 'PITCH_SCRIPT_ES.md', 'pv': ['Presentador', 'Slide', 'Siguiente', 'Total', 'Esta slide', 'Iniciar / pausar', 'Reiniciar', 'tiempo', 'Sin notas para esta slide'],
   'ph1': 'CÓMO FUNCIONA · DEL SUELO A LA NUBE', 'ph2': 'CÓMO FUNCIONA · EL SISTEMA', 'print1': 'Suelo y sensor', 'print2': 'Nube y calibración', 'print3': 'Satélite contra sensor', 'print4': 'Cada rotación, cada año', 'print5': 'El peor año', 'print6': 'Tus prioridades',
  },
 }
@@ -316,6 +318,7 @@ TEMPLATE = r'''<!doctype html>
   let i = Math.max(0, Math.min(slides.length - 1, (+location.hash.slice(1) || 1) - 1));
   function fit() { const k = Math.min(innerWidth / 1280, innerHeight / 720); slides.forEach(s => s.style.transform = 'scale(' + k + ')'); }
   function show(n) {
+    const prevI = i;
     i = Math.max(0, Math.min(slides.length - 1, n));
     slides.forEach((s, k) => {
       s.classList.toggle('on', k === i);
@@ -327,14 +330,52 @@ TEMPLATE = r'''<!doctype html>
       }
     });
     history.replaceState(null, '', '#' + (i + 1));
+    if (typeof total === 'function') { if (prevI !== i) { if (prevI === 0 && !running && acc === 0 && !PRINT) { t0 = Date.now(); running = true; } slideT0 = total(); } renderPresenter(); }
   }
   document.querySelectorAll('.pg iframe').forEach(f => { const k = f.parentElement.clientWidth / 1280; if (k) f.style.transform = 'scale(' + k + ')'; });
   setTimeout(() => { const h = document.getElementById('hint'); if (h) h.style.opacity = 0; }, 5000);
+  // ── presenter view (key P): script of each slide, next slide, 4-minute timer with a budget per slide ──
+  const NOTES = {{notes_json}}, TITLES = {{titles_json}}, PV = {{pv_json}}, BUDGET = [10, 40, 20, 25, 100, 35, 10];
+  let pw = null, t0 = 0, acc = 0, running = false, slideT0 = 0;
+  const total = () => acc + (running ? (Date.now() - t0) / 1000 : 0), fmt = x => { x = Math.max(0, Math.round(x)); return Math.floor(x / 60) + ':' + String(x % 60).padStart(2, '0'); };
+  function toggleTimer() { if (running) { acc = total(); running = false; } else { t0 = Date.now(); running = true; } renderPresenter(); }
+  function resetTimer() { acc = 0; running = false; slideT0 = 0; renderPresenter(); }
+  function renderPresenter() {
+    if (!pw || pw.closed) return;
+    const d = pw.document, T = total(), S = T - slideT0, B = BUDGET[i], over = S - B, tot = T > 240;
+    const set = (id, v) => { const e = d.getElementById(id); if (e) e.innerHTML = v; };
+    set('pv-slide', (i + 1) + ' / 7 · ' + TITLES[i]);
+    set('pv-next', i < 6 ? (i + 2) + ' · ' + TITLES[i + 1] : '—');
+    set('pv-total', fmt(T)); set('pv-slidet', fmt(S) + ' <small>/ ' + fmt(B) + '</small>');
+    set('pv-notes', NOTES[i + 1] || PV[8]);
+    const tc = d.getElementById('pv-total'), sc = d.getElementById('pv-slidet');
+    if (tc) tc.style.color = tot ? '#ef4444' : T > 210 ? '#eab308' : '#22c55e';
+    if (sc) sc.style.color = over > 10 ? '#ef4444' : over > 0 ? '#eab308' : '#22c55e';
+    const bar = d.getElementById('pv-bar'); if (bar) bar.style.width = Math.min(100, S / B * 100) + '%';
+    const b2 = d.getElementById('pv-run'); if (b2) b2.textContent = running ? '⏸' : '▶';
+  }
+  function openPresenter() {
+    if (pw && !pw.closed) { pw.focus(); return; }
+    pw = window.open('', 'rota-presenter', 'width=560,height=780');
+    if (!pw) { alert('Allow pop-ups for this page to open the presenter view.'); return; }
+    pw.document.write('<!doctype html><meta charset="utf-8"><title>' + PV[0] + ' · RotaHalcón</title><style>body{margin:0;background:#081528;color:#eef3fb;font-family:Segoe UI,system-ui,sans-serif;padding:18px 22px}small{font-size:.5em;color:#9fb0c8;font-weight:600}.row{display:flex;gap:14px;align-items:stretch}.box{flex:1;background:#102a4c;border:1px solid #ffffff18;border-radius:14px;padding:10px 14px}.l{font-size:12px;letter-spacing:2px;color:#D4AF37;font-weight:800;text-transform:uppercase}.t{font-size:44px;font-weight:800;font-variant-numeric:tabular-nums}#pv-bar{height:6px;background:#D4AF37;border-radius:3px;width:0;transition:width .3s}#pv-notes{font-size:23px;line-height:1.5;margin-top:14px;color:#e6edf8}button{font-size:20px;border:0;border-radius:10px;padding:10px 16px;background:#D4AF37;color:#081528;font-weight:800;cursor:pointer;margin-right:8px}</style>'
+      + '<div class="l">' + PV[1] + '</div><div id="pv-slide" style="font-size:24px;font-weight:700;margin-bottom:6px"></div>'
+      + '<div class="l" style="margin-top:6px">' + PV[2] + '</div><div id="pv-next" style="font-size:18px;color:#9fb0c8;margin-bottom:12px"></div>'
+      + '<div class="row"><div class="box"><div class="l">' + PV[3] + '</div><div class="t" id="pv-total">0:00</div></div><div class="box"><div class="l">' + PV[4] + '</div><div class="t" id="pv-slidet">0:00</div></div></div>'
+      + '<div style="margin:10px 0 12px;background:#ffffff18;border-radius:3px"><div id="pv-bar"></div></div>'
+      + '<button onclick="opener.__deck.show(opener.__deck.cur()-1)">◀</button><button onclick="opener.__deck.show(opener.__deck.cur()+1)">▶</button><button id="pv-run" onclick="opener.__deck.toggle()" title="' + PV[5] + '">▶</button><button onclick="opener.__deck.reset()" title="' + PV[6] + '">↺</button>'
+      + '<div id="pv-notes"></div>'
+      + '<script>onkeydown=function(e){var D=opener.__deck;if(e.key==="ArrowRight"||e.key==="PageDown"){D.show(D.cur()+1)}else if(e.key==="ArrowLeft"||e.key==="PageUp"){D.show(D.cur()-1)}else if(e.key===" "){e.preventDefault();D.toggle()}else if(e.key==="r"||e.key==="R"){D.reset()}}<\/script>');
+    pw.document.close(); renderPresenter();
+  }
+  window.__deck = { show: n => show(n), cur: () => i, toggle: toggleTimer, reset: resetTimer };
+  setInterval(renderPresenter, 250);
   addEventListener('resize', fit); if (!PRINT) { fit(); show(i); } else { slides.forEach(s => s.classList.add('on')); }
   addEventListener('message', e => { if (e.data && e.data.rota === 'next') show(i + 1); if (e.data && e.data.rota === 'prev') show(i - 1); });
   addEventListener('keydown', e => {
     if (['ArrowRight', 'PageDown', ' ', 'Enter'].includes(e.key)) { e.preventDefault(); show(i + 1); }
     else if (['ArrowLeft', 'PageUp', 'Backspace'].includes(e.key)) { e.preventDefault(); show(i - 1); }
+    else if (e.key === 'p' || e.key === 'P') openPresenter();
     else if (e.key === 'f' || e.key === 'F') (document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen()).catch(() => {});
   });
   addEventListener('click', e => { if (PRINT || e.target.closest('a,iframe')) return; show(i + 1); });
@@ -344,10 +385,25 @@ TEMPLATE = r'''<!doctype html>
 </html>
 '''
 
+import json, re
+def read_notes(md):
+    """{slide number: text} from '**N · title (time)**' blocks of the pitch script."""
+    txt = io.open(os.path.join(HERE, '..', '..', 'docs', md), encoding='utf-8').read()
+    notes = {}
+    for m in re.finditer(r'\*\*(\d) · [^\n]*\*\*\n(.*?)(?=\n\*\*\d ·|\n## |\Z)', txt, re.S):
+        body = m.group(2).strip().replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+        notes[int(m.group(1))] = re.sub(r'\[([^\]]+)\]', r'<i style="color:#D4AF37">[\1]</i>', body.replace('\n\n', '<br><br>').replace('\n', '<br>'))
+    return notes
+
 for lang, d in T.items():
+    d = dict(d)
+    d['notes_json'] = json.dumps(read_notes(d['script']), ensure_ascii=False).replace('</', '<\\/')
+    d['titles_json'] = json.dumps(d['titles'], ensure_ascii=False)
+    d['pv_json'] = json.dumps(d['pv'], ensure_ascii=False)
     out = TEMPLATE
     for k, v in d.items():
-        out = out.replace('{{' + k + '}}', v)
+        if isinstance(v, str):
+            out = out.replace('{{' + k + '}}', v)
     assert '{{' not in out, [x for x in out.split('{{')[1:2]]
     name = 'index.html' if lang == 'en' else 'es.html'
     io.open(os.path.join(HERE, name), 'w', encoding='utf-8', newline='\n').write(out)

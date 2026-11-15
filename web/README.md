@@ -15,6 +15,9 @@ Website and pitch animation. Everything user-facing is in English.
   - `?scene=N&t=S` freezes scene N (0–10) at second S, for slide stills; add `&from=M` to preview the hand-off from scene M.
   - Elements carry over between scenes; loops and ambient particles turn off under `prefers-reduced-motion`.
 
+## Presenter view
+Open `slides/es.html` (or `index.html`) and press **P**: a second window shows the script of the current slide (read from `docs/PITCH_SCRIPT*.md`), the next slide and a 4:00 timer with a budget per slide (green / amber / red). The timer starts when you leave the cover; its buttons or Space pause it, R resets it. Drag that window to the laptop screen and the deck to the projector. The browser may ask to allow pop-ups.
+
 ## How to run
 ```bash
 python -m http.server 8080      # from this folder, then open http://localhost:8080/

@@ -207,7 +207,7 @@
 </section>
 
 </div>
-<div id="hint">← → / clic: mover · F: pantalla completa · Ctrl+P: exportar a PDF</div>
+<div id="hint">← → / clic: mover · F: pantalla completa · P: vista del presentador · Ctrl+P: exportar a PDF</div>
 
 <script src="../animacion/data.js"></script>
 <script>
@@ -236,6 +236,7 @@
   let i = Math.max(0, Math.min(slides.length - 1, (+location.hash.slice(1) || 1) - 1));
   function fit() { const k = Math.min(innerWidth / 1280, innerHeight / 720); slides.forEach(s => s.style.transform = 'scale(' + k + ')'); }
   function show(n) {
+    const prevI = i;
     i = Math.max(0, Math.min(slides.length - 1, n));
     slides.forEach((s, k) => {
       s.classList.toggle('on', k === i);
@@ -247,14 +248,52 @@
       }
     });
     history.replaceState(null, '', '#' + (i + 1));
+    if (typeof total === 'function') { if (prevI !== i) { if (prevI === 0 && !running && acc === 0 && !PRINT) { t0 = Date.now(); running = true; } slideT0 = total(); } renderPresenter(); }
   }
   document.querySelectorAll('.pg iframe').forEach(f => { const k = f.parentElement.clientWidth / 1280; if (k) f.style.transform = 'scale(' + k + ')'; });
   setTimeout(() => { const h = document.getElementById('hint'); if (h) h.style.opacity = 0; }, 5000);
+  // ── presenter view (key P): script of each slide, next slide, 4-minute timer with a budget per slide ──
+  const NOTES = {"1": "\"Buenos días. Somos Halcones Dorados, de Durango. Esto es RotaHalcón: la rotación de cultivos como seguro contra el clima.\"", "2": "\"Les presento a don José, un agricultor de ejemplo en Durango. Siembra maíz en cada ciclo. Cada temporada decide qué sembrar sin saber cómo le iría con esa decisión en un año malo. Y un solo año malo le puede costar la cosecha, el agua y su suelo.<br>Los datos del clima de la NASA son gratuitos, pero cubren kilómetros, no su parcela, y son difíciles de interpretar.<br>Entonces nos hicimos una pregunta simple: con 45 años de datos reales de la NASA, ¿cuántas veces le habría fallado el maíz a don José? La respuesta: 23 temporadas de 45.\"", "3": "\"Nuestro nodo AGRISENSE es un sensor de suelo NPK. Da una lectura indicativa, no de laboratorio, y la manda a la nube cada minuto. Un satélite ve un píxel de varios kilómetros; nosotros vemos este campo. Corregimos al satélite con la tierra. En esta demostración esa calibración son datos de ejemplo: es nuestro próximo módulo.\"", "4": "\"Después probamos cada rotación en cada uno de los 45 años de datos de la NASA. Rojo significa que el cultivo falla. El maíz de don José falla en 23 temporadas. Frijol, frijol y sorgo, en 9. Y mostramos el peor año, 1997, no el promedio. Vamos a verlo en vivo.\"", "5": "\"Vamos a usarlo. Marco la parcela en el mapa. Aquí está el suelo, en vivo desde nuestro nodo <i style=\"color:#D4AF37\">[el Rol 1 toca la sonda]<\/i>. Aquí hay cuatro rotaciones, lado a lado. La actual de don José está en rojo: funciona en 22 de 45 años. Esta funciona en 36, con un rango, porque no afirmamos tener certeza.<br>Elijo un año malo, 1997. Miren lo que habría pasado con cada rotación.<br>Ahora muevo los sliders: más peso al agua, y el ranking cambia. Fíjense en el slider de ingreso: dice hueco de información. No tenemos un costo de semilla ni un precio del cultivo con fuente para Durango, y lo decimos en lugar de fingir.<br>Pregunto: '¿Por qué mi rotación está en rojo?' La respuesta cita a la NASA y a la FAO, y enumera lo que no sabemos.\"", "6": "\"Por qué se puede confiar: 45 temporadas reales de NASA POWER, reglas de agua y helada de cultivos de la FAO, y un rango en lugar de un solo número. Lo que no sabemos, lo mostramos: fechas locales de siembra, precios y la calibración del sensor.<br>Es código abierto: cualquier región puede conectar sus propios cultivos y su clima. Y es apoyo a la decisión: no sustituye a un agrónomo.\"", "7": "\"RotaHalcón: la rotación como seguro contra el clima. Gracias al equipo de AGRISENSE, cuyo nodo hizo esto posible. El código está abierto en GitHub. Gracias.\""}, TITLES = ["Portada", "El problema", "Animación 1: sensor", "Animación 2: el sistema", "Demostración en vivo", "Impacto y validez", "Cierre"], PV = ["Presentador", "Slide", "Siguiente", "Total", "Esta slide", "Iniciar / pausar", "Reiniciar", "tiempo", "Sin notas para esta slide"], BUDGET = [10, 40, 20, 25, 100, 35, 10];
+  let pw = null, t0 = 0, acc = 0, running = false, slideT0 = 0;
+  const total = () => acc + (running ? (Date.now() - t0) / 1000 : 0), fmt = x => { x = Math.max(0, Math.round(x)); return Math.floor(x / 60) + ':' + String(x % 60).padStart(2, '0'); };
+  function toggleTimer() { if (running) { acc = total(); running = false; } else { t0 = Date.now(); running = true; } renderPresenter(); }
+  function resetTimer() { acc = 0; running = false; slideT0 = 0; renderPresenter(); }
+  function renderPresenter() {
+    if (!pw || pw.closed) return;
+    const d = pw.document, T = total(), S = T - slideT0, B = BUDGET[i], over = S - B, tot = T > 240;
+    const set = (id, v) => { const e = d.getElementById(id); if (e) e.innerHTML = v; };
+    set('pv-slide', (i + 1) + ' / 7 · ' + TITLES[i]);
+    set('pv-next', i < 6 ? (i + 2) + ' · ' + TITLES[i + 1] : '—');
+    set('pv-total', fmt(T)); set('pv-slidet', fmt(S) + ' <small>/ ' + fmt(B) + '</small>');
+    set('pv-notes', NOTES[i + 1] || PV[8]);
+    const tc = d.getElementById('pv-total'), sc = d.getElementById('pv-slidet');
+    if (tc) tc.style.color = tot ? '#ef4444' : T > 210 ? '#eab308' : '#22c55e';
+    if (sc) sc.style.color = over > 10 ? '#ef4444' : over > 0 ? '#eab308' : '#22c55e';
+    const bar = d.getElementById('pv-bar'); if (bar) bar.style.width = Math.min(100, S / B * 100) + '%';
+    const b2 = d.getElementById('pv-run'); if (b2) b2.textContent = running ? '⏸' : '▶';
+  }
+  function openPresenter() {
+    if (pw && !pw.closed) { pw.focus(); return; }
+    pw = window.open('', 'rota-presenter', 'width=560,height=780');
+    if (!pw) { alert('Allow pop-ups for this page to open the presenter view.'); return; }
+    pw.document.write('<!doctype html><meta charset="utf-8"><title>' + PV[0] + ' · RotaHalcón</title><style>body{margin:0;background:#081528;color:#eef3fb;font-family:Segoe UI,system-ui,sans-serif;padding:18px 22px}small{font-size:.5em;color:#9fb0c8;font-weight:600}.row{display:flex;gap:14px;align-items:stretch}.box{flex:1;background:#102a4c;border:1px solid #ffffff18;border-radius:14px;padding:10px 14px}.l{font-size:12px;letter-spacing:2px;color:#D4AF37;font-weight:800;text-transform:uppercase}.t{font-size:44px;font-weight:800;font-variant-numeric:tabular-nums}#pv-bar{height:6px;background:#D4AF37;border-radius:3px;width:0;transition:width .3s}#pv-notes{font-size:23px;line-height:1.5;margin-top:14px;color:#e6edf8}button{font-size:20px;border:0;border-radius:10px;padding:10px 16px;background:#D4AF37;color:#081528;font-weight:800;cursor:pointer;margin-right:8px}</style>'
+      + '<div class="l">' + PV[1] + '</div><div id="pv-slide" style="font-size:24px;font-weight:700;margin-bottom:6px"></div>'
+      + '<div class="l" style="margin-top:6px">' + PV[2] + '</div><div id="pv-next" style="font-size:18px;color:#9fb0c8;margin-bottom:12px"></div>'
+      + '<div class="row"><div class="box"><div class="l">' + PV[3] + '</div><div class="t" id="pv-total">0:00</div></div><div class="box"><div class="l">' + PV[4] + '</div><div class="t" id="pv-slidet">0:00</div></div></div>'
+      + '<div style="margin:10px 0 12px;background:#ffffff18;border-radius:3px"><div id="pv-bar"></div></div>'
+      + '<button onclick="opener.__deck.show(opener.__deck.cur()-1)">◀</button><button onclick="opener.__deck.show(opener.__deck.cur()+1)">▶</button><button id="pv-run" onclick="opener.__deck.toggle()" title="' + PV[5] + '">▶</button><button onclick="opener.__deck.reset()" title="' + PV[6] + '">↺</button>'
+      + '<div id="pv-notes"></div>'
+      + '<script>onkeydown=function(e){var D=opener.__deck;if(e.key==="ArrowRight"||e.key==="PageDown"){D.show(D.cur()+1)}else if(e.key==="ArrowLeft"||e.key==="PageUp"){D.show(D.cur()-1)}else if(e.key===" "){e.preventDefault();D.toggle()}else if(e.key==="r"||e.key==="R"){D.reset()}}<\/script>');
+    pw.document.close(); renderPresenter();
+  }
+  window.__deck = { show: n => show(n), cur: () => i, toggle: toggleTimer, reset: resetTimer };
+  setInterval(renderPresenter, 250);
   addEventListener('resize', fit); if (!PRINT) { fit(); show(i); } else { slides.forEach(s => s.classList.add('on')); }
   addEventListener('message', e => { if (e.data && e.data.rota === 'next') show(i + 1); if (e.data && e.data.rota === 'prev') show(i - 1); });
   addEventListener('keydown', e => {
     if (['ArrowRight', 'PageDown', ' ', 'Enter'].includes(e.key)) { e.preventDefault(); show(i + 1); }
     else if (['ArrowLeft', 'PageUp', 'Backspace'].includes(e.key)) { e.preventDefault(); show(i - 1); }
+    else if (e.key === 'p' || e.key === 'P') openPresenter();
     else if (e.key === 'f' || e.key === 'F') (document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen()).catch(() => {});
   });
   addEventListener('click', e => { if (PRINT || e.target.closest('a,iframe')) return; show(i + 1); });
