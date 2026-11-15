@@ -124,7 +124,11 @@ function initField() {
   const cell = L.rectangle([[0, 0], [0, 0]], { color: '#f5b301', weight: 2, fillOpacity: 0.08, dashArray: '6 4', interactive: false }).addTo(map);
   const drawCell = () => { const la = Math.floor(state.lat / 0.5) * 0.5, lo = Math.floor(state.lon / 0.625) * 0.625; cell.setBounds([[la, lo], [la + 0.5, lo + 0.625]]); };
   cell.bindTooltip(tr('NASA POWER grid cell (~0.5° × 0.625°)'), { permanent: false, sticky: true });
-  if (!SHOT) setTimeout(() => map.flyTo([state.lat, state.lon], 9, { duration: 3 }), 900);   // start from the whole world, then fly to the field
+  if (!SHOT) {   // start from the whole world, then fly to the field once the map is on screen
+    map.setView([15, -30], 1.5);
+    let flown = false; const go = () => { if (flown) return; flown = true; setTimeout(() => map.flyTo([state.lat, state.lon], 9, { duration: 4.5 }), 1800); };
+    if ('IntersectionObserver' in window) new IntersectionObserver((es, o) => { if (es.some(e => e.isIntersecting && e.intersectionRatio > 0.6)) { go(); o.disconnect(); } }, { threshold: [0.6] }).observe($('map')); else go();
+  }
   const mk = L.marker([state.lat, state.lon]).addTo(map);
   const set = (la, lo) => { state.lat = +(+la).toFixed(4); state.lon = +(+lo).toFixed(4); $('lat').value = state.lat; $('lon').value = state.lon; mk.setLatLng([state.lat, state.lon]); drawCell(); };
   drawCell();
