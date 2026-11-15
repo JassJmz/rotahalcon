@@ -23,7 +23,7 @@ for m in re.finditer(r'\*\*(\d) · ([^\n]*?)\*\*\n(.*?)(?=\n\*\*\d ·|\n## |\Z)'
     note = re.search(r'—\s*(.*)$', head)
     blocks.append((n, title, t.group(1) if t else '', note.group(1) if note else '', fmt(body)))
 
-CUM = [10, 50, 85, 135, 180, 220, 240]
+CUM = [10, 55, 90, 140, 180, 225, 240]
 def clock(s): return f'{s // 60}:{s % 60:02d}'
 rows = ''
 prev = 0
@@ -52,7 +52,7 @@ page = f'''<!doctype html><html lang="es"><head><meta charset="utf-8"><title>Gui
 <h1>Rota<span>Hawk</span> · Guion de Jass</h1>
 <p class="sub">Solo Jass expone · Pitch de 3 a 5 minutos (este guion: 4:00) · Los textos entre corchetes son indicaciones, no se dicen</p>
 {rows}
-<div class="box"><b>Para ajustar el tiempo.</b> A 3:30: omite la explicación del chat en la slide 4 (−15 s) y la última frase de la slide 6 (−10 s). Hasta 5:00: deja correr la animación dos veces o abre la web en vivo para los jueces.<br>
+<div class="box"><b>Para ajustar el tiempo.</b> A 3:30: omite la explicación del chat en la slide 4 (−15 s) y la última frase de la slide 6 (−8 s). Hasta 5:00: deja correr la animación dos veces o abre la web en vivo para los jueces.<br>
 <b>Si algo falla.</b> Sonda con guiones: di la frase de la slide 5 y sigue. Sin internet: la web usa su respuesta guardada y la animación es local. La animación falla: reproduce el MP4. Cronómetro y notas: tecla <b>P</b> en las slides.</div>
 <p class="foot">jassjmz.github.io/rotahalcon · slides/es.html · Guion escrito por el Rol 4: léelo en voz alta y cámbialo a tus palabras.</p>
 </body></html>'''

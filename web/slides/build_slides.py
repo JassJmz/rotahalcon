@@ -29,11 +29,11 @@ T = {
   'd_node': 'Our prototype node, on the table', 'img1': 'Prototype node: outside', 'img2': 'Prototype node: inside', 'd_node2': 'ESP32 · NPK sensor over RS485 · Firebase', 'd_btn': 'Open the web app →',
   'd_back': 'Backup: if the network fails, the web runs a saved real response and the animation video plays.',
   'i_eye': 'IMPACT AND VALIDITY', 'i_title': 'A tool that says how sure it is',
-  'i1h': 'Real data', 'i1b': '<span class="yn">45</span> seasons of NASA POWER, with FAO crop-water and frost rules.',
+  'i1h': 'Real data', 'i1b': 'Daily NASA POWER data since 1981: rain, minimum temperature and root-zone soil moisture, <span class="yn">45</span> full seasons, with FAO crop-water and frost rules.',
   'i2h': 'Honest', 'i2b': 'A range, not one number: the best option works in <b class="gold"><span class="bo">36</span> of <span class="yn">45</span> seasons, range <span class="rg">31–40</span></b>. Calibration against the field sensor: next module, example data today. Every answer cites its source.',
   'i3h': 'Open', 'i3b': 'Open source: any region can plug in its own crops and climate.',
   'i_know': 'What we say we do not know', 'k1': 'Seed cost and crop price in Durango', 'k2': 'Local sowing dates (INIFAP)', 'k3': 'Soil-sensor calibration: next module, shown as example data',
-  'i_disc': 'Decision support tool: it does not replace an agronomist.',
+  'i_disc': 'Decision support tool: it does not replace an agronomist. Data: NASA LaRC POWER Project (NASA Earth Science/Applied Science Program).',
   'qr_cap': 'Scan to open the web app', 'team_h': 'The team', 'r_t': 'Data and backend', 'r_j': 'AI and repository', 'r_e': 'Web, animation and pitch', 'r_n': 'Hardware', 'c_title': 'Smart Crop Rotation for Climate Resilience', 'c_code': 'Code: github.com/JassJmz/rotahalcon', 'c_lic': 'MIT (code) · CC BY 4.0 (docs, images, animation)',
   'c_live': '<a href="https://jassjmz.github.io/rotahalcon/" style="color:#f1d27a;font-weight:700;text-decoration:none;word-break:break-all">https://jassjmz.github.io/rotahalcon/</a>',
   'c_cred': 'Credits', 'c_cred_b': 'AGRISENSE sensor node, pre-existing hardware shared with permission: Alberto Ortega, Gabriel Jahir Landa, Lizzeth Avalos, Cecilia Reyes, Angel Moreno.',
@@ -69,11 +69,11 @@ T = {
   'd_node': 'Nuestro nodo prototipo, sobre la mesa', 'img1': 'Nodo prototipo: por fuera', 'img2': 'Nodo prototipo: por dentro', 'd_node2': 'ESP32 · sensor NPK por RS485 · Firebase', 'd_btn': 'Abrir la web →',
   'd_back': 'Respaldo: si falla la red, la web usa una respuesta real guardada y se reproduce el video de la animación.',
   'i_eye': 'IMPACTO Y VALIDEZ', 'i_title': 'Una herramienta que dice qué tan segura está',
-  'i1h': 'Datos reales', 'i1b': '<span class="yn">45</span> temporadas de NASA POWER, con reglas de agua y helada de cultivos de la FAO.',
+  'i1h': 'Datos reales', 'i1b': 'Datos diarios de NASA POWER desde 1981: lluvia, temperatura mínima y humedad del suelo, <span class="yn">45</span> temporadas completas, con reglas de agua y helada de la FAO.',
   'i2h': 'Honesta', 'i2b': 'Un rango, no un solo número: la mejor opción funciona en <b class="gold"><span class="bo">36</span> de <span class="yn">45</span> temporadas, rango <span class="rg">31–40</span></b>. Calibración con el sensor de campo: próximo módulo, hoy con datos de ejemplo. Cada respuesta cita su fuente.',
   'i3h': 'Abierta', 'i3b': 'Código abierto: cualquier región puede conectar sus propios cultivos y su clima.',
   'i_know': 'Lo que decimos que no sabemos', 'k1': 'Costo de semilla y precio del cultivo en Durango', 'k2': 'Fechas locales de siembra (INIFAP)', 'k3': 'Calibración con el sensor de suelo: próximo módulo, mostrada como datos de ejemplo',
-  'i_disc': 'Herramienta de apoyo a la decisión: no sustituye a un agrónomo.',
+  'i_disc': 'Herramienta de apoyo a la decisión: no sustituye a un agrónomo. Datos: NASA LaRC POWER Project (NASA Earth Science/Applied Science Program).',
   'qr_cap': 'Escanea para abrir la web', 'team_h': 'El equipo', 'r_t': 'Datos y backend', 'r_j': 'IA y repositorio', 'r_e': 'Web, animación y pitch', 'r_n': 'Hardware', 'c_title': 'Rotación inteligente de cultivos para la resiliencia climática', 'c_code': 'Código: github.com/JassJmz/rotahalcon', 'c_lic': 'MIT (código) · CC BY 4.0 (documentos, imágenes y animación)',
   'c_live': '<a href="https://jassjmz.github.io/rotahalcon/" style="color:#f1d27a;font-weight:700;text-decoration:none;word-break:break-all">https://jassjmz.github.io/rotahalcon/</a>',
   'c_cred': 'Créditos', 'c_cred_b': 'Nodo sensor AGRISENSE, hardware preexistente compartido con permiso: Alberto Ortega, Gabriel Jahir Landa, Lizzeth Avalos, Cecilia Reyes, Angel Moreno.',
@@ -130,6 +130,10 @@ TEMPLATE = r'''<!doctype html>
   .step .c{width:76px;height:76px;border-radius:50%;margin:0 auto 12px;background:var(--navy3);border:2px solid rgba(212,175,55,.55);display:flex;align-items:center;justify-content:center;position:relative;z-index:1}
   .step span{font-size:20px;font-weight:600;color:#dbe6f5}
   .step:not(:last-child)::after{content:"";position:absolute;top:37px;left:calc(50% + 44px);right:calc(-50% + 44px);height:2px;background:linear-gradient(90deg,var(--gold),rgba(212,175,55,.2))}
+  .slide[data-n="6"] h2{margin-bottom:16px}
+  .slide[data-n="6"] .chip{font-size:17px;padding:6px 13px}
+  .slide[data-n="6"] .card{padding:18px 22px}
+  .slide[data-n="6"] .ico{width:44px;height:44px;margin-bottom:8px}
   .printgrid{display:none}
   body.print{overflow:visible;height:auto;background:#fff}
   body.print #stage{position:static;display:block}
@@ -275,9 +279,9 @@ TEMPLATE = r'''<!doctype html>
     <p class="eyebrow">{{i_eye}}</p>
     <h2>{{i_title}}</h2>
     <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:24px">
-      <div class="card pillar"><div class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></div><p class="gold" style="font-size:30px;font-weight:800;margin:0 0 8px">{{i1h}}</p><p style="font-size:21px;margin:0">{{i1b}} <span class="tag NASA">NASA</span><span class="tag FAO">FAO</span></p></div>
-      <div class="card pillar"><div class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5" opacity="0"/><path d="M4 12h16M4 12l3-3M4 12l3 3M20 12l-3-3M20 12l-3 3"/></svg></div><p class="gold" style="font-size:30px;font-weight:800;margin:0 0 8px">{{i2h}}</p><p style="font-size:21px;margin:0">{{i2b}}</p></div>
-      <div class="card pillar"><div class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg></div><p class="gold" style="font-size:30px;font-weight:800;margin:0 0 8px">{{i3h}}</p><p style="font-size:21px;margin:0">{{i3b}}</p></div>
+      <div class="card pillar"><div class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></div><p class="gold" style="font-size:30px;font-weight:800;margin:0 0 8px">{{i1h}}</p><p style="font-size:18px;line-height:1.4;margin:0">{{i1b}} <span class="tag NASA">NASA</span><span class="tag FAO">FAO</span></p></div>
+      <div class="card pillar"><div class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.8" stroke-linecap="round"><path d="M12 3v18M5 8l7-5 7 5M5 16l7 5 7-5" opacity="0"/><path d="M4 12h16M4 12l3-3M4 12l3 3M20 12l-3-3M20 12l-3 3"/></svg></div><p class="gold" style="font-size:30px;font-weight:800;margin:0 0 8px">{{i2h}}</p><p style="font-size:18px;line-height:1.4;margin:0">{{i2b}}</p></div>
+      <div class="card pillar"><div class="ico"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#D4AF37" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></svg></div><p class="gold" style="font-size:30px;font-weight:800;margin:0 0 8px">{{i3h}}</p><p style="font-size:18px;line-height:1.4;margin:0">{{i3b}}</p></div>
     </div>
     <p class="mute" style="font-size:18px;margin:30px 0 10px;letter-spacing:1px;font-weight:700">{{i_know}}</p>
     <div style="display:flex;flex-wrap:wrap;gap:12px"><span class="chip">{{k1}}</span><span class="chip">{{k2}}</span><span class="chip">{{k3}}</span></div>
@@ -361,7 +365,7 @@ TEMPLATE = r'''<!doctype html>
   document.querySelectorAll('.pg iframe').forEach(f => { const k = f.parentElement.clientWidth / 1280; if (k) f.style.transform = 'scale(' + k + ')'; });
   setTimeout(() => { const h = document.getElementById('hint'); if (h) h.style.opacity = 0; }, 5000);
   // ── presenter view (key P): script of each slide, next slide, 4-minute timer with a budget per slide ──
-  const NOTES = {{notes_json}}, TITLES = {{titles_json}}, PV = {{pv_json}}, BUDGET = [10, 40, 35, 50, 45, 40, 20], LT = {{lt_json}}, API = (new URLSearchParams(location.search).get('api') ?? 'https://rotahalcon.onrender.com'), SENSOR_CONFIRMED = false;   // SENSOR_CONFIRMED: set true when Role 1 confirms which register is N, P and K
+  const NOTES = {{notes_json}}, TITLES = {{titles_json}}, PV = {{pv_json}}, BUDGET = [10, 45, 35, 50, 40, 45, 15], LT = {{lt_json}}, API = (new URLSearchParams(location.search).get('api') ?? 'https://rotahalcon.onrender.com'), SENSOR_CONFIRMED = false;   // SENSOR_CONFIRMED: set true when Role 1 confirms which register is N, P and K
   let pw = null, t0 = 0, acc = 0, running = false, slideT0 = 0;
   const total = () => acc + (running ? (Date.now() - t0) / 1000 : 0), fmt = x => { x = Math.max(0, Math.round(x)); return Math.floor(x / 60) + ':' + String(x % 60).padStart(2, '0'); };
   function toggleTimer() { if (running) { acc = total(); running = false; } else { t0 = Date.now(); running = true; } renderPresenter(); }
