@@ -37,7 +37,7 @@ Entonces preguntamos: en esos 45 años de datos reales, ¿cuántas veces le habr
  Le preguntamos al asistente cuánto va a ganar por hectárea. Responde: «No tengo ese dato. Confírmalo con un agrónomo de tu zona.» No tenemos precios con fuente para Durango, así que no se inventa uno."
 
 **5 · Prototipo en vivo (40 s) — Jean clava el nodo en la maceta, sin hablar**
-"Ahora lo real. En pantalla, la lectura del suelo de nuestro prototipo, con la etiqueta SENSOR. Es una lectura indicativa y viaja a la nube cada minuto."
+"Ahora lo real. En pantalla, la lectura del suelo de nuestro prototipo: nitrógeno, fósforo y potasio, con la etiqueta SENSOR. Es una lectura indicativa y viaja a la nube cada minuto. Si la etiqueta dice «grabada», es la última lectura real de nuestra prueba con la sonda en el suelo."
 
 **6 · Impacto y validez (45 s)**
 "Por qué se puede confiar: todo parte de datos reales de la NASA: lluvia, temperatura mínima y humedad del suelo, todos los días desde 1981, 45 temporadas completas. Con ellos aplicamos reglas de agua y helada de cultivos de la FAO, y damos un rango en lugar de un solo número: la mejor opción funciona en 36 de 45 temporadas, rango de 31 a 40. Calibrar el dato de la NASA con nuestro sensor de campo es el próximo módulo: hoy son datos de ejemplo, y lo decimos. Es código abierto. Lo que no sabemos, lo mostramos: fechas locales de siembra y precios. Y es apoyo a la decisión: no sustituye a un agrónomo."

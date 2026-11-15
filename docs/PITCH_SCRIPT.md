@@ -36,7 +36,7 @@ So we asked: in those 45 years of real data, how many times would his maize have
  We asked the assistant how much he would earn per hectare. It answers: “I don't have that data. Confirm it with a local agronomist.” We have no sourced prices for Durango, so it does not make one up."
 
 **5 · Live prototype (40 s) — Jean plants the node in the pot, without speaking**
-"Now the real thing. On screen, the soil reading from our prototype, labeled SENSOR. It is an indicative reading, and it goes to the cloud every minute."
+"Now the real thing. On screen, the soil reading from our prototype: nitrogen, phosphorus and potassium, labeled SENSOR. It is an indicative reading, and it goes to the cloud every minute. If the label says 'recorded', it is the last real reading from our test with the probe in the soil."
 
 **6 · Impact and validity (45 s)**
 "Why you can trust it: everything starts from real NASA data: rain, minimum temperature and soil moisture, every day since 1981, 45 full seasons. On top of it we apply FAO crop water and frost rules, and we give a range instead of a single number: the best option works in 36 of 45 seasons, range 31 to 40. Calibrating the NASA data against our field sensor is the next module: today it is example data, and we say so. It is open source. What we do not know, we show: local sowing dates and prices. And it is decision support: it does not replace an agronomist."
