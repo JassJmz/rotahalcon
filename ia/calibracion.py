@@ -26,6 +26,9 @@ from pathlib import Path
 # ── DATOS ──────────────────────────────────────────────────────────────
 NASA_CSV = Path(__file__).resolve().parent.parent / "data" / "nasa_power" / "durango_daily.csv"
 MIN_DIAS = 5                 # distinct days needed to fit models
+# Field moisture is used ONLY when Role 1 confirms the register really measures soil moisture
+# (tested in soil/water). Until then readings are ignored and EXAMPLE data is shown.
+SENSOR_CONFIRMADO = os.getenv("CALIBRACION_SENSOR_CONFIRMADO", "false").lower() == "true"
 N_ARBOLES = int(os.getenv("CALIBRACION_ARBOLES", "50"))   # random forest size (50 = fast on small servers)
 SEMILLA = 42
 # Example generator (synthetic, ONLY for demonstrating the method):
@@ -98,7 +101,15 @@ def calibrar(lecturas: list[dict] | None = None) -> dict:
     satelite_hoy = round(nasa[ultimo_dia_nasa], 1)
 
     datos = "sensor"
-    if not lecturas or all(l.get("humedad_pct") is None for l in lecturas):
+    motivo_ejemplo = None
+    utiles = [l for l in (lecturas or []) if l.get("humedad_pct") is not None]
+    if not utiles:
+        motivo_ejemplo = "no moisture readings"
+    elif not SENSOR_CONFIRMADO:
+        motivo_ejemplo = "moisture register not confirmed yet (set CALIBRACION_SENSOR_CONFIRMADO=true after testing in soil)"
+    elif all(float(l["humedad_pct"]) == 0.0 for l in utiles):
+        motivo_ejemplo = "all moisture readings are 0.0 (probe in air or not wired)"
+    if motivo_ejemplo:
         lecturas, datos = lecturas_ejemplo(nasa), "ejemplo"
 
     pares = _pares(lecturas, nasa)
@@ -113,6 +124,7 @@ def calibrar(lecturas: list[dict] | None = None) -> dict:
         "fuentes": ["NASA POWER GWETTOP", "SENSOR humedad_pct" if datos == "sensor" else "EXAMPLE readings (synthetic)"],
     }
     if datos == "ejemplo":
+        base["motivo_ejemplo"] = motivo_ejemplo
         base["aviso"] = ("EXAMPLE DATA: synthetic sensor readings used to demonstrate the method. "
                          "The node's moisture probe is the next hardware module.")
 

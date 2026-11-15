@@ -56,7 +56,8 @@ POST /calibrar  { "lecturas": [ { "ts": 1794700000, "humedad_pct": 44.2 }, { "fe
 ```
 - **≥ 5 distinct days** that overlap NASA (NASA lags ~3 days) → `"modo": "regresion"`, both models compared, best one used.
 - Fewer days → `"modo": "diferencia"` (sensor − latest NASA day).
-- No readings → EXAMPLE data, always labeled `"datos": "ejemplo"` + `"aviso"`.
+- No readings, register not confirmed, or all readings 0.0 → EXAMPLE data, labeled `"datos": "ejemplo"` + `"aviso"` + `"motivo_ejemplo"`.
+- **Real readings are used only after Role 1 confirms the moisture register** (tested in soil/water): set `CALIBRACION_SENSOR_CONFIRMADO=true` on the server (Render env var). The assistant also hides soil moisture until then.
 
 Backend can fill `/recomendar`'s `calibracion` with `from calibracion import calibrar` (same pattern as `agregar_incertidumbre`).
 With the synthetic example (hypothetical field = 0.85 × satellite + 12), the linear model recovers slope 0.84 / intercept 12.0, MAE 1.45 vs random forest 1.51 (50 trees; set `CALIBRACION_ARBOLES` to change) — the method works. Timestamps in seconds or milliseconds are accepted.

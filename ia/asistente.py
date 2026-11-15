@@ -6,8 +6,12 @@ Answers farmer questions using ONLY the data inside the recommendation JSON
 This is also the fallback (plan B) when the LLM is unavailable.
 """
 
+import os
+
 # ── DATOS ──────────────────────────────────────────────────────────────
-IDIOMA_POR_DEFECTO = "en"          # "en" (judges / UI) or "es" (farmer)
+IDIOMA_POR_DEFECTO = "en"
+# Do not quote soil moisture until Role 1 confirms the register (same flag as calibracion.py)
+HUMEDAD_CONFIRMADA = os.getenv("CALIBRACION_SENSOR_CONFIRMADO", "false").lower() == "true"          # "en" (judges / UI) or "es" (farmer)
 AVISO = {
     "en": "This is decision support — confirm with an agronomist before deciding.",
     "es": "Esto es apoyo a la decisión: confírmalo con un agrónomo antes de decidir.",
@@ -127,7 +131,7 @@ def resumen_para_llm(recomendacion: dict) -> str:
                     ("n_mgkg", "Nitrogen N", " mg/kg"), ("p_mgkg", "Phosphorus P", " mg/kg"),
                     ("k_mgkg", "Potassium K", " mg/kg")]
         for k, nombre, u in unidades:
-            if s.get(k) is not None:
+            if s.get(k) is not None and (k != "humedad_pct" or HUMEDAD_CONFIRMADA):
                 lineas.append(f"{nombre}: {s[k]}{u}")
         lineas.append("Judge a sensor value as low/medium/high ONLY if a strategy's Benefits or Risks line classifies it (e.g. NOM-021 soil N class); otherwise do not judge it.")
         lineas.append("")
@@ -279,7 +283,7 @@ def responder(pregunta: str, recomendacion: dict, idioma: str | None = None) -> 
         campos = [("humedad_pct", "moisture", "humedad", "%"), ("n_mgkg", "N", "N", " mg/kg"),
                   ("p_mgkg", "P", "P", " mg/kg"), ("k_mgkg", "K", "K", " mg/kg"),
                   ("ph", "pH", "pH", ""), ("ce_uScm", "EC", "CE", " µS/cm")]
-        partes = [f"{(es_n if es else en_n)} {sensor[k]}{u}" for k, en_n, es_n, u in campos if sensor.get(k) is not None]
+        partes = [f"{(es_n if es else en_n)} {sensor[k]}{u}" for k, en_n, es_n, u in campos if sensor.get(k) is not None and (k != "humedad_pct" or HUMEDAD_CONFIRMADA)]
         r = ("Lectura del sensor en tu parcela: " if es else "Sensor reading in your field: ") + ", ".join(partes) + "."
         r += (" Es una lectura indicativa, no un análisis de laboratorio." if es
               else " It is an indicative reading, not a lab analysis.")
