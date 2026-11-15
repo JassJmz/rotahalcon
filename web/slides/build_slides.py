@@ -34,7 +34,7 @@ T = {
   'i3h': 'Open', 'i3b': 'Open source: any region can plug in its own crops and climate.',
   'i_know': 'What we say we do not know', 'k1': 'Seed cost and crop price in Durango', 'k2': 'Local sowing dates (INIFAP)', 'k3': 'Soil-sensor calibration: next module, shown as example data',
   'i_disc': 'Decision support tool: it does not replace an agronomist.',
-  'qr_cap': 'Scan to open the web app', 'c_title': 'Smart Crop Rotation for Climate Resilience', 'c_code': 'Code: github.com/JassJmz/rotahalcon', 'c_lic': 'MIT (code) · CC BY 4.0 (docs, images, animation)',
+  'qr_cap': 'Scan to open the web app', 'team_h': 'The team', 'r_t': 'Data and backend', 'r_j': 'AI and repository', 'r_e': 'Web, animation and pitch', 'r_n': 'Hardware', 'c_title': 'Smart Crop Rotation for Climate Resilience', 'c_code': 'Code: github.com/JassJmz/rotahalcon', 'c_lic': 'MIT (code) · CC BY 4.0 (docs, images, animation)',
   'c_live': 'Live site: <a href="https://jassjmz.github.io/rotahalcon/" style="color:#f1d27a;font-weight:700;text-decoration:none">jassjmz.github.io/rotahalcon</a>',
   'c_cred': 'Credits', 'c_cred_b': 'AGRISENSE sensor node, pre-existing hardware shared with permission: Alberto Ortega, Gabriel Jahir Landa, Lizzeth Avalos, Cecilia Reyes, Angel Moreno.',
   'c_disc': 'Not affiliated with or endorsed by NASA.', 'c_ai': 'AI use', 'c_ai_b': 'AI tools helped with code, the assistant and the animation. Details in <b>docs/AI_USE.md</b>. Not affiliated with or endorsed by NASA.',
@@ -69,7 +69,7 @@ T = {
   'i3h': 'Abierta', 'i3b': 'Código abierto: cualquier región puede conectar sus propios cultivos y su clima.',
   'i_know': 'Lo que decimos que no sabemos', 'k1': 'Costo de semilla y precio del cultivo en Durango', 'k2': 'Fechas locales de siembra (INIFAP)', 'k3': 'Calibración con el sensor de suelo: próximo módulo, mostrada como datos de ejemplo',
   'i_disc': 'Herramienta de apoyo a la decisión: no sustituye a un agrónomo.',
-  'qr_cap': 'Escanea para abrir la web', 'c_title': 'Rotación inteligente de cultivos para la resiliencia climática', 'c_code': 'Código: github.com/JassJmz/rotahalcon', 'c_lic': 'MIT (código) · CC BY 4.0 (documentos, imágenes y animación)',
+  'qr_cap': 'Escanea para abrir la web', 'team_h': 'El equipo', 'r_t': 'Datos y backend', 'r_j': 'IA y repositorio', 'r_e': 'Web, animación y pitch', 'r_n': 'Hardware', 'c_title': 'Rotación inteligente de cultivos para la resiliencia climática', 'c_code': 'Código: github.com/JassJmz/rotahalcon', 'c_lic': 'MIT (código) · CC BY 4.0 (documentos, imágenes y animación)',
   'c_live': 'Sitio en vivo: <a href="https://jassjmz.github.io/rotahalcon/" style="color:#f1d27a;font-weight:700;text-decoration:none">jassjmz.github.io/rotahalcon</a>',
   'c_cred': 'Créditos', 'c_cred_b': 'Nodo sensor AGRISENSE, hardware preexistente compartido con permiso: Alberto Ortega, Gabriel Jahir Landa, Lizzeth Avalos, Cecilia Reyes, Angel Moreno.',
   'c_disc': 'Sin afiliación ni respaldo de la NASA.', 'c_ai': 'Uso de IA', 'c_ai_b': 'Usamos herramientas de IA en el código, el asistente y la animación. Detalles en <b>docs/AI_USE.md</b>. Sin afiliación ni respaldo de la NASA.',
@@ -280,20 +280,30 @@ TEMPLATE = r'''<!doctype html>
 
 <!-- 7 · Close -->
 <section class="slide" data-n="7">
-  <div class="pad" style="display:grid;grid-template-columns:1.25fr 1fr;gap:56px;align-items:center">
-    <div>
-      <svg width="96" height="96" viewBox="-60 -60 120 120" style="margin-bottom:16px"><circle r="52" fill="none" stroke="#D4AF37" stroke-width="5"/><path d="M-34 12L0 -38L34 12L16 5L0 32L-16 5Z" fill="#D4AF37"/></svg>
-      <h2 style="font-size:46px;margin-bottom:20px">{{c_title}}</h2>
-      <p style="font-size:30px;color:#fff;font-weight:700;margin:0 0 6px">Halcones Dorados · ITSRLL</p>
-      <p class="mute" style="font-size:19px;margin:0">{{c_code}}<br>{{c_lic}}</p>
-      <p class="mute" style="font-size:14px;margin-top:26px">{{c_disc}}</p>
+  <div class="pad" style="padding-top:44px;padding-bottom:0">
+    <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:36px;align-items:center">
+      <div style="display:flex;gap:20px;align-items:center">
+        <svg width="84" height="84" viewBox="-60 -60 120 120" style="flex:none"><circle r="52" fill="none" stroke="#D4AF37" stroke-width="5"/><path d="M-34 12L0 -38L34 12L16 5L0 32L-16 5Z" fill="#D4AF37"/></svg>
+        <div>
+          <h2 style="font-size:36px;line-height:1.12;margin:0 0 8px">{{c_title}}</h2>
+          <p style="font-size:22px;color:#fff;font-weight:700;margin:0 0 2px">Halcones Dorados · ITSRLL</p>
+          <p class="mute" style="font-size:14px;margin:0">{{c_code}} · {{c_lic}}</p>
+        </div>
+      </div>
+      <div class="card" style="display:flex;align-items:center;gap:18px;padding:14px 18px">
+        <div style="background:#fff;border-radius:12px;padding:8px;line-height:0;flex:none">{{qr_svg}}</div>
+        <div><p style="font-size:19px;margin:0 0 4px;color:#fff;font-weight:700">{{qr_cap}}</p><p class="mute" style="font-size:15px;margin:0">{{c_live}}</p></div>
+      </div>
     </div>
-    <div class="card" style="text-align:center;padding:26px 28px">
-      <div style="background:#fff;border-radius:18px;padding:14px;display:inline-block;line-height:0">{{qr_svg}}</div>
-      <p style="font-size:22px;margin:16px 0 6px;color:#fff;font-weight:700">{{qr_cap}}</p>
-      <p class="mute" style="font-size:22px;margin:0">{{c_live}}</p>
+    <p class="eyebrow" style="margin:22px 0 10px">{{team_h}}</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:22px">
+      <figure style="margin:0"><img src="img/team-tania.webp" alt="Tania" style="width:100%;height:292px;object-fit:cover;object-position:top;border-radius:16px;display:block;border:1px solid rgba(255,255,255,.12)"><figcaption style="margin-top:8px"><b style="font-size:22px;color:#fff">Tania</b><br><span class="mute" style="font-size:15px">{{r_t}}</span></figcaption></figure>
+      <figure style="margin:0"><img src="img/team-jassiel.webp" alt="Jassiel" style="width:100%;height:292px;object-fit:cover;object-position:top;border-radius:16px;display:block;border:1px solid rgba(255,255,255,.12)"><figcaption style="margin-top:8px"><b style="font-size:22px;color:#fff">Jassiel</b><br><span class="mute" style="font-size:15px">{{r_j}}</span></figcaption></figure>
+      <figure style="margin:0"><img src="img/team-esmeralda.webp" alt="Esmeralda" style="width:100%;height:292px;object-fit:cover;object-position:top;border-radius:16px;display:block;border:1px solid rgba(255,255,255,.12)"><figcaption style="margin-top:8px"><b style="font-size:22px;color:#fff">Esmeralda</b><br><span class="mute" style="font-size:15px">{{r_e}}</span></figcaption></figure>
+      <figure style="margin:0"><img src="img/team-jean.webp" alt="Jean" style="width:100%;height:292px;object-fit:cover;object-position:top;border-radius:16px;display:block;border:1px solid rgba(255,255,255,.12)"><figcaption style="margin-top:8px"><b style="font-size:22px;color:#fff">Jean</b><br><span class="mute" style="font-size:15px">{{r_n}}</span></figcaption></figure>
     </div>
   </div>
+  <div class="foot"><span>{{c_disc}}</span><span class="brand">RotaHawk · 7 / 7</span></div>
 </section>
 
 </div>
@@ -403,7 +413,7 @@ def read_notes(md):
         notes[int(m.group(1))] = re.sub(r'\[([^\]]+)\]', r'<i style="color:#D4AF37">[\1]</i>', body.replace('\n\n', '<br><br>').replace('\n', '<br>'))
     return notes
 
-def make_qr(url):
+def make_qr(url, size=230):
     try:
         import segno
     except ImportError:
@@ -413,11 +423,11 @@ def make_qr(url):
     w, h = qr.symbol_size(scale=1, border=1)
     svg = qr.svg_inline(scale=1, border=1, dark='#0B1F3A', light='#ffffff')
     # segno gives a 1-pixel-per-module size and no viewBox: add the viewBox and size it here (crisp at any zoom, also in the PDF)
-    return svg.replace('<svg ', '<svg viewBox="0 0 %d %d" width="230" height="230" shape-rendering="crispEdges" ' % (w, h), 1)
+    return svg.replace('<svg ', '<svg viewBox="0 0 %d %d" width="%d" height="%d" shape-rendering="crispEdges" ' % (w, h, size, size), 1)
 
 for lang, d in T.items():
     d = dict(d)
-    d['qr_svg'] = make_qr(SITE)
+    d['qr_svg'] = make_qr(SITE, 150)
     d['notes_json'] = json.dumps(read_notes(d['script']), ensure_ascii=False).replace('</', '<\\/')
     d['titles_json'] = json.dumps(d['titles'], ensure_ascii=False)
     d['pv_json'] = json.dumps(d['pv'], ensure_ascii=False)
