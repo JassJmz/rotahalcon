@@ -59,7 +59,7 @@ const ES = {
   'Demo sensor and calibration values': 'Valores de ejemplo del sensor y la calibración', 'Live sensor readings': 'Lecturas del sensor en vivo',
   'Reading received': 'Lectura recibida', 'Current': 'Actual', 'Water': 'Agua', 'Soil': 'Suelo', 'Income*': 'Ingreso*', 'Risk': 'Riesgo',
   '* Income: no sourced seed cost or crop price yet (information gap)': '* Ingreso: aún no hay costo de semilla ni precio con fuente (hueco de información)',
-  'EXAMPLE · NEXT MODULE': 'EJEMPLO · PRÓXIMO MÓDULO', 'LIVE': 'EN VIVO', 'SAFER': 'MÁS SEGURA', 'RISKIER': 'MÁS RIESGOSA', 'SAME RISK': 'MISMO RIESGO',
+  'EXAMPLE · NEXT MODULE': 'EJEMPLO · PRÓXIMO MÓDULO', 'EXAMPLE DATA': 'DATOS DE EJEMPLO', 'LIVE': 'EN VIVO', 'SAFER': 'MÁS SEGURA', 'RISKIER': 'MÁS RIESGOSA', 'SAME RISK': 'MISMO RIESGO',
   'RotaHawk report': 'Reporte RotaHawk', 'Decision support only': 'Solo apoyo a la decisión',
   'Every answer cites its source, and says when one is missing.': 'Cada respuesta cita su fuente y dice cuándo falta una.',
   'the hardest season on record': 'la temporada más difícil del registro',
@@ -270,6 +270,7 @@ SCENES.push({ act: 'ACT 1 · FROM SOIL TO CLOUD', cap: 'Live, from this field', 
   const card = grp(g, 810, 420);      // 420 wide, centered at x=1020 (scene 5 keeps this card in place)
   el('rect', { width: 420, height: 140, rx: 18, fill: C.navy2, stroke: C.gold, 'stroke-width': 3 }, card);
   el('rect', { x: 20, y: 18, width: 96, height: 30, rx: 8, fill: C.gold }, card); txt(card, 68, 39, 'SENSOR', 17, C.navy, 'middle', 800);
+  if (SENSOR_MOCK) { const lab = T('EXAMPLE DATA'), wl = lab.length * 15 * .62 + 28; chip(card, 128 + wl / 2, 33, 'EXAMPLE DATA', '#7c2d12', '#fed7aa', 15); }   // not a real reading yet: say so on the card
   const REAL = !SENSOR_MOCK && !CALIB_CONFIRMED;     // real reading, variable mapping not verified yet
   const val = txt(card, 28, 106, REAL ? 'Reading received' : 'Moisture 0.0%', 38, C.white, 'start', 800);
   if (!REAL) {                                   // never let the number spill out of the card, whatever the value or the language
