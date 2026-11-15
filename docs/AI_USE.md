@@ -34,7 +34,11 @@ NASA Space Apps 2026 asks teams to declare how AI tools were used. We separate t
 - **Glossary texts** (`ia/glosario.json`): drafted with AI assistance, reviewed by the team; definitions only, no agronomic values.
 
 ### Role 1 — Hardware
-- _To complete: AI tools used (if any) for firmware, wiring, Firebase setup, project-page draft._
+- Claude (Anthropic): used to help write and debug the ESP32 firmware
+  (RS485/Modbus reading, Bluetooth debug tool, Wi-Fi and Firebase
+  Realtime Database upload), to guide the Git/GitHub workflow, and to draft
+  team messages. All code was run and tested by the author on the real
+  hardware.
 
 ### Role 2 — Data & backend
 - **Claude (Anthropic), via Claude Code (desktop app)**: helped write and test the code in `backend/` (FastAPI API, NASA POWER downloader, crop-table validator, rules engine and 45-season simulation, Firebase sensor reader, integration of Role 3's modules, regression tests) and the documentation (`backend/README.md`, `data/README.md`, `docs/VALIDITY.md`).
