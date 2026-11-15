@@ -115,25 +115,57 @@ function initField() {
   $('prev1').value = state.prev[0]; $('prev2').value = state.prev[1];
   $('lat').value = state.lat; $('lon').value = state.lon;
   const SHOT = new URLSearchParams(location.search).get('shot');
-  const map = L.map('map', { worldCopyJump: true, zoomSnap: 0.5 }).setView(SHOT ? [state.lat, state.lon] : [20, -40], SHOT ? 9 : 2);
-  const sat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 18, attribution: 'Imagery © Esri, Maxar, Earthstar Geographics' });
-  const streets = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' });
-  sat.addTo(map);
-  L.control.layers({ 'Satellite': sat, 'Map': streets }, null, { position: 'topright' }).addTo(map);
-  // the NASA POWER grid cell (about 0.5° x 0.625°) that supplies the climate data for this point
-  const cell = L.rectangle([[0, 0], [0, 0]], { color: '#f5b301', weight: 2, fillOpacity: 0.08, dashArray: '6 4', interactive: false }).addTo(map);
-  const drawCell = () => { const la = Math.floor(state.lat / 0.5) * 0.5, lo = Math.floor(state.lon / 0.625) * 0.625; cell.setBounds([[la, lo], [la + 0.5, lo + 0.625]]); };
-  cell.bindTooltip(tr('NASA POWER grid cell (~0.5° × 0.625°)'), { permanent: false, sticky: true });
-  if (!SHOT) {   // start from the whole world, then fly to the field once the map is on screen
-    map.setView([15, -30], 1.5);
-    let flown = false; const go = () => { if (flown) return; flown = true; setTimeout(() => map.flyTo([state.lat, state.lon], 9, { duration: 4.5 }), 1800); };
-    if ('IntersectionObserver' in window) new IntersectionObserver((es, o) => { if (es.some(e => e.isIntersecting && e.intersectionRatio > 0.6)) { go(); o.disconnect(); } }, { threshold: [0.6] }).observe($('map')); else go();
+  const SAT = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', OSM = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+  const cellBox = () => { const la = Math.floor(state.lat / 0.5) * 0.5, lo = Math.floor(state.lon / 0.625) * 0.625; return [la, lo, la + 0.5, lo + 0.625]; };   // NASA POWER grid cell (about 0.5° x 0.625°) that supplies the climate for this point
+  const onScreen = fn => { let done = false; const go = () => { if (!done) { done = true; fn(); } }; if ('IntersectionObserver' in window) new IntersectionObserver((es, o) => { if (es.some(e => e.isIntersecting && e.intersectionRatio > 0.6)) { go(); o.disconnect(); } }, { threshold: [0.6] }).observe($('map')); else go(); };
+  let place = () => {}, jump = () => {};    // set by whichever map is used
+  const set = (la, lo) => { state.lat = +(+la).toFixed(4); state.lon = +(+lo).toFixed(4); $('lat').value = state.lat; $('lon').value = state.lon; place(); };
+
+  function globeMap() {     // 3D globe (MapLibre GL, needs WebGL): starts as a slowly turning Earth, then flies to the field
+    const style = { version: 8, projection: { type: 'globe' },
+      sources: { sat: { type: 'raster', tiles: [SAT], tileSize: 256, maxzoom: 18, attribution: 'Imagery © Esri, Maxar, Earthstar Geographics' }, osm: { type: 'raster', tiles: [OSM], tileSize: 256, maxzoom: 18, attribution: '© OpenStreetMap' },
+        cell: { type: 'geojson', data: { type: 'FeatureCollection', features: [] } } },
+      layers: [{ id: 'sat', type: 'raster', source: 'sat' }, { id: 'osm', type: 'raster', source: 'osm', layout: { visibility: 'none' } },
+        { id: 'cellfill', type: 'fill', source: 'cell', paint: { 'fill-color': '#f5b301', 'fill-opacity': 0.1 } },
+        { id: 'cellline', type: 'line', source: 'cell', paint: { 'line-color': '#f5b301', 'line-width': 2, 'line-dasharray': [3, 2] } }] };
+    const map = new maplibregl.Map({ container: 'map', style, center: SHOT ? [state.lon, state.lat] : [state.lon - 35, 18], zoom: SHOT ? 8 : 1.4, attributionControl: { compact: true }, maxPitch: 0, dragRotate: false });
+    map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-left');
+    const mk = new maplibregl.Marker({ color: '#f5b301' }).setLngLat([state.lon, state.lat]).addTo(map);
+    const draw = () => { const [la0, lo0, la1, lo1] = cellBox(), src = map.getSource('cell'); if (src) src.setData({ type: 'Feature', geometry: { type: 'Polygon', coordinates: [[[lo0, la0], [lo1, la0], [lo1, la1], [lo0, la1], [lo0, la0]]] } }); };
+    place = () => { mk.setLngLat([state.lon, state.lat]); draw(); };
+    jump = () => map.jumpTo({ center: [state.lon, state.lat], zoom: Math.max(map.getZoom(), 8) });
+    // layer switch: satellite / street map
+    const box = document.createElement('div'); box.className = 'mapctl';
+    box.innerHTML = '<button type="button" data-l="sat" class="on">Satellite</button><button type="button" data-l="osm">Map</button>';
+    box.addEventListener('click', e => { const l = e.target.dataset && e.target.dataset.l; if (!l) return; box.querySelectorAll('button').forEach(b => b.classList.toggle('on', b === e.target)); map.setLayoutProperty('osm', 'visibility', l === 'osm' ? 'visible' : 'none'); });
+    $('map').appendChild(box);
+    const lg = document.createElement('div'); lg.className = 'maplegend'; lg.textContent = 'NASA POWER grid cell (~0.5° × 0.625°)'; $('map').appendChild(lg);
+    map.on('load', () => {
+      draw();
+      if (SHOT) return;
+      let spin = true; const stop = () => { spin = false; };
+      ['mousedown', 'touchstart', 'wheel'].forEach(ev => map.getCanvas().addEventListener(ev, stop, { passive: true }));
+      const turn = () => { if (!spin) return; const c = map.getCenter(); map.easeTo({ center: [c.lng + 12, c.lat], duration: 1000, easing: t => t }); };
+      map.on('moveend', () => { if (spin) turn(); }); turn();
+      onScreen(() => setTimeout(() => { if (!spin && map.getZoom() > 4) return; spin = false; map.stop(); map.flyTo({ center: [state.lon, state.lat], zoom: 8, duration: 7000, essential: true }); }, 2500));
+    });
+    map.on('click', e => set(e.lngLat.lat, e.lngLat.lng));
   }
-  const mk = L.marker([state.lat, state.lon]).addTo(map);
-  const set = (la, lo) => { state.lat = +(+la).toFixed(4); state.lon = +(+lo).toFixed(4); $('lat').value = state.lat; $('lon').value = state.lon; mk.setLatLng([state.lat, state.lon]); drawCell(); };
-  drawCell();
-  map.on('click', e => set(e.latlng.lat, e.latlng.lng));
-  ['lat', 'lon'].forEach(i => $(i).addEventListener('change', () => { set($('lat').value, $('lon').value); map.setView([state.lat, state.lon]); }));
+
+  function flatMap() {      // fallback without WebGL: the flat Leaflet map
+    const map = L.map('map', { worldCopyJump: true }).setView([state.lat, state.lon], 9);
+    const sat = L.tileLayer(SAT, { maxZoom: 18, attribution: 'Imagery © Esri, Maxar, Earthstar Geographics' }).addTo(map), streets = L.tileLayer(OSM, { maxZoom: 18, attribution: '© OpenStreetMap' });
+    L.control.layers({ 'Satellite': sat, 'Map': streets }).addTo(map);
+    const box = L.rectangle([[0, 0], [0, 0]], { color: '#f5b301', weight: 2, fillOpacity: 0.08, dashArray: '6 4', interactive: false }).addTo(map);
+    const mk = L.marker([state.lat, state.lon]).addTo(map);
+    place = () => { mk.setLatLng([state.lat, state.lon]); const [a, b, c, d] = cellBox(); box.setBounds([[a, b], [c, d]]); };
+    jump = () => map.setView([state.lat, state.lon]);
+    place(); map.on('click', e => set(e.latlng.lat, e.latlng.lng));
+  }
+
+  let webgl = false; try { webgl = !!document.createElement('canvas').getContext('webgl2') && !!window.maplibregl; } catch (e) { /* no WebGL */ }
+  try { if (webgl) globeMap(); else flatMap(); } catch (e) { $('map').innerHTML = ''; flatMap(); }
+  ['lat', 'lon'].forEach(i => $(i).addEventListener('change', () => { set($('lat').value, $('lon').value); jump(); }));
   $('suelo').addEventListener('change', () => state.suelo = $('suelo').value);
   $('prev1').addEventListener('change', () => state.prev[0] = $('prev1').value);
   $('prev2').addEventListener('change', () => state.prev[1] = $('prev2').value);
