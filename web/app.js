@@ -132,8 +132,9 @@ function initField() {
     map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-left');
     const mk = new maplibregl.Marker({ color: '#f5b301' }).setLngLat([state.lon, state.lat]).addTo(map);
     const draw = () => { const [la0, lo0, la1, lo1] = cellBox(), src = map.getSource('cell'); if (src) src.setData({ type: 'Feature', geometry: { type: 'Polygon', coordinates: [[[lo0, la0], [lo1, la0], [lo1, la1], [lo0, la1], [lo0, la0]]] } }); };
+    let spin = !SHOT;
     place = () => { mk.setLngLat([state.lon, state.lat]); draw(); };
-    jump = () => map.jumpTo({ center: [state.lon, state.lat], zoom: Math.max(map.getZoom(), 8) });
+    jump = () => { spin = false; map.stop(); map.flyTo({ center: [state.lon, state.lat], zoom: Math.max(map.getZoom(), 8), duration: 3000, essential: true }); };
     // layer switch: satellite / street map
     const box = document.createElement('div'); box.className = 'mapctl';
     box.innerHTML = '<button type="button" data-l="sat" class="on">Satellite</button><button type="button" data-l="osm">Map</button>';
@@ -143,7 +144,7 @@ function initField() {
     map.on('load', () => {
       draw();
       if (SHOT) return;
-      let spin = true; const stop = () => { spin = false; };
+      const stop = () => { spin = false; };
       ['mousedown', 'touchstart', 'wheel'].forEach(ev => map.getCanvas().addEventListener(ev, stop, { passive: true }));
       const turn = () => { if (!spin) return; const c = map.getCenter(); map.easeTo({ center: [c.lng + 12, c.lat], duration: 1000, easing: t => t }); };
       map.on('moveend', () => { if (spin) turn(); }); turn();
@@ -166,6 +167,26 @@ function initField() {
   let webgl = false; try { webgl = !!document.createElement('canvas').getContext('webgl2') && !!window.maplibregl; } catch (e) { /* no WebGL */ }
   try { if (webgl) globeMap(); else flatMap(); } catch (e) { $('map').innerHTML = ''; flatMap(); }
   ['lat', 'lon'].forEach(i => $(i).addEventListener('change', () => { set($('lat').value, $('lon').value); jump(); }));
+  const msg = (t, bad) => { const m = $('findMsg'); m.textContent = t; m.className = 'text-xs ' + (bad ? 'text-red-300' : 'text-slate-400'); };
+  const goto = (la, lo, label) => { set(la, lo); jump(); msg(label ? tr('Found: ') + label : ''); };
+  async function search() {     // place search with OpenStreetMap Nominatim (the typed text is sent to that service)
+    const q = $('findQ').value.trim(); if (!q) return;
+    msg(tr('Searching…'));
+    try {
+      const r = await fetch('https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodeURIComponent(q), { headers: { 'Accept-Language': document.documentElement.lang || 'en' } });
+      const j = await r.json();
+      if (!j.length) return msg(tr('No place found. Try another name or click the map.'), true);
+      goto(+j[0].lat, +j[0].lon, j[0].display_name.split(',').slice(0, 2).join(','));
+    } catch (e) { msg(tr('Search needs internet. Click the map or type the coordinates.'), true); }
+  }
+  $('findQ').placeholder = tr('Search a place (town, city, ranch)…');
+  $('findBtn').addEventListener('click', search);
+  $('findQ').addEventListener('keydown', e => { if (e.key === 'Enter') search(); });
+  $('locBtn').addEventListener('click', () => {     // browser GPS: asks the user for permission, nothing is sent anywhere
+    if (!navigator.geolocation) return msg(tr('This browser cannot share your location.'), true);
+    msg(tr('Locating…'));
+    navigator.geolocation.getCurrentPosition(p => goto(p.coords.latitude, p.coords.longitude, tr('your location')), () => msg(tr('Location not available. Search a place or click the map.'), true), { timeout: 10000 });
+  });
   $('suelo').addEventListener('change', () => state.suelo = $('suelo').value);
   $('prev1').addEventListener('change', () => state.prev[0] = $('prev1').value);
   $('prev2').addEventListener('change', () => state.prev[1] = $('prev2').value);

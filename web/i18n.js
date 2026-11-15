@@ -29,6 +29,9 @@
     'We test every crop rotation against 45 years (1981–2025) of real NASA climate, correct it with a sensor in your field, and tell you which one holds up best in a bad year, not on average.':
       'Probamos cada rotación de cultivos con 45 años (1981–2025) de clima real de la NASA, la corregimos con un sensor en tu parcela y te decimos cuál aguanta mejor un año malo, no el promedio.',
     '⚠ SAVED SNAPSHOT · the live server is unreachable or still waking up; showing a saved real response': '⚠ RESPUESTA GUARDADA · el servidor en vivo no responde o aún está despertando; se muestra una respuesta real guardada',
+    'Search a place (town, city, ranch)…': 'Buscar un lugar (pueblo, ciudad, rancho)…', 'Search': 'Buscar', '📍 Use my location': '📍 Usar mi ubicación', 'Found: ': 'Encontrado: ', 'Searching…': 'Buscando…', 'Locating…': 'Ubicando…', 'your location': 'tu ubicación',
+    'No place found. Try another name or click the map.': 'No se encontró el lugar. Prueba otro nombre o haz clic en el mapa.', 'Search needs internet. Click the map or type the coordinates.': 'La búsqueda necesita internet. Haz clic en el mapa o escribe las coordenadas.',
+    'This browser cannot share your location.': 'Este navegador no puede compartir tu ubicación.', 'Location not available. Search a place or click the map.': 'Ubicación no disponible. Busca un lugar o haz clic en el mapa.',
     'NASA POWER grid cell (~0.5° × 0.625°)': 'Celda de NASA POWER (~0.5° × 0.625°)', 'Satellite': 'Satélite', 'Map': 'Mapa',
     '1 · My field': '1 · Mi parcela', 'Drop a pin on your field, pick the soil and the last 2 crops you planted.': 'Marca tu parcela en el mapa, elige el suelo y los últimos 2 cultivos que sembraste.',
     'Latitude': 'Latitud', 'Longitude': 'Longitud', 'Soil type': 'Tipo de suelo', 'Loam': 'Franco', 'Sandy': 'Arenoso', 'Clay': 'Arcilloso',
