@@ -15,6 +15,10 @@ Website and pitch animation. Everything user-facing is in English.
   - `?scene=N&t=S` freezes scene N (0–10) at second S, for slide stills; add `&from=M` to preview the hand-off from scene M.
   - Elements carry over between scenes; loops and ambient particles turn off under `prefers-reduced-motion`.
 
+## Slide screenshots and live reading
+- `python slides/make_shots.py` takes the real screenshots of slide 4 (web comparison and assistant chat, EN and ES) using the capture mode `index.html?shot=compare|chat`. Re-run it if the engine or the assistant change, then `python slides/build_slides.py`.
+- Slide 5 reads `GET /sensor` every 4 s while it is on screen. Real readings are marked UNVERIFIED until `SENSOR_CONFIRMED = true` in `slides/build_slides.py` (Role 1 must confirm which register is N, P and K).
+
 ## Report (Download PDF)
 The *Report* section builds a one-page printable report (recommended rotation, current rotation, all rotations tested, worst year, information gaps, sensor and calibration status). "Download PDF" opens the browser's print dialog: choose *Save as PDF*. It follows the page language (`?lang=es`).
 

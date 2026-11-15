@@ -310,6 +310,28 @@ async function refresh() {
     applyData();
   } catch (e) { $('cards').innerHTML = `<div class="card p-5 text-red-300">Could not load recommendations (${esc(e.message)}). Showing nothing instead of guessing.</div>`; }
 }
+// ── capture mode: ?shot=compare or ?shot=chat[&q=question] shows just that part, for the screenshots used in the slides ──
+async function shotMode(kind) {
+  const css = document.createElement('style');
+  css.textContent = 'body.shot{background:#0B1F3A;padding:14px}body.shot nav,body.shot header,body.shot footer,body.shot #printReport,body.shot main>section{display:none!important}'
+    + 'body.shot main{padding:0!important;max-width:none!important;margin:0!important}body.shot #' + (kind === 'chat' ? 'ask' : 'compare') + '{display:block!important;margin:0!important}'
+    + 'body.shot #ask>h2,body.shot #ask>p,body.shot #compare>h2,body.shot #compare>p,body.shot #calib,body.shot #chatForm{display:none!important}body.shot #chat{max-height:none!important}body.shot #cards article>div:nth-last-child(-n+2){display:none!important}';
+  document.head.appendChild(css); document.body.classList.add('shot');
+  if (kind === 'compare') {
+    const alts = DATA.estrategias.filter(e => !e.es_actual), cur = DATA.estrategias.find(e => e.es_actual);
+    const fails = e => e.resiliencia.anios_total - e.resiliencia.anios_ok;
+    const best = alts.reduce((a, b) => fails(b) < fails(a) || (fails(b) === fails(a) && b.puntaje > a.puntaje) ? b : a);
+    [...$('cards').children].forEach((el, i) => { const e = DATA.estrategias[i]; if (e !== cur && e !== best) el.style.display = 'none'; });
+    $('cards').style.gridTemplateColumns = '1fr 1fr';
+  } else {
+    const q = new URLSearchParams(location.search).get('q') || (window.LANG === 'es' ? '¿Cuánto voy a ganar por hectárea?' : 'How much will I earn per hectare?');
+    $('chat').firstElementChild && $('chat').firstElementChild.remove();           // drop the greeting bubble
+    $('chatIn').value = q; $('chatForm').requestSubmit();
+    for (let k = 0; k < 60 && $('chat').children.length < 2; k++) await new Promise(r => setTimeout(r, 500));
+    await new Promise(r => setTimeout(r, 800));
+  }
+  document.title = 'SHOT_READY';
+}
 (async function init() {
   try { MOCK = await (await fetch('mock.json')).json(); }
   catch (e) { if (!API_URL) { $('cards').innerHTML = '<div class="card p-5 text-red-300">mock.json could not be loaded. Serve this folder with a local web server (python -m http.server).</div>'; return; } }
@@ -317,4 +339,5 @@ async function refresh() {
   initField(); initGlossary(); initChat(); initWhatIf();
   await refresh();
   await initBadYear();
+  const SHOT = new URLSearchParams(location.search).get('shot'); if (SHOT) await shotMode(SHOT);
 })();
