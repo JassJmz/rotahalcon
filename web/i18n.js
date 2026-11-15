@@ -29,6 +29,7 @@
     'We test every crop rotation against 45 years (1981–2025) of real NASA climate, correct it with a sensor in your field, and tell you which one holds up best in a bad year, not on average.':
       'Probamos cada rotación de cultivos con 45 años (1981–2025) de clima real de la NASA, la corregimos con un sensor en tu parcela y te decimos cuál aguanta mejor un año malo, no el promedio.',
     '⚠ SAVED SNAPSHOT · the live server is unreachable or still waking up; showing a saved real response': '⚠ RESPUESTA GUARDADA · el servidor en vivo no responde o aún está despertando; se muestra una respuesta real guardada',
+    'NASA POWER grid cell (~0.5° × 0.625°)': 'Celda de NASA POWER (~0.5° × 0.625°)', 'Satellite': 'Satélite', 'Map': 'Mapa',
     '1 · My field': '1 · Mi parcela', 'Drop a pin on your field, pick the soil and the last 2 crops you planted.': 'Marca tu parcela en el mapa, elige el suelo y los últimos 2 cultivos que sembraste.',
     'Latitude': 'Latitud', 'Longitude': 'Longitud', 'Soil type': 'Tipo de suelo', 'Loam': 'Franco', 'Sandy': 'Arenoso', 'Clay': 'Arcilloso',
     'Crop, 2 cycles ago': 'Cultivo de hace 2 ciclos', 'Crop, last cycle': 'Cultivo del último ciclo', 'Test my rotations →': 'Probar mis rotaciones →',

@@ -114,10 +114,20 @@ function initField() {
   $('prev1').innerHTML = opts; $('prev2').innerHTML = opts;
   $('prev1').value = state.prev[0]; $('prev2').value = state.prev[1];
   $('lat').value = state.lat; $('lon').value = state.lon;
-  const map = L.map('map').setView([state.lat, state.lon], 9);
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' }).addTo(map);
+  const SHOT = new URLSearchParams(location.search).get('shot');
+  const map = L.map('map', { worldCopyJump: true, zoomSnap: 0.5 }).setView(SHOT ? [state.lat, state.lon] : [20, -40], SHOT ? 9 : 2);
+  const sat = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 18, attribution: 'Imagery © Esri, Maxar, Earthstar Geographics' });
+  const streets = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 18, attribution: '© OpenStreetMap' });
+  sat.addTo(map);
+  L.control.layers({ 'Satellite': sat, 'Map': streets }, null, { position: 'topright' }).addTo(map);
+  // the NASA POWER grid cell (about 0.5° x 0.625°) that supplies the climate data for this point
+  const cell = L.rectangle([[0, 0], [0, 0]], { color: '#f5b301', weight: 2, fillOpacity: 0.08, dashArray: '6 4', interactive: false }).addTo(map);
+  const drawCell = () => { const la = Math.floor(state.lat / 0.5) * 0.5, lo = Math.floor(state.lon / 0.625) * 0.625; cell.setBounds([[la, lo], [la + 0.5, lo + 0.625]]); };
+  cell.bindTooltip(tr('NASA POWER grid cell (~0.5° × 0.625°)'), { permanent: false, sticky: true });
+  if (!SHOT) setTimeout(() => map.flyTo([state.lat, state.lon], 9, { duration: 3 }), 900);   // start from the whole world, then fly to the field
   const mk = L.marker([state.lat, state.lon]).addTo(map);
-  const set = (la, lo) => { state.lat = +(+la).toFixed(4); state.lon = +(+lo).toFixed(4); $('lat').value = state.lat; $('lon').value = state.lon; mk.setLatLng([state.lat, state.lon]); };
+  const set = (la, lo) => { state.lat = +(+la).toFixed(4); state.lon = +(+lo).toFixed(4); $('lat').value = state.lat; $('lon').value = state.lon; mk.setLatLng([state.lat, state.lon]); drawCell(); };
+  drawCell();
   map.on('click', e => set(e.latlng.lat, e.latlng.lng));
   ['lat', 'lon'].forEach(i => $(i).addEventListener('change', () => { set($('lat').value, $('lon').value); map.setView([state.lat, state.lon]); }));
   $('suelo').addEventListener('change', () => state.suelo = $('suelo').value);
