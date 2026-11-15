@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="es"><head><meta charset="utf-8"><title>Lista del Rol 4 · RotaHalcón</title>
+<style>
+  @page{size:A4;margin:11mm 12mm}
+  *{box-sizing:border-box}
+  body{font:11px/1.38 "Segoe UI",system-ui,Arial,sans-serif;color:#111;margin:0}
+  h1{font-size:20px;margin:0;color:#0B1F3A}h1 span{color:#b8921d}
+  .sub{color:#555;margin:1px 0 8px;font-size:11px}
+  h2{font-size:12.5px;margin:9px 0 3px;color:#0B1F3A;border-bottom:2px solid #D4AF37;padding-bottom:1px;text-transform:uppercase;letter-spacing:.5px}
+  ul{list-style:none;margin:0;padding:0}
+  li{margin:2.5px 0;padding-left:19px;position:relative}
+  li::before{content:"";position:absolute;left:0;top:1px;width:11px;height:11px;border:1.6px solid #0B1F3A;border-radius:2px}
+  .grid{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}
+  code{background:#f1f1f1;border-radius:3px;padding:0 3px;font-size:10px}
+  table{width:100%;border-collapse:collapse;font-size:10.5px}
+  th,td{border-bottom:1px solid #ddd;padding:2.5px 5px;text-align:left;vertical-align:top}th{color:#555;font-size:10px}
+  .note{background:#fff7dc;border-left:3px solid #D4AF37;padding:4px 8px;margin:6px 0;font-size:10.5px}
+  .small{color:#555;font-size:10px}
+  * {-webkit-print-color-adjust:exact;print-color-adjust:exact}
+</style></head><body>
+<h1>Rota<span>Halcón</span> · Lista del Rol 4</h1>
+<p class="sub">Presenta: Rol 4 · Pitch de 4 min + 3 de preguntas · Hackathon hasta el dom 15 nov 14:30</p>
+
+<div class="grid">
+<div>
+<h2>Antes de ensayar</h2>
+<ul>
+<li>Abrir <code>slides/es.html</code> y pulsar <b>P</b> (permitir ventanas emergentes)</li>
+<li>Ensayo 1 con cronómetro: ______ min</li>
+<li>Ensayo 2 con cronómetro: ______ min</li>
+<li>Ensayo 3 con cronómetro: ______ min (meta ≤ 4:00)</li>
+<li>Leer en voz alta las slides 2 y 6 en inglés (alguien con buen inglés)</li>
+</ul>
+
+<h2>Pruebas técnicas</h2>
+<ul>
+<li>Escanear el QR de la slide 7 con el celular (datos móviles)</li>
+<li>La web se ve bien en el celular (mapa, tarjetas, botón de animación)</li>
+<li>Apagar el WiFi: slides y web abren (la web muestra "SAVED SNAPSHOT")</li>
+<li>Slides abren con doble clic, sin servidor</li>
+<li>Probar <code>?ia=http://localhost:8001</code> si se usa la IA local</li>
+<li>Descargar PDF del reporte desde la web</li>
+</ul>
+
+<h2>Grabaciones y archivos</h2>
+<ul>
+<li>MP4 en español: animación <code>?short=1&amp;lang=es</code> a pantalla completa (<b>Win+G</b>, 1080p)</li>
+<li>MP4 en inglés: <code>?short=1&amp;lang=en</code></li>
+<li>Copia de la carpeta <code>rotahalcon</code> + PDF + MP4 en una USB</li>
+</ul>
+</div>
+
+<div>
+<h2>Logística del día</h2>
+<ul>
+<li>Laptop cargada y cargador</li>
+<li>Adaptador de video para el proyector</li>
+<li>Nodo AGRISENSE y su alimentación (Jean)</li>
+<li>Abrir la web 5 min antes (el servidor ya no duerme)</li>
+<li>Silenciar notificaciones; cerrar pestañas que no se usan</li>
+<li>Agua. Respirar.</li>
+</ul>
+
+<h2>Entrega</h2>
+<ul>
+<li>Anteproyecto enviado (cerraba sáb 23:59): <b>confirmar</b></li>
+<li>PDF en <b>español</b> para la sede local</li>
+<li>PDF en <b>inglés</b> para la página internacional</li>
+<li>Preguntar a organizadores: ¿animación dentro de slides?</li>
+<li>Si no: subir el MP4 corto de 30 s como video</li>
+<li>Pedir a Jean el texto de la página del proyecto y revisarlo</li>
+<li>Enlace público en la página del proyecto</li>
+</ul>
+
+<h2>Pendientes de otros</h2>
+<ul>
+<li>Jean: sonda leyendo suelo real (hoy devuelve ceros)</li>
+<li>Jean: crédito a AGRISENSE en README y página del proyecto</li>
+<li>Jass: sección del Rol 1 y resumen del formulario en <code>AI_USE.md</code></li>
+</ul>
+</div>
+</div>
+
+<h2>Tiempos del pitch</h2>
+<table><tr><th>Slide</th><th>1 Portada</th><th>2 Problema</th><th>3 Animación 1</th><th>4 Animación 2</th><th>5 Demo en vivo</th><th>6 Impacto</th><th>7 Cierre</th></tr>
+<tr><td><b>Termina en</b></td><td>0:10</td><td>0:50</td><td>1:10</td><td>1:35</td><td>3:15</td><td>3:50</td><td>4:00</td></tr></table>
+
+<h2>Si algo falla</h2>
+<table>
+<tr><td><b>Tarjeta de suelo con guiones</b></td><td>Decir la frase de la slide 5 (notas del presentador): el nodo está conectado, la sonda no lee suelo ahora, no mostramos números en los que no confiamos. Seguir.</td></tr>
+<tr><td><b>Sin internet</b></td><td>La web usa su respuesta real guardada; la animación y las slides son locales. Continuar normal.</td></tr>
+<tr><td><b>La animación falla</b></td><td>Reproducir el MP4.</td></tr>
+<tr><td><b>La web tarda</b></td><td>A los 8 s muestra la respuesta guardada y luego la cambia por la en vivo.</td></tr>
+<tr><td><b>No abre el presentador (P)</b></td><td>Permitir ventanas emergentes, o usar el guion impreso <code>docs/PITCH_SCRIPT_ES.md</code>.</td></tr>
+</table>
+
+<h2>Atajos</h2>
+<p><b>→ / clic</b> siguiente · <b>←</b> anterior · <b>F</b> pantalla completa · <b>P</b> presentador · <b>Espacio</b> pausa el cronómetro · <b>R</b> lo reinicia · <b>Ctrl+F5</b> recarga sin caché</p>
+<p class="small">Web: jassjmz.github.io/rotahalcon · Slides: jassjmz.github.io/rotahalcon/slides/es.html · Código: github.com/JassJmz/rotahalcon<br>
+Equipo: Jean (Rol 1, hardware) · Tania (Rol 2, datos y backend) · Jass (Rol 3, IA y repo) · Rol 4: web, animación y pitch</p>
+</body></html>
